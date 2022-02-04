@@ -316,7 +316,7 @@ $(() => {
 
     inputTarget.on('focus', (e) => {
         $(e.currentTarget).closest(iconInputWrap).addClass('focus').find('i').css({
-            color: '#3d519b'
+            color: '#669948'
         });
     });
 
@@ -407,6 +407,8 @@ $(() => {
 
         $(e.currentTarget).closest('.layer-popup').removeClass('is-open');
     });
+
+
 
     
     
