@@ -42,7 +42,7 @@ header .user > div {
 header .user > div a {
     position: relative;
     display: inline-block;
-    color: #666;
+    color: #999;
     font-size: 14px;
 }
 header .user > div a + a {
@@ -64,7 +64,7 @@ header .user > div a i {
     margin: -2px 2px 0 0;
 }
 header .user > div a b {
-    color: #333;
+    color: #666;
     font-weight: 500;
 }
 
@@ -100,7 +100,7 @@ nav .nav-list h2 {
 }
 nav .nav-list h2 a {
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 500;
 }
 nav .nav-list > li > ul {
     display: none;
@@ -138,12 +138,13 @@ nav .bg-nav {
 ---------------------------------- */
 .container {
     position: relative;
-    flex: 1;
+    flex: 1 1 0;
     /* height: 100%;
     min-height: 100%; */
 }
 .container.main {
     overflow: hidden;
+    flex: 1;
 }
 .contents {
     position: relative;
@@ -245,7 +246,7 @@ footer a {
     display: flex;
     justify-content: space-between;
     width: 1100px;
-    font-size: 14px;
+    font-size: 12px;
     margin: 0 auto;
     padding: 20px 0;
     box-sizing: border-box;
@@ -253,7 +254,6 @@ footer a {
 .footer-about {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 20px;
     border-bottom: 1px solid #ddd;
 }
 footer .logo {
