@@ -147,19 +147,27 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    margin-bottom: 30px;
 }
 .page-tit h3 {
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 500;
 }
-.page-tit .bread-crumb {
-
+.page-tit h3 span {
+    display: block;
+    color: #666;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 5px;
 }
 .page-tit .bread-crumb a,
 .page-tit .bread-crumb span {
     position: relative;
     color: #999;
     font-size: 12px;
+}
+.page-tit .bread-crumb span {
+    color: #666;
 }
 .page-tit .bread-crumb a + a:hover {
     text-decoration: underline;
