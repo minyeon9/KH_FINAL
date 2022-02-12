@@ -39,22 +39,24 @@
     text-align: center;
 }
 /* 오늘의 챌린지 참여하기 */
-.thumb-list.challenge ul {
+.thumb-list.vertical ul {
     flex-direction: column;
 }
-.thumb-list.challenge ul li {
+.thumb-list.vertical ul li {
     width: 100%;
     border: 0;
-    padding-left: 60px;
     margin: 0;
 }
-.thumb-list.challenge ul li + li {
+.thumb-list.callenge ul li {
+    padding-left: 60px;
+}
+.thumb-list.vertical ul li + li {
     padding-top: 20px;
 }
-.thumb-list.challenge ul li:hover {
+.thumb-list.vertical ul li:hover {
     border: 0;
 }
-.thumb-list.challenge ul li:before {
+.thumb-list.callenge ul li:before {
     content: '';
     position: absolute;
     top: 0;
@@ -63,7 +65,7 @@
     height: 100%;
     background: #ddd;
 }
-.thumb-list.challenge ul li .num {
+.thumb-list.vertical ul li .num {
     top: 50%;
     left: 0;
     border-radius: 50%;
@@ -71,31 +73,31 @@
     transform: translateY(-50%);
     padding: 4px 11px;
 }
-.thumb-list.challenge ul li .item {
+.thumb-list.vertical ul li .item {
     display: flex;
     border-top: 1px solid #ccc;
     padding: 20px 0 0;
 }
-.thumb-list.challenge ul li:last-child .item {
+.thumb-list.vertical ul li:last-child .item {
     padding-bottom: 20px;
     border-bottom: 1px solid #ccc;
 }
-.thumb-list.challenge ul li .img-thumb {
+.thumb-list.vertical ul li .img-thumb {
     width: 40%;
     border-right: 1px solid #ccc;
 }
-.thumb-list.challenge ul li .item-cont {
+.thumb-list.vertical ul li .item-cont {
     position: relative;
     width: 60%;
     padding-left: 30px;
 }
-.thumb-list.challenge ul li strong {
+.thumb-list.vertical ul li strong {
     min-height: auto;
     font-size: 18px;
     padding: 0;
     margin-bottom: 10px;
 }
-.thumb-list.challenge ul li p {
+.thumb-list.vertical ul li p {
     color: #666;
     font-size: 15px;
     padding: 0;
@@ -103,7 +105,7 @@
     text-overflow: ellipsis;
     display: block;
 }
-.thumb-list.challenge ul li .item-cont > span {
+.thumb-list.vertical ul li .item-cont > span {
     display: block;
     position: absolute;
     left: 30px;
@@ -111,28 +113,311 @@
     color: #999;
     margin-top: 20px;
 }
-.thumb-list.challenge ul li .item-cont > span span {
+.thumb-list.vertical ul li .item-cont > span span {
     display: block;
 }
-.thumb-list.challenge ul li .item-cont > span span em {
+.thumb-list.vertical ul li .item-cont > span span em {
     color: #5CB65A;
     font-weight: 500;
     font-style: normal;
 }
-.thumb-list.challenge ul li .item-cont .btn {
+.thumb-list.vertical ul li .item-cont .btn {
     position: absolute;
     right: 0;
     bottom: 0;
 }
-.thumb-list.challenge ul li.complete:before,
-.thumb-list.challenge ul li.complete .num {
+.thumb-list.callenge ul li.complete:before,
+.thumb-list.callenge ul li.complete .num {
     background: #10740E;
+}
+.thumb-list.col-2 ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+/* 이달의 챌린지 */
+.thumb-list.col-2 ul {
+    border-top: 2px solid #10740E;
+    margin-top: 10px;
+}
+.thumb-list.col-2 ul li {
+    width: 50%;
+    border-top: 0;
+    border-bottom: 1px solid #ccc;
+    padding: 20px 20px 20px 0;
+}
+.thumb-list.col-2 ul li:hover {
+    border-bottom: 1px solid #ccc;
+}
+.thumb-list.col-2 ul li:nth-child(2n) {
+    border-left: 1px solid #ccc;
+    padding: 20px 0 20px 20px;
+}
+.thumb-list.col-2 ul li + li {
+    /* padding-top: 0; */
+}
+.thumb-list.col-2 ul li a {
+    display: flex;
+    justify-content: space-between;
+}
+.thumb-list.col-2 ul li:last-child .item {
+    border: 0;
+    padding-bottom: 0;
+}
+.thumb-list.col-2 ul li .img-thumb {
+    width: 50%;
+    height: 150px;
+    border: 0;
+}
+.thumb-list.col-2 ul li .item-cont {
+    padding-left: 20px;
+}
+.thumb-list.col-2 ul li strong {
+    font-size: 16px;
+    margin: 0 0 10px;
+}
+.thumb-list.col-2 ul li p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+    display: -webkit-box;
+    letter-spacing: -1px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.thumb-list.col-2 ul li .item-cont > span {
+    left: 20px;
+}
+.challenge-sort {
+    text-align: right;
+}
+
+/* 이달의 챌린지 상세 */
+.month-challenge-detail {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+}
+.month-challenge-detail .img-thumb {
+    position: relative;
+    width: 40%;
+    height: 220px;
+    overflow: hidden;
+}
+.month-challenge-detail .img-thumb img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+}
+.month-challenge-detail .item-cont {
+    width: calc(60% - 20px);
+}
+.month-challenge-detail .item-cont span {
+    display: block;
+    color: #10740E;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.month-challenge-detail .item-cont strong {
+    display: block;
+    color: #333;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.month-challenge-detail .item-cont p {
+    color: #666;
+    margin-bottom: 20px;
 }
 
 
 
+/* 인증 */
+.prov-set {
+    display: flex;
+    justify-content: space-between;
+}
+.prov-set .upload-img {
+    position: relative;
+    width: 40%;
+    height: 200px;
+    border: 1px solid #ccc;
+}
+.prov-set .upload-img:before {
+    content: '사진을 업로드해주세요.';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 200;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+}
+.prov-set .prov-cont {
+    width: 55%;
+}
+.prov-set .prov-cont strong {
+    display: block;
+    color: #666;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 5px;
+}
+.prov-set .prov-cont strong span {
+    color: #10740E;
+    font-weight: 500;
+}
+.prov-set .prov-cont p {
+    color: #666;
+}
+.prov-set form {
+    margin: 30px 0;
+}
+.prov-set .upload-file {
+    width: 100%;
+}
+.prov-set .upload-file input[type="text"].input-file {
+    width: calc(100% - 80px);
+}
 
 
+/* 참여 중인 사용자 */
+.using-user {
+    position: relative;
+}
+.using-user span.count {
+    color: #666;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.using-user span.count em {
+    color: #10740E;
+    font-weight: 500;
+    font-style: normal;
+}
+.using-user .user-list {
+    padding: 20px 0;
+
+}
+.using-user .user-list ul {
+    display: flex;
+}
+.using-user .user-list ul li {
+    min-width: 100px;
+    padding: 0 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+.using-user .user-list ul li:first-of-type {
+    padding-left: 0;
+}
+.using-user .user-list ul li + li {
+    border-left: 1px dashed #ccc;
+}
+.using-user .user-list ul li .img-thumb {
+    overflow: hidden;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #999;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+}
+.using-user .user-list ul li .img-thumb img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* 댓글 */
+.reply {}
+.reply form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.reply form textarea {
+    width: calc(100% - 105px);
+    height: 80px;
+}
+.reply form .btn {
+    width: 105px;
+    height: 80px;
+}
+.reply form .count-reply {
+    display: block;
+    color: #999;
+    width: 100%;
+    text-align: right;
+    margin-top: 5px;
+}
+.reply form .count-reply em {
+    color: #10740E;
+    font-weight: 500;
+    font-style: normal;
+}
+.reply-list {
+    margin-top: 10px;
+}
+.reply-list ul li {
+    position: relative;
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0;
+}
+.reply-list ul li .user-info {
+    position: relative;
+    padding-left: 50px;
+}
+.reply-list ul li .user-info .img-thumb {
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+.reply-list ul li .user-info span:first-of-type {
+    display: block;
+}
+.reply-list .user-info .date {
+    color: #999;
+    font-size: 13px;
+}
+.reply-list ul li .user-info .img-thumb img {
+    width: 100%;
+}
+.reply-list ul li .reply-cont {
+    color: #5a5a5a;
+    width: 90%;
+    margin-top: 10px;
+    padding-left: 50px;
+    box-sizing: border-box;
+}
+.reply-list ul li .btn-wrap {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    margin-top: 5px;
+}
+.reply-list ul li .btn-wrap button {
+    color: #bbb;
+}
+.reply-list ul li .btn-wrap button + button {
+    margin-left: 8px;
+}
+.reply-list ul li .btn-wrap button:hover {
+    color: #5CB65A;
+}
 
 
 
