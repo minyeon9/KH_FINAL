@@ -617,7 +617,7 @@ input + .btn {
     -webkit-box-orient: vertical;
     padding: 0 10px;
     margin-bottom: 10px;
-    box-sizing: boder-box;
+    box-sizing: border-box;
 }
 .thumb-list .price {
     padding: 0 10px;
