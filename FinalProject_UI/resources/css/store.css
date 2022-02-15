@@ -23,12 +23,13 @@
 }
 
 .product {
+    width: 100%;
     height: 400px;
 }
 
 /* 상품 상세 - slider */
 .slider{
-    width: 62%;
+    width: 500px;
     height: 100%;
     position: relative;
     margin: 0 auto;
@@ -112,6 +113,9 @@ ul.imgs li img{
 
 
 /* 상품 상세 */
+.pro-table-div {
+    width: 38%;
+}
 .pro-table {
     float: right;
     width: 38%;
@@ -385,3 +389,17 @@ ul.imgs li img{
     background-color: transparent;
 }
 
+/* ---------------
+    모집 상품 
+---------------- */
+.bid-prog {
+    width: 100%;
+    height: 10px;
+}
+
+.btn-heart:hover {
+    color: rgb(218, 61, 61);
+}
+.heart-btn:hover {
+    color: rgb(218, 61, 61);
+}
