@@ -240,7 +240,7 @@ $(() => {
     let accoAnswer = accoLi.find('div');
 
     accoLi.each(function(idx, el){
-        $(el).on('click', () => {
+        $(el).find('a').on('click', () => {
 
             if( !$(el).hasClass('active') ) {
                 // 닫혀 있을 경우
@@ -411,7 +411,15 @@ $(() => {
 
 
     
+    /* ----------------------------------
+        odd thumb list
+    ---------------------------------- */
+    let oddThumbList = $('.thumb-list.col-2 ul');
     
+    if( oddThumbList.length % 2 != 0 ) {
+        let liItem = `<li>&nbsp;</li>`
+        oddThumbList.append(liItem);
+    }
     
     
 });
@@ -428,3 +436,6 @@ $( window ).scroll( function() {
         $( '.scroll-top' ).fadeOut();
     }
 });
+
+
+

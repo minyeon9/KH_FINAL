@@ -108,78 +108,26 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>오늘의 챌린지</h3>
+                        <h3>이달의 챌린지</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="today_list.html">에코 챌린지</a>
-                            <span>오늘의 챌린지</span>
+                            <a href="#">에코 챌린지</a>
+                            <span>이달의 챌린지</span>
                         </div>
                     </div>
 
-                    <div class="challenge today">
-                        <div class="thumb-list vertical callenge">
-                            <ul>
-                                <li class="complete">
-                                    <i class="num">1</i>
-                                    <div class="item">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span>오늘의 챌린지 모두 달성시 <span><em>5,000Point</em> 지급</span></span>
-                                            <button class="btn gray" disabled>참여완료</button>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <i class="num">2</i>
-                                    <div class="item">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span>오늘의 챌린지 모두 달성시 <span><em>5,000Point</em> 지급</span></span>
-                                            <button class="btn" onclick="location.href='today_write.html'">참여하기</button>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <i class="num">3</i>
-                                    <div class="item">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span>오늘의 챌린지 모두 달성시 <span><em>5,000Point</em> 지급</span></span>
-                                            <button class="btn" onclick="location.href='today_write.html'">참여하기</button>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <i class="num">4</i>
-                                    <div class="item">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span>오늘의 챌린지 모두 달성시 <span><em>5,000Point</em> 지급</span></span>
-                                            <button class="btn" onclick="location.href='today_write.html'">참여하기</button>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                    <div class="challenge">
+                        <div class="complete">
+                            <div class="img-thumb">
+                                <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                            </div>
+                            <p>챌린지 인증이 완료되었습니다.</p>
+                            <strong>지금까지 <span>6회</span> 달성!</strong>
+                            <a href="month_list.html">이달의 챌린지 메인으로</a>
                         </div>
                     </div>
-
                 </section>
+
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
@@ -237,7 +185,7 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['today_list.html', 'month_list.html', 'ongoing_list.html'];
+        let menuPath = ['today_list.html', '#', 'ongoing_list.html'];
         let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
         let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
 
@@ -250,7 +198,7 @@
         }
 
         sideBarMenu.each(function(idx, el) {
-            if(idx == 0) {
+            if(idx == 1) {
                 $(this).addClass('current');
             }
         });

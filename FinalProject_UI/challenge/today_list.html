@@ -85,7 +85,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li class="current">
+                        <li>
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -224,9 +224,9 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['#', 'month.html', 'ongoing'];
+        let menuPath = ['#', 'month_list.html', 'ongoing_list.html'];
         let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['checklist_rtl', 'home', 'home' ]
+        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);
@@ -235,6 +235,12 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 0) {
+                $(this).addClass('current');
+            }
+        });
     });
 </script>
 
