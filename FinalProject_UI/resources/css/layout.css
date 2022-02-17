@@ -316,8 +316,6 @@ footer .icon:hover {
 footer .icon.icon-instargram { background-position: -80px 0; }
 footer .icon.icon-facebook { background-position: 0 0; }
 footer .icon.icon-youtube { background-position: -120px 0; }
-.footer-copy {
-}
 .footer-copy .footer-inner {
     padding-left: 165px;
     justify-content: flex-start;

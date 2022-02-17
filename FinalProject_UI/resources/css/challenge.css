@@ -6,21 +6,77 @@
 .challenge .how-to {
     background: #f9f9f9;
     border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 30px;
+    padding: 20px 20px 30px 20px;
+    margin-bottom: 50px;
 }
-.challenge .how-to strong {
+.challenge .how-to > strong {
     display: block;
     color: #10740E;
     font-size: 16px;
     font-weight: 500;
+    margin-bottom: 2px;
+}
+.challenge .how-to > span {
+    color: #666;
+}
+.challenge .how-to .example {
+    width: 95%;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 30px;
+    margin: 20px auto 0;
+    padding: 40px 0;
+}
+.challenge .how-to .example > strong {
+    color: #5CB65A;
+    font-size: 16px;
+    font-weight: 400;
+}
+.challenge .how-to ul {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+.challenge .how-to ul li {
+    width: 50%;
+    text-align: center;
+    padding: 0 20px;
+}
+.challenge .how-to ul li img {
+    display: block;
+    border: 5px solid #516ab9;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+}
+.challenge .how-to ul li:last-child img {
+    border: 5px solid #c91717;
+}
+.challenge .how-to ul li strong {
+    display: block;
+    color: #516ab9;
+    font-size: 18px;
+    font-weight: 400;
     margin-bottom: 10px;
 }
-.challenge .how-to p {
+.challenge .how-to ul li:last-child strong {
+    color: #c91717;
+}
+.challenge .how-to ul li strong i {
+    vertical-align: top;
+}
+.challenge .how-to ul li:last-child strong i {
+    vertical-align: bottom;
+}
+.challenge .how-to ul li p {
     color: #666;
+    font-size: 15px;
 }
 .challenge .thumb-list ul li:hover {
     border: 1px solid #ccc;
+}
+.challenge .how-to ul li:last-child {
+    border-left: 1px dashed #ccc;
 }
 .challenge .thumb-list ul li .num {
     position: absolute;
@@ -48,10 +104,10 @@
     margin: 0;
 }
 .thumb-list.callenge ul li {
-    padding-left: 60px;
+    padding: 0 0 20px 60px;
 }
-.thumb-list.vertical ul li + li {
-    padding-top: 20px;
+.thumb-list.vertical ul li:last-child {
+    padding-bottom: 0;
 }
 .thumb-list.vertical ul li:hover {
     border: 0;
@@ -113,13 +169,9 @@
     color: #999;
     margin-top: 20px;
 }
-.thumb-list.vertical ul li .item-cont > span span {
+.thumb-list.vertical ul li .item-cont > span > .icon-point {
     display: block;
-}
-.thumb-list.vertical ul li .item-cont > span span em {
-    color: #5CB65A;
-    font-weight: 500;
-    font-style: normal;
+    margin-top: 5px;
 }
 .thumb-list.vertical ul li .item-cont .btn {
     position: absolute;
@@ -186,6 +238,7 @@
     -webkit-box-orient: vertical;
 }
 .thumb-list.col-2 ul li .item-cont > span {
+    color: #5CB65A;
     left: 20px;
 }
 .challenge-sort {
@@ -217,23 +270,11 @@
     position: relative;
     width: calc(60% - 20px);
 }
-.month-challenge-detail .item-cont span.point-info {
+.month-challenge-detail .item-cont .icon-point {
     display: block;
-    margin-top: 30px;
+    margin-top: 48px;
 }
-.month-challenge-detail .item-cont span.point-info,
-.month-challenge-detail .item-cont span.point-info span {
-    color: #999;
-}
-.month-challenge-detail .item-cont span.point-info span {
-    margin: 0;
-}
-.month-challenge-detail .item-cont span.point-info em {
-    color: #5CB65A;
-    font-style: normal;
-    font-weight: 400;
-}
-.month-challenge-detail .item-cont span.point-info + .btn {
+.month-challenge-detail .item-cont .icon-point + .btn {
     position: absolute;
     right: 0;
     bottom: 25px;
@@ -258,15 +299,37 @@
 
 
 
+
 /* 인증 */
 .prov-set {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
-.prov-set .upload-img {
+.prov-set .thumb-img {
     position: relative;
+    overflow: hidden;
     width: 40%;
-    height: 200px;
+    height: 400px;
+}
+.prov-set .thumb-img img {
+    width: 100%;
+}
+.prov-set .upload-wrap {
+    width: 55%
+}
+.prov-set .upload-wrap strong {
+    display: block;
+    color: #5CB65A;
+    font-size: 18px;
+    font-weight: 400;
+    margin: -6px 0 20px;
+}
+.prov-set .upload-img {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 270px;
     border: 1px solid #ccc;
 }
 .prov-set .upload-img:before {
@@ -280,8 +343,33 @@
     transform: translate(-50%, -50%);
     box-sizing: border-box;
 }
+.prov-set .upload-img img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+}
+.prov-set .upload-img .btn-delete-img { /* button delete */
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: rgba(100, 100, 111, 0.5) 0px 3px 10px 0px;
+    z-index: 1;
+}
+.prov-set .upload-img .btn-delete-img i {
+    color: #999;
+}
+.prov-set .upload-img .btn-delete-img:hover i {
+    color: #5CB65A;
+}
 .prov-set .prov-cont {
-    width: 55%;
+    width: 100%;
 }
 .prov-set .prov-cont strong {
     display: block;
@@ -298,13 +386,17 @@
     color: #666;
 }
 .prov-set form {
-    margin: 30px 0;
+    margin-top: 30px;
 }
 .prov-set .upload-file {
     width: 100%;
 }
 .prov-set .upload-file input[type="text"].input-file {
     width: calc(100% - 80px);
+}
+.prov-set > button {
+    display: block;
+    margin: 40px auto 0;
 }
 
 
@@ -434,7 +526,7 @@
 .reply-list > ul > li .btn-wrap {
     position: absolute;
     top: 25px;
-    right: 0;
+    right: 10px;
     margin-top: 5px;
 }
 .reply-list > ul > li .btn-wrap button {
@@ -448,12 +540,12 @@
 }
 /* 대댓글 */
 .reply-list > ul > li > ul {
-    border-top: 1px dashed #ccc;
+    border-top: 1px solid #eee;
     margin-top: 15px;
 }
 .reply-list > ul > li > ul > li {
     position: relative;
-    padding: 15px 0 15px 90px;
+    padding: 15px 0 15px 50px;
 }
 .reply-list > ul > li > ul > li + li {
     border-top: 1px solid #eee;
@@ -462,13 +554,16 @@
     content: '';
     position: absolute;
     top: 20px;
-    left: 50px;
+    left: 15px;
     width: 24px;
     height: 24px;
     background: url(../images/common/icon_reply.png) 0 0 no-repeat;
 }
 .reply-list > ul > li > ul > li:last-child {
     padding-bottom: 5px;
+}
+.reply-list > ul > li > ul > li .btn-wrap {
+    right: 0;
 }
 
 
@@ -491,5 +586,156 @@
 }
 
 
+/* 챌린지 참여 현황 */
+.gauge {}
+.gauge ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+.gauge ul li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: calc(20% + 1px);
+    height: 170px;
+    border: 1px solid #ccc;
+    padding-bottom: 30px;
+    box-sizing: border-box;
+}
+.gauge ul li:nth-child(1),
+.gauge ul li:nth-child(6) {
+    width: 20%;
+}
+.gauge ul li:nth-child(6) {
+    margin-left: 0;
+}
+.gauge ul li:nth-child(n+6) {
+    margin-top: -1px;
+}
+.gauge ul li + li {
+    margin-left: -1px;
+}
+.gauge ul li span {
+    display: block;
+    width: 47px;
+    height: 27px;
+    background: url(../images/challenge/my_count01.png) 0 0 no-repeat;
+}
+.gauge ul li.complate span {
+    background-position: 0 -27px;
+}
+.gauge ul li p {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    color: #999;
+    font-size: 12px;
+    transform: translateX(-50%);
+}
+.gauge ul li.complate p {
+    color: #5CB65A;
+    font-weight: 500;
+}
+.gauge ul li:nth-of-type(2) span {
+    width: 49px;
+    height: 36px;
+    background: url(../images/challenge/my_count02.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(2).complate span {
+    background-position: 0 -36px;
+}
+.gauge ul li:nth-of-type(3) span {
+    width: 61px;
+    height: 58px;
+    background: url(../images/challenge/my_count03.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(3).complate span {
+    background-position: 0 -58px;
+}
+.gauge ul li:nth-of-type(4) span {
+    width: 61px;
+    height: 66px;
+    background: url(../images/challenge/my_count04.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(4).complate span {
+    background-position: 0 -66px;
+}
+.gauge ul li:nth-of-type(5) span {
+    width: 56px;
+    height: 75px;
+    background: url(../images/challenge/my_count05.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(5).complate span {
+    background-position: 0 -75px;
+}
+.gauge ul li:nth-of-type(6) span {
+    width: 33px;
+    height: 75px;
+    background: url(../images/challenge/my_count06.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(6).complate span {
+    background-position: 0 -75px;
+}
+.gauge ul li:nth-of-type(7) span {
+    width: 47px;
+    height: 74px;
+    background: url(../images/challenge/my_count07.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(7).complate span {
+    background-position: 0 -74px;
+}
+.gauge ul li:nth-of-type(8) span {
+    width: 88px;
+    height: 90px;
+    background: url(../images/challenge/my_count08.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(8).complate span {
+    background-position: 0 -90px;
+}
+.gauge ul li:nth-of-type(9) span {
+    width: 80px;
+    height: 107px;
+    background: url(../images/challenge/my_count09.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(9).complate span {
+    background-position: 0 -107px;
+}
+.gauge ul li:nth-of-type(10) span {
+    width: 119px;
+    height: 114px;
+    background: url(../images/challenge/my_count10.png) 0 0 no-repeat;
+}
+.gauge ul li:nth-of-type(10).complate span {
+    background-position: 0 -114px;
+}
 
 
+/* 인증 완료 */
+.challenge .complete-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.challenge .complete-page .img-thumb {
+    width: 300px;
+    height: 300px;
+    border: 1px solid #ccc;
+    margin-bottom: 30px;
+}
+.challenge .complete-page .img-thumb img {
+    width: 100%;
+}
+.challenge .complete-page p {
+    color: #666;
+    font-size: 16px;
+}
+.challenge .complete-page strong {
+    display: block;
+    color: #5CB65A;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 50px;
+}

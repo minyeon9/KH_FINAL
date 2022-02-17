@@ -331,7 +331,7 @@ $(() => {
     /* ----------------------------------
         input upload file
     ---------------------------------- */
-    let inputFile = $('#file');
+    let inputFile = $('#inputFileOrigin');
     let inputName = $('.input-file');
 
     inputFile.on('change',function(e){
@@ -410,7 +410,7 @@ $(() => {
 
 
 
-    
+
     /* ----------------------------------
         odd thumb list
     ---------------------------------- */
@@ -421,7 +421,10 @@ $(() => {
         oddThumbList.append(liItem);
     }
     
-    
+
+
+
+
 });
 
 
@@ -437,5 +440,58 @@ $( window ).scroll( function() {
     }
 });
 
+
+
+
+/* ----------------------------------
+    upload images
+---------------------------------- */
+document.addEventListener('DOMContentLoaded', function(){
+    var validateType = function(img){
+        return (['image/jpeg','image/jpg', 'image/gif', 'image/png'].indexOf(img.type) > -1);
+    }
+
+    var validateName = function(fname){
+        let extensions = ['jpeg','jpg', 'gif', 'png'];
+        let fparts = fname.split('.');
+        let fext = '';
+    
+        if(fparts.length > 1){
+            fext = fparts[fparts.length-1];
+        }
+    
+        let validated = false;
+        
+        if(fext != ''){
+            extensions.forEach(function(ext){
+                if(ext == fext){
+                    validated = true;
+                }
+            });
+        }
+    
+        return validated;
+    }
+
+    document.getElementById('inputFileOrigin').addEventListener('change', function(e){
+        let elem = e.target;
+        if( validateType(elem.files[0]) ) {
+            let preview = document.querySelector('.upload-img img');
+            preview.src = URL.createObjectURL(elem.files[0]);
+            document.querySelector('.btn-delete-img').style.display = 'block';
+            preview.onload = function() {
+                URL.revokeObjectURL(preview.src);
+            }
+        } else {
+            alert("잘못된 형식의 파일입니다.\n사진을 다시 업로드해주세요.");
+        }
+    });
+
+    document.querySelector('.btn-delete-img').addEventListener('click', function(e){
+        let preview = document.querySelector('.upload-img img');
+        preview.src = '';
+        document.querySelector('.btn-delete-img').style.display = 'none';
+    });
+});
 
 

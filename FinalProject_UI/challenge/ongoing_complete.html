@@ -108,74 +108,26 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>오늘의 챌린지</h3>
+                        <h3>참여 중인 챌린지</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="today_list.html">에코 챌린지</a>
-                            <span>오늘의 챌린지</span>
+                            <a href="#">에코 챌린지</a>
+                            <span>참여 중인 챌린지</span>
                         </div>
                     </div>
 
-                    <div class="challenge prov">
-                        <div class="how-to">
-                            <strong>인증 방법 및 주의 사항</strong>
-                            <span>해당 이미지는 예시입니다. 각 챌린지에 맞는 이미지를 업로드하여 인증해주세요.</span>
-
-                            <div class="example">
-                                <strong>플로깅은 Plocka Up + Jogging의 합성어로<br>조깅을 하는 동시에 쓰레기를 줍는 활동입니다.</strong>
-                                <ul>
-                                    <li>
-                                        <img src="../resources/images/challenge/callenge02.png" alt="">
-                                        <strong>
-                                            <i class="material-icons md-22">thumb_up</i>
-                                            이렇게 찍어주세요!
-                                        </strong>
-                                        <p>실외에서 실천하는 모습의<br>사진을 업로드해주세요.</p>
-                                    </li>
-                                    <li>
-                                        <img src="../resources/images/challenge/callenge01.png" alt="">
-                                        <strong>
-                                            <i class="material-icons md-22">thumb_down</i>
-                                            이런 사진은 안 돼요!
-                                        </strong>
-                                        <p>실내에서 쓰레기를 정리하는 사진은<br>챌린지의 의도와 맞지 않습니다.</p>
-                                    </li>
-                                </ul>
+                    <div class="challenge">
+                        <div class="complete-page">
+                            <div class="img-thumb">
+                                <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
                             </div>
+                            <p>챌린지 인증이 완료되었습니다.</p>
+                            <strong>지금까지 <span>6회</span> 달성 완료하셨습니다!</strong>
+                            <a href="month_list.html" class="btn">참여 중인 챌린지 메인으로</a>
                         </div>
-
-                        <section class="section">
-                            <h4>챌린지 인증하기</h4>
-                            <div class="prov-set">
-                                <div class="thumb-img">
-                                    <img src="../resources/images/challenge/challenge03.jpg" alt="">
-                                </div>
-                                <div class="upload-wrap">
-                                    <strong>걸어서 or 자전거로 출퇴근 </strong>
-                                    <div class="upload-img">
-                                        <button class="btn-delete-img">
-                                            <i class="material-icons md-22">delete_outline</i>
-                                        </button>
-                                        <img src="" alt="">
-                                    </div>
-                                    <div class="prov-cont">
-                                        <form action="" method="">
-                                            <div class="upload-file">
-                                                <input type="text" class="input-file" disabled placeholder="파일을 선택해주세요." multiple>
-                                                <input type="file" id="inputFileOrigin" name="input-file-origin" accept="image/jpeg, image/jpg, image/gif, image/png">
-                                                <label for="inputFileOrigin" class="btn">파일 선택</label> 
-                                                <span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                
-                                <button class="btn" onclick="location.href='today_complete.html'">인증하기</button>
-                            </div>
-                        </section>
                     </div>
-
                 </section>
+
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
@@ -246,7 +198,7 @@
         }
 
         sideBarMenu.each(function(idx, el) {
-            if(idx == 0) {
+            if(idx == 2) {
                 $(this).addClass('current');
             }
         });
