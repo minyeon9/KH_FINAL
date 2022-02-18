@@ -392,14 +392,83 @@ ul.imgs li img{
 /* ---------------
     모집 상품 
 ---------------- */
-.bid-prog {
+.prog-list {
     width: 100%;
     height: 10px;
 }
 
-.btn-heart:hover {
-    color: rgb(218, 61, 61);
+/* 찜 버튼 */
+.heart {
+    font-size: 25px;
+    color:rgb(95, 95, 95);
 }
-.heart-btn:hover {
-    color: rgb(218, 61, 61);
+.heart:hover {
+    color: red;
+}
+.fa-heart {
+    color: red;
+}
+
+.fa-cart-shopping {
+    font-size: 25px;
+    color:rgb(95, 95, 95);
+}
+.fa-cart-shopping:hover {
+    color: #467443;
+}
+.cart-fill {
+    color: #467443;
+}
+
+
+.progress {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+    font-size: 0.75rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+.progress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #0d9441;
+    transition: width 0.6s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+    .progress-bar {
+        transition: none;
+    }
+}
+.prog-detail {
+    height: 15px;
+}
+
+.bid-table {
+    height: 300px;
+}
+.bid-btn {
+    width: 120px;
+}
+.bid-board td:first-child{
+    width: 75%;
+    text-align: left;
+}
+
+/* -----------------
+    오프라인 매장안내
+------------------ */
+.map-list ul{
+    border-bottom: 2px solid rgb(170, 170, 170);
+    padding-bottom: 7px;
+    margin-bottom: 10px;
+}
+.map-list ul li:first-child {
+    font-size: 16px;
+    margin-bottom: 10px;
 }

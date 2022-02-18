@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../resources/css/style.css">
     <script src="../resources/js/jquery-3.6.0.js"></script>
     <script src="../resources/js/ui.js"></script>
+    <script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>상품목록</title>
 </head>
@@ -218,12 +219,11 @@
                                         <div class="tag-wrap">
                                             <span class="tag tag-orange">NEW</span>
                                         </div>
-                                        <strong><a href="#">상품명</a></strong>
+                                        <strong><a href="product-detail.html">상품명</a></strong>
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="material-icons">favorite_border</i></a>
-                                            <a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a>
+                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
                                         </div>
                                     </li>
                                     <li>
@@ -237,8 +237,7 @@
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="material-icons">favorite_border</i></a>
-                                            <a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a>
+                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
                                         </div>
                                     </li>
                                     <li>
@@ -252,8 +251,7 @@
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="material-icons">favorite_border</i></a>
-                                            <a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a>
+                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
                                         </div>
                                     </li>
                                     <li>
@@ -267,8 +265,7 @@
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="material-icons">favorite_border</i></a>
-                                            <a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a>
+                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
                                         </div>
                                     </li>
                                     <li>
@@ -282,8 +279,7 @@
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="material-icons">favorite_border</i></a>
-                                            <a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a>
+                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
                                         </div>
                                     </li>
                                     <li>
@@ -297,8 +293,7 @@
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="material-icons">favorite_border</i></a>
-                                            <a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a>
+                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
                                         </div>
                                     </li>
                                     <li>
@@ -312,8 +307,7 @@
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="material-icons">favorite_border</i></a>
-                                            <a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a>
+                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
                                         </div>
                                     </li>
                                     <li>
@@ -327,8 +321,7 @@
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="material-icons">favorite_border</i></a>
-                                            <a href="javascript:void(0);"><i class="material-icons">shopping_cart</i></a>
+                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
                                         </div>
                                     </li>
                                 </ul>
@@ -425,6 +418,12 @@
             menuIdx.find('a > span').text(menuName[i]);
         }
     });
+
+    $(".heart.fa").click(function() {
+        $(this).toggleClass("fa-heart fa-heart-o");
+    });
+
+    
 </script>
 
 </html>
