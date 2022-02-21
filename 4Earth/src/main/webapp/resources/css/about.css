@@ -1,0 +1,11 @@
+@charset "UTF-8";
+.table_bottom {
+  display: flex;
+  justify-content: right;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.angle {
+  font-size: 16px;
+}
