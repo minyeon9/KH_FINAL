@@ -196,7 +196,8 @@
 .month-challenge-detail {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 20px;
+    border-top: 2px solid #10740E;
+    border-bottom: 1px solid #ccc;
     margin-bottom: 50px;
 }
 .month-challenge-detail .img-thumb {
@@ -213,20 +214,42 @@
     transform: translate(-50%, -50%);
 }
 .month-challenge-detail .item-cont {
+    position: relative;
     width: calc(60% - 20px);
 }
-.month-challenge-detail .item-cont span {
+.month-challenge-detail .item-cont span.point-info {
+    display: block;
+    margin-top: 30px;
+}
+.month-challenge-detail .item-cont span.point-info,
+.month-challenge-detail .item-cont span.point-info span {
+    color: #999;
+}
+.month-challenge-detail .item-cont span.point-info span {
+    margin: 0;
+}
+.month-challenge-detail .item-cont span.point-info em {
+    color: #5CB65A;
+    font-style: normal;
+    font-weight: 400;
+}
+.month-challenge-detail .item-cont span.point-info + .btn {
+    position: absolute;
+    right: 0;
+    bottom: 25px;
+}
+.month-challenge-detail .item-cont span:first-of-type {
     display: block;
     color: #10740E;
     font-size: 16px;
-    margin-bottom: 5px;
+    margin: 20px 0 5px;
 }
 .month-challenge-detail .item-cont strong {
     display: block;
     color: #333;
     font-size: 22px;
-    font-weight: 500;
-    margin-bottom: 10px;
+    font-weight: 400;
+    margin-bottom: 5px;
 }
 .month-challenge-detail .item-cont p {
     color: #666;
@@ -292,7 +315,7 @@
 .using-user span.count {
     color: #666;
     position: absolute;
-    top: 0;
+    top: 3px;
     right: 0;
 }
 .using-user span.count em {
@@ -301,7 +324,9 @@
     font-style: normal;
 }
 .using-user .user-list {
-    padding: 20px 0;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
 
 }
 .using-user .user-list ul {
@@ -335,6 +360,9 @@
     width: 100%;
     transform: translate(-50%, -50%);
 }
+.using-user .user-list ul li span {
+    color: #888;
+}
 
 
 /* 댓글 */
@@ -367,16 +395,16 @@
 .reply-list {
     margin-top: 10px;
 }
-.reply-list ul li {
+.reply-list > ul > li {
     position: relative;
     border-bottom: 1px solid #ccc;
-    padding: 20px 0;
+    padding: 10px;
 }
-.reply-list ul li .user-info {
+.reply-list > ul > li .user-info {
     position: relative;
     padding-left: 50px;
 }
-.reply-list ul li .user-info .img-thumb {
+.reply-list > ul > li .user-info .img-thumb {
     overflow: hidden;
     position: absolute;
     top: 50%;
@@ -386,39 +414,81 @@
     border-radius: 50%;
     transform: translateY(-50%);
 }
-.reply-list ul li .user-info span:first-of-type {
+.reply-list > ul > li .user-info span:first-of-type {
     display: block;
 }
 .reply-list .user-info .date {
     color: #999;
     font-size: 13px;
 }
-.reply-list ul li .user-info .img-thumb img {
+.reply-list > ul > li .user-info .img-thumb img {
     width: 100%;
 }
-.reply-list ul li .reply-cont {
+.reply-list > ul > li .reply-cont {
     color: #5a5a5a;
     width: 90%;
     margin-top: 10px;
     padding-left: 50px;
     box-sizing: border-box;
 }
-.reply-list ul li .btn-wrap {
+.reply-list > ul > li .btn-wrap {
     position: absolute;
     top: 25px;
     right: 0;
     margin-top: 5px;
 }
-.reply-list ul li .btn-wrap button {
+.reply-list > ul > li .btn-wrap button {
     color: #bbb;
 }
-.reply-list ul li .btn-wrap button + button {
+.reply-list > ul > li .btn-wrap button + button {
     margin-left: 8px;
 }
-.reply-list ul li .btn-wrap button:hover {
+.reply-list > ul > li .btn-wrap button:hover {
     color: #5CB65A;
 }
+/* 대댓글 */
+.reply-list > ul > li > ul {
+    border-top: 1px dashed #ccc;
+    margin-top: 15px;
+}
+.reply-list > ul > li > ul > li {
+    position: relative;
+    padding: 15px 0 15px 90px;
+}
+.reply-list > ul > li > ul > li + li {
+    border-top: 1px solid #eee;
+}
+.reply-list > ul > li > ul > li:before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50px;
+    width: 24px;
+    height: 24px;
+    background: url(../images/common/icon_reply.png) 0 0 no-repeat;
+}
+.reply-list > ul > li > ul > li:last-child {
+    padding-bottom: 5px;
+}
 
+
+
+/* 진행 중인 챌린지 */
+.challenge .thumb-list.ongoing ul li:hover {
+    border: 1px solid #5CB65A;
+}
+.challenge .thumb-list .my-count {
+    display: block;
+    color: #999;
+    padding: 0 10px;
+    text-align: right;
+    margin-bottom: 10px;
+}
+.challenge .thumb-list .my-count em {
+    color: #5CB65A;
+    font-weight: 500;
+    font-style: normal;
+}
 
 
 
