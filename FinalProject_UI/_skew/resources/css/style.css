@@ -1,0 +1,350 @@
+@charset "UTF-8";
+@import "common.css";
+@import "layout.css";
+@import "admin.css";      /* 조관우 */
+@import "about.css";      /* 류동우 */
+@import "challenge.css";  /* 박민영 */
+@import "store.css";      /* 이진아 */
+/* @import "mypage.css";     담당자 미정 */
+@import "member.css";     /* 최어진 */
+
+
+/* ----------------------------------
+    visual main
+---------------------------------- */
+.visual {
+    flex: 1;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    width: 200%;
+    background: #98B162;
+    margin-left: -50%;
+}
+.visual strong {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    /* transform: translateX(-50%) rotate(-15deg); */
+    transform: translateX(-50%);
+    transition: all 0.2s ease-out;
+    z-index: 1;
+}
+.visual .visual-box {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 700px;
+    text-align: center;
+    background: url(../images/main/bg_visual01.jpg) right center no-repeat;
+    transform: skew(-17deg, 0);
+    padding-left: 25%;
+}
+.visual .visual-box:nth-of-type(2) {
+    background: #A2C556;
+    background: #98B162 url(../images/main/bg_visual02.png) 0 0 no-repeat;
+    transform: skew(-17deg, 0);
+}
+.visual .visual-box > * {
+    transform: skew(17deg, 0);
+}
+.visual .visual-box strong {
+    display: none;
+    font-size: 30px;
+    transform: translateX(-50%) rotate(0);
+    transition: all 0.2s ease-out;
+    
+}
+.visual .center-img {
+    position: absolute;
+    top: 23%;
+    right: 0;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    margin-right: -200px;
+}
+/* .visual .center-img:after {
+    content: '';
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translate(-50%);
+} */
+.visual .btn-visual {
+    position: absolute;
+    width: 100px;
+    top: 50%;
+    left: 52%;
+}
+.visual .btn-visual-undo {
+    position: absolute;
+    width: 100px;
+    top: 50%;
+    left: 30px;
+    background-color: burlywood;
+    margin-left: 0;
+}
+.visual .best-main {
+    position: absolute;
+    top: 50px;
+    left: -100%;
+    width: 200px;
+    height: 200px;
+    background: lightseagreen;
+}
+.visual .best-main a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.visual .best-list-main {
+    position: absolute;
+    top: 450px;
+    left: 300px;
+    display: flex;
+    overflow: hidden;
+    /* width: 1260px; */
+    /* margin: 450px 0 0 -500px; */
+}
+.visual .best-list-main li {
+    width: 200px;
+    height: 200px;
+    background: #fff;
+    border: 1px solid blueviolet;
+}
+.visual .best-list-main li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.visual .best-list-main li + li {
+    margin-left: 20px;
+}
+
+/* store */
+.visual .store .center-img {
+    left: 0;
+    right: auto;
+    margin-left: -200px;
+    transform: skew(17deg, 0);
+}
+.visual .store .btn-visual {
+    left: auto;
+    right: 51%;
+    transform: skew(17deg, 0);
+}
+.visual .store .btn-visual-undo {
+    left: auto;
+    right: -50%;
+    transform: skew(17deg, 0);
+}
+.visual .store .best-main {
+    left: auto;
+    right: -100%;
+    transform: skew(17deg, 0);
+}
+.visual .store .best-list-main {
+    left: auto;
+    right: 180px;
+    transform: skew(17deg, 0);
+}
+
+.main-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    background: linear-gradient(to right, #E8F0E4, #AFCCA6);
+    border-top: 1px solid #576636;
+}
+.main-box p {
+    color: #576636;
+    font-size: 28px
+}
+.photo-box {
+    height: 700px;
+    background: url(../images/main/bg_main01.jpg) 0 0 no-repeat;
+    background-size: cover;
+    padding: 100px 0 0 100px;
+    box-sizing: border-box;
+}
+.photo-box:nth-of-type(3) {
+    text-align: right;
+    background: url(../images/main/bg_main02.jpg) 0 0 no-repeat;
+    padding: 100px 100px 0 0;
+}
+.photo-box strong {
+    display: block;
+    color: #fff;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+.photo-box p {
+    color: #f9f9f9;
+    font-weight: 300;
+    line-height: 24px;
+}
+
+
+
+/* ----------------------------------
+    page
+---------------------------------- */
+.page-tit {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 30px;
+}
+.page-tit h3 {
+    font-size: 20px;
+    font-weight: 500;
+}
+.page-tit h3 span {
+    display: block;
+    color: #666;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+.page-tit .bread-crumb a,
+.page-tit .bread-crumb span {
+    position: relative;
+    color: #999;
+    font-size: 12px;
+}
+.page-tit .bread-crumb span {
+    color: #666;
+}
+.page-tit .bread-crumb a + a:hover {
+    text-decoration: underline;
+}
+.page-tit .bread-crumb a + a,
+.page-tit .bread-crumb a + span {
+    margin-left: 5px;
+    padding-left: 10px;
+}
+.page-tit .bread-crumb a + a:before,
+.page-tit .bread-crumb a + span:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 4px;
+    height: 7px;
+    background: url(../images/common/arrow_bread_crumb.png);
+    transform: translateY(-50%);
+}
+.page-tit .bread-crumb a.current {
+    color: #555;
+    font-weight: 500;
+}
+.page-tit .bread-crumb a i {
+    vertical-align: middle;
+    margin-top: -4px;
+}
+
+
+
+
+.board-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.board-head .board-result {
+    color: #666;
+    font-size: 14px;
+}
+.board-head .board-result span {
+    color: #333;
+    font-weight: 500;
+}
+
+.category {
+    border-top: 2px solid #467443;
+    border-bottom: 1px solid #666;
+}
+.category ul li {
+    display: flex;
+}
+.category ul li + li {
+    border-top: 1px solid #ccc;
+}
+.category ul li strong {
+    width: 100px;
+    font-size: 14px;
+    font-weight: 400;
+    background: #f9f9f9;
+    padding: 20px;
+}
+.category .check-group {
+    width: 100%;
+    padding: 20px 20px 10px;
+}
+
+
+
+
+
+
+
+/* ----------------------------------
+    star
+---------------------------------- */
+.icon-star {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 16px;
+}
+.icon-star i {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.icon-star .unfill {
+    background: url(../images/common/icon_star_unfill.png) 0 0 no-repeat;
+}
+.icon-star .fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: url(../images/common/icon_star_fill.png) 0 0 no-repeat;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* @temp guide */
+.guide {
+    margin-top: 20px;
+}
+.guide section {
+    padding: 20px 0 30px;
+}
+.guide section + section {
+    padding-top: 80px;
+    border-top: 1px solid #ddd;
+}
+.guide section > strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}

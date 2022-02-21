@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+/* 상품 문의 */
+.accordian.inquiry ul li a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 80px;
+}
+.accordian.inquiry ul li a p {
+    width: 80px;
+}
+.accordian.inquiry ul li a p:nth-of-type(2) {
+    width: 400px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
