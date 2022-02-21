@@ -126,6 +126,7 @@
                                 <!-- <br> -->
                                 <!-- <hr class="short-line"> -->
                                 <br>
+                            <form id="login-form" action="${ path }/login" method="post">
                                 <div class="input-with-icon">
                                     <i class="material-icons">person</i>
                                     <input type="text" placeholder="아이디를 입력해주세요.">
@@ -136,13 +137,14 @@
                                     <i class="material-icons">lock</i>
                                     <input type="text" placeholder="비밀번호를 입력해주세요.">
                                 </div>
-                                <button class="btn btn-login">로그인</button>
+                                <button class="btn btn-login" type="submit">로그인</button>
                                 <br>
+                            </form>
                                 <div id="find-area-box">
                                 <ul class="find-area">
-                                    <li><a href="#" class="sml-text2"><span>아이디 찾기</span></a></li>
+                                    <li><a href="./find-id.html" class="sml-text2"><span>아이디 찾기</span></a></li>
                                     <li id="bar">|</li>
-                                    <li><a href="#" class="sml-text2"><span>비밀번호 찾기</span></a></li>
+                                    <li><a href="./find-pw.html" class="sml-text2"><span>비밀번호 찾기</span></a></li>
                                     <!-- <li id="bar">|</li> -->
                                     <!-- <li><a href="${ path }/enroll" class="sml-text2"><span>회원가입</span></a></li> -->
                                 </ul>

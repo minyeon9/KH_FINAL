@@ -59,7 +59,7 @@ h6 {
 input[type="text"],
 input[type="password"],
 input[type="tel"],
-input[type="mail"] {
+input[type="email"] {
   border: 1px solid #ccc;
   height: 34px;
   padding: 0 10px;
@@ -323,7 +323,7 @@ button {
   width: 200px;
   padding: 8px 0;
 }
-input[type="button"].btn {
+input[type="button"].btn:not(#checkDuplicate) {
   height: 34px;
   line-height: 16px;
   padding: 8px 20px;

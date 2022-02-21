@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../resources/css/member.css"> -->
     <link rel="stylesheet" href="../resources/css/style.css">
-    <link rel="stylesheet" href="../resources/css/member.css">
     <script src="../resources/js/jquery-3.6.0.js"></script>
     <script src="../resources/js/ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>회원가입</title>
+    <title>아이디 찾기</title>
 </head>
 <body>
     <div class="wrap">
@@ -80,7 +80,6 @@
 
         <div class="container">
             <div class="contents">
-                <!-- 왼쪽 사이드바 -->
                 <div class="side-bar is-open">
                     <button class="btn toggle-nav">
                         <i class="material-icons md-24">last_page</i>
@@ -109,63 +108,60 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>회원가입</h3>
+                        <h3>아이디 찾기</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">회원가입</a>
+                            <a href="./find-id.html">아이디 찾기</a>
                         </div>
                     </div>
 
 
                 <!-- login section -->
                     <div class="category">
-                        <div class="signup-wrap">
-                            <!-- <div class="signup-img">
-                                <img id="img2" src="../resources/images/member/signup-img.jpg">
-                            </div> -->
+                        <div class="login-wrap">
+
+                            <div class="img-area2">
+                                <img id="img2" src="../resources/images/member/find-id2.jpg">
+                            </div>
 
 
-                            <div class="login-left-area">
-                            <div class="login-form">
-                                <br><br><br>
-                                <h1>회원가입</h1>
+
+                            <div class="right-area">
+                            <div class="find-form">
+                                <br><br><br><br>
+                                <h1>아이디 찾기</h1>
                                 <br>
-                                <hr class="short-line"><br>
+                                <!-- <hr class="short-line"> -->
+                                <img id="result-img" src="../resources/images/member/find-id-result.png">
                                 <br>
-                                <button class="btn btn-login" onclick="location.href='signup-form.html'">통합 회원 가입</button>
+
+
+
                                 <br>
-                                <ul class="find-area">
-                                    <li><span id="text">이미 회원이신가요?</span></li>
+
+                                <p id="find-text">회원님의 아이디는
+                                    <br> <span>potato1</span> 입니다.</p>
+                                <br>
+
+                                <button class="btn btn-login">비밀번호 찾기</button>
+                                <br>
+                                <div id="find-area-box">
+                                <ul class="find-area2">
+                                    <li><a href="./login.html" class="sml-text2"><span>이전 화면으로</span></a></li>
+                                    <li id="bar">|</li>
+                                    <!-- <li><a href="#" class="sml-text2"><span>로그인</span></a></li> -->
                                     <!-- <li id="bar">|</li> -->
-                                    <li><a href="login.html" class="sml-text2"><span>로그인</span></a></li>
+                                    <li><a href="${ path }/enroll" class="sml-text2"><span>회원가입</span></a></li>
                                 </ul>
-                                <br>
-                                <hr class="short-line">
-                                <br>
-                                <div class="simple-login-area">
-                                    <p>SNS 간편 회원가입</p>
-                                    <a href="javascript:kakaoLogin();">
-                                    <!-- <input type="button" class="splgin-btn" id="kakao" style="cursor:pointer;" value="카카오 간편 로그인"> -->
-                                    <img class="login-btn" src="../resources/images/member/kakao-signup-btn.png">
-                                    </a>
-                                    <a href="">
-                                    <img class="login-btn" src="../resources/images/member/naver-signup-btn.png" alt="">
-                                    <!-- <input type="button" class="splgin-btn" id="naver" style="cursor:pointer;" value="네이버 간편 로그인"> -->
-                                    </a>
-                                    <a href="javascript:kakaoLogout();">
-                                    <img class="login-btn" src="../resources/images/member/google-signup-btn.png">
-                                    <!-- <input type="button" class="splgin-btn" id="google" style="cursor:pointer;" value="카카오 로그아웃"> -->
-                                    </a>
                                 </div>
+                                <hr class="short-line2">
+                                <br>
 
                                 <br><br>
 
                             </div>
                         </div>
 
-                        <div class="img-area">
-                            <img id="img" src="../resources/images/member/signup-img.jpg">
-                        </div>
 
 
                         </div>
