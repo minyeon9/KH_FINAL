@@ -30,7 +30,78 @@
     display: block;
     margin-bottom: 5px;
 }
-
+#list {
+    width: 100%;
+    text-align: center;
+} 
+.category table thead {
+    height: 30px;
+}
+#btn {
+    width: 60px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: rgb(24, 180, 228);
+    padding: 3px;
+}
+#btn2 {
+    width: 60px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: red;
+    padding: 3px;
+}
+#btn3 {
+    width: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: rgb(200, 200, 200);
+}
+#btn4 {
+    background-color: grey; 
+}
+.menu {
+    width: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: rgb(200, 200, 200);
+}
+.clicked {
+    color: red;
+}
+.clicked2 {
+    color: yellow;
+}
+.category table, td{
+    height: 30px;
+    border-top: 1px solid grey;
+    border-collapse: collapse;
+}
+#page-Bar button {
+    border-radius: 0.5em;
+    background-color: gray;
+    margin: 3px;
+    padding: 7px;
+    border-color: black;
+}
+.category ul li button {
+    width: 80px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: rgb(24, 180, 228);
+    padding: 5px;
+    margin-left: auto;
+}
+.menu-active {
+    background-color:red;
+}
+nav .logo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+}
 
 
 
