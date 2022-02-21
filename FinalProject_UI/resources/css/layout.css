@@ -146,6 +146,10 @@ nav .bg-nav {
     overflow: hidden;
     flex: 1;
 }
+.container.main .contents {
+    display: flex;
+    flex-direction: column;
+}
 .contents {
     position: relative;
     display: flex;
@@ -228,11 +232,10 @@ nav .bg-nav {
 .contents .side-bar.is-open  + .content-wrap {
     width: calc(100% - 290px);
 }
-.section {}
-.section + .section {
+section.section + .section {
     margin-top: 50px;
 }
-.section h4 {
+section.section h4 {
     color: #333;
     font-size: 16px;
     font-weight: 500;
