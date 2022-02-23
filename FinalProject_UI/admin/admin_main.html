@@ -235,36 +235,32 @@
     var menu = document.getElementsByClassName("menu");
 
     function handleClick(event) {
-        if (event.target.classList[1] === "clicked") {
+        if (event.target.classList[1] == "clicked") {
             for (var i = 0; i < menu.length; i++) {
                 menu[i].classList.remove("clicked");
                 menu[i].classList.remove("clicked2");
+                menu[i].value = "-";
             }
 
             event.target.classList.add("clicked2");
             event.target.value = "▲";
-        } else if(event.target.classList[1] === "clicked2") {
-            event.target.classList.remove("clicked");
-            event.target.classList.remove("clicked2");
+        } else if(event.target.classList[1] == "clicked2") {
+            for (var i = 0; i < menu.length; i++) {
+                menu[i].classList.remove("clicked");
+                menu[i].classList.remove("clicked2");
+                menu[i].value = "-";
+            }
 
             event.target.value = "-";
         }else {
-            if(event.target.classList[1] === "clicked2") {
-                for (var i = 0; i < menu.length; i++) {
-                menu[i].classList.remove("clicked2");
-                menu[i].classList.remove("clicked");
+            for (var i = 0; i < menu.length; i++) {
+            menu[i].classList.remove("clicked");
+            menu[i].classList.remove("clicked2");
+            menu[i].value = "-";
             }
-                event.target.classList.add("clicked2");
-                event.target.value = "▲";
-            }else {
-                for (var i = 0; i < menu.length; i++) {
-                menu[i].classList.remove("clicked");
-                menu[i].classList.remove("clicked2");
-            }
-                event.target.classList.add("clicked");
-                event.target.value = "▼";
-            }
-            
+
+            event.target.classList.add("clicked");
+            event.target.value = "▼";
         }
     }
 
