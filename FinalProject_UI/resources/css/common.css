@@ -20,6 +20,9 @@ a {
 h1, h2, h3, h4, h5, h6 {
     clip: rect(85px 450px 395px 45px);
 }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: #ccc; }
+::-webkit-scrollbar-track { background: #eee; border-left: 1px solid #ddd;}
 
 
 
@@ -43,8 +46,8 @@ input[type="text"],
 input[type="password"],
 input[type="tel"],
 input[type="mail"] {
+    height: 40px;
     border: 1px solid #ccc;
-    height: 34px;
     padding: 0 10px;
     outline: 0;
     transition: all 0.2s ease-out;
@@ -54,7 +57,7 @@ input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="tel"]:focus,
 input[type="mail"]:focus {
-    border: 1px solid #669948;
+    border: 1px solid #76b779;
 }
 input[type="text"]::placeholder,
 input[type="password"]::placeholder,
@@ -65,13 +68,13 @@ input[type="mail"]::placeholder {
 .upload-file { /* div */
     position: relative;
     display: inline-block;
-    height: 34px;
+    height: 40px;
     border: 0;
     box-sizing: border-box;
 }
 input[type="text"].input-file { /* input[type="text"] */
     color: #999;
-    height: 34px;
+    height: 40px;
     border: 1px solid #ccc;
     vertical-align: 3px;
     outline: 0;
@@ -90,11 +93,55 @@ input[type="text"].input-file.filled { /* 파일명 들어왔을 경우 */
 }
 .upload-file label { /* button 파일 선택 */
     display: inline-block;
+    color: #76b779;
     font-size: 12px;
     font-weight: 400;
-    height: 34px;
+    height: 40px;
     min-height: auto;
     line-height: 14px;
+    margin-left: 5px;
+    padding: 7px 10px;
+    vertical-align: top;
+    cursor: pointer;
+}
+.upload-file {
+    /* div */
+    position: relative;
+    display: inline-block;
+    height: 40px;
+    border: 0;
+    box-sizing: border-box;
+}
+input[type="text"].input-file {
+    /* input[type="text"] */
+    color: #999;
+    height: 40px;
+    border: 1px solid #ccc;
+    vertical-align: 3px;
+    outline: 0;
+}
+input[type="text"].input-file.filled {
+    /* 파일명 들어왔을 경우 */
+    border: 1px solid #76b779;
+}
+.upload-file input[type="file"] {
+    /* input[type="file"] */
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+.upload-file label {
+    /* button 파일 선택 */
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    height: 40px;
+    min-height: auto;
+    line-height: 20px;
     margin-left: 5px;
     padding: 7px 10px;
     vertical-align: top;
@@ -106,7 +153,7 @@ input[type="checkbox"] label {
 .input-with-icon {
     position: relative;
     display: inline-block;
-    height: 34px;
+    height: 40px;
     border: 1px solid #ccc;
     padding: 0 10px;
     box-sizing: border-box;
@@ -117,9 +164,12 @@ input[type="checkbox"] label {
 }
 .input-with-icon input {
     width: calc(100% - 27px);
-    height: 32px;
+    height: 38px;
     border: 0;
     margin-left: 27px;
+}
+.input-with-icon.focus {
+    border: 1px solid #76b779;
 }
 .input-with-icon input:focus {
     border: 0;
@@ -163,11 +213,9 @@ textarea::placeholder {
     font-family: "Noto Sans KR", sans-serif;
 }
 textarea:focus {
-    border: 1px solid #669948;
+    border: 1px solid #76b779;
 }
 
-.check-box {
-}
 .check-box input[type="checkbox"] {
     position: absolute;
     width: 0;
@@ -188,8 +236,8 @@ textarea:focus {
     margin: 3px 10px 0 0;
 }
 .check-box input[type="checkbox"]:checked + label:before {
-    background: #669948;
-    border: 1px solid #669948;
+    background: #76b779;
+    border: 1px solid #76b779;
 }
 .check-box input[type="checkbox"]:checked + label:after {
     content: '';
@@ -223,7 +271,7 @@ select {
     outline: 0;
 }
 select:focus {
-    border: 1px solid #669948;
+    border: 1px solid #76b779;
 }
 .validate {
     display: block;
@@ -246,14 +294,14 @@ button {
     cursor: pointer;
 }
 .btn {
-    height: 34px;
-    min-height: 34px;
-    color: #669948;
-    font-weight: 400;
+    height: 40px;
+    min-height: 40px;
+    color: #76b779;
+    /* font-weight: 700; */
     line-height: 16px;
     background: #fff;
-    padding: 8px 20px;
-    border: 2px solid #669948;
+    border: 2px solid #76b779;
+    padding: 8px 30px;
     box-sizing: border-box;
     transition: all 0.2s ease-out;
     vertical-align: top;
@@ -274,13 +322,19 @@ button {
 }
 .btn:hover {
     color: #fff;
-    background: #669948;
-    border: 2px solid #669948;
+    background: #76b779;
+    border: 2px solid #76b779;
 }
 .btn.gray:hover {
     color: #fff;
-    background: #a5a5a5;
-    border: 2px solid #a5a5a5;
+    background: #b6b6b6;
+    border: 2px solid #b6b6b6;
+}
+.btn.gray:disabled {
+    color: #fff;
+    background: #b6b6b6;
+    border: 2px solid #b6b6b6;
+    cursor: auto;
 }
 .btn.btn-l {
     height: auto;
@@ -297,8 +351,8 @@ button {
     width: 200px;
     padding: 8px 0;
 }
-input[type="button"].btn {
-    height: 34px;
+input[type="button"].btn:not(#checkDuplicate) {
+    height: 40px;
     line-height: 16px;
     padding: 8px 20px;
     cursor: pointer;
@@ -309,7 +363,8 @@ input[type="button"].btn.btn-l {
 }
 a.btn {
     display: inline-block;
-    padding: 6px 20px;
+    font-weight: 400;
+    padding: 9px 20px;
 }
 .btn i {
     margin-top: -4px;
@@ -347,8 +402,8 @@ input + .btn {
     padding: 0 3px 2px;
 }
 .tag.tag-green {
-    color: green;
-    border: 1px solid green;
+    color: #76b779;
+    border: 1px solid #76b779;
 }
 .tag.tag-orange {
     color: orange;
@@ -364,7 +419,7 @@ input + .btn {
 .table {
     width: 100%;
     border-collapse: collapse;
-    border-top: 2px solid #467443;
+    border-top: 2px solid #76b779;
     border-bottom: 1px solid #999;
 }
 .table thead {
@@ -436,9 +491,9 @@ input + .btn {
 	background-color: #FFF;
 }
 .paging strong {
-	color: #fff;
-	background: #669948;
-	border: 1px solid #669948;
+    color: #fff;
+    background: #76b779;
+    border: 1px solid #76b779;
 }
 .paging a.first,
 .paging a.last,
@@ -474,14 +529,14 @@ input + .btn {
     accordian
 ---------------------------------- */
 .accordian ul {
-    border-top: 2px solid #467443;
+    border-top: 2px solid #76b779;
     border-bottom: 1px solid #a5a5a5;
 }
 .accordian ul li + li {
     border-top: 1px solid #ddd;
 }
 .accordian ul li.active {
-    background: #f6f9ff;
+    background: #fafdfa;
 }
 .accordian ul li a { /* question */
     position: relative;
@@ -504,11 +559,12 @@ input + .btn {
 .accordian ul li.active a:before {
     transform: rotate(-180deg);
 }
-.accordian ul li a strong {font-size: 14px;
+.accordian ul li a strong {
+    font-size: 16px;
     font-weight: 400;
 }
 .accordian ul li.active a strong {
-    color: #3d519b;
+    color: #76b779;
     font-weight: 500;
 }
 .accordian ul li div { /* answer */
@@ -524,7 +580,7 @@ input + .btn {
     display: inline-block;
     width: 30px;
     height: 30px;
-    background: #3d519b;
+    background: #76b779;
     border-radius: 50%;
     font-style: normal;
     vertical-align: -8px;
@@ -567,7 +623,7 @@ input + .btn {
     margin-right: 0;
 }
 .thumb-list ul li:hover {
-    border: 1px solid #467443;
+    border: 1px solid #76b779;
     transition: all 0.2s ease-out;
 }
 .thumb-list ul li a {
@@ -587,7 +643,7 @@ input + .btn {
     top: 50%;
     left: 50%;
     width: 100%;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
 }
 .thumb-list ul li strong {
     width: 90%;
@@ -634,7 +690,6 @@ input + .btn {
 .thumb-list .btn-wrap a + a {
     margin-left: 10px;
 }
-
 .thumb-list .tag-wrap {
     padding: 5px 10px 0;
 }
@@ -662,11 +717,11 @@ input + .btn {
     box-sizing: border-box;
 }
 .tab .tab-title > a.is-open {
-    color: #669948;
+    color: #76b779;
     font-weight: 500;
     background: #fff;
-    border: 2px solid #669948;
-}
+    border: 2px solid #76b779;
+    }
 .tab .tab-view {
     display: none;
 }
@@ -686,7 +741,7 @@ input + .btn {
     width: 800px;
     min-height: 500px;
     background: #fff;
-    border: 1px solid #467443;
+    border: 1px solid #76b779;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     box-sizing: border-box;
     z-index: 6;
@@ -726,4 +781,14 @@ input + .btn {
     background: #000;
     opacity: .2;
     z-index: 5;
+}
+
+
+
+.icon-point {
+    color: #76b779;
+    font-style: normal;
+    font-weight: 500;
+    background: url(../images/common/icon_point.png) 0 0 no-repeat;
+    padding-left: 25px;
 }
