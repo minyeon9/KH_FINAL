@@ -411,21 +411,23 @@
     right: 0;
 }
 .using-user span.count em {
+    display: inline-block;
     color: #10740E;
     font-weight: 500;
     font-style: normal;
 }
 .using-user .user-list {
+    overflow-x: auto;
     background: #f9f9f9;
     border: 1px solid #ddd;
     padding: 20px;
-
 }
+.using-user .user-list::-webkit-scrollbar { height: 8px; }
 .using-user .user-list ul {
     display: flex;
 }
 .using-user .user-list ul li {
-    min-width: 100px;
+    min-width: 120px;
     padding: 0 20px;
     text-align: center;
     box-sizing: border-box;

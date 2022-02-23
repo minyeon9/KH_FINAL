@@ -59,7 +59,7 @@ $(() => {
                 visualTit.css('opacity', '0');
                 
                 centerImg.animate(
-                    { deg: 40 },
+                    { deg: 170 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -141,7 +141,7 @@ $(() => {
                 visualTit.css({opacity: '1'}, 600);
                 
                 centerImg.animate(
-                    { deg: 0 },
+                    { deg: 50 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -396,8 +396,13 @@ $(() => {
     
 
 
+    /* ----------------------------------
+        참여 중인 사용자
+    ---------------------------------- */
+    let countUser = $('.using-user .count em');
+    let userLength = $('.using-user .user-list').find('li').length;
 
-
+    countUser.html(userLength);
 });
 
 
@@ -446,9 +451,8 @@ document.addEventListener('DOMContentLoaded', function(){
         return validated;
     }
 
-    document.getElementById('inputFileOrigin').addEventListener('change', function(e){
+    document.getElementById('inputFileOrigin').addEventListener('change', function(){
         let elem = e.target;
-        let inputName = $('.input-file');
         if( validateType(elem.files[0]) ) {
             let preview = document.querySelector('.upload-img img');
             preview.src = URL.createObjectURL(elem.files[0]);
@@ -457,31 +461,14 @@ document.addEventListener('DOMContentLoaded', function(){
                 URL.revokeObjectURL(preview.src);
             }
 
-            /* ----------------------------------
-                input upload file
-            ---------------------------------- */
-            let inputFile = $('#inputFileOrigin');
-            let inputName = $('.input-file');
-
-            inputFile.on('change',function(e){
-                let fileName = inputFile.val();
-
-                inputName.val(fileName);
-            });
         } else {
-            let inputName = $('.input-file');
-            alert("jpeg, jpg, gif, png 형식의 파일만 업로드 가능합니다.\n사진을 다시 업로드해주세요.");
-            inputName.val("파일을 선택해주세요.");
+            alert("잘못된 형식의 파일입니다.\n사진을 다시 업로드해주세요.");
         }
     });
 
     document.querySelector('.btn-delete-img').addEventListener('click', function(e){
         let preview = document.querySelector('.upload-img img');
-        let inputName = $('.input-file');
         preview.src = '';
         document.querySelector('.btn-delete-img').style.display = 'none';
-        inputName.val("파일을 선택해주세요.");
     });
 });
-
-

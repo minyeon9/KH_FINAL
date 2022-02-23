@@ -8,7 +8,7 @@
     <script src="../resources/js/jquery-3.6.0.js"></script>
     <script src="../resources/js/ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>챌린지</title>
+    <title>장바구니</title>
 </head>
 <body>
     <div class="wrap">
@@ -48,9 +48,8 @@
                     <li>
                         <h2><a href="#">에코 챌린지</a></h2>
                         <ul>
-                            <li><a href="../challenge/today_list.html">오늘의 챌린지</a></li>
-                            <li><a href="../challenge/month_list.html">이달의 챌린지</a></li>
-                            <li><a href="../challenge/ongoing_list.html">참여 중인 챌린지</a></li>
+                            <li><a href="#">에코 챌린지</a></li>
+                            <li><a href="#">챌린지 참여하기</a></li>
                         </ul>
                     </li>
                     <li>&nbsp;</li>
@@ -85,7 +84,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li>
+                        <li class="current">
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -108,103 +107,120 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>참여 중인 챌린지</h3>
+                        <h3></h3>
                         <div class="bread-crumb">
-                            <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="today_list.html">에코 챌린지</a>
-                            <span>참여 중인 챌린지</span>
+                            <a href="#"><strong>장바구니</strong></a>
+                            <a href="#">주문/결제</a>
+                            <span>주문완료</span>
                         </div>
                     </div>
 
-                    <div class="challenge prov">
-                        <div class="how-to">
-                            <strong>인증 방법 및 주의 사항</strong>
-                            <p>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고</p>
-                        </div>
+                    <div class="guide">
 
-                        <section class="section">
-                            <h4>챌린지 인증하기</h4>
-                            <div class="prov-set">
-                                <div class="thumb-img">
-                                    <img src="../resources/images/challenge/challenge03.jpg" alt="">
-                                </div>
-                                <div class="upload-wrap">
-                                    <strong>걸어서 or 자전거로 출퇴근 </strong>
-                                    <div class="upload-img">
-                                        <button class="btn-delete-img">
-                                            <i class="material-icons md-22">delete_outline</i>
-                                        </button>
-                                        <img src="" alt="">
-                                    </div>
-                                    <div class="prov-cont">
-                                        <form action="" method="">
-                                            <div class="upload-file">
-                                                <input type="text" class="input-file" disabled placeholder="파일을 선택해주세요." multiple>
-                                                <input type="file" id="inputFileOrigin" name="input-file-origin" accept="image/jpeg, image/jpg, image/gif, image/png">
-                                                <label for="inputFileOrigin" class="btn">파일 선택</label> 
-                                                <span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                        <!-- Cart -->
+                        <section>
+                            <strong>장바구니</strong>                            
+                                <table class="cart-table">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid rgb(206, 206, 206);">
+                                            <th colspan="4">상품정보</th>
+                                            <th>구매량</th>
+                                            <th>금액</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="check-box">
+                                                    <input type="checkbox" id="checkbox1" checked> 
+                                                    <label for="checkbox1"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="cart-img">
+                                                    <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                                </div>
+                                            </td>
+                                            <td colspan="2">
+                                                <strong>상품명</strong>
+                                                <p>옵션</p>
+                                            </td>
+                                            <td style="text-align: center;">구매량</td>
+                                            <td style="text-align: center;">가격</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="check-box">
+                                                    <input type="checkbox" id="checkbox2" checked> 
+                                                    <label for="checkbox2"></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="cart-img">
+                                                    <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                                </div>
+                                            </td>
+                                            <td colspan="2">
+                                                <strong>상품명</strong>
+                                                <p>옵션 그런데 이제 옵션명이 매우 긴 경우에</p>
+                                            </td>
+                                            <td style="text-align: center;">구매량</td>
+                                            <td style="text-align: center;">가격</td>
+                                        </tr>
+                                    </tbody>
+                                    <tr id="cart-result1">
+                                        <th style="width: 20%; vertical-align: bottom;">
+                                            총 상품금액
+                                        </th>
+                                        <th rowspan="2">
+                                            +
+                                        </th>
+                                        <th style="width: 20%; vertical-align: bottom;">
+                                            배송비
+                                        </th>
+                                        <th rowspan="2">
+                                            =
+                                        </th>
+                                        <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
+                                            총 금액
+                                        </th>
+                                        <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
+                                            7,500 원
+                                        </th>
+                                    </tr>
+                                    <tr id="cart-result2">
+                                        <th style="vertical-align: top;">
+                                            5,000 원
+                                        </th>                                        
+                                        <th style="vertical-align: top;">
+                                            2,500 원
+                                        </th>                                        
+                                    </tr> 
+                                    <tr>
+                                        <th colspan="6">
+                                            <button class="cart-btn">계속 쇼핑하기</button>
+                                            <button class="cart-btn">주문하기</button>
+                                        </th>
+                                    </tr>
+                                </table>
+                            <div>
                                 
-                                <button class="btn" onclick="location.href='ongoing_complete.html'">인증하기</button>
+                                
                             </div>
                         </section>
+                        <!-- // Cart -->
 
-                        <section class="section">
-                            <h4>나의 챌린지 참여 현황</h4>
-                            <div class="gauge">
-                                <ul>
-                                    <li class="complate">
-                                        <span></span>
-                                        <p>1회 달성</p>
-                                    </li>
-                                    <li class="complate">
-                                        <span></span>
-                                        <p>2회 달성</p>
-                                    </li>
-                                    <li class="complate">
-                                        <span></span>
-                                        <p>3회 달성</p>
-                                    </li>
-                                    <li class="complate">
-                                        <span></span>
-                                        <p>4회 달성</p>
-                                    </li>
-                                    <li class="complate">
-                                        <span></span>
-                                        <p>5회 달성</p>
-                                    </li>
-                                    <li class="complate">
-                                        <span></span>
-                                        <p>6회 달성</p>
-                                    </li>
-                                    <li class="complate">
-                                        <span></span>
-                                        <p>7회 달성</p>
-                                    </li>
-                                    <li class="complate">
-                                        <span></span>
-                                        <p>8회 달성</p>
-                                    </li>
-                                    <li>
-                                        <span></span>
-                                        <p>9회 달성</p>
-                                    </li>
-                                    <li>
-                                        <span></span>
-                                        <p>10회 달성</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </section>
-                    </div>
 
+                        
+                    </div> <!-- // guide -->
                 </section>
+
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
+            <!-- <div class="select-option">
+                상품 선택
+            </div> -->
         </div>
 
 
@@ -259,9 +275,9 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['today_list.html', 'month_list.html', 'ongoing_list.html'];
-        let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
+        let menuPath = ['notice.html', 'faq.html','#'];
+        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
+        let menuIcon = ['home', 'home', 'home' ]
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);
@@ -270,12 +286,6 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
-
-        sideBarMenu.each(function(idx, el) {
-            if(idx == 2) {
-                $(this).addClass('current');
-            }
-        });
     });
 </script>
 

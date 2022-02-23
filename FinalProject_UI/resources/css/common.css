@@ -2,56 +2,42 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
-html,
-body {
-  color: #333;
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 14px;
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: #ccc; }
+::-webkit-scrollbar-track { background: #eee; }
+html, body {
+    color: #333;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 14px;
 }
 li {
-  list-style: none;
+    list-style: none;
 }
 a {
-  color: #333;
-  text-decoration: none;
+    color: #333;
+    text-decoration: none;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  clip: rect(85px 450px 395px 45px);
+h1, h2, h3, h4, h5, h6 {
+    clip: rect(85px 450px 395px 45px);
 }
+
+
 
 /* ----------------------------------
     Google material icons
     - https://fonts.google.com/icons
 ---------------------------------- */
-.material-icons {
-  vertical-align: middle;
-}
-.material-icons.md-16 {
-  font-size: 16px;
-}
-.material-icons.md-18 {
-  font-size: 18px;
-}
-.material-icons.md-20 {
-  font-size: 20px;
-}
-.material-icons.md-24 {
-  font-size: 24px;
-}
-.material-icons.md-36 {
-  font-size: 36px;
-}
-.material-icons.md-48 {
-  font-size: 48px;
-}
+.material-icons { vertical-align: middle; }
+.material-icons.md-16 { font-size: 16px; }
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-20 { font-size: 20px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
 
 /* ----------------------------------
     form
@@ -60,597 +46,606 @@ input[type="text"],
 input[type="password"],
 input[type="tel"],
 input[type="mail"] {
-  border: 1px solid #ccc;
-  height: 34px;
-  padding: 0 10px;
-  outline: 0;
-  transition: all 0.2s ease-out;
-  box-sizing: border-box;
+    border: 1px solid #ccc;
+    height: 34px;
+    padding: 0 10px;
+    outline: 0;
+    transition: all 0.2s ease-out;
+    box-sizing: border-box;
 }
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="tel"]:focus,
 input[type="mail"]:focus {
-  border: 1px solid #669948;
+    border: 1px solid #669948;
 }
 input[type="text"]::placeholder,
 input[type="password"]::placeholder,
 input[type="tel"]::placeholder,
 input[type="mail"]::placeholder {
-  color: #999;
+    color: #999;
 }
-.upload-file {
-  /* div */
-  position: relative;
-  display: inline-block;
-  height: 34px;
-  border: 0;
-  box-sizing: border-box;
+.upload-file { /* div */
+    position: relative;
+    display: inline-block;
+    height: 34px;
+    border: 0;
+    box-sizing: border-box;
 }
-input[type="text"].input-file {
-  /* input[type="text"] */
-  color: #999;
-  height: 34px;
-  border: 1px solid #ccc;
-  vertical-align: 3px;
-  outline: 0;
+input[type="text"].input-file { /* input[type="text"] */
+    color: #999;
+    height: 34px;
+    border: 1px solid #ccc;
+    vertical-align: 3px;
+    outline: 0;
 }
-input[type="text"].input-file.filled {
-  /* 파일명 들어왔을 경우 */
-  border: 1px solid #669948;
+input[type="text"].input-file.filled { /* 파일명 들어왔을 경우 */
+    border: 1px solid #669948;
 }
-.upload-file input[type="file"] {
-  /* input[type="file"] */
-  overflow: hidden;
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  border: 0;
-  outline: 0;
+.upload-file input[type="file"] { /* input[type="file"] */
+    overflow: hidden;
+    position: absolute; 
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    outline: 0;
 }
-.upload-file label {
-  /* button 파일 선택 */
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 400;
-  height: 34px;
-  min-height: auto;
-  line-height: 14px;
-  margin-left: 5px;
-  padding: 7px 10px;
-  vertical-align: top;
-  cursor: pointer;
+.upload-file label { /* button 파일 선택 */
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    height: 34px;
+    min-height: auto;
+    line-height: 14px;
+    margin-left: 5px;
+    padding: 7px 10px;
+    vertical-align: top;
+    cursor: pointer;
 }
 input[type="checkbox"] label {
-  cursor: pointer;
+    cursor: pointer;
 }
 .input-with-icon {
-  position: relative;
-  display: inline-block;
-  height: 34px;
-  border: 1px solid #ccc;
-  padding: 0 10px;
-  box-sizing: border-box;
-  transition: all 0.2s ease-out;
+    position: relative;
+    display: inline-block;
+    height: 34px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    box-sizing: border-box;
+    transition: all 0.2s ease-out;
 }
 .input-with-icon.focus {
-  border: 1px solid #669948;
+    border: 1px solid #669948;
 }
 .input-with-icon input {
-  width: calc(100% - 27px);
-  height: 32px;
-  border: 0;
-  margin-left: 27px;
+    width: calc(100% - 27px);
+    height: 32px;
+    border: 0;
+    margin-left: 27px;
 }
 .input-with-icon input:focus {
-  border: 0;
+    border: 0;
 }
 .input-with-icon i {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  color: #ccc;
-  transform: translateY(-50%);
-  transition: all 0.2s ease-out;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    color: #ccc;
+    transform: translateY(-50%);
+    transition: all 0.2s ease-out;
 }
 .input-with-icon.search-input {
-  padding: 0;
+    padding: 0;
 }
 .input-with-icon.search-input input {
-  margin: 0 27px 0 0;
+    margin: 0 27px 0 0;
 }
 .input-with-icon.search-input button {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
 }
 .input-with-icon.search-input i {
-  position: relative;
-  top: auto;
-  left: auto;
-  transform: translateY(0);
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: translateY(0);
 }
 textarea {
-  border: 1px solid #ccc;
-  padding: 10px;
-  outline: 0;
-  transition: all 0.2s ease-out;
-  box-sizing: border-box;
+    border: 1px solid #ccc;
+    padding: 10px;
+    outline: 0;
+    transition: all 0.2s ease-out;
+    box-sizing: border-box;
 }
 textarea::placeholder {
-  color: #999;
-  font-weight: 300;
-  font-family: "Noto Sans KR", sans-serif;
+    color: #999;
+    font-weight: 300;
+    font-family: "Noto Sans KR", sans-serif;
 }
 textarea:focus {
-  border: 1px solid #669948;
+    border: 1px solid #669948;
 }
 
 .check-box {
 }
 .check-box input[type="checkbox"] {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
 }
 .check-box input[type="checkbox"] + label {
-  position: relative;
-  cursor: pointer;
+    position: relative;
+    cursor: pointer;
 }
 .check-box input[type="checkbox"] + label:before {
-  content: "";
-  display: inline-block;
-  vertical-align: text-top;
-  width: 15px;
-  height: 15px;
-  border: 1px solid #ddd;
-  margin: 3px 10px 0 0;
+    content: '';
+    display: inline-block;
+    vertical-align: text-top;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ddd;
+    margin: 3px 10px 0 0;
 }
 .check-box input[type="checkbox"]:checked + label:before {
-  background: #669948;
-  border: 1px solid #669948;
+    background: #669948;
+    border: 1px solid #669948;
 }
 .check-box input[type="checkbox"]:checked + label:after {
-  content: "";
-  position: absolute;
-  top: 4px;
-  left: 2px;
-  width: 17px;
-  height: 17px;
-  background: url(../images/common/check.png) 0 0 no-repeat;
-  background-size: 14px;
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 2px;
+    width: 17px;
+    height: 17px;
+    background: url(../images/common/check.png) 0 0 no-repeat;
+    background-size: 14px;
 }
 .check-group {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 .check-group .check-box {
-  padding-right: 20px;
-  margin-bottom: 10px;
+    padding-right: 20px;
+    margin-bottom: 10px;
 }
 .check-group .check-box:last-child {
-  padding-right: 0;
+    padding-right: 0;
 }
 select {
-  color: #666;
-  min-width: 100px;
-  height: 34px;
-  border: 1px solid #ccc;
-  padding: 0 10px;
-  box-sizing: border-box;
-  cursor: pointer;
-  outline: 0;
+    color: #666;
+    min-width: 100px;
+    height: 34px;
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    outline: 0;
 }
 select:focus {
-  border: 1px solid #669948;
+    border: 1px solid #669948;
 }
 .validate {
-  display: block;
-  color: #999;
-  font-size: 12px;
-  margin-top: 5px;
+    display: block;
+    color: #999;
+    font-size: 12px;
+    margin-top: 5px;
 }
 .validate.error {
-  color: #d82f2f;
+    color: #d82f2f;
 }
+
+
 
 /* ----------------------------------
     button
 ---------------------------------- */
 button {
-  border: 0;
-  background: none;
-  cursor: pointer;
+    border: 0;
+    background: none;
+    cursor: pointer;
 }
 .btn {
-  height: 34px;
-  min-height: 34px;
-  color: #669948;
-  font-weight: 400;
-  line-height: 16px;
-  background: #fff;
-  padding: 8px 20px;
-  border: 2px solid #669948;
-  box-sizing: border-box;
-  transition: all 0.2s ease-out;
-  vertical-align: top;
+    height: 34px;
+    min-height: 34px;
+    color: #669948;
+    font-weight: 400;
+    line-height: 16px;
+    background: #fff;
+    padding: 8px 20px;
+    border: 2px solid #669948;
+    box-sizing: border-box;
+    transition: all 0.2s ease-out;
+    vertical-align: top;
 }
 .btn + .btn {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 .btn.gray {
-  color: #a5a5a5;
-  background: #fff;
-  border: 2px solid #a5a5a5;
+    color: #a5a5a5;
+    background: #fff;
+    border: 2px solid #a5a5a5;
 }
 .btn.gray:disabled {
-  color: #fff;
-  background: #a5a5a5;
-  border: 2px solid #a5a5a5;
-  cursor: auto;
+    color: #fff;
+    background: #a5a5a5;
+    border: 2px solid #a5a5a5;
+    cursor: auto;
 }
 .btn:hover {
-  color: #fff;
-  background: #669948;
-  border: 2px solid #669948;
+    color: #fff;
+    background: #669948;
+    border: 2px solid #669948;
 }
 .btn.gray:hover {
-  color: #fff;
-  background: #a5a5a5;
-  border: 2px solid #a5a5a5;
+    color: #fff;
+    background: #a5a5a5;
+    border: 2px solid #a5a5a5;
 }
 .btn.btn-l {
-  height: auto;
-  font-size: 18px;
-  padding: 15px 40px;
+    height: auto;
+    font-size: 18px;
+    padding: 15px 40px;
 }
 .btn.btn-s {
-  height: auto;
-  min-height: auto;
-  font-size: 12px;
-  padding: 3px 10px;
+    height: auto;
+    min-height: auto;
+    font-size: 12px;
+    padding: 3px 10px;
 }
 .btn.btn-w {
-  width: 200px;
-  padding: 8px 0;
+    width: 200px;
+    padding: 8px 0;
 }
-input[type="button"].btn:not(#checkDuplicate) {
-  height: 34px;
-  line-height: 16px;
-  padding: 8px 20px;
-  cursor: pointer;
+input[type="button"].btn {
+    height: 34px;
+    line-height: 16px;
+    padding: 8px 20px;
+    cursor: pointer;
 }
 input[type="button"].btn.btn-l {
-  height: 55px;
-  line-height: 20px;
+    height: 55px;
+    line-height: 20px;
 }
 a.btn {
-  display: inline-block;
-  padding: 6px 20px;
+    display: inline-block;
+    padding: 6px 20px;
 }
 .btn i {
-  margin-top: -4px;
+    margin-top: -4px;
 }
 .btn-wrap {
-  margin-top: 20px;
-  text-align: right;
+    margin-top: 20px;
+    text-align: right;
 }
 .scroll-top {
-  display: none;
-  position: fixed;
-  right: 100px;
-  bottom: 40px;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  box-sizing: border-box;
-  box-shadow: rgba(100, 100, 111, 0.5) 0px 3px 10px 0px;
+    display: none;
+    position: fixed;
+    right: 100px;
+    bottom: 40px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    box-sizing: border-box;
+    box-shadow: rgba(100, 100, 111, 0.5) 0px 3px 10px 0px;
 }
 input + .btn {
-  margin-left: 5px;
+    margin-left: 5px;
 }
+
+
+
+
+
 
 /* ----------------------------------
     tag
 ---------------------------------- */
 .tag {
-  font-size: 11px;
-  border-radius: 3px;
-  padding: 0 3px 2px;
+    font-size: 11px;
+    border-radius: 3px;
+    padding: 0 3px 2px;
 }
 .tag.tag-green {
-  color: green;
-  border: 1px solid green;
+    color: green;
+    border: 1px solid green;
 }
 .tag.tag-orange {
-  color: orange;
-  border: 1px solid orange;
+    color: orange;
+    border: 1px solid orange;
 }
+
+
+
 
 /* ----------------------------------
     table
 ---------------------------------- */
 .table {
-  width: 100%;
-  border-collapse: collapse;
-  border-top: 2px solid #467443;
-  border-bottom: 1px solid #999;
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid #467443;
+    border-bottom: 1px solid #999;
 }
 .table thead {
-  border-bottom: 1px solid #999;
+    border-bottom: 1px solid #999;
 }
-.table thead tr th {
-  font-size: 14px;
-  font-weight: 400;
-  padding: 10px 0;
+.table thead tr th {font-size: 14px;
+    font-weight: 400;
+    padding: 10px 0;
 }
 .table tbody tr:first-child td {
-  border-top: 0;
+    border-top: 0;
 }
 .table tbody tr td {
-  color: #666;
-  font-size: 14px;
-  text-align: center;
-  padding: 10px;
-  border-top: 1px solid #ddd;
+    color: #666;font-size: 14px;
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #ddd;
 }
 .table tbody tr td a {
-  overflow: hidden;
-  color: #666;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  letter-spacing: -1px;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: #666;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    letter-spacing: -1px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 .table tbody tr td.board-tit {
-  text-align: left;
+    text-align: left;
 }
 .table tbody tr td .prd-option {
-  color: #999;
-  font-size: 12px;
+    color: #999;
+    font-size: 12px;
 }
 .table tbody tr td .prd-option b {
-  color: #666;
-  font-weight: 300;
+    color: #666;
+    font-weight: 300;
 }
+
+
+
+
+
 
 /* ----------------------------------
     paging
 ---------------------------------- */
 .paging {
-  text-align: center;
-  line-height: 1.2;
-  margin-top: 4%;
+	text-align:center;
+	line-height: 1.2;
+	margin-top: 4%
 }
 .paging a,
 .paging strong {
-  display: inline-block;
-  font-size: 14px;
-  text-decoration: none;
-  font-weight: normal;
-  vertical-align: middle;
+	display: inline-block;font-size: 14px;
+	text-decoration: none;
+	font-weight: normal;
+	vertical-align: middle;
 }
 .paging a,
 .paging strong {
-  padding: 8px 12px 0 12px;
-  height: 24px;
-  margin: 0 1px;
+	padding: 8px 12px 0 12px;
+	height: 24px;
+	margin: 0 1px;
 }
 .paging a {
-  color: #777;
-  border: 1px solid #dedede;
-  background-color: #fff;
+	color: #777;
+	border: 1px solid #dedede;
+	background-color: #FFF;
 }
 .paging strong {
-  color: #fff;
-  background: #669948;
-  border: 1px solid #669948;
+	color: #fff;
+	background: #669948;
+	border: 1px solid #669948;
 }
 .paging a.first,
 .paging a.last,
 .paging a.prev,
 .paging a.next {
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: 1px solid #dedede;
-  background: url(../images/common/btn_paging.gif) no-repeat;
-  background-color: #fff;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 1px solid #dedede;
+	background: url(../images/common/btn_paging.gif) no-repeat;
+	background-color: #FFF;
 }
-.paging a.first {
-  background-position: 0 50%;
-}
-.paging a.prev {
-  background-position: -34px 50%;
-}
-.paging a.next {
-  background-position: -68px 50%;
-}
-.paging a.last {
-  background-position: -102px 50%;
-}
+.paging a.first { background-position: 0 50%; }
+.paging a.prev { background-position: -34px 50%; }
+.paging a.next { background-position: -68px 50%; }
+.paging a.last { background-position: -102px 50%; }
 
 .paging a:hover,
 .paging a:focus {
-  background-color: #f5f5f5;
+	background-color: #f5f5f5;
 }
 .paging a span {
-  font-size: 0;
-  text-indent: -200%;
+	font-size: 0;
+	text-indent: -200%;
 }
+
+
+
+
+
 
 /* ----------------------------------
     accordian
 ---------------------------------- */
 .accordian ul {
-  border-top: 2px solid #467443;
-  border-bottom: 1px solid #a5a5a5;
+    border-top: 2px solid #467443;
+    border-bottom: 1px solid #a5a5a5;
 }
 .accordian ul li + li {
-  border-top: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 .accordian ul li.active {
-  background: #f6f9ff;
+    background: #f6f9ff;
 }
-.accordian ul li a {
-  /* question */
-  position: relative;
-  display: block;
-  width: 100%;
-  font-size: 14px;
-  padding: 15px 20px;
-  box-sizing: border-box;
+.accordian ul li a { /* question */
+    position: relative;
+    display: block;
+    width: 100%;font-size: 14px;
+    padding: 15px 20px;
+    box-sizing: border-box;
 }
 .accordian ul li a:before {
-  content: "";
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 21px;
-  height: 11px;
-  background: url(../images/common/arrow_accordian.png) 0 0 no-repeat;
-  background-size: 18px;
-  transition: all 0.2s ease-out;
+    content: '';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 21px;
+    height: 11px;
+    background: url(../images/common/arrow_accordian.png) 0 0 no-repeat;
+    background-size: 18px;
+    transition: all 0.2s ease-out;
 }
 .accordian ul li.active a:before {
-  transform: rotate(-180deg);
+    transform: rotate(-180deg);
 }
-.accordian ul li a strong {
-  font-size: 14px;
-  font-weight: 400;
+.accordian ul li a strong {font-size: 14px;
+    font-weight: 400;
 }
 .accordian ul li.active a strong {
-  color: #3d519b;
-  font-weight: 500;
+    color: #3d519b;
+    font-weight: 500;
 }
-.accordian ul li div {
-  /* answer */
-  display: none;
-  position: relative;
-  padding: 20px 20px 20px 65px;
-  border-top: 1px solid #ddd;
+.accordian ul li div { /* answer */
+    display: none;
+    position: relative;
+    padding: 20px 20px 20px 65px;
+    border-top: 1px solid #ddd;
 }
 .accordian .icon-answer {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  background: #3d519b;
-  border-radius: 50%;
-  font-style: normal;
-  vertical-align: -8px;
-  margin-right: 10px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: #3d519b;
+    border-radius: 50%;
+    font-style: normal;
+    vertical-align: -8px;
+    margin-right: 10px;
 }
 .accordian .icon-answer:before {
-  content: "A";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  color: #fff;
-  transform: translate(-50%, -50%);
+    content: 'A';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #fff;
+    transform: translate(-50%, -50%);
 }
-.accordian ul li div p {
-  font-size: 14px;
-  color: #666;
+.accordian ul li div p {font-size: 14px;
+    color: #666;
 }
+
+
+
+
+
+
 
 /* ----------------------------------
     thumbnail list
 ---------------------------------- */
 .thumb-list ul {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 .thumb-list ul li {
-  position: relative;
-  list-style: none;
-  width: calc(100% / 4 - 10px);
-  border: 1px solid #ccc;
-  margin: 0 13px 20px 0;
-  box-sizing: border-box;
+    position: relative;
+    list-style: none;
+    width: calc(100% / 4 - 10px);
+    border: 1px solid #ccc;
+    margin: 0 13px 20px 0;
+    box-sizing: border-box;
 }
-.thumb-list ul li:nth-of-type(4n + 4) {
-  margin-right: 0;
+.thumb-list ul li:nth-of-type(4n+4) {
+    margin-right: 0;
 }
 .thumb-list ul li:hover {
-  border: 1px solid #467443;
-  transition: all 0.2s ease-out;
+    border: 1px solid #467443;
+    transition: all 0.2s ease-out;
 }
 .thumb-list ul li a {
-  display: block;
-  width: 100%;
-  height: 100%;
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 .thumb-list ul li .img-thumb {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 180px;
-  border-bottom: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 180px;
+    border-bottom: 1px solid #ccc;
 }
 .thumb-list ul li .img-thumb img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  transform: translate(-50%, -50%);
-  margin-left: 1px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+    margin-left: 1px;
 }
 .thumb-list ul li strong {
-  width: 90%;
-  min-height: 48px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.4;
-  display: -webkit-box;
-  letter-spacing: -1px;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  font-size: 16px;
-  font-weight: 400;
-  margin: 5px 0 10px;
-  padding: 0 10px;
+    width: 90%;
+    min-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    display: -webkit-box;
+    letter-spacing: -1px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 5px 0 10px;
+    padding: 0 10px;
 }
 .thumb-list ul li p {
-  width: 95%;
-  color: #868686;
-  font-size: 13px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.3;
-  display: -webkit-box;
-  letter-spacing: -1px;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  padding: 0 10px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
+    width: 95%;
+    color: #868686;
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+    display: -webkit-box;
+    letter-spacing: -1px;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
 }
 .thumb-list .price {
-  padding: 0 10px;
+    padding: 0 10px;
 }
 .thumb-list .btn-wrap {
-  margin: 10px 0;
-  padding: 0 10px;
+    margin: 10px 0;
+    padding: 0 10px;
 }
 .thumb-list .btn-wrap a {
-  color: #666;
-  display: inline-block;
-  width: auto;
+    color: #666;
+    display: inline-block;
+    width: auto;
 }
 .thumb-list .btn-wrap a + a {
-  margin-left: 10px;
+    margin-left: 10px;
 }
 
 .thumb-list .tag-wrap {
-  padding: 5px 10px 0;
+    padding: 5px 10px 0;
 }
+
+
+
+
 
 /* ----------------------------------
     tab
@@ -658,86 +653,91 @@ input + .btn {
 .tab {
 }
 .tab .tab-title {
-  display: flex;
+    display: flex;
 }
 .tab .tab-title > a {
-  color: #999;
-  width: 33.33%;
-  text-decoration: none;
-  text-align: center;
-  background: #eee;
-  border-radius: 5px 5px 0 0;
-  padding: 10px;
-  box-sizing: border-box;
+    color: #999;
+    width: 33.33%;
+    text-decoration: none;
+    text-align: center;
+    background: #eee;
+    border-radius: 5px 5px 0 0;
+    padding: 10px;
+    box-sizing: border-box;
 }
 .tab .tab-title > a.is-open {
-  color: #669948;
-  font-weight: 500;
-  background: #fff;
-  border: 2px solid #669948;
+    color: #669948;
+    font-weight: 500;
+    background: #fff;
+    border: 2px solid #669948;
 }
 .tab .tab-view {
-  display: none;
+    display: none;
 }
 .tab .tab-view.is-open {
-  display: block;
+    display: block;
 }
+
+
+
 
 /* ----------------------------------
     layer popup
 ---------------------------------- */
 .layer-popup {
-  display: none;
-  position: fixed;
-  width: 800px;
-  min-height: 500px;
-  background: #fff;
-  border: 1px solid #467443;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  box-sizing: border-box;
-  z-index: 6;
+    display: none;
+    position: fixed;
+    width: 800px;
+    min-height: 500px;
+    background: #fff;
+    border: 1px solid #467443;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-sizing: border-box;
+    z-index: 6;
 }
 .layer-popup.is-open {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .layer-popup .pop-head {
-  display: flex;
-  justify-content: space-between;
-  height: 65px;
-  padding: 20px;
-  border-bottom: 1px solid #ccc;
-  box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    height: 65px;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
 }
 .layer-popup .pop-head strong {
-  font-size: 16px;
-  font-weight: 500;
+    font-size: 16px;
+    font-weight: 500;
 }
 .layer-popup .pop-cont {
-  flex: 1;
-  height: 100%;
-  padding: 20px;
-  min-height: 350px;
+    flex: 1;
+    height: 100%;
+    padding: 20px;
+    min-height: 350px;
 }
 .layer-popup .btn-wrap {
-  margin: 30px;
+    margin: 30px;
 }
 .dimed {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #000;
-  opacity: 0.2;
-  z-index: 5;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    opacity: .2;
+    z-index: 5;
 }
 
+
+
 .icon-point {
-  color: #5cb65a;
-  font-style: normal;
-  font-weight: 500;
-  background: url(../images/common/icon_point.png) 0 0 no-repeat;
-  padding-left: 25px;
+    color: #5CB65A;
+    font-style: normal;
+    font-weight: 500;
+    background: url(../images/common/icon_point.png) 0 0 no-repeat;
+    padding-left: 25px;
 }
