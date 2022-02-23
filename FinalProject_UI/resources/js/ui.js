@@ -2,6 +2,9 @@ $(() => {
     /* ----------------------------------
         main visual
     ---------------------------------- */
+    /* ----------------------------------
+        main visual
+    ---------------------------------- */
     let btnAnimate = $('.btn-visual');
     let btnUndo = $('.btn-visual-undo');
 
@@ -59,7 +62,7 @@ $(() => {
                 visualTit.css('opacity', '0');
                 
                 centerImg.animate(
-                    { deg: 40 },
+                    { deg: 170 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -141,7 +144,7 @@ $(() => {
                 visualTit.css({opacity: '1'}, 600);
                 
                 centerImg.animate(
-                    { deg: 0 },
+                    { deg: 50 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -393,6 +396,16 @@ $(() => {
         let liItem = `<li>&nbsp;</li>`
         oddThumbList.append(liItem);
     }
+
+
+
+    /* ----------------------------------
+        참여 중인 사용자
+    ---------------------------------- */
+    let countUser = $('.using-user .count em');
+    let userLength = $('.using-user .user-list').find('li').length;
+
+    countUser.html(userLength);
     
 
 
