@@ -8,28 +8,24 @@ $(() => {
     btnAnimate.each(function(idx, el) {
         let $this = $(el);
         let visualTit = $('.visual > strong');
-        let wrap = $this.closest('.visual');               // 최상단 .visual
-        let box = $this.closest('.visual-box');            // left / right 각 최상단 div
-        let boxTIt = $this.siblings('strong');
-        let centerImg = $this.siblings('.center-img');     // 중앙 이미지
-        let bestMain = $this.siblings('.best-main');       // 베스트 챌린지 or 상품
-        let bestList = $this.siblings('.best-list-main');  // 베스트 list
-        let btnUndo = $this.siblings('.btn-visual-undo');  // 되돌리기 버튼
+        let wrap = $this.closest('.visual');
+        let box = $this.closest('.visual-box');
+        let centerImg = $this.siblings('.center-img');
+        let bestMain = $this.siblings('.best-main');
+        let bestList = $this.siblings('.best-list-main');
+        let btnUndo = $this.siblings('.btn-visual-undo');
 
         $this.on('click', () => {
             if( box.hasClass('campain') ) {
-                // 최상단 .visual
                 wrap.animate({
                     marginRight: '-90%'
                 }, 'easeOutBounce');
                 
 
                 visualTit.css('opacity', '0');
-                boxTIt.css('display', 'block');
                 
-                // 중앙 이미지
                 centerImg.animate(
-                    { deg: -135 },
+                    { deg: -40 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -38,38 +34,32 @@ $(() => {
                     }
                 );
 
-                // 베스트 챌린지 or 상품
                 bestMain.animate({
-                    left: '50%', right: 'auto', transform: 'translateY(-50%)', opacity: '1'
+                    left: '34%', right: 'auto', transform: 'translateY(-50%)', opacity: '1'
                 }, 1200);
                 
-                // 베스트 list
                 bestList.animate({
-                    left: '120px'
+                    left: '22%'
                 }, 1200);
 
-                // 클릭한 버튼
                 $this.animate({
                     left: '-10%', opacity: '.5'
                 });
                 
-                // 되돌리기 버튼
                 btnUndo.animate({
-                    left: '30px', opacity: '1'
+                    left: '-20px', opacity: '1'
                 }, 800);
+
             } else {
-                // 최상단 .visual
                 wrap.animate({
                     marginRight: '0',
                     marginLeft: '-90%'
                 }, 'easeOutBounce');
 
                 visualTit.css('opacity', '0');
-                boxTIt.css('display', 'block');
                 
-                // 중앙 이미지
                 centerImg.animate(
-                    { deg: 225 },
+                    { deg: 170 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -78,53 +68,46 @@ $(() => {
                     }
                 );
 
-                // 베스트 챌린지 or 상품
                 bestMain.animate({
-                    right: '50%', left: 'auto', transform: 'translateY(-50%)', opacity: '1'
+                    right: '35%', left: 'auto', transform: 'translateY(-50%)', opacity: '1'
                 }, 1200);
 
-                // 베스트 list
                 bestList.animate({
-                    right: '-270px'
+                    right: '23%'
                 }, 1200);
 
-                // 클릭한 버튼
                 $this.animate({
                     right: '-10%', opacity: '.5'
                 });
                 
-                // 되돌리기 버튼
                 btnUndo.animate({
-                    right: '30px', opacity: '1'
+                    right: '-20px', opacity: '1'
                 }, 500);
+
             }
-        }); // click event
-    }); // undo click event
+        });
+    }); // click event
 
     btnUndo.each(function(idx, el){
         let $this = $(el);
         let visualTit = $('.visual > strong');
-        let wrap = $this.closest('.visual');               // 최상단 .visual
-        let box = $this.closest('.visual-box');            // left / right 각 최상단 div
-        let centerImg = $this.siblings('.center-img');     // 중앙 이미지
-        let boxTIt = $this.siblings('strong');
-        let bestMain = $this.siblings('.best-main');       // 베스트 챌린지 or 상품
-        let bestList = $this.siblings('.best-list-main');  // 베스트 list
-        let btnAnimate = $this.siblings('.btn-visual');    // 버튼
+        let wrap = $this.closest('.visual');
+        let box = $this.closest('.visual-box');
+        let centerImg = $this.siblings('.center-img');
+        let bestMain = $this.siblings('.best-main');
+        let bestList = $this.siblings('.best-list-main');
+        let btnAnimate = $this.siblings('.btn-visual');
 
         $this.on('click', () => {
             if( box.hasClass('campain') ) {
-                // 최상단 .visual
                 wrap.animate({
                     marginRight: '0'
                 }, 'easeOutBounce');
 
                 visualTit.css({opacity: '1'}, 600);
-                boxTIt.css('display', 'none');
                 
-                // 중앙 이미지
                 centerImg.animate(
-                    { deg: 45 },
+                    { deg: 0 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -133,39 +116,32 @@ $(() => {
                     }
                 );
 
-                // 베스트 챌린지 or 상품
                 bestMain.animate({
                     left: '-100%', right: 'auto', transform: 'translateY(-50%)', opacity: '.5'
                 }, 1200);
                 
-                // 베스트 list
                 bestList.animate({
-                    left: '-500px'
+                    left: '-50%'
                 }, 500);
 
-                // 되돌리기 버튼
                 $this.animate({
                     left: '-20%', opacity: '.5', border: '1px solid red'
-
                 });
                 
-                // 영역 슬라이드 버튼
                 btnAnimate.animate({
-                    left: '30px', opacity: '1'
+                    left: '-20px', opacity: '1'
                 }, 800);
+                
             } else {
-                // 최상단 .visual
                 wrap.animate({
                     marginRight: '0',
                     marginLeft: '0'
                 }, 'easeOutBounce');
 
                 visualTit.css({opacity: '1'}, 600);
-                boxTIt.css('display', 'none');
                 
-                // 중앙 이미지
                 centerImg.animate(
-                    { deg: 45 },
+                    { deg: 50 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -174,27 +150,24 @@ $(() => {
                     }
                 );
 
-                // 베스트 챌린지 or 상품
                 bestMain.animate({
                     right: '-100%', left: 'auto', transform: 'translateY(-50%)', opacity: '.5'
                 }, 1200);
 
-                // 베스트 list
                 bestList.animate({
-                    right: '-890px'
+                    right: '-50%'
                 }, 500);
 
-                // 되돌리기 버튼
                 $this.animate({
                     right: '-20%', opacity: '.5'
                 });
                 
-                // 영역 슬라이드 버튼
                 btnAnimate.animate({
-                    right: '30px', opacity: '1'
+                    right: '-20px', opacity: '1'
                 }, 800);
+
             }
-        }); // click event
+        });
     }); // undo click event
 
     
@@ -331,7 +304,7 @@ $(() => {
     /* ----------------------------------
         input upload file
     ---------------------------------- */
-    let inputFile = $('#file');
+    let inputFile = $('#inputFileOrigin');
     let inputName = $('.input-file');
 
     inputFile.on('change',function(e){
@@ -410,7 +383,7 @@ $(() => {
 
 
 
-    
+
     /* ----------------------------------
         odd thumb list
     ---------------------------------- */
@@ -420,8 +393,15 @@ $(() => {
         let liItem = `<li>&nbsp;</li>`
         oddThumbList.append(liItem);
     }
-    
-    
+
+
+    /* ----------------------------------
+        참여 중인 사용자
+    ---------------------------------- */
+    let countUser = $('.using-user .count em');
+    let userLength = $('.using-user .user-list').find('li').length;
+
+    countUser.html(userLength);
 });
 
 
@@ -439,3 +419,55 @@ $( window ).scroll( function() {
 
 
 
+
+/* ----------------------------------
+    upload images
+---------------------------------- */
+document.addEventListener('DOMContentLoaded', function(){
+    var validateType = function(img){
+        return (['image/jpeg','image/jpg', 'image/gif', 'image/png'].indexOf(img.type) > -1);
+    }
+
+    var validateName = function(fname){
+        let extensions = ['jpeg','jpg', 'gif', 'png'];
+        let fparts = fname.split('.');
+        let fext = '';
+    
+        if(fparts.length > 1){
+            fext = fparts[fparts.length-1];
+        }
+    
+        let validated = false;
+        
+        if(fext != ''){
+            extensions.forEach(function(ext){
+                if(ext == fext){
+                    validated = true;
+                }
+            });
+        }
+    
+        return validated;
+    }
+
+    document.getElementById('inputFileOrigin').addEventListener('change', function(){
+        let elem = e.target;
+        if( validateType(elem.files[0]) ) {
+            let preview = document.querySelector('.upload-img img');
+            preview.src = URL.createObjectURL(elem.files[0]);
+            document.querySelector('.btn-delete-img').style.display = 'block';
+            preview.onload = function() {
+                URL.revokeObjectURL(preview.src);
+            }
+
+        } else {
+            alert("잘못된 형식의 파일입니다.\n사진을 다시 업로드해주세요.");
+        }
+    });
+
+    document.querySelector('.btn-delete-img').addEventListener('click', function(e){
+        let preview = document.querySelector('.upload-img img');
+        preview.src = '';
+        document.querySelector('.btn-delete-img').style.display = 'none';
+    });
+});

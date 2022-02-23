@@ -127,7 +127,7 @@ nav .bg-nav {
     width: 100%;
     height: 0;
     background: #fff;
-    border-bottom: 2px solid #669948;
+    border-bottom: 2px solid #76b779;
     opacity: .92;
     z-index: 2;
 }
@@ -145,6 +145,10 @@ nav .bg-nav {
 .container.main {
     overflow: hidden;
     flex: 1;
+}
+.container.main .contents {
+    display: flex;
+    flex-direction: column;
 }
 .contents {
     position: relative;
@@ -164,14 +168,14 @@ nav .bg-nav {
     flex-direction: column;
     position: relative;
     width: 50px !important;
-    background: #212121;
+    background: #67b16b;
     box-sizing: border-box;
     transition: all 0.2s ease-out;
 }
 .side-bar ul {
     position: sticky;
     top: 50px;
-    border-top: 1px solid #acacac;
+    border-top: 1px solid #508752;
     padding: 20px 15px 0 18px;
     transition: all 0.2s ease-out;
 }
@@ -179,11 +183,14 @@ nav .bg-nav {
     margin-top: 20px;
 }
 .side-bar ul li a {
-    color: #acacac;
+    position: relative;
+    color: #508752;
     font-size: 16px;
 }
 .side-bar ul li.current a {
+    font-size: 18px;
     font-weight: 400;
+    z-index: 2;
 }
 .side-bar ul li i {
     margin: -3px 10px 0 0;
@@ -191,7 +198,7 @@ nav .bg-nav {
 .side-bar .toggle-nav {
     position: sticky;
     top: 0;
-    color: #acacac;
+    color: #508752;
     width: 50px;
     height: 50px;
     min-height: 50px;
@@ -228,11 +235,10 @@ nav .bg-nav {
 .contents .side-bar.is-open  + .content-wrap {
     width: calc(100% - 290px);
 }
-.section {}
-.section + .section {
+section.section + .section {
     margin-top: 50px;
 }
-.section h4 {
+section.section h4 {
     color: #333;
     font-size: 16px;
     font-weight: 500;
@@ -316,8 +322,6 @@ footer .icon:hover {
 footer .icon.icon-instargram { background-position: -80px 0; }
 footer .icon.icon-facebook { background-position: 0 0; }
 footer .icon.icon-youtube { background-position: -120px 0; }
-.footer-copy {
-}
 .footer-copy .footer-inner {
     padding-left: 165px;
     justify-content: flex-start;
