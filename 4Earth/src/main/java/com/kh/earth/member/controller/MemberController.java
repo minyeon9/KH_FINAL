@@ -1,13 +1,27 @@
 package com.kh.earth.member.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+
+import com.kh.earth.member.model.service.MemberService;
+import com.kh.earth.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+@SessionAttributes("loginMember")
 public class MemberController {
+	@Autowired
+	private MemberService service;	
 	
 	@GetMapping("/login")
 	public String login() {
@@ -15,6 +29,46 @@ public class MemberController {
 		
 		return "member/login";
 	}
+	
+	@PostMapping("/login")
+	public String login(HttpSession session, Model model, 
+			@RequestParam("id") String id, @RequestParam String password) {
+		
+		log.info("{}, {}", id, password);
+		
+		Member member = service.login(id, password);
+		
+		if(member != null) {
+			session.setAttribute("loginMember", member);
+			
+			return "redirect:/";
+		}else {    
+			model.addAttribute("msg", "아이디나 비밀번호가 일치하지 않습니다.");
+			model.addAttribute("location", "/");
+			
+			return "common/msg";  
+		}
+	}
+	
+	@GetMapping("/logout")
+	public String logout(SessionStatus status) {
+		
+		log.info("status.isComplete() : {}", status.isComplete());
+		
+		// SessionStatus 객체의 setComplete() 메소드로 세션 스코프로 확장된 객체들을 지워준다. 
+		status.setComplete();
+		
+		log.info("status.isComplete() : {}", status.isComplete());
+		
+		return "redirect:/";
+
+	}
+	
+	
+	
+	
+	
+	
 	
 	@GetMapping("/signup")
 	public String signup() {

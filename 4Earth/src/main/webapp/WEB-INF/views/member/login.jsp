@@ -63,13 +63,13 @@
                             <form id="login-form" action="${ path }/login" method="post">
                                 <div class="input-with-icon">
                                     <i class="material-icons">person</i>
-                                    <input type="text" placeholder="아이디를 입력해주세요.">
+                                    <input type="text" name="id" placeholder="아이디를 입력해주세요.">
                                 </div>
                                 <br>
 
                                 <div class="input-with-icon">
                                     <i class="material-icons">lock</i>
-                                    <input type="text" placeholder="비밀번호를 입력해주세요.">
+                                    <input type="password" name="password" placeholder="비밀번호를 입력해주세요.">
                                 </div>
                                 <button class="btn btn-login" type="submit">로그인</button>
                                 <br>
