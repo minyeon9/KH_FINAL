@@ -30,9 +30,6 @@
     display: block;
     margin-bottom: 5px;
 }
-<<<<<<< HEAD
-
-=======
 #list {
     width: 100%;
     text-align: center;
@@ -46,6 +43,7 @@
     font-weight: 500;
     background-color: rgb(24, 180, 228);
     padding: 3px;
+    border-radius: 5px;
 }
 #btn2 {
     width: 60px;
@@ -53,16 +51,39 @@
     font-weight: 500;
     background-color: red;
     padding: 3px;
+    border-radius: 5px;
 }
 #btn3 {
     width: 20px;
     font-size: 14px;
     font-weight: 500;
     background-color: rgb(200, 200, 200);
+    border-radius: 6px;
 }
 #btn4 {
-    background-color: grey; 
+    background-color: grey;
+    padding: 5px;
+    border-radius: 5px;
 }
+#btn5 {
+    float: right;
+    background-color: skyblue;
+    padding: 5px;
+    border-radius: 5px;
+}
+.btn.red {
+    height: 34px;
+    min-height: 34px;
+    color: #669948;
+    font-weight: 400;
+    line-height: 16px;
+    background: #fff;
+    padding: 8px 20px;
+    border: 2px solid #669948;
+    box-sizing: border-box;
+    transition: all 0.2s ease-out;
+    vertical-align: top;
+  }
 .menu {
     width: 14px;
     font-size: 14px;
@@ -105,7 +126,6 @@ nav .logo {
     transform: translateX(-50%);
     z-index: 4;
 }
->>>>>>> parent of 9642cb7 (02/24_관리자페이지 UI 수정_조관우)
 
 
 

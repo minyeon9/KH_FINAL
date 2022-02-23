@@ -138,83 +138,75 @@
                         <!-- Category -->
                         <section>
                             <div style="margin-bottom: 5px;">
-                                <select name="job" style="float: left; margin-right: 10px;">
-                                    <option value="">검색 조건</option>
-                                    <option value=".">분류1</option>
-                                    <option value=".">분류2</option>
-                                    <option value=".">분류3</option>
-                                    <option value=".">분류3</option>
-                                </select>
-                                <strong><input type="text"></strong>
-                                <button style="float: right; background-color: skyblue; padding: 5px;">등록</button>
+                                <div class="board-head">
+                                    <div class="select-wrap">
+                                        <select name="" id="" class="selectbox">
+                                            <option value="최신순" selected>최신순</option>
+                                            <option value="댓글순">댓글순</option>
+                                        </select>
+                                        <select name="" id="" class="selectbox">
+                                            <option value="10" selected>10개씩 보기</option>
+                                            <option value="30">30개씩 보기</option>
+                                        </select>
+                                        <div class="input-with-icon search-input">
+                                            <input type="text" placeholder="검색어를 입력해주세요.">
+                                            <button><i class="material-icons">search</i></button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="category">
-                                <table style="width: 100%; text-align: center; border-color: red;">
+                            <div class="board">
+                                <table class="table">
+                                    <colgroup>
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="*">
+                                    </colgroup>
                                     <thead>
                                         <tr>
-                                            <td>
-                                                주문 번호 <input type="button" id="btn3" class="menu clicked" value="▼"></td>
-                                            <td>주문자</td>
-                                            <td>아이디</td>
-                                            <td>주문일 <input type="button" id="btn3" class="menu" value="-"></td>
-                                            <td>주문 목록</td>
-                                            <td>관리</td>
+                                            <th>주문 번호</th>
+                                            <th>주문자</th>
+                                            <th>아이디</th>
+                                            <th>주문일</th>
+                                            <th>주문 목록</th>
+                                            <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <tbody style="height: 30px;">
+                                    <tbody>
                                         <tr>
                                             <td>번호</td>
                                             <td>내용1</td>
                                             <td>내용2</td>
                                             <td>내용3</td>
-                                            <td><button style="background-color: grey; padding: 5px;">주문 보기</button> </td>
+                                            <td><button class="btn btn-s gray">주문 보기</button></td>
                                             <td>
-                                                <button id="btn">버튼1</button>
-                                                <button id="btn2">버튼2</button>
+                                                <button class="btn btn-s">등록</button>
+                                                <button class="btn btn-s gray">정지</button>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td><button style="background-color: grey; padding: 5px;">주문 보기</button> </td>
-                                            <td>
-                                                <button id="btn">버튼1</button>
-                                                <button id="btn2">버튼2</button>
-                                            </td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
-                                
+                            </div>
+                            <div class="btn-wrap">
+                                <button class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
-                        <div id="page-Bar" style="text-align:center;">
-                            <!-- 맨 처음으로 -->
-                            <button >&lt;&lt;</button>
-                            <!-- 이전페이지로 -->
-                            <button >&lt;</button>
-                            
-                            <!--  10개 페이지 목록 -->
-                            <button>1</button>
-                            <button>2</button>
-                            <button>3</button>
-                            <button>4</button>
-                            <button>5</button>
-                            <button>6</button>
-                            <button>7</button>
-                            <button>8</button>
-                            <button>9</button>
-                            <button>10</button>
-                            
-                            <!-- 다음 페이지로 -->
-                            <button >&gt;</button>
-                            <!-- 맨 끝으로 -->
-                            <button >&gt;&gt;</button>
+                        <div class="paging">
+                            <a href="#" class="prev"><span>이전</span></a>
+                            <strong>1</strong>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#" class="next"><span>다음</span></a>
+                        </div>                   
                     </div>
-                    </div> <!-- // guide -->
                     
             </section>
 
@@ -296,36 +288,32 @@
     var menu = document.getElementsByClassName("menu");
 
     function handleClick(event) {
-        if (event.target.classList[1] === "clicked") {
+        if (event.target.classList[1] == "clicked") {
             for (var i = 0; i < menu.length; i++) {
                 menu[i].classList.remove("clicked");
                 menu[i].classList.remove("clicked2");
+                menu[i].value = "-";
             }
 
             event.target.classList.add("clicked2");
             event.target.value = "▲";
-        } else if(event.target.classList[1] === "clicked2") {
-            event.target.classList.remove("clicked");
-            event.target.classList.remove("clicked2");
+        } else if(event.target.classList[1] == "clicked2") {
+            for (var i = 0; i < menu.length; i++) {
+                menu[i].classList.remove("clicked");
+                menu[i].classList.remove("clicked2");
+                menu[i].value = "-";
+            }
 
             event.target.value = "-";
         }else {
-            if(event.target.classList[1] === "clicked2") {
-                for (var i = 0; i < menu.length; i++) {
-                menu[i].classList.remove("clicked2");
-                menu[i].classList.remove("clicked");
+            for (var i = 0; i < menu.length; i++) {
+            menu[i].classList.remove("clicked");
+            menu[i].classList.remove("clicked2");
+            menu[i].value = "-";
             }
-                event.target.classList.add("clicked2");
-                event.target.value = "▲";
-            }else {
-                for (var i = 0; i < menu.length; i++) {
-                menu[i].classList.remove("clicked");
-                menu[i].classList.remove("clicked2");
-            }
-                event.target.classList.add("clicked");
-                event.target.value = "▼";
-            }
-            
+
+            event.target.classList.add("clicked");
+            event.target.value = "▼";
         }
     }
 
