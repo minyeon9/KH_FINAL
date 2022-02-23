@@ -1,3 +1,6 @@
+<!-- <%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core"
+prefix="c" %> <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> -->
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -120,6 +123,17 @@
                 </tr>
               </tbody>
             </table>
+            <div class="table_bottom">
+              <a class="btn" href="./notice_write.html" role="button">
+                글쓰기
+              </a>
+            </div>
+            <form action="#" method="GET" class="form-search">
+              <div class="input-with-icon search-input">
+                <input type="text" placeholder="검색어를 입력해주세요." />
+                <button><i class="material-icons">search</i></button>
+              </div>
+            </form>
             <div class="paging">
               <!-- 맨 처음으로 -->
               <a
@@ -166,11 +180,6 @@
                 class="last"
                 onclick="location.href='${ pageContext.request.contextPath }/board/list?page=${ pageInfo.maxPage }'"
               >
-              </a>
-            </div>
-            <div class="table_bottom">
-              <a class="btn" href="./notice_write.html" role="button">
-                글쓰기
               </a>
             </div>
           </section>
