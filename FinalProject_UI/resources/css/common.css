@@ -5,6 +5,9 @@
     margin: 0;
     padding: 0;
 }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: #ccc; }
+::-webkit-scrollbar-track { background: #eee; }
 html, body {
     color: #333;
     font-family: "Noto Sans KR", sans-serif;
