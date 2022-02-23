@@ -59,7 +59,7 @@ $(() => {
                 visualTit.css('opacity', '0');
                 
                 centerImg.animate(
-                    { deg: 40 },
+                    { deg: 170 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -141,7 +141,7 @@ $(() => {
                 visualTit.css({opacity: '1'}, 600);
                 
                 centerImg.animate(
-                    { deg: 0 },
+                    { deg: 50 },
                     {
                         duration: 1200,
                         step: function(now) {
@@ -268,7 +268,7 @@ $(() => {
 
         } else {
             sideBar.animate({
-                width: '300px'
+                width: '250px'
             }, 100, () => {
 
                 sideBarDepth.css({
