@@ -11,7 +11,7 @@
 }
 .challenge .how-to > strong {
     display: block;
-    color: #10740E;
+    color: #76b779;
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 2px;
@@ -86,7 +86,7 @@
     height: 30px;
     color: #fff;
     font-style: normal;
-    background: #10740E;
+    background: #67b16b;
     padding: 4px 10px;
     box-sizing: border-box;
     z-index: 1;
@@ -180,7 +180,7 @@
 }
 .thumb-list.callenge ul li.complete:before,
 .thumb-list.callenge ul li.complete .num {
-    background: #10740E;
+    background: #76b779;
 }
 .thumb-list.col-2 ul {
     display: flex;
@@ -189,7 +189,7 @@
 }
 /* 이달의 챌린지 */
 .thumb-list.col-2 ul {
-    border-top: 2px solid #10740E;
+    border-top: 2px solid #76b779;
     margin-top: 10px;
 }
 .thumb-list.col-2 ul li {
@@ -249,7 +249,7 @@
 .month-challenge-detail {
     display: flex;
     justify-content: space-between;
-    border-top: 2px solid #10740E;
+    border-top: 2px solid #76b779;
     border-bottom: 1px solid #ccc;
     margin-bottom: 50px;
 }
@@ -281,7 +281,7 @@
 }
 .month-challenge-detail .item-cont span:first-of-type {
     display: block;
-    color: #10740E;
+    color: #76b779;
     font-size: 16px;
     margin: 20px 0 5px;
 }
@@ -379,7 +379,7 @@
     margin-bottom: 5px;
 }
 .prov-set .prov-cont strong span {
-    color: #10740E;
+    color: #76b779;
     font-weight: 500;
 }
 .prov-set .prov-cont p {
@@ -411,8 +411,12 @@
     right: 0;
 }
 .using-user span.count em {
+<<<<<<< HEAD
     display: inline-block;
     color: #10740E;
+=======
+    color: #76b779;
+>>>>>>> main
     font-weight: 500;
     font-style: normal;
 }
@@ -423,6 +427,11 @@
     padding: 20px;
 }
 .using-user .user-list::-webkit-scrollbar { height: 8px; }
+<<<<<<< HEAD
+=======
+.using-user .user-list::-webkit-scrollbar-thumb { background: #ccc; }
+.using-user .user-list::-webkit-scrollbar-track { background: #eee; }
+>>>>>>> main
 .using-user .user-list ul {
     display: flex;
 }
@@ -482,7 +491,7 @@
     margin-top: 5px;
 }
 .reply form .count-reply em {
-    color: #10740E;
+    color: #76b779;
     font-weight: 500;
     font-style: normal;
 }

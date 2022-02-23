@@ -2,6 +2,9 @@ $(() => {
     /* ----------------------------------
         main visual
     ---------------------------------- */
+    /* ----------------------------------
+        main visual
+    ---------------------------------- */
     let btnAnimate = $('.btn-visual');
     let btnUndo = $('.btn-visual-undo');
 
@@ -393,6 +396,16 @@ $(() => {
         let liItem = `<li>&nbsp;</li>`
         oddThumbList.append(liItem);
     }
+
+
+
+    /* ----------------------------------
+        참여 중인 사용자
+    ---------------------------------- */
+    let countUser = $('.using-user .count em');
+    let userLength = $('.using-user .user-list').find('li').length;
+
+    countUser.html(userLength);
     
 
 
