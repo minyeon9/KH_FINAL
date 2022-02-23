@@ -54,4 +54,13 @@
     </div>
 </body>
 
+<script>
+    $(document).ready(function() {
+        $('#fullpage').fullpage({
+            autoScrolling: true,
+            scrollHorizontaly: true
+        });
+    });
+</script>
+
 </html>

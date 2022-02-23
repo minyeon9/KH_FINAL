@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.admin-category {}
+.admin-category ul {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.admin-category ul li {
+    width: calc(100% / 6 - 8px);
+}
+.admin-category ul li a {
+    display: block;
+    width: 100%;
+    color: #999;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid #999;
+    padding: 30px;
+    transition: all 0.2s ease-out;
+    box-sizing: border-box;
+}
+.admin-category ul li.current a,
+.admin-category ul li a:hover {
+    color: #fff;
+    border: 1px solid #669948;
+    background: #669948;
+}
+.admin-category ul li i {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

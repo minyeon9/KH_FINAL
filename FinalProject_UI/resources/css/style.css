@@ -18,7 +18,7 @@
     position: relative;
     display: flex;
     overflow: hidden;
-    background: #3d9c9b;
+    /* background: #99BB4E; */
     border-bottom: 1px solid #669948;
 }
 .visual > strong {
@@ -49,13 +49,11 @@
     position: relative;
     width: 50%;
     height: 820px;
-    background: url(../images/main/bg_visual01.png) right center no-repeat;
+    background: url(../images/main/bg_visual01.jpg) right center no-repeat;
 }
 .visual .visual-box:nth-of-type(2) {
-    margin-left: -45px;
-    padding-right: 45px;
-    /* background: #99BB4E url(../images/main/bg_visual02.png) 0 0 no-repeat; */
-    background: url(../images/main/bg_visual02.png) 0 0 no-repeat;
+    background: #99BB4E url(../images/main/bg_visual02.png) 0 0 no-repeat;
+    /* background: url(../images/main/bg_visual02.png) 0 0 no-repeat; */
 }
 .visual .visual-box > strong {
     font-size: 30px;
@@ -80,13 +78,12 @@
     width: 100px;
     height: 40px;
     text-indent: -999em;
-    background: #81c2e0 url(../images/main/btn_visual.png) center 40% no-repeat;
+    background: #97BC6C url(../images/main/btn_visual.png) center 40% no-repeat;
     border-radius: 30px;
     transition: all 0.2s ease-out;
-    box-shadow: rgba(100, 100, 111, 0.5) 0px 3px 10px 0px;
 }
 .visual [class*=btn-visual]:hover {
-    background: #519ad2 url(../images/main/btn_visual.png) center 40% no-repeat;
+    background: #7FAA4E url(../images/main/btn_visual.png) center 40% no-repeat;
 }
 .visual .btn-visual-undo {
     left: -50%;
@@ -222,19 +219,16 @@
 .visual .store .center-img {
     left: 0;
     right: auto;
-    width: 550px;
-    height: 550px;
-    margin-left: -205px;
-    transform: translateY(-50%) rotate(50deg);
+    margin-left: -250px;
 }
 .visual .store [class*=btn-visual] {
     left: auto;
     right: -20px;
-    background: #5b9a5e url(../images/main/btn_visual.png) center 40% no-repeat;
+    background: #6F8F2C url(../images/main/btn_visual.png) center 40% no-repeat;
     transform: rotateY(180deg);
 }
 .visual .store [class*=btn-visual]:hover {
-    background: #437645 url(../images/main/btn_visual.png) center 40% no-repeat;
+    background: #628121 url(../images/main/btn_visual.png) center 40% no-repeat;
 }
 .visual .store .btn-visual-undo {
     left: auto;
@@ -271,26 +265,27 @@
     font-size: 28px
 }
 .photo-box {
-    height: 447px;
-    background: url(../images/main/bg_main01.png) center center no-repeat;
-    padding: 200px 0 0 360px;
+    height: 700px;
+    background: url(../images/main/bg_main01.jpg) 0 0 no-repeat;
+    background-size: cover;
+    padding: 200px 0 0 200px;
     box-sizing: border-box;
 }
 .photo-box.photo2 {
     text-align: right;
-    background: url(../images/main/bg_main02.png) center center no-repeat;
-    border-top: 1px solid #ccc;
-    padding: 200px 410px 0 0;
+    background: url(../images/main/bg_main02.jpg) 0 0 no-repeat;
+    background-size: cover;
+    padding: 200px 200px 0 0;
 }
 .photo-box strong {
     display: block;
-    color: #009975;
+    color: #fff;
     font-size: 32px;
     font-weight: 400;
     margin-bottom: 10px;
 }
 .photo-box p {
-    color: #666;
+    color: #eee;
     font-size: 18px;
     font-weight: 300;
     line-height: 28px;
@@ -308,7 +303,7 @@
     margin-bottom: 30px;
 }
 .page-tit h3 {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 500;
 }
 .page-tit h3 span {
