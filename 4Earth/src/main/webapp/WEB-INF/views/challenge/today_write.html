@@ -8,7 +8,7 @@
     <script src="../resources/js/jquery-3.6.0.js"></script>
     <script src="../resources/js/ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>챌린지</title>
+    <title>주문 상세</title>
 </head>
 <body>
     <div class="wrap">
@@ -48,9 +48,8 @@
                     <li>
                         <h2><a href="#">에코 챌린지</a></h2>
                         <ul>
-                            <li><a href="../challenge/today_list.html">오늘의 챌린지</a></li>
-                            <li><a href="../challenge/month_list.html">이달의 챌린지</a></li>
-                            <li><a href="../challenge/ongoing_list.html">참여 중인 챌린지</a></li>
+                            <li><a href="#">에코 챌린지</a></li>
+                            <li><a href="#">챌린지 참여하기</a></li>
                         </ul>
                     </li>
                     <li>&nbsp;</li>
@@ -85,7 +84,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li>
+                        <li class="current">
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -108,77 +107,90 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>오늘의 챌린지</h3>
+                        <h3></h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="today_list.html">에코 챌린지</a>
-                            <span>오늘의 챌린지</span>
+                            <a href="#">마이페이지</a>
+                            <span>주문&dot;배송</span>
                         </div>
                     </div>
 
-                    <div class="challenge prov">
-                        <div class="how-to">
-                            <strong>인증 방법 및 주의 사항</strong>
-                            <span>해당 이미지는 예시입니다. 각 챌린지에 맞는 이미지를 업로드하여 인증해주세요.</span>
+                    <div class="guide">
 
-                            <div class="example">
-                                <strong>플로깅은 Plocka Up + Jogging의 합성어로<br>조깅을 하는 동시에 쓰레기를 줍는 활동입니다.</strong>
-                                <ul>
-                                    <li>
-                                        <img src="../resources/images/challenge/callenge02.png" alt="">
-                                        <strong>
-                                            <i class="material-icons md-22">thumb_up</i>
-                                            이렇게 찍어주세요!
-                                        </strong>
-                                        <p>실외에서 실천하는 모습의<br>사진을 업로드해주세요.</p>
-                                    </li>
-                                    <li>
-                                        <img src="../resources/images/challenge/callenge01.png" alt="">
-                                        <strong>
-                                            <i class="material-icons md-22">thumb_down</i>
-                                            이런 사진은 안 돼요!
-                                        </strong>
-                                        <p>실내에서 쓰레기를 정리하는 사진은<br>챌린지의 의도와 맞지 않습니다.</p>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <section class="section">
-                            <h4>챌린지 인증하기</h4>
-                            <div class="prov-set">
-                                <div class="thumb-img">
-                                    <img src="../resources/images/challenge/challenge03.jpg" alt="">
-                                </div>
-                                <div class="upload-wrap">
-                                    <strong>걸어서 or 자전거로 출퇴근 </strong>
-                                    <div class="upload-img">
-                                        <button class="btn-delete-img">
-                                            <i class="material-icons md-22">delete_outline</i>
-                                        </button>
-                                        <img src="" alt="">
+                        <section>
+                            <strong>주문 상세 내역</strong>   
+                                <div class="order-info">
+                                    <div class="order-no">
+                                        주문번호
+                                        <b>1122334455</b>
                                     </div>
-                                    <div class="prov-cont">
-                                        <form action="" method="">
-                                            <div class="upload-file">
-                                                <input type="text" class="input-file" disabled placeholder="파일을 선택해주세요." multiple>
-                                                <input type="file" id="inputFileOrigin" name="input-file-origin" accept="image/jpeg, image/jpg, image/gif, image/png">
-                                                <label for="inputFileOrigin" class="btn">파일 선택</label> 
-                                                <span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
-                                            </div>
-                                        </form>
+                                    <div class="order-date">
+                                        주문일자
+                                        2022-02-21
                                     </div>
-                                </div>
+                                </div>                         
+                                <table class="cart-table order-table">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="2">상품정보</th>
+                                            <th>주문 금액</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="cart-img">
+                                                    <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                                </div>
+                                            </td>
+                                            <td style="text-align: left;">
+                                                <strong>상품명</strong>
+                                                <p>옵션</p>
+                                            </td>
+                                            <td>
+                                                7,500 원
+                                            </td>
+                                            <td style="text-align: right;">
+                                                <button class="btn writeReview">리뷰 작성</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="cart-img">
+                                                    <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                                </div>
+                                            </td>
+                                            <td style="text-align: left;">
+                                                <strong>상품명</strong>
+                                                <p>옵션</p>
+                                            </td>
+                                            <td>
+                                                7,500 원
+                                            </td>
+                                            <td style="text-align: right;">
+                                                <button class="btn writeReview">리뷰 작성</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            <div>
                                 
-                                <button class="btn" onclick="location.href='today_complete.html'">인증하기</button>
+                                
                             </div>
                         </section>
-                    </div>
 
+
+                        
+                    </div> <!-- // guide -->
                 </section>
+
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
+            <!-- <div class="select-option">
+                상품 선택
+            </div> -->
         </div>
 
 
@@ -233,9 +245,9 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['today_list.html', 'month_list.html', 'ongoing_list.html'];
-        let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
+        let menuPath = ['notice.html', 'faq.html','#'];
+        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
+        let menuIcon = ['home', 'home', 'home' ]
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);
@@ -244,12 +256,14 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+    });
 
-        sideBarMenu.each(function(idx, el) {
-            if(idx == 0) {
-                $(this).addClass('current');
-            }
-        });
+    $(".writeReview").on("click", () => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "file:///C:/FINAL/FinalProject_UI/store/write-review.html";
+        
+        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
 </script>
 
