@@ -162,7 +162,7 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/earth/today_list', '/earth/month_list', '/earth/ongoing_list'];
+        let menuPath = ['/4earth/today_list', '/4earth/month_list', '/4earth/ongoing_list'];
         let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
         let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
 
