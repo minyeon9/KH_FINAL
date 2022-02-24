@@ -137,12 +137,12 @@
                                 <br>
                             
 
-                            <form name="member_Signup_Form" action="${ path }/signup_form" method="post">
-                                <img id="preview" src="../resources/images/member/profile1.png" />
+                            <form name="memberEnrollFrm" action="${ path }/enroll" method="post">
+                                <img class="profileImg" src="../resources/images/member/profile1.png" />
                                 <div class="filebox">
                                     <label for="profileImg">프로필 사진 등록</label>
-                                    <input type="file" name="img_name" id="profileImg" title="프로필사진"
-                                        value="profile1.png" required />
+                                    <input type="file" name="profile" id="profile" title="프로필사진"
+                                        value="${ loginMember.originalProfileName }" required />
                                 </div>
 
                                 <!-- <div class="form-group">
@@ -304,22 +304,6 @@
             menuIdx.find('a > span').text(menuName[i]);
         }
     });
-
-const reader = new FileReader();
-
-reader.onload = (readerEvent) => {
-    document.querySelector("#preview").setAttribute("src", readerEvent.target.result);
-    //파일을 읽는 이벤트가 발생하면 img_section의 src 속성을 readerEvent의 결과물로 대체함
-};
-
-document.querySelector("#profileImg").addEventListener("change", (changeEvent) => {
-    //upload_file 에 이벤트리스너를 장착
-
-    const imgFile = changeEvent.target.files[0];
-    reader.readAsDataURL(imgFile);
-    //업로드한 이미지의 URL을 reader에 등록
-})
-
 </script>
 
 </html>
