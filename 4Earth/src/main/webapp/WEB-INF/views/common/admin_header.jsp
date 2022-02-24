@@ -50,43 +50,43 @@
                         <a href="#">
                         <i class="material-icons md-36">assignment</i>게시판</a>
                         <ul>
-                            <li><a href="admin_notice.html">공지사항</a></li>
+                            <li><a href="admin_notice">공지사항</a></li>
                         </ul>
                     </li>
                     <li class="current"><a href="#"><i class="material-icons md-36">person</i>회원</a>
                         <ul>
-                            <li><a href="admin_m_list.html">회원 목록</a></li>
+                            <li><a href="admin_member">회원 목록</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="material-icons md-36">live_help</i>문의</a>
                         <ul>
-                            <li><a href="admin_faq.html">문의 목록</a></li>
-                            <li><a href="admin_helpboard.html">문의 완료 목록</a></li>
-                            <li><a href="admin_helpboard_done.html">faq</a></li>
+                            <li><a href="admin_helpboard">문의 목록</a></li>
+                            <li><a href="admin_helpboard_done">문의 완료 목록</a></li>
+                            <li><a href="admin_faq">faq</a></li>
                         </ul>
                     </li>
                     <li>&nbsp;</li>
                     <li><a href="#"><i class="material-icons md-36">report_problem</i>신고</a>
                         <ul>
-                            <li><a href="admin_report_list.html">신고 목록</a></li>
-                            <li><a href="admin_reported_m_list.html">신고받은 회원 목록</a></li>
+                            <li><a href="admin_report_list">신고 목록</a></li>
+                            <li><a href="admin_reported_list">신고받은 회원 목록</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="material-icons md-36">checklist</i>챌린지</a>
                         <ul>
-                            <li><a href="admin_challenge_today.html">오늘의 챌린지 목록</a></li>
-                            <li><a href="admin_challenge_month.html">이달의 챌린지 목록</a></li>
-                            <li><a href="admin_challenge_today_manage.html">오늘의 챌린지 관리</a></li>
-                            <li><a href="admin_challenge_month_manage.html">이달의 챌린지 관리</a></li>
+                            <li><a href="admin_challenge_today">오늘의 챌린지 목록</a></li>
+                            <li><a href="admin_challenge_month">이달의 챌린지 목록</a></li>
+                            <li><a href="admin_challenge_today_manage">오늘의 챌린지 관리</a></li>
+                            <li><a href="admin_challenge_month_manage">이달의 챌린지 관리</a></li>
                         </ul>
                     </li>
                     <li><a href="#"><i class="material-icons md-36">storefront</i>에코샵</a>
                         <ul>
-                            <li><a href="admin_echo_list.html">에코샵 물품 목록</a></li>
-                            <li><a href="admin_echo_list2.html">주문 접수 목록</a></li>
-                            <li><a href="admin_echo_list3.html">발송 완료 목록</a></li>
-                            <li><a href="admin_echo_list4.html">주문 취소 목록</a></li>
-                            <li><a href="admin_echo_list5.html">물품 접수 목록</a></li>
+                            <li><a href="admin_echo_list">에코샵 물품 목록</a></li>
+                            <li><a href="admin_echo_order">주문 접수 목록</a></li>
+                            <li><a href="admin_echo_delivery">발송 완료 목록</a></li>
+                            <li><a href="admin_echo_cancel">주문 취소 목록</a></li>
+                            <li><a href="admin_echo_bidding">물품 접수 목록</a></li>
                         </ul>
                     </li>
                     <div class="bg-nav"></div>
