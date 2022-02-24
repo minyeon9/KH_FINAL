@@ -68,7 +68,7 @@
                                         <div class="img-thumb">
                                             <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
-                                        <strong><a href="bidding-detail.html">상품명</a></strong>
+                                        <strong><a href="${ path }/bidding_detail">상품명</a></strong>
                                         <div class="price">
                                             <div class="progress">
                                                 <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
@@ -224,6 +224,12 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+        
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 1) {
+                $(this).addClass('current');
+            }
+        });
     });
 
     $(".heart.fa").click(function() {
@@ -233,7 +239,7 @@
     $("#writeApplication").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "${ path }/write/application";
+        const url = "${ path }/write_application";
         
         open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });

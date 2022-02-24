@@ -134,11 +134,12 @@
 
                     <!-- 상품후기 -->
                     <section>
-                        <strong>
-                            Review
+	                    <div class="store-board">
+	                        <p>
+	                            Review
+	                        </p>
                             <button class="btn" id="writeReview" style="float: right;">작성하기</button>
-                        </strong>
-                        <br><br>
+	                    </div>
                         <div class="board">
                             <table class="table">
                                 <colgroup>
@@ -200,11 +201,12 @@
 
                     <!-- 상품문의 -->
                     <section>
-                        <strong>
-                            Q & A
-                            <button class="btn" id="writeQnA" style="float: right;">작성하기</button>
-                        </strong>
-                        <br><br>
+	                    <div class="store-board">
+	                        <p>
+	                            Q & A
+	                        </p>
+	                            <button class="btn" id="writeQnA" style="float: right;">작성하기</button>
+	                     </div>   
                         <div class="accordian inquiry">
                             <ul>
                                 <li>
@@ -286,7 +288,7 @@
     $("#writeReview").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "file:///C:/FINAL/FinalProject_UI/store/write-review.html";
+        const url = "${ path }/write_review";
         
         open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
@@ -294,7 +296,7 @@
     $("#writeQnA").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "file:///C:/FINAL/FinalProject_UI/store/write-QnA.html";
+        const url = "${ path }/write_qna";
         
         open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });

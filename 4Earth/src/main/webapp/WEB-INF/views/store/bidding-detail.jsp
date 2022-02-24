@@ -1,83 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<c:set var="path" value="${ pageContext.request.contextPath }"/> 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../resources/css/style.css">
-    <script src="../resources/js/jquery-3.6.0.js"></script>
-    <script src="../resources/js/ui.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
     <title>모집상세</title>
 </head>
-<body>
-    <div class="wrap">
-        <header>
-            <div class="header-inner">
-                <h1 class="logo"><a href="../index.html">logo</a></h1>
-                <div class="user">
-                    <!-- <div class="before-login">
-                        <a href="#">
-                            <i class="material-icons md-18">login</i> 로그인
-                        </a>
-                        <a href="#">
-                            <i class="material-icons md-18">person_add</i> 회원가입
-                        </a>
-                    </div> -->
-    
-                    <div class="after-login">
-                        <a href="#">Guide</a>
-                        <a href="#"><i class="material-icons md-18">manage_accounts</i> Admin</a>
-                        <a href="#"><i class="material-icons md-18">account_circle</i> <b>박민영</b>님</a>
-                        <a href="#"><i class="material-icons md-18">logout</i> 로그아웃</a>
-                    </div>
-                </div>
-            </div>
 
-            <nav class="nav">
-                <a href="#" class="logo">logo</a>
-                <ul class="nav-list">
-                    <li>
-                        <h2><a href="#">About Us</a></h2>
-                        <ul>
-                            <li><a href="notice.html">공지사항</a></li>
-                            <li><a href="faq.html">FAQ</a></li>
-                            <li><a href="#">1:1 문의</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <h2><a href="#">에코 챌린지</a></h2>
-                        <ul>
-                            <li><a href="#">에코 챌린지</a></li>
-                            <li><a href="#">챌린지 참여하기</a></li>
-                        </ul>
-                    </li>
-                    <li>&nbsp;</li>
-                    <li>
-                        <h2><a href="#">에코샵</a></h2>
-                        <ul>
-                            <li><a href="#">소분샵</a></li>
-                            <li><a href="#">소분샵 입고 신청</a></li>
-                            <li><a href="#">오프라인 매장</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <h2><a href="#">마이페이지</a></h2>
-                        <ul>
-                            <li><a href="#">포인트 내역</a></li>
-                            <li><a href="#">주문&dot;배송</a></li>
-                            <li><a href="#">찜한 상품</a></li>
-                            <li><a href="#">문의</a></li>
-                            <li><a href="#">진행 중인 챌린지</a></li>
-                            <li><a href="#">회원정보</a></li>
-                        </ul>
-                    </li>
-                    <div class="bg-nav"></div>
-                </ul>
-            </nav>
-        </header>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
-        <div class="container">
+	<div class="container">
             <div class="contents">
                 <div class="side-bar is-open">
                     <button class="btn toggle-nav">
@@ -105,7 +43,7 @@
                     </ul>
                 </div>
                 
-                <section class="content-wrap">
+               <section class="content-wrap">
                     <div class="product">
                     <!-- 
                         slide
@@ -146,7 +84,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3" style="font-weight: bold;">n명 참여</td>
-                                    <td>달성률 n%</td>
+                                    <td style="text-align: right;">달성률 n%</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #999;">
                                     <td colspan="4" style="vertical-align: bottom;"><p>n 명의 관심이 모이면 에코샵에서 만나볼 수 있습니다.</p></td>
@@ -173,11 +111,12 @@
 
                     <!-- 상품후기 -->
                     <section>
-                        <strong>
-                            관심있는 회원들의 한마디
+                    	<div class="store-board">
+	                        <p>
+	                            관심있는 회원들의 한마디
+	                        </p>
                             <button class="btn" id="writeReview" style="float: right;">작성하기</button>
-                        </strong>
-                        <br><br>
+                        </div>
                         <div class="board">
                             <table class="table bid-board">
                                 <tbody>
@@ -222,62 +161,15 @@
                 상품 선택
             </div> -->
         </div>
-
-
-        <footer>
-            <div class="footer-about">
-                <div class="footer-inner">
-                    <a href="#" class="logo">logo</a>
-
-                    <div class="follow-sns">
-                        <strong>Follow Us</strong>
-                        <ul>
-                            <li><a href="#"><i class="icon icon-instargram"></i>instargram</a></li>
-                            <li><a href="#"><i class="icon icon-facebook"></i>facebook</a></li>
-                            <li><a href="#"><i class="icon icon-youtube"></i>youtube</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="cop-info">
-                        <ul>
-                            <li>주식회사 어쩌고 저쩌고</li>
-                            <li>(14900) 서울시 서초구 내곡동 1-338</li>
-                            <li><strong>통신판매업신고번호</strong> 2021-서울서초-3522 사업자정보확인</li>
-                            <li><strong>이메일 </strong><a href="mailto:Eco5@eco.co.kr">Eco5@eco.co.kr</a></li>
-                            <li><strong>개인정보보호책임자</strong> (주)Eco5</li>
-                        </ul>
-                    </div>
-    
-                    <div class="follow-sns">
-                        <strong>고객센터</strong>
-                        <ul>
-                            <li><a href="#"><i class="icon icon-twiter"></i>유선상담</a></li>
-                            <li><a href="#"><i class="icon icon-twiter"></i>신고하기</a></li>
-                            <li><a href="#"><i class="icon icon-twiter"></i>1:1 문의</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div> <!-- // footer-about -->
-
-            <div class="footer-copy">
-                <div class="footer-inner">
-                    <div class="terms">
-                        <a href="#">이용약관</a>
-                        <a href="#">개인정보처리방침</a>
-                    </div>
-                    <p class="copy">Copyright @ 사이트명 Co. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
-    </div>
-</body>
+        
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['notice.html', 'faq.html','#'];
-        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
-        let menuIcon = ['home', 'home', 'home' ]
+        let menuPath = ['${ path }/product_list', '${ path }/bidding_list','${ path }/map'];
+        let menuName = ['소분샵', '소분샵 입고 신청', '오프라인 매장 안내'];
+        let menuIcon = ['storefront', 'edit', 'location_on' ]
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);
@@ -286,22 +178,12 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
-    });
-
-    $("#writeReview").on("click", () => {
-        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
-        var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "file:///C:/FINAL/FinalProject_UI/store/write-review.html";
         
-        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-    });
-
-    $("#writeQnA").on("click", () => {
-        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
-        var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "file:///C:/FINAL/FinalProject_UI/store/write-QnA.html";
-        
-        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 1) {
+                $(this).addClass('current');
+            }
+        });
     });
 </script>
 

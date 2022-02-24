@@ -1,36 +1,44 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<c:set var="path" value="${ pageContext.request.contextPath }"/> 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../resources/css/style.css">
-    <script src="../resources/js/jquery-3.6.0.js"></script>
-    <script src="../resources/js/ui.js"></script>
-    <script src="../ckeditor5/build/ckeditor.js"></script>
+	<link rel="stylesheet" href="resources/css/style.css">
+    <link rel="stylesheet" href="resources/css/jquery.fullPage.css">
+    <script src="resources/js/jquery-3.6.0.js"></script>
+    <script src="resources/js/ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="resources/favicon.ico">
+    <script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
+    <script src="resources/ckeditor5/build/ckeditor.js"></script>
     <title>입고 신청하기</title>
 </head>
 <body>
-    <div style="width: 800px; height: 800px;">
+	<div class="store-popup">
         <h2>상품 등록 신청하기</h2>
 
         <br>
-
+		
+		<section>
+		<div class="store-guide">
+			<h4>상품 등록 신청 안내</h4>
+            <p>
+                <i class="material-icons md-24">navigate_next</i>
+                 <u>기존 판매처의 상품 링크</u>와 <u>카테고리</u>를 반드시 선택해주세요.
+            </p>
+            <p>
+            	<i class="material-icons md-24">navigate_next</i>
+                 신청해주신 상품은 환경표지, 동물 실험 여부 등의 적합성 심사 및 판매처와의 협의를 거친 후 모집이 시작됩니다.
+            </p>
+		</div>
         <form method="post">
             <table class="store-editor">
-                <tr>
-                    <td colspan="2" style="padding-left: 7px; background-color: #f0f0f0;">
-                        <h4>상품 등록 신청 안내</h4>
-                        <p>
-                            - <u>기존 판매처의 상품 링크</u>와 <u>카테고리</u>를 반드시 선택해주세요.
-                        </p>
-                        <p>
-                            - 신청해주신 상품은 환경표지, 동물 실험 여부 등의 적합성 심사 및 판매처와의 협의를 거친 후 모집이 시작됩니다.
-                        </p>
-                        
-                    </td>
-                </tr>
                 <tr>
                     <td style="width: 10%;">
                         상품 링크 : 
@@ -77,8 +85,9 @@
                 </tr>
             </table>                                   
         </form>
+        </section>
     </div>
-
+    
     <script>
         ClassicEditor
         .create( document.querySelector( '#editor' ), {
