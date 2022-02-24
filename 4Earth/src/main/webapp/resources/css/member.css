@@ -279,7 +279,11 @@
   color: #669948;
 }
 
-.profileImg {
+.filebox input[type="file"] {
+  display: none;
+}
+
+#preview {
   height: 170px;
   width: 170px;
   border-radius: 50%;

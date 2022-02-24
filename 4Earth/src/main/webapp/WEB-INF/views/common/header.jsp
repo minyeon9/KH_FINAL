@@ -28,6 +28,8 @@
             <div class="header-inner">
                 <h1 class="logo"><a href="${ path }">logo</a></h1>
                 <div class="user">
+                
+                <c:if test="${ empty loginMember }">
                     <div class="before-login">
                         <a href="${ path }/admin">admin(임시)</a>
                         <!-- <a href="${ path }/guide">Guide</a>  -->
@@ -38,12 +40,17 @@
                             <i class="material-icons md-18">person_add</i> 회원가입
                         </a>
                     </div>
-    
-                    <!-- <div class="after-login">
+                    </c:if>
+                    
+                    <c:if test="${ !empty loginMember }">
+                    <div class="after-login">
                         <a href="#"><i class="material-icons md-18">manage_accounts</i> Admin</a>
-                        <a href="#"><i class="material-icons md-18">account_circle</i> <b>박민영</b>님</a>
-                        <a href="#"><i class="material-icons md-18">logout</i> 로그아웃</a>
-                    </div> -->
+                        <a href="#"><i class="material-icons md-18">account_circle</i> <b>${ loginMember.name }</b>님</a>
+
+                        <a href="${ path }/logout"><i class="material-icons md-18">logout</i> 로그아웃</a>
+
+                    </div> 
+                    </c:if>
                 </div>
             </div>
 

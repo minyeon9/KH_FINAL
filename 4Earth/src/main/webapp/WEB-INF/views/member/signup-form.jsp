@@ -70,25 +70,21 @@
                                 <br>
                             
 
-                            <form name="memberEnrollFrm" action="${ path }/enroll" method="post">
-                                <img class="profileImg" src="${ path }/resources/images/member/profile1.png" />
+                            <form name="signup-form" action="${ path }/signup_form" method="post">
+                          
+                                <img id="preview" src="${ path }/resources/images/member/profile1.png" />
                                 <div class="filebox">
                                     <label for="profileImg">프로필 사진 등록</label>
-                                    <input type="file" name="profile" id="profile" title="프로필사진"
-                                        value="${ loginMember.originalProfileName }" required />
+                                    <input type="file" name="img_name" id="profileImg" title="프로필사진"
+                                        value="profile1.png" />
                                 </div>
 
-                                <!-- <div class="form-group">
-				<label for="profileImg">프로필 사진</label>
-                <br>
-				<input type="file" name="profile" id="profile"/>
-			</div> -->
                                 <br>
 
                                 <div class="form-group">
                                     <label for="userId">아이디</label>
                                     <br>
-                                    <input type="text" name="userId" id="userId"
+                                    <input type="text" name="id" id="userId"
                                         placeholder="첫 문자를 영어로 시작하여 총 5~12자로 입력하세요." />
                                     <input type="button" id="checkDuplicate" class="btn" value="중복검사">
                                     <p id="member-id"></p>
@@ -96,7 +92,7 @@
                                 <div class="form-group">
                                     <label for="userPw">비밀번호</label>
                                     <br>
-                                    <input type="password" name="userPwd" id="userPwd"
+                                    <input type="password" name="password" id="userPwd"
                                         placeholder="대/소문자, 숫자, 특수문자 포함하여 총 8~16자로 입력하세요." />
                                     <p id="member-password"></p>
                                 </div>
@@ -109,31 +105,31 @@
                                 <div class="form-group">
                                     <label for="userName">이름</label>
                                     <br>
-                                    <input type="text" name="userName" id="userName" placeholder="이름" />
+                                    <input type="text" name="name" id="userName" placeholder="이름" />
                                     <p id="member-name"></p>
                                 </div>
                                 <div class="form-group">
                                     <label for="userEmail">이메일</label>
                                     <br>
-                                    <input type="mail" name="userEmail" id="userEmail" placeholder="이메일" />
+                                    <input type="mail" name="email" id="userEmail" placeholder="이메일" />
                                     <p id="member-email"></p>
                                 </div>
                                 <div class="form-group">
                                     <label for="userPhone">전화번호</label>
                                     <br>
-                                    <input type="text" name="userPhone" id="userPhone" placeholder="휴대전화" />
+                                    <input type="text" name="phone" id="userPhone" placeholder="휴대전화" />
                                     <p id="member-phone"></p>
                                 </div>
                                 <div class="form-group">
                                     <label for="userAddress">주소</label>
                                     <br>
-                                    <input type="text" name="userAddress" id="userAddress" placeholder="주소" />
+                                    <input type="text" name="address" id="userAddress" placeholder="주소" />
                                 </div>
                                 <br>
                                 <!-- <a href="#popup01" class="btn btn-open-pop">게시판 관리</a> -->
                                 <a href="#popup01" class="btn-open-pop">
                                 <div class="check-box">
-                                    <input type="checkbox" id="checkbox1" required> 
+                                    <input type="checkbox" id="checkbox1"> 
                                     <label for="checkbox1"> [필수] 개인정보 수집 및 이용약관 동의</label>
                                 </div>
                                 </a>
@@ -144,7 +140,7 @@
                                             <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
                                         </div>
                                         <div class="pop-cont">
-                                            호로롤ㄹ로롤
+                                            약관이 들어갑니다. 호로롤ㄹ로롤
                                         </div>
                                         <div class="btn-wrap">
                                             <!-- <button class="btn gray btn-close-pop">취소</button> -->
@@ -153,6 +149,7 @@
                                     </div>
                                 </div>
                                 <br><br>
+            
                                 <button type="submit" class="btn btn-login">가입하기</button>
                             </form>
                             <br><br>
@@ -173,6 +170,7 @@
                         <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
                     </div>
             </div>
+            
             
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/member.js"></script>
