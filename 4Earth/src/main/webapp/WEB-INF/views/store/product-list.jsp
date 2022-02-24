@@ -45,7 +45,7 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3></h3>
+                        <h3>소분샵</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">에코샵</a>
@@ -53,11 +53,10 @@
                         </div>
                     </div>
 
-                    <div class="guide">
+                    <div class="store-wrap"> 
 
                         <!-- Category -->
                         <section>
-                            <strong>소분샵</strong>
                             <div class="category">
                                 <ul>
                                     <li>
@@ -131,23 +130,26 @@
                         </section>
                         <!-- // Category -->
 
-                        
+						<br><br><br><br>
 
                         <!-- Thumbnail List -->
-                        <section>
-                            <strong>
-                                총 n개의 상품이 있습니다.
-                                <select name="arrange" id="store-arrange" class="store-selectbox">
-                                    <option value="신상품순" selected>신상품순</option>
-                                    <option value="판매순">판매순</option>
-                                    <option value="후기순">후기순</option>
-                                    <option value="낮은가격순">낮은가격순</option>
-                                    <option value="높은가격순">높은가격순</option>
-                                </select>
-                            </strong>
+                        <section>	  
+                        	<div style="height:35px; margin-bottom:10px;">
+	                            <strong>
+	                                총 n개의 상품이 있습니다.
+	                            </strong>
+	                            <select name="arrange" id="store-arrange" class="store-selectbox">
+	                                <option value="신상품순" selected>신상품순</option>
+	                                <option value="판매순">판매순</option>
+	                                <option value="후기순">후기순</option>
+	                                <option value="낮은가격순">낮은가격순</option>
+	                                <option value="높은가격순">높은가격순</option>
+	                            </select> 
+                        	</div>                      
+                            
 
                             <div class="thumb-list">
-                                <ul>
+                                <ul style="width:100%;">
                                     <li>
                                         <div class="img-thumb">
                                             <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
@@ -155,7 +157,7 @@
                                         <div class="tag-wrap">
                                             <span class="tag tag-orange">NEW</span>
                                         </div>
-                                        <strong><a href="product-detail.html">상품명</a></strong>
+                                        <strong><a href="${ path }/product_detail">상품명</a></strong>
                                         <div class="price">가격</div>
                                         <div class="review"><small>별점</small></div>
                                         <div class="btn-wrap">
@@ -295,9 +297,9 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['notice.html', 'faq.html','#'];
-        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
-        let menuIcon = ['home', 'home', 'home' ]
+        let menuPath = ['${ path }/product_list', '${ path }/bidding_list','${ path }/map'];
+        let menuName = ['소분샵', '소분샵 입고 신청', '오프라인 매장 안내'];
+        let menuIcon = ['storefront', 'edit', 'location_on' ]
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);

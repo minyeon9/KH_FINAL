@@ -1,5 +1,22 @@
 @charset "UTF-8";
 
+.store-wrap {
+    margin-top: 20px;
+}
+.store-wrap section {
+    padding: 20px 0 30px;
+}
+.store-wrap section + section {
+    padding-top: 80px;
+    border-top: 1px solid #ddd;
+}
+.store-wrap section > strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
 /* 상품 문의 */
 .accordian.inquiry ul li a {
     display: flex;
@@ -126,6 +143,7 @@ ul.imgs li img{
 }
 .pro-table thead {
     border-bottom: 1px solid #999;
+    border-top: none;
 }
 .pro-table thead tr td {
     font-size: 18px;
@@ -134,7 +152,7 @@ ul.imgs li img{
 }
 
 .tbody1 tr:first-child td {
-    border-top: 0;    
+    border-top: none;    
 }
 
 .tbody1 tr:last-of-type {
