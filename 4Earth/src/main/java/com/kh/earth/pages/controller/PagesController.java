@@ -44,4 +44,18 @@ public class PagesController {
 		return "pages/notice_write";
 	}
 	
+	@GetMapping("/notice_modify")
+	public String notice_modify() {
+		log.info("notice_modify() - 호출");
+		
+		return "pages/notice_modify";
+	}
+	
+	@GetMapping("/notice_qa")
+	public String notice_qa() {
+		log.info("notice_qa() - 호출");
+		
+		return "pages/notice_qa";
+	}
+	
 }
