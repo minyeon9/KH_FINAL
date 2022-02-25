@@ -46,18 +46,17 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3></h3>
+                        <h3>모집중인 상품</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">에코샵</a>
-                            <span>입고 신청</span>
+                            <span>소분샵 입고 신청</span>
                         </div>
                     </div>
 
-                    <div class="guide">
+                    <div class="store-wrap">
 
                         <section>
-                            <strong>모집중인 상품</strong>
                             <hr style="border: 1px solid #669948;">
                             <br>
                             <button id="writeApplication" class="btn" style="float: right;">입고 신청하기</button>
@@ -67,9 +66,9 @@
                                 <ul>
                                     <li>
                                         <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
-                                        <strong><a href="bidding-detail.html">상품명</a></strong>
+                                        <strong><a href="${ path }/bidding_detail">상품명</a></strong>
                                         <div class="price">
                                             <div class="progress">
                                                 <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
@@ -82,7 +81,7 @@
                                     </li>
                                     <li>
                                         <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
                                         <strong><a href="#">상품명</a></strong>
                                         <div class="price">
@@ -96,7 +95,7 @@
                                     </li>
                                     <li>
                                         <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
                                         <strong><a href="#">상품명</a></strong>
                                         <div class="price">
@@ -110,7 +109,7 @@
                                     </li>
                                     <li>
                                         <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
                                         <strong><a href="#">상품명</a></strong>
                                         <div class="price">
@@ -124,7 +123,7 @@
                                     </li>
                                     <li>
                                         <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
                                         <strong><a href="#">상품명</a></strong>
                                         <div class="price">
@@ -138,7 +137,7 @@
                                     </li>
                                     <li>
                                         <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
                                         <strong><a href="#">상품명</a></strong>
                                         <div class="price">
@@ -152,7 +151,7 @@
                                     </li>
                                     <li>
                                         <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
                                         <strong><a href="#">상품명</a></strong>
                                         <div class="price">
@@ -166,7 +165,7 @@
                                     </li>
                                     <li>
                                         <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
                                         </div>
                                         <strong><a href="#">상품명</a></strong>
                                         <div class="price">
@@ -214,9 +213,9 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['notice.html', 'faq.html','#'];
-        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
-        let menuIcon = ['home', 'home', 'home' ]
+        let menuPath = ['${ path }/product_list', '${ path }/bidding_list','${ path }/map'];
+        let menuName = ['소분샵', '소분샵 입고 신청', '오프라인 매장 안내'];
+        let menuIcon = ['storefront', 'edit', 'location_on' ]
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);
@@ -225,6 +224,12 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+        
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 1) {
+                $(this).addClass('current');
+            }
+        });
     });
 
     $(".heart.fa").click(function() {
@@ -234,7 +239,7 @@
     $("#writeApplication").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "file:///C:/FINAL/FinalProject_UI/store/write-Application.html";
+        const url = "${ path }/write_application";
         
         open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });

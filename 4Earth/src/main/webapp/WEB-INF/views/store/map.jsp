@@ -43,6 +43,15 @@
                 </div>
                 
                 <section class="content-wrap">
+                	<div class="page-tit">
+                        <h3>오프라인 매장 안내</h3>
+                        <div class="bread-crumb">
+                            <a href="../index.html"><i class="material-icons md-16">home</i></a>
+                            <a href="#">에코샵</a>
+                            <span>오프라인 매장 안내</span>
+                        </div>
+                    </div>
+                    
                     <!-- 카카오맵 API -->
                     <section>
                         <div id="map" style="width:600px;height:500px;">
@@ -106,9 +115,9 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['notice.html', 'faq.html','#'];
-        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
-        let menuIcon = ['home', 'home', 'home' ]
+        let menuPath = ['${ path }/product_list', '${ path }/bidding_list','${ path }/map'];
+        let menuName = ['소분샵', '소분샵 입고 신청', '오프라인 매장 안내'];
+        let menuIcon = ['storefront', 'edit', 'location_on' ]
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);
@@ -117,6 +126,12 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+        
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 2) {
+                $(this).addClass('current');
+            }
+        });
     });
 </script>
 

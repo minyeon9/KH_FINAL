@@ -85,6 +85,20 @@
                             </div>
                         </section>
 
+						<div class="paging">
+                            <a href="#" class="prev"><span>이전</span></a>
+                            <strong>1</strong>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#">5</a>
+                            <a href="#">6</a>
+                            <a href="#">7</a>
+                            <a href="#">8</a>
+                            <a href="#">9</a>
+                            <a href="#">10</a>
+                            <a href="#" class="next"><span>다음</span></a>
+                        </div>
 
                         
                     </div> <!-- // guide -->
