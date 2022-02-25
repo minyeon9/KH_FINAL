@@ -90,38 +90,64 @@
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td>내용4</td>
-                                            <td>내용5</td>
-                                            <td>
-                                                <button class="btn btn-s">등록</button>
-                                                <button class="btn btn-s gray">정지</button>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
+                                    <c:if test="${ empty list }">
+	                                    <tbody>
+		                                    <tr>
+		                                    	<td colspan="6">
+												조회된 멤버가 없습니다
+		                                    	</td>
+		                                    </tr>
+	                                    </tbody>
+									</c:if>
+									<c:if test="${ !empty list }">
+										<c:forEach var="member" items="${ list }">
+		                                    <tbody>
+		                                        <tr>
+		                                            <td>${ member.no }</td>
+		                                            <td>${ member.id }</td>
+		                                            <td>${ member.name }</td>
+		                                            <td>${ member.enrollDate }</td>
+		                                            <td>{ member.level }</td>
+		                                            <td>{ member.repoted }</td>
+		                                            <td>
+		                                                <button class="btn btn-s">등록</button>
+		                                                <button id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+										</c:forEach>
+									</c:if>
                                 </table>
                             </div>
                             <div class="btn-wrap">
                                 <button class="btn">작성</button>
                             </div>
                         </section>
-                        <!-- // Category -->
+                        
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>                   
+							<!-- 맨 처음으로 -->
+							<a class="prev" href="${ path }/admin_member?page=1"></a>
+				
+							<!-- 이전 페이지로 -->
+							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
+				
+							<!--  10개 페이지 목록 -->
+							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">			
+									<strong>${ status.current }</strong>
+								</c:if>
+								<c:if test="${ status.current != pageInfo.currentPage }">				
+									<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+				
+							<!-- 다음 페이지로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
+				
+							<!-- 맨 끝으로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+						</div>                
                     </div>
-                    
             </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
@@ -150,6 +176,14 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).ready(() => {
+		$("#delete").on("click", (e) => {
+			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
+				location.replace("${ pageContext.request.contextPath }/admin_member_delete?no=" + e.target.value);
+			}
+		})
 	});
 </script>
 

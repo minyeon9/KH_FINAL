@@ -37,45 +37,12 @@
 .category table thead {
     height: 30px;
 }
-#btn {
-    width: 60px;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: rgb(24, 180, 228);
-    padding: 3px;
-}
-#btn2 {
-    width: 60px;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: red;
-    padding: 3px;
-}
-#btn3 {
-    width: 20px;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: rgb(200, 200, 200);
-}
-#btn4 {
-    background-color: grey; 
-}
 .menu {
     width: 14px;
     font-size: 14px;
     font-weight: 500;
     background-color: rgb(200, 200, 200);
 }
-.clicked {
-    color: red;
-}
-.clicked2 {
-    color: yellow;
-}
-
-
-
-
 
 #page-Bar button {
     border-radius: 0.5em;

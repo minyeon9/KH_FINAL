@@ -1,9 +1,13 @@
 package com.kh.earth.member.model.service;
 
+import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.dao.MemberMapper;
 import com.kh.earth.member.model.vo.Member;
 
@@ -66,7 +70,22 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int delete(int no) {
 		
-		return 0;
+		return mapper.deleteMember(no);
+	}
+
+	@Override
+	public int getMemberCount() {
+		
+		return mapper.getMemberCount();
+	}
+
+	@Override
+	public List<Member> getMemberList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.findMember(rowBounds);
 	}
 
 }
