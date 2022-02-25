@@ -5,34 +5,25 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="path" value="${ pageContext.request.contextPath }"/> 
-
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="resources/css/style.css" />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <script src="WEB-INF/views/ckeditor5/build/ckeditor.js"></script>
+<head>
     <script
       src="https://kit.fontawesome.com/b670a466b9.js"
       crossorigin="anonymous"
     ></script>
-    <title>notice_view</title>
-  </head>
+    <title>공지사항 - 세부내용</title>
+</head>
+
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-      <div class="container">
+       <div class="container">
         <div class="contents">
           <section class="content-wrap">
             <div class="page-tit">
               <h3>제목</h3>
 
               <div class="bread-crumb">
-                <a href="../index.html"
+                <a href="${ path }"
                   ><i class="material-icons md-16">home</i></a
                 >
                 <a href="#">About Us</a>
@@ -44,10 +35,16 @@
             에디터 내용
             <br />
             <br />
-            <div class="table_bottom">
-              <a class="btn" href="./notice.html" role="button"> 목록 </a>
-              <a class="btn" href="./notice_write.html" role="button">
+            <div class="view_table_bottom">
+              <a class="btn" href="${ path }/notice" role="button"> 목록 </a>
+              <a class="btn" href="${ path }/notice_write" role="button">
                 글쓰기
+              </a>
+              <a class="btn" href="${ path }/notice_modify" role="button">
+                수정하기
+              </a>
+              <a class="btn" href="${ path }/notice_delete" role="button">
+                삭제하기
               </a>
             </div>
             <ul>

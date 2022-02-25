@@ -4,22 +4,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:set var="path" value="${ pageContext.request.contextPath }"/> 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <title>공지사항</title>
-     <script src="resources/ckeditor5/build/ckeditor.js"></script>
-</head>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<c:set var="path" value="${ pageContext.request.contextPath }"/>
 
-      <div class="container">
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+	<div class="container">
         <div class="contents">
           <section class="content-wrap">
             <div class="page-tit">
               <h3>공지사항 글 작성</h3>
               <div class="bread-crumb">
-                <a href="${ path }"
+                <a href="../index.html"
                   ><i class="material-icons md-16">home</i></a
                 >
                 <a href="#">About Us</a>
@@ -76,11 +70,14 @@
                 })
             </script>
             <div class="write_table_bottom">
-              <a class="btn" href="${ path }/notice">목록</a>
-              <button type="submit" class="btn">작성하기</button>
+              <a class="btn" href="./notice.html" role="button">목록</a>
+              <a class="btn" href="./notice_write.html" role="button">
+                작성하기
+              </a>
             </div>
           </section>
         </div>
       </div>
       
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
