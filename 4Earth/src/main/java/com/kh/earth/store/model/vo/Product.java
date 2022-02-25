@@ -34,5 +34,7 @@ public class Product {
 	
 	private String proMfg;
 	
-	private int proRating;
+	private double proRating;
+	
+	private int isNew;
 }
