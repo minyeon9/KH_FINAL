@@ -10,8 +10,6 @@
 <html lang="ko">
 <head>
     <script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="resources/css/star-rating-svg.css">
-    <script src="resources/js/jquery.star-rating-svg.js"></script>
     <title>상품목록</title>
 </head>
 
@@ -171,7 +169,7 @@
 		                                        	<small>
 			                                        <span class="icon-star">
 		                                                <i class="unfill"></i>
-		                                                <i class="fill" style="width: 90%"></i>
+		                                                <i class="fill" style="width: ${ product.proRating * 20 }%"></i>
 		                                            </span>
 		                                        	${ product.proRating }
 		                                        	</small>
@@ -238,7 +236,6 @@
     $(".heart.fa").click(function() {
         $(this).toggleClass("fa-heart fa-heart-o");
     });
-
 </script>
 
 </html>
