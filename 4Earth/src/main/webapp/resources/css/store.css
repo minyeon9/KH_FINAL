@@ -1,5 +1,22 @@
 @charset "UTF-8";
 
+.store-wrap {
+    margin-top: 20px;
+}
+.store-wrap section {
+    padding: 20px 0 30px;
+}
+.store-wrap section + section {
+    padding-top: 80px;
+    border-top: 1px solid #ddd;
+}
+.store-wrap section > strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
 /* 상품 문의 */
 .accordian.inquiry ul li a {
     display: flex;
@@ -126,6 +143,7 @@ ul.imgs li img{
 }
 .pro-table thead {
     border-bottom: 1px solid #999;
+    border-top: none;
 }
 .pro-table thead tr td {
     font-size: 18px;
@@ -134,7 +152,7 @@ ul.imgs li img{
 }
 
 .tbody1 tr:first-child td {
-    border-top: 0;    
+    border-top: none;    
 }
 
 .tbody1 tr:last-of-type {
@@ -212,8 +230,23 @@ ul.imgs li img{
     width: 100%;
     height: 500px;
 }
+.store-board {
+	width: 100%;
+	height: 50px;	
+	vertical-align: middle;
+}
+.store-board p {
+	margin-top: 12px;
+	float: left;
+	font-size: 16px;
+	font-weight: 600;
+}
 
 /* 장바구니 */
+.purchase-wrap {
+	width:1010px;
+	margin: auto;
+}
 .cart-table {
     width: 100%;
     border-collapse: collapse;
@@ -456,6 +489,7 @@ ul.imgs li img{
 }
 .bid-btn {
     width: 120px;
+    padding: 8px 18px;    
 }
 .bid-board td:first-child{
     width: 75%;
@@ -478,11 +512,33 @@ ul.imgs li img{
 /*--------
     에디터
 --------*/
+.store-popup {
+	margin: 10px 20px 10px;
+	width: 100%;
+	height: 800px;
+}
+.store-popup section {
+	width: 95%;
+}
+.store-guide {
+	background-color: #f0f0f0;
+	width:100%;
+	min-height: 90px;
+	padding: 10px 5px 10px;
+}
+.store-guide h4 {
+	margin: 5px 0 5px;
+}
+.store-guide a {
+	font-weight: 500;
+	color: #76b779;
+}
 .store-editor {
+	margin-top: 10px;
     width: 100%;
     border-top: 2px solid #467443;
     border-bottom: 1px solid #999;
-    padding: 10px;
+    padding: 0 10px;
     border-collapse: separate;
     border-spacing: 0 10px;
 }

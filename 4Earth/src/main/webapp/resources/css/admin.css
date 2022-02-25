@@ -72,11 +72,11 @@
 .clicked2 {
     color: yellow;
 }
-.category table, td{
-    height: 30px;
-    border-top: 1px solid grey;
-    border-collapse: collapse;
-}
+
+
+
+
+
 #page-Bar button {
     border-radius: 0.5em;
     background-color: gray;
