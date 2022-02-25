@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.earth.store.model.dao.StoreMapper">
+	<sql id="selectProductSql">
+		SELECT PRO_NO,
+			   PRO_NAME,
+			   PRO_PRICE, 
+			   PRO_DATE, 
+			   PRO_MODIFY_DATE, 
+			   PRO_VOL, 
+			   PRO_IMG, 
+			   PRO_INFO, 
+			   PRO_STAT,
+			   PRO_CAT, 
+			   PRO_SOLD, 
+			   PRO_MFG, 
+			   PRO_RATING
+	</sql>
+
+	<resultMap type="Product" id="ProductListResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="proName" column="PRO_NAME"/>
+		<result property="proPrice" column="PRO_PRICE"/>
+		<result property="proDate" column="PRO_DATE"/>
+		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
+		<result property="proVol" column="PRO_VOL"/>
+		<result property="proImg" column="PRO_IMG"/>
+		<result property="proInfo" column="PRO_INFO"/>
+		<result property="proStat" column="PRO_STAT"/>
+		<result property="proCat" column="PRO_CAT"/>
+		<result property="proSold" column="PRO_SOLD"/>
+		<result property="proMfg" column="PRO_MFG"/>
+		<result property="proRating" column="PRO_RATING"/>
+	</resultMap>
+
+	<select id="getProductCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+	</select>
+	
+	<select id="getProductList" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			, ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+		FROM PRODUCT
+		WHERE PRO_STAT = 3
+		ORDER BY PRO_DATE DESC
+	</select>
+
+	
+
+
+
+
+</mapper>
