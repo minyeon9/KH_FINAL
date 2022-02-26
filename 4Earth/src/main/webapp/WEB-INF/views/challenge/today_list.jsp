@@ -12,73 +12,60 @@
     <title>챌린지</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-        <div class="container">
-            <div class="contents">
-                <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
-                
-                <section class="content-wrap">
-                    <div class="page-tit">
-                        <h3>오늘의 챌린지</h3>
-                        <div class="bread-crumb">
-                            <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                            <a href="#">에코 챌린지</a>
-                            <span>오늘의 챌린지</span>
-                        </div>
+    <div class="container">
+        <div class="contents">
+            <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
+            
+            <section class="content-wrap">
+                <div class="page-tit">
+                    <h3>오늘의 챌린지</h3>
+                    <div class="bread-crumb">
+                        <a href="${ path }"><i class="material-icons md-16">home</i></a>
+                        <a href="javascript:void(0);">에코 챌린지</a>
+                        <span>오늘의 챌린지</span>
+                    </div>
+                </div>
+
+                <div class="challenge today">
+                    <div class="how-to">
+                        <strong>오늘의 챌린지 참여 방법</strong>
+                        <p>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고</p>
                     </div>
 
-                    <div class="challenge today">
-                        <div class="how-to">
-                            <strong>오늘의 챌린지 참여 방법</strong>
-                            <p>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고</p>
-                        </div>
-
-                        <div class="thumb-list">
-                            <ul>
-                                <li>
-                                    <i class="num">1</i>
-                                    <div class="img-thumb">
-                                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                    </div>
-                                    <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                    <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                </li>
-                                <li>
-                                    <i class="num">2</i>
-                                    <div class="img-thumb">
-                                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                    </div>
-                                    <strong>하루 한 끼 채식하기 하루 한 끼 채식하기 하루 한 끼 채식하기</strong>
-                                    <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                </li>
-                                <li>
-                                    <i class="num">3</i>
-                                    <div class="img-thumb">
-                                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                    </div>
-                                    <strong>텀블러 사용하기</strong>
-                                    <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                </li>
-                                <li>
-                                    <i class="num">4</i>
-                                    <div class="img-thumb">
-                                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                    </div>
-                                    <strong>메일함 비우기</strong>
-                                    <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="btn-wrap">
-                            <a href="today_view.html" class="btn">참여하기</a>
-                        </div>
+                    <div class="thumb-list">
+                       	<c:if test="${ empty todayList }">
+                       		<div class="empty-content">
+                       			<p>조회된 오늘의 챌린지가 없습니다.</p>
+                       		</div>
+                       	</c:if>
+                        <ul>
+                        	<c:if test="${ !empty todayList }">
+	                         	<c:forEach var="todayList" items="${ todayList }">
+	                              <li>
+	                                  <i class="num">${ todayList.chalNo2 }</i>
+	                                  <div class="img-thumb">
+	                                      <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                                  </div>
+	                                  <strong>${ todayList.chalTitle }</strong>
+	                                  <p>${ todayList.chalContent }</p>
+	                              </li>
+								</c:forEach>
+							</c:if>
+                        </ul>
                     </div>
+                    
+                    <c:if test="${ !empty todayList }">
+	                    <div class="btn-wrap">
+	                        <a href="${ path }/today_view" class="btn">참여하기</a>
+	                    </div>
+					</c:if>
+                </div>
 
-                </section>
+            </section>
 
-                <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
-            </div>
+            <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
         </div>
+    </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 

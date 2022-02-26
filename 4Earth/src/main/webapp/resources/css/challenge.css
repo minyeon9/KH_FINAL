@@ -140,7 +140,7 @@
 }
 .thumb-list.vertical ul li .img-thumb {
     width: 40%;
-    border-right: 1px solid #ccc;
+    border: 0;
 }
 .thumb-list.vertical ul li .item-cont {
     position: relative;

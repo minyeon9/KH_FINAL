@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.earth.challenge.model.dao.ChallengeMapper">
+
+	<resultMap type="Today" id="callengeListMap">
+		<id property="memNo" column="MEM_NO" />
+		<result property="chalNo" column="CHAL_NO" />
+		<result property="chalNo2" column="CHAL_NO2" />
+		<result property="chalTitle" column="CHAL_TITLE" />
+		<result property="chalContent" column="CHAL_CONTENT" />
+		<result property="chalDate" column="CHAL_DATE" />
+		<result property="chalStatus" column="CHAL_STATUS" />
+		<result property="chalPoint" column="CHAL_POINT" />
+		<result property="chalPointStatus" column="CHAL_POINT_STATUS" />
+	</resultMap>
+  	
+  	<select id="findAll" parameterType="map" resultType="com.kh.earth.challenge.model.vo.Today" resultMap="callengeListMap">
+		SELECT
+		    MEM_NO,
+		    CHAL_NO,
+		    CHAL_NO2,
+		    CHAL_TITLE,
+		    CHAL_CONTENT,
+		    CHAL_DATE,
+		    CHAL_STATUS,
+		    CHAL_POINT,
+		    CHAL_POINT_STATUS
+		FROM CHAL_TODAY
+  	</select>
+
+</mapper>
