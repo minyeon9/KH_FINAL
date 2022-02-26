@@ -50,11 +50,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>오늘의 챌린지 목록</h3>
+                        <h3>문의 완료 목록</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">챌린지</a>
-                            <span>오늘의 챌린지 관리</span>
+                            <a href="#">문의</a>
+                            <span>문의 완료 목록</span>
                         </div>
                     </div>
 
@@ -93,9 +93,9 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th> 챌린지 번호</th>
-                                            <th>챌린지 제목</th>
-                                            <th>챌린지 포인트</th>
+                                            <th>문의 번호</th>
+                                            <th>문의 제목</th>
+                                            <th>문의자 아이디</th>
                                             <th>작성일</th>
                                             <th>내용</th>
                                             <th>관리</th>
@@ -107,10 +107,10 @@
                                             <td>내용1</td>
                                             <td>내용2</td>
                                             <td>내용3</td>
-                                            <td><button class="btn btn-s gray">보기</td>
+                                            <td><button class="btn btn-s gray">보기</button></td>
                                             <td>
-                                                <button class="btn btn-s">실행</button>
-                                                <button class="btn btn-s gray">중지</button>
+                                                <button class="btn btn-s">등록</button>
+                                                <button class="btn btn-s gray">정지</button>
                                             </td>
                                         </tr>
                                         
@@ -143,9 +143,9 @@
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['admin_challenge_today','admin_challenge_month','admin_challenge_today_manage','admin_challenge_month_manage'];
-	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
-	    let menuIcon = ['home', 'home', 'home', 'home']
+	    let menuPath = ['${ path }/admin/helpboard','${ path }/admin/helpboard_done','${ path }/admin/faq'];
+	    let menuName = ['문의 목록', '문의 완료 목록', 'FAQ'];
+	    let menuIcon = ['home', 'home', 'home']
 	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
@@ -157,7 +157,7 @@
 	    }
 	
 	    sideBarMenu.each(function(idx, el) {
-	        if(idx == 0) {
+	        if(idx == 1) {
 	            $(this).addClass('current');
 	        }
 	    });

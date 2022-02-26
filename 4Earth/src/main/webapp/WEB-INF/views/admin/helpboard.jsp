@@ -38,11 +38,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>신고 목록</h3>
+                        <h3>회원 목록</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">신고</a>
-                            <span>신고 목록</span>
+                            <a href="#">회원</a>
+                            <span>회원 목록</span>
                         </div>
                     </div>
 
@@ -81,12 +81,12 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>신고 번호</th>
-                                            <th>신고받은 회원</th>
-                                            <th>신고 회원</th>
-                                            <th>신고일</th>
-                                            <th>신고분류</th>
-                                            <th>신고내용</th>
+                                            <th>회원 번호</th>
+                                            <th>회원 아이디</th>
+                                            <th>회원명</th>
+                                            <th>가입일</th>
+                                            <th>회원등급</th>
+                                            <th>신고된 회수</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -97,7 +97,7 @@
                                             <td>내용2</td>
                                             <td>내용3</td>
                                             <td>내용4</td>
-                                            <td><button class="btn btn-s gray">보기</button></td>
+                                            <td>내용5</td>
                                             <td>
                                                 <button class="btn btn-s">등록</button>
                                                 <button class="btn btn-s gray">정지</button>
@@ -133,12 +133,10 @@
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = [
-	        'admin_report_list.html',
-	        'admin_reported_m_list.html'
-	    ];
-	    let menuName = ['신고 목록', '신고받은 회원 목록'];
-	    let menuIcon = ['home', 'home']
+	    let menuPath = ['${ path }/admin/helpboard','${ path }/admin/helpboard_done','${ path }/admin/faq'];
+	    let menuName = ['문의 목록', '문의 완료 목록', 'FAQ'];
+	    let menuIcon = ['home', 'home', 'home']
+	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);

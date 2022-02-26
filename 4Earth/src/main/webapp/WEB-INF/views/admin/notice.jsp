@@ -15,19 +15,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
+                        <li class="current">
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -50,11 +38,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>주문 접수 목록</h3>
+                        <h3>게시판 관리</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">에코샵</a>
-                            <span>주문 접수 목록</span>
+                            <a href="#">게시판</a>
+                            <span>게시판 관리</span>
                         </div>
                     </div>
 
@@ -83,21 +71,22 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>주문 번호</th>
-                                            <th>주문자</th>
-                                            <th>아이디</th>
-                                            <th>주문일</th>
-                                            <th>주문 목록</th>
+                                            <th>게시글 번호</th>
+                                            <th>제목</th>
+                                            <th>작성자</th>
+                                            <th>작성일</th>
+                                            <th>조회수</th>
+                                            <th>신고된 회수</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -107,7 +96,8 @@
                                             <td>내용1</td>
                                             <td>내용2</td>
                                             <td>내용3</td>
-                                            <td><button class="btn btn-s gray">주문 보기</button></td>
+                                            <td>내용4</td>
+                                            <td>내용5</td>
                                             <td>
                                                 <button class="btn btn-s">등록</button>
                                                 <button class="btn btn-s gray">정지</button>
@@ -143,9 +133,9 @@
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['admin_echo_list','admin_echo_order','admin_echo_delivery','admin_echo_order_cancel','admin_echo_bidding'];
-	    let menuName = ['에코샵 물품 목록', '주문 접수 목록', '발송 완료 목록', '주문 취소 목록', '물품 접수 목록'];
-	    let menuIcon = ['home', 'home', 'home', 'home', 'home']
+	    let menuPath = ['${ path }/admin/notice'];
+	    let menuName = ['게시판 분류1'];
+	    let menuIcon = ['home']
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);
@@ -156,7 +146,7 @@
 	    }
 	
 	    sideBarMenu.each(function(idx, el) {
-	        if(idx == 1) {
+	        if(idx == 0) {
 	            $(this).addClass('current');
 	        }
 	    });

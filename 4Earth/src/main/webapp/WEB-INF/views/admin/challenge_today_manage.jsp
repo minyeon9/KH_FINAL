@@ -54,10 +54,11 @@
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">챌린지</a>
-                            <span>오늘의 챌린지 목록</span>
+                            <span>이달의 챌린지 목록</span>
                         </div>
                     </div>
 
+                    
                     <div class="guide">
                         <!-- Category -->
                         <section>
@@ -109,8 +110,8 @@
                                             <td>내용3</td>
                                             <td><button class="btn btn-s gray">보기</td>
                                             <td>
-                                                <button class="btn btn-s">실행</button>
-                                                <button class="btn btn-s gray">중지</button>
+                                                <button class="btn btn-s">승인</button>
+                                                <button class="btn btn-s gray">거절</button>
                                             </td>
                                         </tr>
                                         
@@ -130,20 +131,20 @@
                             <a href="#">4</a>
                             <a href="#" class="next"><span>다음</span></a>
                         </div>                   
-                    </div> <!-- // guide -->
-                    
+                    </div>
             </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
         </div>
 
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['admin_challenge_today.html','admin_challenge_month.html','admin_challenge_today_manage.html','admin_challenge_month_manage.html'];
+	    let menuPath = ['${ path }/admin/challenge_today','${ path }/admin/challenge_month','${ path }/admin/challenge_today_manage','${ path }/admin/challenge_month_manage'];
 	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
 	    let menuIcon = ['home', 'home', 'home', 'home']
 	
@@ -157,7 +158,7 @@
 	    }
 	
 	    sideBarMenu.each(function(idx, el) {
-	        if(idx == 1) {
+	        if(idx == 2) {
 	            $(this).addClass('current');
 	        }
 	    });

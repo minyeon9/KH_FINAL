@@ -15,7 +15,19 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li class="current">
+                        <li>
+                            <a href="">
+                                <i class="material-icons md-16"></i>
+                                <span></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="material-icons md-16"></i>
+                                <span></span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -38,11 +50,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>회원 목록</h3>
+                        <h3>오늘의 챌린지 목록</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">회원</a>
-                            <span>회원 목록</span>
+                            <a href="#">챌린지</a>
+                            <span>오늘의 챌린지 목록</span>
                         </div>
                     </div>
 
@@ -71,83 +83,55 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>회원 번호</th>
-                                            <th>회원 아이디</th>
-                                            <th>회원명</th>
-                                            <th>가입일</th>
-                                            <th>회원등급</th>
-                                            <th>신고된 회수</th>
+                                            <th> 챌린지 번호</th>
+                                            <th>챌린지 제목</th>
+                                            <th>챌린지 포인트</th>
+                                            <th>작성일</th>
+                                            <th>내용</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <c:if test="${ empty list }">
-	                                    <tbody>
-		                                    <tr>
-		                                    	<td colspan="6">
-												조회된 멤버가 없습니다
-		                                    	</td>
-		                                    </tr>
-	                                    </tbody>
-									</c:if>
-									<c:if test="${ !empty list }">
-										<c:forEach var="member" items="${ list }">
-		                                    <tbody>
-		                                        <tr>
-		                                            <td>${ member.no }</td>
-		                                            <td>${ member.id }</td>
-		                                            <td>${ member.name }</td>
-		                                            <td>${ member.enrollDate }</td>
-		                                            <td>{ member.level }</td>
-		                                            <td>{ member.repoted }</td>
-		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
-		                                                <button id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
-		                                            </td>
-		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
-									</c:if>
+                                    <tbody>
+                                        <tr>
+                                            <td>번호</td>
+                                            <td>내용1</td>
+                                            <td>내용2</td>
+                                            <td>내용3</td>
+                                            <td><button class="btn btn-s gray">보기</td>
+                                            <td>
+                                                <button class="btn btn-s">실행</button>
+                                                <button class="btn btn-s gray">중지</button>
+                                            </td>
+                                        </tr>
+                                        
+                                    </tbody>
                                 </table>
                             </div>
                             <div class="btn-wrap">
                                 <button class="btn">작성</button>
                             </div>
                         </section>
-                        
+                        <!-- // Category -->
                         <div class="paging">
-							<!-- 맨 처음으로 -->
-							<a class="prev" href="${ path }/admin_member?page=1"></a>
-				
-							<!-- 이전 페이지로 -->
-							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
-				
-							<!--  10개 페이지 목록 -->
-							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == pageInfo.currentPage }">			
-									<strong>${ status.current }</strong>
-								</c:if>
-								<c:if test="${ status.current != pageInfo.currentPage }">				
-									<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-				
-							<!-- 다음 페이지로 -->
-							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
-				
-							<!-- 맨 끝으로 -->
-							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
-						</div>                
-                    </div>
+                            <a href="#" class="prev"><span>이전</span></a>
+                            <strong>1</strong>
+                            <a href="#">2</a>
+                            <a href="#">3</a>
+                            <a href="#">4</a>
+                            <a href="#" class="next"><span>다음</span></a>
+                        </div>                   
+                    </div> <!-- // guide -->
+                    
             </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
@@ -159,9 +143,10 @@
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['admin_m_list.html'];
-	    let menuName = ['회원 목록'];
-	    let menuIcon = ['home']
+	    let menuPath = ['${ path }/admin/challenge_today','${ path }/admin/challenge_month','${ path }/admin/challenge_today_manage','${ path }/admin/challenge_month_manage'];
+	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
+	    let menuIcon = ['home', 'home', 'home', 'home']
+	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);
@@ -172,18 +157,10 @@
 	    }
 	
 	    sideBarMenu.each(function(idx, el) {
-	        if(idx == 0) {
+	        if(idx == 1) {
 	            $(this).addClass('current');
 	        }
 	    });
-	});
-	
-	$(document).ready(() => {
-		$("#delete").on("click", (e) => {
-			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
-				location.replace("${ pageContext.request.contextPath }/admin_member_delete?no=" + e.target.value);
-			}
-		})
 	});
 </script>
 

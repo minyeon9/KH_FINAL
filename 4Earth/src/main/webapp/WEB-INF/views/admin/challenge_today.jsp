@@ -50,11 +50,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>에코샵 물품 목록</h3>
+                        <h3>오늘의 챌린지 목록</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">에코샵</a>
-                            <span>에코샵 물품 목록</span>
+                            <a href="#">챌린지</a>
+                            <span>오늘의 챌린지 관리</span>
                         </div>
                     </div>
 
@@ -93,11 +93,11 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>물품 번호</th>
-                                            <th>물품 이름</th>
-                                            <th>분류</th>
-                                            <th>등록일</th>
-                                            <th>재고 수</th>
+                                            <th> 챌린지 번호</th>
+                                            <th>챌린지 제목</th>
+                                            <th>챌린지 포인트</th>
+                                            <th>작성일</th>
+                                            <th>내용</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -107,10 +107,10 @@
                                             <td>내용1</td>
                                             <td>내용2</td>
                                             <td>내용3</td>
-                                            <td>내용4</td>
+                                            <td><button class="btn btn-s gray">보기</td>
                                             <td>
-                                                <button class="btn btn-s">등록</button>
-                                                <button class="btn btn-s gray">정지</button>
+                                                <button class="btn btn-s">실행</button>
+                                                <button class="btn btn-s gray">중지</button>
                                             </td>
                                         </tr>
                                         
@@ -143,9 +143,10 @@
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['admin_echo_list','admin_echo_order','admin_echo_delivery','admin_echo_order_cancel','admin_echo_bidding'];
-	    let menuName = ['에코샵 물품 목록', '주문 접수 목록', '발송 완료 목록', '주문 취소 목록', '물품 접수 목록'];
-	    let menuIcon = ['home', 'home', 'home', 'home', 'home']
+	    let menuPath = ['${ path }/admin/challenge_today','${ path }/admin/challenge_month','${ path }/admin/challenge_today_manage','${ path }/admin/challenge_month_manage'];
+	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
+	    let menuIcon = ['home', 'home', 'home', 'home']
+	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);

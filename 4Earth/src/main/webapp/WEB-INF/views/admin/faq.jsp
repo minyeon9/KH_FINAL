@@ -15,7 +15,19 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li class="current">
+                        <li>
+                            <a href="">
+                                <i class="material-icons md-16"></i>
+                                <span></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="material-icons md-16"></i>
+                                <span></span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -38,11 +50,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>게시판 관리</h3>
+                        <h3>FAQ</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">게시판</a>
-                            <span>게시판 관리</span>
+                            <a href="#">문의</a>
+                            <span>FAQ</span>
                         </div>
                     </div>
 
@@ -71,22 +83,21 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>게시글 번호</th>
-                                            <th>제목</th>
-                                            <th>작성자</th>
+                                            <th>FAQ 번호</th>
+                                            <th>FAQ 분류</th>
+                                            <th>FAQ 제목</th>
                                             <th>작성일</th>
-                                            <th>조회수</th>
-                                            <th>신고된 회수</th>
+                                            <th>내용</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -96,8 +107,7 @@
                                             <td>내용1</td>
                                             <td>내용2</td>
                                             <td>내용3</td>
-                                            <td>내용4</td>
-                                            <td>내용5</td>
+                                            <td><button class="btn btn-s gray">보기</button></td>
                                             <td>
                                                 <button class="btn btn-s">등록</button>
                                                 <button class="btn btn-s gray">정지</button>
@@ -131,28 +141,27 @@
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
-	$(() => {
-	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = [
-	        'admin_notice.html'
-	    ];
-	    let menuName = ['게시판 분류1'];
-	    let menuIcon = ['home']
-	
-	    for( let i = 0; i < menuName.length; i++ ) {
-	        let menuIdx = sideBarMenu.eq(i);
-	
-	        menuIdx.find('a').attr('href', menuPath[i]);
-	        menuIdx.find('a > i').text(menuIcon[i]);
-	        menuIdx.find('a > span').text(menuName[i]);
-	    }
-	
-	    sideBarMenu.each(function(idx, el) {
-	        if(idx == 0) {
-	            $(this).addClass('current');
-	        }
-	    });
-	});
+$(() => {
+    let sideBarMenu = $('.side-bar ul li');
+    let menuPath = ['${ path }/admin/helpboard','${ path }/admin/helpboard_done','${ path }/admin/faq'];
+    let menuName = ['문의 목록', '문의 완료 목록', 'FAQ'];
+    let menuIcon = ['home', 'home', 'home']
+
+
+    for( let i = 0; i < menuName.length; i++ ) {
+        let menuIdx = sideBarMenu.eq(i);
+
+        menuIdx.find('a').attr('href', menuPath[i]);
+        menuIdx.find('a > i').text(menuIcon[i]);
+        menuIdx.find('a > span').text(menuName[i]);
+    }
+
+    sideBarMenu.each(function(idx, el) {
+        if(idx == 2) {
+            $(this).addClass('current');
+        }
+    });
+});
 </script>
 
 </html>

@@ -31,7 +31,7 @@
                 
                 <c:if test="${ empty loginMember }">
                     <div class="before-login">
-                        <a href="${ path }/admin">admin(임시)</a>
+                        <a href="${ path }/admin/main">admin(임시)</a>
                         <!-- <a href="${ path }/guide">Guide</a>  -->
                         <a href="${ path }/login">
                             <i class="material-icons md-18">login</i> 로그인

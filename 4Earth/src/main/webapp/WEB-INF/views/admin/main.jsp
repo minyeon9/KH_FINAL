@@ -66,12 +66,12 @@
                     <div class="guide">
                         <div class="admin-category">
                             <ul>
-                                <li><a href='admin_notice.html'><i class="material-icons md-36">assignment</i>게시판</a></li>
-                                <li ><a href='admin_m_list.html'><i class="material-icons md-36">person</i>회원</a></li>
-                                <li><a href="admin_helpboard.html"><i class="material-icons md-36">live_help</i>문의</a></li>
-                                <li><a href="admin_report_list.html"><i class="material-icons md-36">report_problem</i>신고</a></li>
-                                <li><a href="#"><i class="material-icons md-36">checklist</i>챌린지</a></li>
-                                <li><a href="admin_echo_list.html"><i class="material-icons md-36">storefront</i>에코샵</a></li>
+                                <li><a href='${ path }/admin/notice'><i class="material-icons md-36">assignment</i>게시판</a></li>
+                                <li ><a href='${ path }/admin/member'><i class="material-icons md-36">person</i>회원</a></li>
+                                <li><a href="${ path }/admin/helpboard"><i class="material-icons md-36">live_help</i>문의</a></li>
+                                <li><a href="${ path }/admin/report_list"><i class="material-icons md-36">report_problem</i>신고</a></li>
+                                <li><a href="${ path }/admin/challenge_today"><i class="material-icons md-36">checklist</i>챌린지</a></li>
+                                <li><a href="${ path }/admin/echo_list"><i class="material-icons md-36">storefront</i>에코샵</a></li>
                             </ul>
                         </div>
                         
@@ -88,7 +88,7 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['admin_notice.html','admin_m_list.html','admin_helpboard.html','admin_report_list.html','#','admin_echo_list.html'];
+        let menuPath = ['${ path }/admin/notice','${ path }/admin/member','${ path }/admin/helpboard','${ path }/admin/report_list','${ path }/admin/challenge_today','${ path }/admin/echo_list'];
         let menuName = ['게시판', '회원', '문의', '신고', '챌린지', '에코샵'];
         let menuIcon = ['home', 'home', 'home', 'home', 'home', 'home'];
 

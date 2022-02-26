@@ -28,12 +28,13 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 	
+	 	<!-- 
 	<interceptors>
 	 	<interceptor>
-	 		<mapping path="/admin"/>
+	 		<mapping path="/admin/**"/>
 	 		
-	 		<!-- 인터셉터 등록 -->
 	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
 	 	</interceptor>
 	 </interceptors>
+	 	 -->
 </beans:beans>
