@@ -1,7 +1,10 @@
 package com.kh.earth.member.model.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import com.kh.earth.member.model.vo.Member;
 
@@ -19,5 +22,9 @@ public interface MemberMapper {
 	int updateMember(Member member);
 
 	int deleteMember(int no);
+
+	List<Member> findMember(RowBounds rowBounds);
+
+	int getMemberCount();
 
 }

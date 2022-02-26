@@ -1,13 +1,26 @@
 package com.kh.earth.admin.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.earth.common.util.PageInfo;
+import com.kh.earth.member.model.service.MemberService;
+import com.kh.earth.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class AdminController {
+	@Autowired
+	private MemberService service;
 
 	@GetMapping("/admin")
 	public String admin() {
@@ -38,10 +51,22 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin_member")
-	public String admin_member() {
-		log.info("admin_member() - 호출");
+	public ModelAndView admin_member(ModelAndView model, 
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Member> list = null;
 		
-		return "admin/admin_member";
+		log.info("admin_member() - 호출", page);
+		
+		pageInfo = new PageInfo(page, 10, service.getMemberCount(), count);
+		list = service.getMemberList(pageInfo);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		model.setViewName("admin/admin_member");
+		
+		return model;
 	}
 	
 	@GetMapping("/admin_helpboard")
@@ -121,7 +146,29 @@ public class AdminController {
 		return "admin/admin_challenge_today_manage";
 	}
 	
-	
+	@GetMapping("/admin_member_delete")
+	public ModelAndView admin_member_delete(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_member_delete" + no);
+		
+		int result = 0;
+		
+		result = service.delete(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "멤버 정지 완료");
+			model.addObject("location", "/admin_member");
+		}else {
+			model.addObject("msg", "멤버 정지 실패");
+			model.addObject("location", "/admin_member");
+		}
+			
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	
 	

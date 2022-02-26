@@ -101,55 +101,11 @@
         }
 
         sideBarMenu.each(function(idx, el) {
-            if(idx == 1) {
+            if(idx == 10) {
                 $(this).addClass('current');
             }
         });
     });
-
-    var menu = document.getElementsByClassName("menu");
-
-    function handleClick(event) {
-        if (event.target.classList[1] === "clicked") {
-            for (var i = 0; i < menu.length; i++) {
-                menu[i].classList.remove("clicked");
-                menu[i].classList.remove("clicked2");
-            }
-
-            event.target.classList.add("clicked2");
-            event.target.value = "▲";
-        } else if(event.target.classList[1] === "clicked2") {
-            event.target.classList.remove("clicked");
-            event.target.classList.remove("clicked2");
-
-            event.target.value = "-";
-        }else {
-            if(event.target.classList[1] === "clicked2") {
-                for (var i = 0; i < menu.length; i++) {
-                menu[i].classList.remove("clicked2");
-                menu[i].classList.remove("clicked");
-            }
-                event.target.classList.add("clicked2");
-                event.target.value = "▲";
-            }else {
-                for (var i = 0; i < menu.length; i++) {
-                menu[i].classList.remove("clicked");
-                menu[i].classList.remove("clicked2");
-            }
-                event.target.classList.add("clicked");
-                event.target.value = "▼";
-            }
-            
-        }
-    }
-
-    function init() {
-        for (var i = 0; i < menu.length; i++) {
-            menu[i].addEventListener("click", handleClick);
-        }
-    }
-
-    init();
 </script>
 
 </html>
