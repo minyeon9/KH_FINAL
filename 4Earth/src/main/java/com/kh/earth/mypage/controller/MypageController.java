@@ -8,6 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class MypageController {
+	
+	@GetMapping("/point")
+	public String point() {
+		log.info("point() - 호출");
+		
+		return "mypage/point";
+	}
 
 	@GetMapping("/order")
 	public String order() {

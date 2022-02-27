@@ -29,5 +29,23 @@
                     <span></span>
                 </a>
             </li>
+            <li>
+                <a href="">
+                    <i class="material-icons md-16"></i>
+                    <span></span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="material-icons md-16"></i>
+                    <span></span>
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <i class="material-icons md-16"></i>
+                    <span></span>
+                </a>
+            </li>
         </ul>
     </div>

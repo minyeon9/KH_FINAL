@@ -88,7 +88,7 @@
                     <li>
                         <h2><a href="#">마이페이지</a></h2>
                         <ul>
-                            <li><a href="${ path }/">포인트 내역</a></li>
+                            <li><a href="${ path }/point">포인트 내역</a></li>
                             <li><a href="${ path }/order">주문&dot;배송</a></li>
                             <li><a href="${ path }/wishlist">찜한 상품</a></li>
                             <li><a href="${ path }/">문의</a></li>
