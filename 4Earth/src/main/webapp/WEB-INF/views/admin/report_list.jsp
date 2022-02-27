@@ -90,21 +90,33 @@
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td>내용4</td>
-                                            <td><button class="btn btn-s gray">보기</button></td>
-                                            <td>
-                                                <button class="btn btn-s">등록</button>
-                                                <button class="btn btn-s gray">정지</button>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
+                                    <c:if test="${ empty list }">
+	                                    <tbody>
+		                                    <tr>
+		                                    	<td colspan="6">
+												조회된 신고가 없습니다
+		                                    	</td>
+		                                    </tr>
+	                                    </tbody>
+									</c:if>
+									<c:if test="${ !empty list }">
+										<c:forEach var="report" items="${ list }">
+		                                    <tbody>
+		                                        <tr>
+		                                            <td>${ report.reportNo }</td>
+		                                            <td>${ report.reportedMemberNo }</td>
+		                                            <td>${ report.reportMemberNo }</td>
+		                                            <td>${ report.reportDate }</td>
+		                                            <td>${ report.reportCategory }</td>
+		                                            <td>${ report.reportContent }</td>
+		                                            <td>
+		                                                <button class="btn btn-s">등록</button>
+		                                                <button id="delete" name="no" value=${ report.reportNo } class="btn btn-s gray">정지</button>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+										</c:forEach>
+									</c:if>
                                 </table>
                             </div>
                             <div class="btn-wrap">
@@ -150,6 +162,14 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).ready(() => {
+		$("#delete").on("click", (e) => {
+			if(confirm("정말로 이 신고를 처리하겠습니까??")) {
+				location.replace("${ path }/admin/report_delete?no=" + e.target.value);
+			}
+		})
 	});
 </script>
 

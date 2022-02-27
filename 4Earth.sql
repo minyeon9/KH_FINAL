@@ -606,5 +606,97 @@ SELECT
     CHAL_POINT_STATUS
 FROM CHAL_TODAY;
 
+--------------------------------------------------------
 
+
+--------------------------------------------------------
+------------------------ 신고 테이블------------------------
+--------------------------------------------------------
+
+
+CREATE TABLE REPORT (
+    REPORT_NO NUMBER CONSTRAINT REPORT_NO_PK PRIMARY KEY,
+    REPORT_M_NO NUMBER CONSTRAINT REPORT_M_NO_FK REFERENCES MEMBER(NO),
+    REPORTED_M_NO NUMBER CONSTRAINT REPORTED_M_NO_FK REFERENCES MEMBER(NO),
+    REPORT_DATE DATE DEFAULT SYSDATE,
+    REPORT_TITLE VARCHAR2(100),
+    REPORT_CONTENT VARCHAR2(500),
+    REPORT_CATEGORY VARCHAR2(10) DEFAULT '0' CHECK(REPORT_CATEGORY IN('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')),
+    REPORT_STATUS VARCHAR2(10) DEFAULT 'Y' CHECK(REPORT_STATUS IN('Y', 'N'))
+);
+
+-- MEMBER 테이블 코멘트 입력
+COMMENT ON COLUMN REPORT.REPORT_NO IS '신고번호';
+COMMENT ON COLUMN REPORT.REPORT_M_NO IS '신고한 회원 번호';
+COMMENT ON COLUMN REPORT.REPORTED_M_NO IS '신고받은 회원 번호';
+COMMENT ON COLUMN REPORT.REPORT_DATE IS '신고일';
+COMMENT ON COLUMN REPORT.REPORT_TITLE IS '신고제목';
+COMMENT ON COLUMN REPORT.REPORT_CONTENT IS '신고내용';
+COMMENT ON COLUMN REPORT.REPORT_CATEGORY IS '신고분류';
+COMMENT ON COLUMN REPORT.REPORT_STATUS IS '신고조치';
+
+-- MEMBER 테이블 시퀀스 생성
+CREATE SEQUENCE SEQ_RNO;
+
+INSERT INTO REPORT (
+    REPORT_NO, 
+    REPORT_M_NO, 
+    REPORTED_M_NO, 
+    REPORT_DATE,
+    REPORT_TITLE, 
+    REPORT_CONTENT, 
+    REPORT_STATUS, 
+    REPORT_CATEGORY
+) VALUES(
+    SEQ_RNO.NEXTVAL, 
+    1, 
+    2, 
+    DEFAULT, 
+    '신고합니다!!!', 
+    '신고내용~~~~~~~~~~', 
+    DEFAULT, 
+    DEFAULT
+);
+
+INSERT INTO REPORT (
+    REPORT_NO, 
+    REPORT_M_NO, 
+    REPORTED_M_NO, 
+    REPORT_DATE,
+    REPORT_TITLE, 
+    REPORT_CONTENT, 
+    REPORT_STATUS, 
+    REPORT_CATEGORY
+) VALUES(
+    SEQ_RNO.NEXTVAL, 
+    1, 
+    2, 
+    DEFAULT, 
+    '신고합니다!!!', 
+    '신고내용~~~~~~~~~~',
+    DEFAULT,
+    '5'
+);
+
+INSERT INTO REPORT (
+    REPORT_NO, 
+    REPORT_M_NO, 
+    REPORTED_M_NO, 
+    REPORT_DATE,
+    REPORT_TITLE, 
+    REPORT_CONTENT, 
+    REPORT_STATUS, 
+    REPORT_CATEGORY
+) VALUES(
+    SEQ_RNO.NEXTVAL, 
+    2, 
+    1, 
+    DEFAULT, 
+    '신고합니다!!!'33, 
+    '신고내용~~~~~~~~~~33',
+    DEFAULT,
+    '5'
+);
+
+COMMIT;  
 

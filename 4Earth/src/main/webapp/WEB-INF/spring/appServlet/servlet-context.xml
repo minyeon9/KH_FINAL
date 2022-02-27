@@ -28,7 +28,6 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 	
-	 	<!-- 
 	<interceptors>
 	 	<interceptor>
 	 		<mapping path="/admin/**"/>
@@ -36,5 +35,4 @@
 	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
 	 	</interceptor>
 	 </interceptors>
-	 	 -->
 </beans:beans>

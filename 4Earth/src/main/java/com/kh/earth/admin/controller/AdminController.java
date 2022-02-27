@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.earth.admin.model.service.ReportService;
+import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.service.MemberService;
 import com.kh.earth.member.model.vo.Member;
@@ -22,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 	@Autowired
 	private MemberService service;
+	
+	@Autowired
+	private ReportService rservice;
 
 	@GetMapping("/main")
 	public String admin() {
@@ -31,10 +36,22 @@ public class AdminController {
 	}
 	
 	@GetMapping("/report_list")
-	public String admin_report_list() {
+	public ModelAndView admin_report_list(ModelAndView model, 
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Report> list = null;
+		
 		log.info("admin_report)list() - 호출");
 		
-		return "admin/report_list";
+		pageInfo = new PageInfo(page, 10, service.getMemberCount(), count);
+		list = rservice.getReportList(pageInfo);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		model.setViewName("/admin/report_list");
+		
+		return model;
 	}
 	
 	@GetMapping("/reported_list")
@@ -163,6 +180,30 @@ public class AdminController {
 		}else {
 			model.addObject("msg", "멤버 정지 실패");
 			model.addObject("location", "/admin/member");
+		}
+			
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@GetMapping("/report_delete")
+	public ModelAndView admin_report_delete(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_report_delete" + no);
+		
+		int result = 0;
+		
+		result = rservice.delete(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "신고 처리 완료");
+			model.addObject("location", "/admin/report_list");
+		}else {
+			model.addObject("msg", "신고 처리 실패");
+			model.addObject("location", "/admin/report_list");
 		}
 			
 		
