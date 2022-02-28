@@ -9,7 +9,19 @@ public interface StoreService {
 
 	int getProductCount();
 
-	List<Product> getProductList(PageInfo pageInfo);
+	List<Product> getProductList(PageInfo pageInfo, String arrange);
+
+	int getProductCount(String category);
+
+	int getProductCount(List<String> detail);
+
+	List<Product> getProductListByCategory(PageInfo pageInfo, String category);
+
+	List<Product> getProductListByDetail(PageInfo pageInfo, List<String> detail);
+
+	List<Product> getProductListByCategory(PageInfo pageInfo, String category, String arrange);
+
+	List<Product> getProductListByDetail(PageInfo pageInfo, List<String> detail, String arrange);
 
 	
 	
