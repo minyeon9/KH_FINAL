@@ -21,6 +21,7 @@ public class ChallengeController {
 
 	@GetMapping("/today_list")
 	public ModelAndView todayList(ModelAndView model) {
+		log.info("today_list - 호출");
 		
 		List<Today> todayList = null;
 		

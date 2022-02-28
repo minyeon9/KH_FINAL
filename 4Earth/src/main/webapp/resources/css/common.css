@@ -48,6 +48,7 @@ input[type="tel"],
 input[type="mail"] {
     height: 40px;
     border: 1px solid #ccc;
+    border-radius: 10px;
     padding: 0 10px;
     outline: 0;
     transition: all 0.2s ease-out;
@@ -202,6 +203,7 @@ input[type="checkbox"] label {
 }
 textarea {
     border: 1px solid #ccc;
+    border-radius: 10px;
     padding: 10px;
     outline: 0;
     transition: all 0.2s ease-out;
@@ -301,6 +303,7 @@ button {
     line-height: 16px;
     background: #fff;
     border: 2px solid #76b779;
+    border-radius: 5px;
     padding: 8px 30px;
     box-sizing: border-box;
     transition: all 0.2s ease-out;
@@ -356,6 +359,9 @@ input[type="button"].btn:not(#checkDuplicate) {
     line-height: 16px;
     padding: 8px 20px;
     cursor: pointer;
+}
+input[type="submit"].btn {
+	cursor: pointer;	
 }
 input[type="button"].btn.btn-l {
     height: 55px;

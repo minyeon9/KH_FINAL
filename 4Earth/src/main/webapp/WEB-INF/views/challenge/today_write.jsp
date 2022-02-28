@@ -35,7 +35,7 @@
                            <strong>플로깅은 Plocka Up + Jogging의 합성어로<br>조깅을 하는 동시에 쓰레기를 줍는 활동입니다.</strong>
                            <ul>
                                <li>
-                                   <img src="${ path }/resources/images/challenge/callenge02.png" alt="">
+                                   <img src="${ path }/resources/images/challenge/challenge02.png" alt="">
                                    <strong>
                                        <i class="material-icons md-22">thumb_up</i>
                                        이렇게 찍어주세요!
@@ -43,7 +43,7 @@
                                    <p>실외에서 실천하는 모습의<br>사진을 업로드해주세요.</p>
                                </li>
                                <li>
-                                   <img src="${ path }/resources/images/challenge/callenge01.png" alt="">
+                                   <img src="${ path }/resources/images/challenge/challenge01.png" alt="">
                                    <strong>
                                        <i class="material-icons md-22">thumb_down</i>
                                        이런 사진은 안 돼요!
@@ -58,10 +58,10 @@
                        <h4>챌린지 인증하기</h4>
                        <div class="prov-set">
                            <div class="thumb-img">
-                               <img src="${ path }/resources/images/challenge/challenge03.jpg" alt="">
+								<strong>예시 이미지</strong>
+                                <img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
                            </div>
                            <div class="upload-wrap">
-                               <strong>걸어서 or 자전거로 출퇴근</strong>
                                <div class="upload-img">
                                    <button class="btn-delete-img">
                                        <i class="material-icons md-22">delete_outline</i>
@@ -80,7 +80,8 @@
                                </div>
                            </div>
                            
-                           <button class="btn" onclick="location.href='${ path }/today_complete'">인증하기</button>
+                           <%-- <button class="btn" onclick="location.href='${ path }/today_complete'">인증하기</button> --%>
+                           <input type="submit" class="btn" value="인증하기">
                        </div>
                    </section>
                </div>

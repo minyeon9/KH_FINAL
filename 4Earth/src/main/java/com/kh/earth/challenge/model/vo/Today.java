@@ -11,22 +11,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Today {
 	
-	private int memNo;
+	private int cetegory;
 	
 	private int chalNo;
-	
-	private int chalNo2;
 	
 	private String chalTitle;
 	
 	private String chalContent;	
 	
-	private Date chalDate;
-	
-	private char chalStatus;
+	private String chalImgPath;
 	
 	private int chalPoint;
 	
-	private char chalPointStatus;
+	private Date chalDate;
 	
 }

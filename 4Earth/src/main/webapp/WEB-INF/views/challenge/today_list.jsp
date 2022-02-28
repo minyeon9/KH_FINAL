@@ -42,9 +42,9 @@
                         	<c:if test="${ !empty todayList }">
 	                         	<c:forEach var="todayList" items="${ todayList }">
 	                              <li>
-	                                  <i class="num">${ todayList.chalNo2 }</i>
+	                                  <i class="num">${ todayList.chalNo }</i>
 	                                  <div class="img-thumb">
-	                                      <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                                      <img src="${ path }${todayList.chalImgPath}/challenge_today0${todayList.chalNo}.jpg" alt="">
 	                                  </div>
 	                                  <strong>${ todayList.chalTitle }</strong>
 	                                  <p>${ todayList.chalContent }</p>

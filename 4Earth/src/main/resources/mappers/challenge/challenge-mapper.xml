@@ -7,28 +7,24 @@
 <mapper namespace="com.kh.earth.challenge.model.dao.ChallengeMapper">
 
 	<resultMap type="Today" id="callengeListMap">
-		<id property="memNo" column="MEM_NO" />
+		<result property="chalNo" column="CATOGORY" />
 		<result property="chalNo" column="CHAL_NO" />
-		<result property="chalNo2" column="CHAL_NO2" />
 		<result property="chalTitle" column="CHAL_TITLE" />
 		<result property="chalContent" column="CHAL_CONTENT" />
-		<result property="chalDate" column="CHAL_DATE" />
-		<result property="chalStatus" column="CHAL_STATUS" />
+		<result property="chalImgPath" column="CHAL_IMG_PATH" />
 		<result property="chalPoint" column="CHAL_POINT" />
-		<result property="chalPointStatus" column="CHAL_POINT_STATUS" />
+		<result property="chalDate" column="CHAL_DATE" />
 	</resultMap>
   	
   	<select id="findAll" parameterType="map" resultType="com.kh.earth.challenge.model.vo.Today" resultMap="callengeListMap">
 		SELECT
-		    MEM_NO,
+		    CATEGORY,
 		    CHAL_NO,
-		    CHAL_NO2,
 		    CHAL_TITLE,
 		    CHAL_CONTENT,
-		    CHAL_DATE,
-		    CHAL_STATUS,
+		    CHAL_IMG_PATH,
 		    CHAL_POINT,
-		    CHAL_POINT_STATUS
+		    CHAL_DATE
 		FROM CHAL_TODAY
   	</select>
 
