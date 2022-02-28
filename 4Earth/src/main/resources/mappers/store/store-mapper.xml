@@ -37,16 +37,137 @@
 		<result property="proRating" column="PRO_RATING"/>
 	</resultMap>
 
-	<select id="getProductCount" resultType="_int">
+	<select id="getProductCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
+		<where>
+			<if test="category == '전체'">
+			</if>
+			<if test="category == '식품'">
+				AND PRO_CAT LIKE '1%'
+			</if>
+			<if test="category == '생활'">
+				AND PRO_CAT LIKE '2%'
+			</if>
+			<if test="category == '뷰티'">
+				AND PRO_CAT LIKE '3%'
+			</if>
+			<if test="category == '반려동물'">
+				AND PRO_CAT LIKE '4%'
+			</if>
+			AND PRO_STAT = 3
+		</where>
 	</select>
 	
-	<select id="getProductList" resultMap="ProductListResultMap">
+	<select id="getProductCountByDetail" parameterType="list" resultType="_int">
+		SELECT COUNT(*) 
+		FROM PRODUCT P
+		JOIN PRODUCT_CATEGORY C ON(P.PRO_CAT = C.C_NO)
+		<where>
+			<if test="detail != null">
+				AND C.C_NAME IN
+				<foreach collection="detail" item="filter" open="(" separator="," close=")">
+					#{filter}
+				</foreach>
+			</if>
+			AND P.PRO_STAT = 3
+		</where>
+	</select>
+	
+	<select id="getProductList" parameterType="string" resultMap="ProductListResultMap">
 		<include refid="selectProductSql"/>
 			, ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
 		FROM PRODUCT
 		WHERE PRO_STAT = 3
-		ORDER BY PRO_DATE DESC
+		<if test="arrange == '신상품순'">
+			ORDER BY PRO_DATE DESC
+		</if>
+		<if test="arrange == '판매순'">
+			ORDER BY PRO_SOLD DESC
+		</if>
+		<if test="arrange == '별점순'">
+			ORDER BY PRO_RATING DESC
+		</if>
+		<if test="arrange == '낮은가격순'">
+			ORDER BY PRO_PRICE
+		</if>
+		<if test="arrange == '높은가격순'">
+			ORDER BY PRO_PRICE DESC
+		</if>		
+	</select>
+	
+	<select id="getProductListByCategory" parameterType="map" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			, ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+		FROM PRODUCT
+		<where>
+			<if test="category == '식품'">
+				AND PRO_CAT LIKE '1%'
+			</if>
+			<if test="category == '생활'">
+				AND PRO_CAT LIKE '2%'
+			</if>
+			<if test="category == '뷰티'">
+				AND PRO_CAT LIKE '3%'
+			</if>
+			<if test="category == '반려동물'">
+				AND PRO_CAT LIKE '4%'
+			</if>
+			<if test="category == '전체'">
+			</if>
+			AND PRO_STAT = 3
+		</where>		
+		<if test="arrange == null">
+			ORDER BY PRO_DATE DESC		
+		</if>
+		<if test="arrange == '신상품순'">
+			ORDER BY PRO_DATE DESC
+		</if>
+		<if test="arrange == '판매순'">
+			ORDER BY PRO_SOLD DESC
+		</if>
+		<if test="arrange == '별점순'">
+			ORDER BY PRO_RATING DESC
+		</if>
+		<if test="arrange == '낮은가격순'">
+			ORDER BY PRO_PRICE
+		</if>
+		<if test="arrange == '높은가격순'">
+			ORDER BY PRO_PRICE DESC
+		</if>	
+	</select>
+	
+	<select id="getProductListByDetail" parameterType="map" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			, ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+		FROM PRODUCT P
+		JOIN PRODUCT_CATEGORY C ON(P.PRO_CAT = C.C_NO)
+		<where>
+			<if test="detail != null">
+				AND C.C_NAME IN
+				<foreach collection="detail" item="filter" open="(" separator="," close=")">
+					#{filter}
+				</foreach>
+			</if>
+			AND P.PRO_STAT = 3
+		</where>		
+		<if test="arrange == null">
+			ORDER BY PRO_DATE DESC		
+		</if>
+		<if test="arrange == '신상품순'">
+			ORDER BY PRO_DATE DESC
+		</if>
+		<if test="arrange == '판매순'">
+			ORDER BY PRO_SOLD DESC
+		</if>
+		<if test="arrange == '별점순'">
+			ORDER BY PRO_RATING DESC
+		</if>
+		<if test="arrange == '낮은가격순'">
+			ORDER BY PRO_PRICE
+		</if>
+		<if test="arrange == '높은가격순'">
+			ORDER BY PRO_PRICE DESC
+		</if>			
 	</select>
 
 	
