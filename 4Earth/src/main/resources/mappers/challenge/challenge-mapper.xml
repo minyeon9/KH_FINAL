@@ -6,17 +6,30 @@
   
 <mapper namespace="com.kh.earth.challenge.model.dao.ChallengeMapper">
 
-	<resultMap type="Today" id="callengeListMap">
-		<result property="chalNo" column="CATOGORY" />
-		<result property="chalNo" column="CHAL_NO" />
+	<resultMap type="Today" id="todayListResultMap">
+		<id property="chalNo" column="CHAL_NO" />
+		<result property="category" column="CATEGORY" />
 		<result property="chalTitle" column="CHAL_TITLE" />
 		<result property="chalContent" column="CHAL_CONTENT" />
 		<result property="chalImgPath" column="CHAL_IMG_PATH" />
 		<result property="chalPoint" column="CHAL_POINT" />
 		<result property="chalDate" column="CHAL_DATE" />
 	</resultMap>
+	
+	<resultMap type="TodayMember" id="todayMemberResultMap">
+		<id property="no" column="NO" />
+		<result property="memNo" column="MEM_NO" />
+		<result property="chalNo" column="CHAL_NO" />
+		<result property="chalDate" column="CHAL_DATE" />
+		<result property="chalStatus" column="CHAL_STATUS" />
+		<result property="originalFilename" column="ORIGINAL_FILENAME" />
+		<result property="renamedFilename" column="RENAMED_FILENAME" />
+		<result property="chalPoint" column="CHAL_POINT" />
+		<result property="chalPointStatus" column="CHAL_POINT_STATUS" />
+	</resultMap>
   	
-  	<select id="findAll" parameterType="map" resultType="com.kh.earth.challenge.model.vo.Today" resultMap="callengeListMap">
+  	<!-- 오늘의 챌린지 목록 조회 -->
+  	<select id="findAllToday" parameterType="map" resultType="com.kh.earth.challenge.model.vo.Today" resultMap="todayListResultMap">
 		SELECT
 		    CATEGORY,
 		    CHAL_NO,
@@ -27,5 +40,47 @@
 		    CHAL_DATE
 		FROM CHAL_TODAY
   	</select>
+  	
+  	<!-- 오늘의 챌린지 참여 회원 목록 조회 -->
+  	<select id="findAllTodayMember" parameterType="map" resultType="com.kh.earth.challenge.model.vo.TodayMember" resultMap="todayMemberResultMap">
+  		SELECT 
+  			M.NO,
+  			M.MEM_NO,
+  			M.CHAL_NO,
+  			T.CHAL_TITLE,
+  			M.CHAL_DATE,
+  			M.CHAL_STATUS,
+  			M.ORIGINAL_FILENAME,
+  			M.RENAMED_FILENAME,
+  			M.CHAL_POINT,
+  			M.CHAL_POINT_STATUS
+		FROM CHAL_TODAY_MEM M
+		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
+  	</select>
+  	
+  	<insert id="insertTodayMember" parameterType="TodayMember" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
+		INSERT INTO CHAL_TODAY_MEM (
+			NO,
+			MEM_NO,
+			CHAL_NO,
+			CHAL_DATE,
+			CHAL_STATUS,
+			ORIGINAL_FILENAME,
+			RENAMED_FILENAME,
+			CHAL_POINT,
+			CHAL_POINT_STATUS
+		) VALUES (
+			SEQ_CHLG_TODAY_MEM.NEXTVAL,
+			#{ memNo },
+			#{ chalNo },
+			#{ chalDate },
+			#{ chalStatus },
+			#{ originalFileName },
+			#{ renamedFileName },
+			1000,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
 
 </mapper>

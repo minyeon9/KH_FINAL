@@ -302,9 +302,11 @@
 
 /* 인증 */
 .prov-set {
-    display: flex;
+}
+.prov-set form {
+	display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-between;	
 }
 .prov-set .thumb-img {
     position: relative;
@@ -405,16 +407,14 @@
 .prov-set .prov-cont p {
     color: #666;
 }
-.prov-set form {
-    margin-top: 20px;
-}
 .prov-set .upload-file {
     width: 100%;
+    margin-top: 20px;
 }
 .prov-set .upload-file input[type="text"].input-file {
     width: calc(100% - 80px);
 }
-.prov-set > .btn {
+.prov-set form input[type="submit"].btn {
     display: block;
     margin: 50px auto 0;
 }

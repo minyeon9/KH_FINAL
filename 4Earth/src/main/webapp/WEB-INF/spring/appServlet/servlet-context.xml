@@ -15,7 +15,6 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
@@ -31,6 +30,9 @@
 	<interceptors>
 	 	<interceptor>
 	 		<mapping path="/admin/**"/>
+	 		<mapping path="/challenge/**"/>
+	 		
+	 		<exclude-mapping path="/challenge/today_list"/>
 	 		
 	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
 	 	</interceptor>

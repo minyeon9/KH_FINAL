@@ -828,7 +828,19 @@ input + .btn {
 
 
 
-
+.blind {
+	display: none;
+	position: absolute;
+	top: -999em;
+	left: -999em;
+	font-size: 0;
+	width: 0;
+	height: 0;
+}
+.blind:after {
+	content: '';
+	clear: both;
+}
 .icon-point {
     color: #76b779;
     font-style: normal;

@@ -21,7 +21,7 @@
                    <h3>오늘의 챌린지</h3>
                    <div class="bread-crumb">
                        <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                       <a href="${ path }today_list">에코 챌린지</a>
+                       <a href="${ path }/today_list">에코 챌린지</a>
                        <span>오늘의 챌린지</span>
                    </div>
                </div>
@@ -45,8 +45,8 @@
                                <li>
                                    <img src="${ path }/resources/images/challenge/challenge01.png" alt="">
                                    <strong>
-                                       <i class="material-icons md-22">thumb_down</i>
-                                       이런 사진은 안 돼요!
+                                 		<i class="material-icons md-22">thumb_down</i>
+                                       	이런 사진은 안 돼요!
                                    </strong>
                                    <p>실내에서 쓰레기를 정리하는 사진은<br>챌린지의 의도와 맞지 않습니다.</p>
                                </li>
@@ -57,31 +57,33 @@
                    <section class="section">
                        <h4>챌린지 인증하기</h4>
                        <div class="prov-set">
-                           <div class="thumb-img">
-								<strong>예시 이미지</strong>
-                                <img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
-                           </div>
-                           <div class="upload-wrap">
-                               <div class="upload-img">
-                                   <button class="btn-delete-img">
-                                       <i class="material-icons md-22">delete_outline</i>
-                                   </button>
-                                   <img src="" alt="">
-                               </div>
-                               <div class="prov-cont">
-                                   <form action="" method="">
+                           <form action="${ path }/today_complete" method="post" enctype="multipart/form-data">
+	                           <div class="thumb-img">
+									<strong>예시 이미지</strong>
+	                                <img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
+	                           </div>
+	                           <div class="upload-wrap">
+								   <%-- <input type="text" name="id" value="${ loginMember.id }"> --%>
+	                               <div class="upload-img">
+	                                   <button class="btn-delete-img">
+	                                       <i class="material-icons md-22">delete_outline</i>
+	                                   </button>
+	                                   <img src="" alt="">
+	                               </div>
+	                               <div class="prov-cont">
                                        <div class="upload-file">
                                            <input type="text" class="input-file" disabled placeholder="파일을 선택해주세요." multiple>
-                                           <input type="file" id="inputFileOrigin" name="input-file-origin" accept="image/jpeg, image/jpg, image/gif, image/png">
+                                           <input type="file" id="inputFileOrigin" name="upfile" accept="image/jpeg, image/jpg, image/gif, image/png">
                                            <label for="inputFileOrigin" class="btn">파일 선택</label> 
                                            <span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
                                        </div>
-                                   </form>
-                               </div>
-                           </div>
+	                                   
+	                               </div>
+                           		</div>
                            
-                           <%-- <button class="btn" onclick="location.href='${ path }/today_complete'">인증하기</button> --%>
-                           <input type="submit" class="btn" value="인증하기">
+	                            <%-- <button class="btn" onclick="location.href='${ path }/today_complete'">인증하기</button> --%>
+	                            <input type="submit" class="btn" value="인증하기">
+							</form>
                        </div>
                    </section>
                </div>

@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.challenge.model.dao.ChallengeMapper;
 import com.kh.earth.challenge.model.vo.Today;
+import com.kh.earth.challenge.model.vo.TodayMember;
 
 
 @Service
@@ -15,14 +17,46 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Autowired
 	private ChallengeMapper mapper;
 
+	// 오늘의 챌린지 목록 조회
 	@Override
 	public List<Today> getTodayList() {
-		return mapper.findAll();
+		return mapper.findAllToday();
+	}
+
+	// 오늘의 챌린지 상세 조회
+	@Override
+	public List<Today> getTodayView() {
+		return mapper.findAllToday();
+	}
+
+	// 오늘의 챌린지 인증 저장
+	@Override
+	@Transactional
+	public int save(TodayMember todayMember) {
+		int result = 0;
+		
+		// todayMember 테이블에 
+		if( todayMember.getNo() != 0 ) {
+			// update
+			result = mapper.updateTodayMember(todayMember);
+		} else {
+			// insert
+			result = mapper.insertTodayMember(todayMember);
+		}
+		
+		return result;
+	}
+	
+	// 오늘의 챌린지 인증 완료
+	@Override
+	public List<TodayMember> todayComplete() {
+		return mapper.findAllTodayMember();
 	}
 
 	@Override
-	public List<Today> getTodayView() {
-		return mapper.findAll();
+	public List<TodayMember> getTodayMember() {
+		return mapper.findAllTodayMember();
 	}
+	
 
 }
