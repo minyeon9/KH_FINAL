@@ -1,5 +1,8 @@
 package com.kh.earth.member.model.service;
 
+import java.util.List;
+
+import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 
 //@Transactional
@@ -12,6 +15,4 @@ public interface MemberService {
 	int save(Member member);
 
 	Boolean isDuplicateID(String userId);
-
-	int delete(int no);
 }

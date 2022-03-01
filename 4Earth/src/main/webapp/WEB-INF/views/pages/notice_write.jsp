@@ -9,7 +9,7 @@
 <html lang="ko">
 <head>
     <title>공지사항</title>
-     <script src="resources/js/ckeditor.js"></script>
+     <script src="resources/ckeditor5/build/ckeditor.js"></script>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 

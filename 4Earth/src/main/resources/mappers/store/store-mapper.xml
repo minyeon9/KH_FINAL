@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.earth.store.model.dao.StoreMapper">
+	<sql id="selectProductSql">
+		SELECT PRO_NO,
+			   PRO_NAME,
+			   PRO_PRICE, 
+			   PRO_DATE, 
+			   PRO_MODIFY_DATE, 
+			   PRO_VOL, 
+			   PRO_IMG, 
+			   PRO_INFO, 
+			   PRO_STAT,
+			   PRO_CAT, 
+			   PRO_SOLD, 
+			   PRO_MFG, 
+			   PRO_RATING
+	</sql>
+
+	<resultMap type="Product" id="ProductListResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="proName" column="PRO_NAME"/>
+		<result property="proPrice" column="PRO_PRICE"/>
+		<result property="proDate" column="PRO_DATE"/>
+		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
+		<result property="proVol" column="PRO_VOL"/>
+		<result property="proImg" column="PRO_IMG"/>
+		<result property="proInfo" column="PRO_INFO"/>
+		<result property="proStat" column="PRO_STAT"/>
+		<result property="proCat" column="PRO_CAT"/>
+		<result property="proSold" column="PRO_SOLD"/>
+		<result property="proMfg" column="PRO_MFG"/>
+		<result property="proRating" column="PRO_RATING"/>
+	</resultMap>
+	
+	<resultMap type="ProductOption" id="ProductOptionResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="oNo" column="O_NO"/>
+		<result property="oName" column="O_NAME"/>
+	</resultMap>
+
+	<select id="getProductCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+		<where>
+			<if test="category == '식품'">
+				AND PRO_CAT LIKE '1%'
+			</if>
+			<if test="category == '생활'">
+				AND PRO_CAT LIKE '2%'
+			</if>
+			<if test="category == '뷰티'">
+				AND PRO_CAT LIKE '3%'
+			</if>
+			<if test="category == '반려동물'">
+				AND PRO_CAT LIKE '4%'
+			</if>
+			AND PRO_STAT = 3
+		</where>
+	</select>
+	
+	<select id="getProductCountByDetail" parameterType="list" resultType="_int">
+		SELECT COUNT(*) 
+		FROM PRODUCT P
+		JOIN PRODUCT_CATEGORY C ON(P.PRO_CAT = C.C_NO)
+		<where>
+			<if test="detail != null and detail.size!=0">
+				AND C.C_NAME IN
+				<foreach collection="detail" item="filter" open="(" separator="," close=")">
+					#{filter}
+				</foreach>
+			</if>
+			AND P.PRO_STAT = 3
+		</where>
+	</select>
+	
+	<select id="getProductList" parameterType="string" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			, ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+		FROM PRODUCT
+		WHERE PRO_STAT = 3
+		<if test="arrange == '신상품순'">
+			ORDER BY PRO_DATE DESC
+		</if>
+		<if test="arrange == '판매순'">
+			ORDER BY PRO_SOLD DESC
+		</if>
+		<if test="arrange == '별점순'">
+			ORDER BY PRO_RATING DESC
+		</if>
+		<if test="arrange == '낮은가격순'">
+			ORDER BY PRO_PRICE
+		</if>
+		<if test="arrange == '높은가격순'">
+			ORDER BY PRO_PRICE DESC
+		</if>		
+	</select>
+	
+	<select id="getProductListByCategory" parameterType="map" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			, ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+		FROM PRODUCT
+		<where>
+			<if test="category == '식품'">
+				AND PRO_CAT LIKE '1%'
+			</if>
+			<if test="category == '생활'">
+				AND PRO_CAT LIKE '2%'
+			</if>
+			<if test="category == '뷰티'">
+				AND PRO_CAT LIKE '3%'
+			</if>
+			<if test="category == '반려동물'">
+				AND PRO_CAT LIKE '4%'
+			</if>
+			<if test="category == '전체'">
+			</if>
+			AND PRO_STAT = 3
+		</where>		
+		<if test="arrange == null">
+			ORDER BY PRO_DATE DESC		
+		</if>
+		<if test="arrange == '신상품순'">
+			ORDER BY PRO_DATE DESC
+		</if>
+		<if test="arrange == '판매순'">
+			ORDER BY PRO_SOLD DESC
+		</if>
+		<if test="arrange == '별점순'">
+			ORDER BY PRO_RATING DESC
+		</if>
+		<if test="arrange == '낮은가격순'">
+			ORDER BY PRO_PRICE
+		</if>
+		<if test="arrange == '높은가격순'">
+			ORDER BY PRO_PRICE DESC
+		</if>	
+	</select>
+	
+	<select id="getProductListByDetail" parameterType="map" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			, ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+		FROM PRODUCT P
+		JOIN PRODUCT_CATEGORY C ON(P.PRO_CAT = C.C_NO)
+		<where>
+			<if test="detail != null and detail.size!=0">
+				AND C.C_NAME IN
+				<foreach collection="detail" item="filter" open="(" separator="," close=")">
+					#{filter}
+				</foreach>
+			</if>
+			AND P.PRO_STAT = 3
+		</where>		
+		<if test="arrange == null">
+			ORDER BY PRO_DATE DESC		
+		</if>
+		<if test="arrange == '신상품순'">
+			ORDER BY PRO_DATE DESC
+		</if>
+		<if test="arrange == '판매순'">
+			ORDER BY PRO_SOLD DESC
+		</if>
+		<if test="arrange == '별점순'">
+			ORDER BY PRO_RATING DESC
+		</if>
+		<if test="arrange == '낮은가격순'">
+			ORDER BY PRO_PRICE
+		</if>
+		<if test="arrange == '높은가격순'">
+			ORDER BY PRO_PRICE DESC
+		</if>			
+	</select>
+	
+	<select id="findProductByNo" parameterType="_int" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+		FROM PRODUCT
+		WHERE PRO_NO = #{no}
+	</select>
+
+	<select id="findProductOption" parameterType="_int" resultMap="ProductOptionResultMap">
+		SELECT PRO_NO,
+			   O_NO,
+			   O_NAME 
+		FROM PRODUCT_OPT
+		WHERE PRO_NO = #{no}
+	</select>
+
+
+
+</mapper>

@@ -15,7 +15,6 @@
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
@@ -24,17 +23,23 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<beans:bean id="jsonView" class="net.sf.json.spring.web.servlet.view.JsonView"/>
+	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="1"/>
+	</beans:bean>
+	
 	<context:component-scan base-package="com.kh.earth" />
 	
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 	
 	<interceptors>
-		<interceptor>
-			<mapping path="/profile_view"/>
-			<mapping path="/profile_edit"/>
-
-			<!-- 인터셉터 등록 -->
-			<beans:bean id="LoginCheckInterceptor" class="com.kh.earth.common.interceptor.LoginCheckInterceptor"/>
-		</interceptor>
-	</interceptors>	
+	 	<interceptor>
+	 		<mapping path="/admin/**"/>
+	 		<mapping path="/challenge/**"/>
+	 		
+	 		<exclude-mapping path="/challenge/today_list"/>
+	 		
+	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
+	 	</interceptor>
+	 </interceptors>	
 </beans:beans>

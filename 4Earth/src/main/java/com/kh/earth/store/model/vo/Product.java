@@ -1,6 +1,7 @@
 package com.kh.earth.store.model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,5 +35,9 @@ public class Product {
 	
 	private String proMfg;
 	
-	private int proRating;
+	private double proRating;
+	
+	private int isNew;
+	
+	private List<ProductOption> option;
 }

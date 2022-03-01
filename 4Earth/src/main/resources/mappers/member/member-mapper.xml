@@ -98,12 +98,5 @@
   			MODIFY_DATE = SYSDATE 
   		WHERE NO = #{no}
   	</update>
-  	<delete id="deleteMember" parameterType="_int">
-  		UPDATE MEMBER
-  		SET
-  			STATUS = 'N'
-  		WHERE 
-  			NO = #{no}
-  	</delete>
-
+	
 </mapper>

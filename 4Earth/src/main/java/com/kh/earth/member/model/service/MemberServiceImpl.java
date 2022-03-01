@@ -1,10 +1,14 @@
 package com.kh.earth.member.model.service;
 
+import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.dao.MemberMapper;
 import com.kh.earth.member.model.vo.Member;
 
@@ -57,10 +61,5 @@ public class MemberServiceImpl implements MemberService {
 		return null;
 	}
 
-	@Override
-	public int delete(int no) {
-		
-		return 0;
-	}
 
 }

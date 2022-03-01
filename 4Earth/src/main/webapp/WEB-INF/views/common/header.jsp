@@ -31,7 +31,7 @@
                 
                 <c:if test="${ empty loginMember }">
                     <div class="before-login">
-                        <a href="${ path }/admin">admin(임시)</a>
+                        <a href="${ path }/admin/main">admin(임시)</a>
                         <!-- <a href="${ path }/guide">Guide</a>  -->
                         <a href="${ path }/login">
                             <i class="material-icons md-18">login</i> 로그인
@@ -71,7 +71,7 @@
                     <li>
                         <h2><a href="#">에코 챌린지</a></h2>
                         <ul>
-                            <li><a href="${ path }/today_list">오늘의 챌린지</a></li>
+                            <li><a href="${ path }/today_main">오늘의 챌린지</a></li>
                             <li><a href="${ path }/month_list">이달의 챌린지</a></li>
                             <li><a href="${ path }/ongoing_list">참여 중인 챌린지</a></li>
                         </ul>
@@ -88,7 +88,7 @@
                     <li>
                         <h2><a href="#">마이페이지</a></h2>
                         <ul>
-                            <li><a href="${ path }/">포인트 내역</a></li>
+                            <li><a href="${ path }/point">포인트 내역</a></li>
                             <li><a href="${ path }/order">주문&dot;배송</a></li>
                             <li><a href="${ path }/wishlist">찜한 상품</a></li>
                             <li><a href="${ path }/">문의</a></li>

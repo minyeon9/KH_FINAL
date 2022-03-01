@@ -12,80 +12,58 @@
     <title>챌린지</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-        <div class="container">
-            <div class="contents">
-                <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
-                
-                <section class="content-wrap">
-                    <div class="page-tit">
-                        <h3>오늘의 챌린지</h3>
-                        <div class="bread-crumb">
-                            <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                            <a href="#">에코 챌린지</a>
-                            <span>오늘의 챌린지</span>
-                        </div>
-                    </div>
+	<div class="container">
+       <div class="contents">
+           <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
+          
+           <section class="content-wrap">
+               <div class="page-tit">
+                   <h3>오늘의 챌린지</h3>
+                   <div class="bread-crumb">
+                       <a href="${ path }"><i class="material-icons md-16">home</i></a>
+                       <a href="${ path }/today_main">에코 챌린지</a>
+                       <span>오늘의 챌린지</span>
+                   </div>
+               </div>
 
-                    <div class="challenge today">
-                        <div class="how-to">
-                            <strong>오늘의 챌린지 참여 방법</strong>
-                            <p>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고</p>
-                        </div>
+               <div class="challenge today">
+                   <div class="thumb-list vertical callenge">
+                       <ul>
+							<c:if test="${ !empty todayList }">
+								<c:forEach var="todayList" items="${ todayList }">
+									<li>
+									    <i class="num">${ todayList.chalNo }</i>
+									    <div class="item">
+									        <div class="img-thumb">
+									            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
+									        </div>
+									        <div class="item-cont">
+									            <strong>${ todayList.chalTitle }</strong>
+									            <p>${ todayList.chalContent }</p>
+									            <span>오늘의 챌린지 모두 달성 시 <em class="icon-point">${ todayList.chalPoint }</em></span>
+									            <button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
+									        </div>
+									    </div>
+									</li>
+								</c:forEach>
+							</c:if>
+                       </ul>
+                   </div>
+               </div>
 
-                        <div class="thumb-list">
-                            <ul>
-                                <li>
-                                    <i class="num">1</i>
-                                    <div class="img-thumb">
-                                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                    </div>
-                                    <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                    <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                </li>
-                                <li>
-                                    <i class="num">2</i>
-                                    <div class="img-thumb">
-                                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                    </div>
-                                    <strong>하루 한 끼 채식하기 하루 한 끼 채식하기 하루 한 끼 채식하기</strong>
-                                    <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                </li>
-                                <li>
-                                    <i class="num">3</i>
-                                    <div class="img-thumb">
-                                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                    </div>
-                                    <strong>텀블러 사용하기</strong>
-                                    <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                </li>
-                                <li>
-                                    <i class="num">4</i>
-                                    <div class="img-thumb">
-                                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                    </div>
-                                    <strong>메일함 비우기</strong>
-                                    <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                </li>
-                            </ul>
-                        </div>
-                        
-                        <div class="btn-wrap">
-                            <a href="today_view.html" class="btn">참여하기</a>
-                        </div>
-                    </div>
+           </section>
 
-                </section>
-
-                <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
-            </div>
-        </div>
+           <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
+       </div>
+   </div>
+	
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/today_list', '/4earth/month_list', '/4earth/ongoing_list'];
+        let menuPath = ['/4earth/today_main', '/4earth/month_list', '/4earth/ongoing_list'];
         let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
         let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
 
