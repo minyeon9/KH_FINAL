@@ -60,13 +60,14 @@
 }
 
 .long-line {
-  width: 400px;
+  width: 500px;
   /* margin: auto; */
   border: none;
   height: 0.3px;
   background-color: #ccc;
   margin: auto;
 }
+
 .input-with-icon {
   position: relative;
   display: inline-block;
@@ -239,7 +240,7 @@
     signup-form css
 ---------------------------------- */
 .signup-form-wrap {
-  background-color: green;
+  /* background-color: green; */
   margin-top: -1px;
   background-image: url(../images/member/signup-form-backimg3.jpg);
 }
@@ -251,6 +252,10 @@
   width: 300px;
   height: 42px;
   border-radius: 10px;
+}
+
+.pop-cont{
+  text-align: left;
 }
 
 #profile {
@@ -313,7 +318,8 @@
 }
 
 .form-group label {
-  display: block;
+  /* display: block; */
+  display: grid;
   margin-top: 20px;
   margin-bottom: -10px;
   text-align: left;
@@ -341,6 +347,20 @@
   /* background-color: red; */
 }
 
+.form-group p {
+  position: relative;
+  top: 25px;
+  right: 20px;
+  color: green;
+  text-align: right;
+}
+
+#name-area {
+  display: grid;
+  grid-template-columns: 285px 150px;
+  /* background-color: blue; */
+  /* grid-template-columns: 200px; */
+}
 /* #checkbox1 {
   font-weight: bold;
 } */
@@ -462,4 +482,283 @@
 
 #small-text {
   font-size: 14px;
+}
+/* ----------------------------------
+    signup-finish css
+---------------------------------- */
+.signup-finish-wrap {
+  background-color: green;
+  margin-top: -1px;
+  background-image: url(../images/member/signup-finish-backimg.png);
+}
+
+#congratulation {
+  width: 400px;
+  height: 200px;
+}
+
+#signup-finish-title {
+  font-size: 25px;
+}
+
+#signup-finish-title span {
+  color: green;
+}
+
+#signup-finish-text {
+  font-size: 14px;
+}
+
+#signup-finish-btn1 {
+  /* border-radius: 5px; */
+  font-weight: bold;
+  font-family: "Noto Sans KR", sans-serif; */
+  /* border: 2px solid gray;
+  background-color: gray;
+  color: white;
+}
+#signup-finish-btn1:hover {
+  /* background-color: white; */
+  /* color: gray; */
+  /* border-radius: 5px; */
+  /* font-weight: bold; */
+}
+
+#signup-finish-btn2 {
+  /* border: 2px solid #76b779; */
+  /* border-radius: 5px; */
+  font-weight: bold;
+  font-family: "Noto Sans KR", sans-serif; */
+  /* background-color: #76b779;
+  color: white;
+  font-weight: bold;
+}
+#signup-finish-btn2:hover {
+  /* background-color: white;
+  color: #76b779;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: all 0.2s ease-out; */
+}
+/* ----------------------------------
+    profile-view css
+---------------------------------- */
+.profile-wrap {
+  /* background-color: green; */
+  margin-top: -1px;
+  background-image: url(../images/member/profile_view_backimg1.png);
+}
+
+.short-line-center{
+  width: 300px;
+  margin: auto;
+  border: none;
+  height: 0.1px;
+  background-color: #ccc;
+}
+
+#profile_table{
+  margin: auto;
+  width: 375px;
+  /* border: 1px solid red; */
+  border-top: none;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  font-size: 17px;
+  margin-bottom: 30px;
+}
+
+#profile_table td{
+  /* border-top: 1px solid blue; */
+  border-top: none;
+  padding: 10px 0px 10px 0px;
+}
+
+#profile_table td:not(.profile_title){
+  padding-left: 30px;
+  text-align: left;
+  font-weight: 400;
+}
+
+.profile_title {
+  text-align: RIGHT;
+  color: #669948;
+  font-weight: bold;
+  width: 70px;
+}
+
+.btn.btn-reverse {
+  width: 300px;
+  height: 40px;
+  padding: 8px 0;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #ccc;
+  background-color: white;
+  font-family: "Noto Sans KR", sans-serif;
+  transition: all 0.2s ease-out;
+  border: 1.5px solid #ccc;
+}
+
+.btn-reverse:hover {
+  background-color: #ccc;
+  color: white;
+}
+
+.btn-l{
+  font-weight: bold;
+}
+
+/* ----------------------------------
+    profile-update css
+---------------------------------- */
+.profile-edit-wrap {
+  /* background-color: green; */
+  margin-top: -1px;
+  background-image: url(../images/member/profile_edit_backimg1.png);
+}
+
+#edit-box {
+  width: 80%;
+  background-image: url(../images/member/signup-form-backimg2.jpg);
+  margin: auto;
+}
+
+#edit-area {
+  /* display: flex; */
+  margin: auto;
+  /* text-align: center; */
+  /* background-color: beige; */
+  width: 630px;
+}
+
+#edit-area h2{
+text-align: center;
+
+}
+
+
+
+#form-test{
+  display: flex;
+}
+
+
+#preview_edit {
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  border: 1px solid var(--color-white);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-bottom: 15px;
+  margin-left: 50px;
+}
+
+.filebox2{
+  /* display: block; */
+  margin-left: 55px;
+  padding-bottom: 50px;
+  /* display: inline; */
+  /* background-color: yellowgreen; */
+}
+
+
+.filebox2 label {
+  /* display: inline-block; */
+  /* width: 100px; */
+  /* height: 20px; */
+  padding: 0.6em 1.2em;
+  color: #fff;
+  vertical-align: middle;
+  border: 1.5px solid #669948;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #669948;
+  font-family: "Noto Sans KR", sans-serif;
+  transition: all 0.2s ease-out;
+}
+
+.filebox2 label:hover {
+  border: 1.5px solid #669948;
+  background-color: white;
+  color: #669948;
+}
+
+.filebox2 input[type="file"] {
+  display: none;
+}
+
+
+#profile_img_area{
+  display: inline-block;
+  /* background-color: palevioletred; */
+  /* padding-right: 25px; */
+}
+
+#edit-input-area{
+  display: inline-block;
+}
+
+.form-group2{
+  width: 430px;
+  margin-left: 25px;
+  /* background-color: coral; */
+  /* display: inline-block; */
+}
+
+.form-group2 input:not(.btn) {
+  border-radius: 10px;
+  width: 250px;
+  height: 40px;
+  margin-top: 12px;
+}
+
+.form-group2 .btn {
+  /* position: absolute; */
+  float: inline-end;
+  width: 70px;
+  font-size: 12px;
+  text-align: center;
+  padding: 0px 0px;
+  border-radius: 5px;
+  vertical-align: middle;
+  /* background-color: red; */
+}
+
+.form-group2 p {
+  position: relative;
+  color: green;
+  text-align: right;
+  right: 190px;
+}
+
+#userId2{
+  text-align: left;
+}
+
+#btn_area1{
+  position: relative;
+  display: flex;
+  /* margin: auto; */
+  /* text-align: center; */
+  margin-left: 165px;
+}
+
+#edit-btn{
+  width: 95px;
+  font-size: 13px;
+  /* font-weight: bold; */
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+#unregister-btn{
+  width: 95px;
+  font-size: 13px;
+  /* color: gray; */
+  /* border: 2px solid gray; */
+  /* font-weight: bold; */
+  font-family: 'Noto Sans KR', sans-serif; 
 }

@@ -22,4 +22,18 @@ public class MypageController {
 		
 		return "mypage/wishlist";
 	}
+	
+	@GetMapping("/profile_view")
+	public String profile_view() {
+		log.info("profile_view() - 호출");
+		
+		return "mypage/profile_view";
+	}
+
+	@GetMapping("/profile_edit")
+	public String profile_edit() {
+		log.info("profile_edit() - 호출");
+		
+		return "mypage/profile_edit";
+	}	
 }

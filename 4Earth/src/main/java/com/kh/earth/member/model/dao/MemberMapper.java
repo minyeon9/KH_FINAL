@@ -10,9 +10,6 @@ import com.kh.earth.member.model.vo.Member;
 public interface MemberMapper {
 
 	Member findMemberById(@Param("id") String id);
-//	이런것도 가능하다!
-//	@Select("select * from member")
-//	List<Member> findAll;
 
 	int insertMember(Member member);
 

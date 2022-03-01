@@ -7,6 +7,7 @@
     let menuName = ['홈', '로그인', '회원가입'];
     let menuIcon = ['home', 'login', 'person_add' ]
 
+
     for( let i = 0; i < menuName.length; i++ ) {
         let menuIdx = sideBarMenu.eq(i);
 
@@ -65,3 +66,53 @@ $(document).ready(() => {
 		});
 	});
 });
+
+let idCheck = RegExp(/^[a-zA-Z][a-zA-Z\d]{5,12}$/);
+$('#userId').keyup(function() {
+  if (!idCheck.test($('#userId').val())) {
+    $('#member-id').css('color', 'red').text("형식에 맞지 않음");
+  } else {
+    $('#member-id').css('color', 'green').text("OK!");
+  }
+});
+
+/*
+// 비밀번호
+let passwordCheck = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,16}$/);
+$('#userPwd').keyup(function() {
+  if (!passwordCheck.test($('#userPwd').val())) {
+    $('#member-password').css('color', 'red').text("형식에 맞지 않음");
+  } else {
+    $('#member-password').css('color', 'green').text("형식에 맞음");
+  }
+});
+*/
+
+// 비밀번호 확인체크
+$('#userPwCheck').keyup(function(){
+  let passwd = $('#userPwd').val();
+  let passwdcheck = $('#userPwCheck').val();
+
+  if(passwd == passwdcheck){
+    passCheck = true;
+    $('#member-passwordcheck').text('동일한 비밀번호 입니다.');
+    $('#member-passwordcheck').css('color', '#08a600');
+  }else{
+    passCheck = false;
+    $('#member-passwordcheck').text('동일하지 않은 비밀번호 입니다.');
+    $('#member-passwordcheck').css('color', 'red');
+  }
+});
+
+/*
+// 이름
+let nameCheck = RegExp(/^[a-zA-Z가-힣]{2,}$/);
+$('#userName').keyup(function() {
+  if (!nameCheck.test($('#userName').val())) {
+    $('#member-name').css('color', 'red').text("형식에 맞지 않음");
+  } else {
+    $('#member-name').css('color', 'green').text("형식에 맞음");
+  }
+});
+*/
+

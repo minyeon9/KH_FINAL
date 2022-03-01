@@ -93,7 +93,7 @@
                             <li><a href="${ path }/wishlist">찜한 상품</a></li>
                             <li><a href="${ path }/">문의</a></li>
                             <li><a href="${ path }/">진행 중인 챌린지</a></li>
-                            <li><a href="${ path }/">회원정보</a></li>
+                            <li><a href="${ path }/profile_view">회원정보</a></li>
                         </ul>
                     </li>
                     <div class="bg-nav"></div>

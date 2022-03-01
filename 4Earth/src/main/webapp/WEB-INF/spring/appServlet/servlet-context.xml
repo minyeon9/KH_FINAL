@@ -27,4 +27,14 @@
 	<context:component-scan base-package="com.kh.earth" />
 	
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/profile_view"/>
+			<mapping path="/profile_edit"/>
+
+			<!-- 인터셉터 등록 -->
+			<beans:bean id="LoginCheckInterceptor" class="com.kh.earth.common.interceptor.LoginCheckInterceptor"/>
+		</interceptor>
+	</interceptors>	
 </beans:beans>
