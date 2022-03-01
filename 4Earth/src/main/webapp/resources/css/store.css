@@ -168,8 +168,7 @@ ul.imgs li img{
     width: 38%;
 }
 .pro-table {
-    float: right;
-    width: 38%;
+    width: calc(100% - 500px);
     height: 100%;
     border-collapse: collapse;
 }
@@ -203,6 +202,7 @@ ul.imgs li img{
 .tbody1 tr td:last-child p{
     font-weight: lighter;
     font-size: 12px;
+    display: inline;
 }
 
 .tbody1 tr td {

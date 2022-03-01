@@ -71,21 +71,23 @@
                         <table class="pro-table">
                             <thead>
                                 <tr>
-                                    <td colspan="4">상품명</td>
+                                    <td colspan="4">${ product.proName }</td>
                                 </tr>
                             </thead>
                             <tbody class="tbody1">
                                 <tr>
-                                    <td>단위 당 가격</td>
-                                    <td colspan="3">가격</td>
+                                    <td>가격</td>
+                                    <td colspan="3">
+                                    	<fmt:formatNumber value="${ product.proPrice }" pattern="##,###,###"/> 원
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>배송비</td>
-                                    <td colspan="3">배송비 <p>(30,000원 이상 무료배송)</p></td>
+                                    <td colspan="3">2,500 원 <p>(30,000원 이상 무료배송)</p></td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid #999;">
                                     <td>제조사</td>
-                                    <td colspan="3">2</td>
+                                    <td colspan="3">${ product.proMfg }</td>
                                 </tr>
                                 <tr>
                                     <td>옵션</td>
@@ -93,6 +95,7 @@
                                         <select name="" id="" class="pro-selectbox">
                                             <option value="--------" selected>--------</option>
                                             <option value="옵션">옵션</option>
+                                            <option value="옵션">${ product.option }</option>
                                         </select>
                                     </td>
                                 </tr>
