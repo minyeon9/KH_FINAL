@@ -27,7 +27,7 @@ public class AdminCheckInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		}
 		
-		if (!loginMember.getName().equals("관리자1")) {
+		if (!loginMember.getMember_type().equals("ADMIN")) {
 			request.setAttribute("msg", "잘못된 접근입니다");
 			request.setAttribute("location", "/");
 			request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);

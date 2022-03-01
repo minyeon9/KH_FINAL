@@ -67,25 +67,5 @@ public class MemberServiceImpl implements MemberService {
 		return null;
 	}
 
-	@Override
-	public int delete(int no) {
-		
-		return mapper.deleteMember(no);
-	}
-
-	@Override
-	public int getMemberCount() {
-		
-		return mapper.getMemberCount();
-	}
-
-	@Override
-	public List<Member> getMemberList(PageInfo pageInfo) {
-		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
-		int limit = pageInfo.getListLimit();
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return mapper.findMember(rowBounds);
-	}
 
 }

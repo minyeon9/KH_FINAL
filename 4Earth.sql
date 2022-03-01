@@ -496,7 +496,7 @@ END;
 BEGIN
     FOR N IN 1..5
     LOOP
-        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 10000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 20, DEFAULT, '4Earth 식품', 3);
+        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 10000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 5, DEFAULT, '4Earth 식품', 3);
     END LOOP;
     
     COMMIT;
@@ -508,7 +508,7 @@ END;
 BEGIN
     FOR N IN 1..5
     LOOP
-        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 3000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 20, '22/01/25', '4Earth 식품', 4.5);
+        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 3000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 30, '22/01/25', '4Earth 식품', 4);
     END LOOP;
     
     COMMIT;
@@ -517,10 +517,49 @@ EXCEPTION
 END;
 /
 
+-- 스토어 SQL문
+SELECT PRO_NO,
+       PRO_NAME,
+       PRO_PRICE, 
+       PRO_DATE, 
+       PRO_MODIFY_DATE, 
+       PRO_VOL, 
+       PRO_IMG, 
+       PRO_INFO, 
+       PRO_STAT,
+       PRO_CAT, 
+       PRO_SOLD, 
+       PRO_MFG, 
+       PRO_RATING,
+       ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+FROM PRODUCT
+WHERE PRO_STAT = 3 AND PRO_CAT LIKE '1%'
+ORDER BY PRO_PRICE DESC;
 
+SELECT PRO_NO,
+       PRO_NAME,
+       PRO_PRICE, 
+       PRO_DATE, 
+       PRO_MODIFY_DATE, 
+       PRO_VOL, 
+       PRO_IMG, 
+       PRO_INFO, 
+       PRO_STAT,
+       PRO_CAT, 
+       PRO_SOLD, 
+       PRO_MFG, 
+       PRO_RATING,
+       ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+FROM PRODUCT
+WHERE PRO_STAT = 3 
+    AND PRO_CAT IN(101)
+ORDER BY PRO_PRICE DESC;
 
-
-
+SELECT * 
+FROM PRODUCT P
+JOIN PRODUCT_CATEGORY C ON(P.PRO_CAT = C.C_NO)
+WHERE P.PRO_STAT = 3 
+    AND C.C_NAME IN('간편식');
 
 
 

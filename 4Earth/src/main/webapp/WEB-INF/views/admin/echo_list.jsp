@@ -101,20 +101,32 @@
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td>내용4</td>
-                                            <td>
-                                                <button class="btn btn-s">등록</button>
-                                                <button class="btn btn-s gray">정지</button>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
+                                    <c:if test="${ empty list }">
+	                                    <tbody>
+		                                    <tr>
+		                                    	<td colspan="6">
+												조회된 멤버가 없습니다
+		                                    	</td>
+		                                    </tr>
+	                                    </tbody>
+									</c:if>
+									<c:if test="${ !empty list }">
+										<c:forEach var="product" items="${ list }">
+		                                    <tbody>
+		                                        <tr>
+		                                            <td>${ product.proNo }</td>
+		                                            <td>${ product.proName }</td>
+		                                            <td>${ product.proCat }</td>
+		                                            <td>${ product.proDate }</td>
+		                                            <td>${ product.proVol }</td>
+		                                            <td>
+		                                                <button class="btn btn-s">등록</button>
+		                                                <button id="delete" name="no" value=${ product.proNo } class="btn btn-s gray">정지</button>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+										</c:forEach>
+									</c:if>
                                 </table>
                             </div>
                             <div class="btn-wrap">
@@ -122,14 +134,24 @@
                             </div>
                         </section>
                         <!-- // Category -->
+                        
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>                   
+							<a class="prev" href="${ path }/admin/echo_list?page=1"></a>
+							<a class="prev" href="${ path }/admin/echo_list?page=${ pageInfo.prevPage }"><span>이전</span></a>
+				
+							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">			
+									<strong>${ status.current }</strong>
+								</c:if>
+								<c:if test="${ status.current != pageInfo.currentPage }">				
+									<a href="${ path }/admin/echo_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+							<a class="next" href="${ path }/admin/echo_list?page=${ pageInfo.nextPage }"><span>다음</span></a>
+							<a class="next" href="${ path }/admin/echo_list?page=${ pageInfo.maxPage }"></a>
+                         
+				
+						</div>                   
                     </div>
                     
             </section>
@@ -160,6 +182,14 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).ready(() => {
+		$("#delete").on("click", (e) => {
+			if(confirm("정말로 이 물품 판매를 정지시키겠습니까??")) {
+				location.replace("${ path }/admin/echo_pro_delete?no=" + e.target.value);
+			}
+		})
 	});
 </script>
 
