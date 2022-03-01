@@ -496,7 +496,7 @@ END;
 BEGIN
     FOR N IN 1..5
     LOOP
-        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 10000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 20, DEFAULT, '4Earth 식품', 3);
+        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 10000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 5, DEFAULT, '4Earth 식품', 3);
     END LOOP;
     
     COMMIT;
@@ -508,7 +508,7 @@ END;
 BEGIN
     FOR N IN 1..5
     LOOP
-        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 3000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 20, '22/01/25', '4Earth 식품', 4.5);
+        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 3000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 30, '22/01/25', '4Earth 식품', 4);
     END LOOP;
     
     COMMIT;
@@ -517,19 +517,57 @@ EXCEPTION
 END;
 /
 
+-- 스토어 SQL문
+SELECT PRO_NO,
+       PRO_NAME,
+       PRO_PRICE, 
+       PRO_DATE, 
+       PRO_MODIFY_DATE, 
+       PRO_VOL, 
+       PRO_IMG, 
+       PRO_INFO, 
+       PRO_STAT,
+       PRO_CAT, 
+       PRO_SOLD, 
+       PRO_MFG, 
+       PRO_RATING,
+       ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+FROM PRODUCT
+WHERE PRO_STAT = 3 AND PRO_CAT LIKE '1%'
+ORDER BY PRO_PRICE DESC;
+
+SELECT PRO_NO,
+       PRO_NAME,
+       PRO_PRICE, 
+       PRO_DATE, 
+       PRO_MODIFY_DATE, 
+       PRO_VOL, 
+       PRO_IMG, 
+       PRO_INFO, 
+       PRO_STAT,
+       PRO_CAT, 
+       PRO_SOLD, 
+       PRO_MFG, 
+       PRO_RATING,
+       ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
+FROM PRODUCT
+WHERE PRO_STAT = 3 
+    AND PRO_CAT IN(101)
+ORDER BY PRO_PRICE DESC;
+
+SELECT * 
+FROM PRODUCT P
+JOIN PRODUCT_CATEGORY C ON(P.PRO_CAT = C.C_NO)
+WHERE P.PRO_STAT = 3 
+    AND C.C_NAME IN('간편식');
 
 
 
 
 
 
-
-
-
-
----------------------------------------------------------------------------------------------------------------
 -- 챌린지 더미 데이터
-
+---------------------------------------------------------------------------------------------------------------
 -- 챌린지 테이블 생성
 CREATE TABLE CHALLENGE (
     CHAL_NO NUMBER PRIMARY KEY,
@@ -551,41 +589,36 @@ DROP TABLE CHALLENGE;
 
 -- 오늘의 챌린지 테이블 생성
 CREATE TABLE CHAL_TODAY (
-    MEM_NO NUMBER,
+    CATEGORY NUMBER,
     CHAL_NO NUMBER,
-    CHAL_NO2 NUMBER,
     CHAL_TITLE VARCHAR2(1000),
     CHAL_CONTENT VARCHAR2(4000),
-    CHAL_DATE DATE,
-    CHAL_STATUS CHAR,
+    CHAL_IMG_PATH VARCHAR2(4000),
     CHAL_POINT NUMBER,
-    CHAL_POINT_STATUS CHAR
+    CHAL_DATE DATE
 );
 
 -- 오늘의 챌린지 테이블 컬럼 설명
-COMMENT ON COLUMN CHAL_TODAY.MEM_NO IS '회원 번호';
-COMMENT ON COLUMN CHAL_TODAY.CHAL_NO IS '분류(오늘/이달)';
-COMMENT ON COLUMN CHAL_TODAY.CHAL_NO2 IS '챌린지 번호';
+COMMENT ON COLUMN CHAL_TODAY.CATEGORY IS '분류(오늘/이달)';
+COMMENT ON COLUMN CHAL_TODAY.CHAL_NO IS '챌린지 번호';
 COMMENT ON COLUMN CHAL_TODAY.CHAL_TITLE IS '제목';
 COMMENT ON COLUMN CHAL_TODAY.CHAL_CONTENT IS '내용';
-COMMENT ON COLUMN CHAL_TODAY.CHAL_DATE IS '달성 날짜';
-COMMENT ON COLUMN CHAL_TODAY.CHAL_STATUS IS '달성 상태';
+COMMENT ON COLUMN CHAL_TODAY.CHAL_IMG_PATH IS '썸네일 이미지 경로';
 COMMENT ON COLUMN CHAL_TODAY.CHAL_POINT IS '달성 시 지급 포인트';
-COMMENT ON COLUMN CHAL_TODAY.CHAL_POINT_STATUS IS '포인트 지급 상태';
+COMMENT ON COLUMN CHAL_TODAY.CHAL_DATE IS '게시일';
 
 -- 오늘의 챌린지 테이블 시퀀스 생성
 CREATE SEQUENCE SEQ_CHLG_TODAY;
 
 -- 오늘의 챌린지 테이블 INSERT
-INSERT INTO CHAL_TODAY (MEM_NO, CHAL_NO, CHAL_NO2, CHAL_TITLE, CHAL_CONTENT, CHAL_DATE, CHAL_STATUS, CHAL_POINT, CHAL_POINT_STATUS)
-    VALUES (1, 1, SEQ_CHLG_TODAY.NEXTVAL, '챌린지 제목입니다.', '내용입니다. 내용입니다.', DEFAULT, 'N', 5000, 'N');
-INSERT INTO CHAL_TODAY (MEM_NO, CHAL_NO, CHAL_NO2, CHAL_TITLE, CHAL_CONTENT, CHAL_DATE, CHAL_STATUS, CHAL_POINT, CHAL_POINT_STATUS)
-    VALUES (1, 1, SEQ_CHLG_TODAY.NEXTVAL, '2챌린지 제목입니다. 두 줄일 때 이렇게 보여요.', '내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다.', DEFAULT, 'N', 5000, 'N');
-INSERT INTO CHAL_TODAY (MEM_NO, CHAL_NO, CHAL_NO2, CHAL_TITLE, CHAL_CONTENT, CHAL_DATE, CHAL_STATUS, CHAL_POINT, CHAL_POINT_STATUS)
-    VALUES (1, 1, SEQ_CHLG_TODAY.NEXTVAL, '3챌린지 제목입니다.', '내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다.', DEFAULT, 'N', 5000, 'N');
-INSERT INTO CHAL_TODAY (MEM_NO, CHAL_NO, CHAL_NO2, CHAL_TITLE, CHAL_CONTENT, CHAL_DATE, CHAL_STATUS, CHAL_POINT, CHAL_POINT_STATUS)
-    VALUES (1, 1, SEQ_CHLG_TODAY.NEXTVAL, '4챌린지 제목입니다. 두 줄일 때 이렇게 보여요.', '내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다. 내용입니다.', DEFAULT, 'N', 5000, 'N');
-
+INSERT INTO CHAL_TODAY (CATEGORY, CHAL_NO, CHAL_TITLE, CHAL_CONTENT, CHAL_IMG_PATH, CHAL_POINT, CHAL_DATE)
+    VALUES (1, SEQ_CHLG_TODAY.NEXTVAL, '걸어서 or 자전거로 출퇴근 하기', '대기오염물질을 발생시키는 차량 운행을 줄이고 걸어서 출퇴근 하거나 자전거로 출퇴근하여 하루를 시작해보세요. 출퇴근이 아니더라도 가까운 거리는 두 발로 이동하는 습관을 가져보는 건 어떨까요?', '/resources/images/challenge', 5000, SYSDATE);
+INSERT INTO CHAL_TODAY (CATEGORY, CHAL_NO, CHAL_TITLE, CHAL_CONTENT, CHAL_IMG_PATH, CHAL_POINT, CHAL_DATE)
+    VALUES (1, SEQ_CHLG_TODAY.NEXTVAL, '하루 한 끼 채식하기', '한 사람당 1주일에 하루만 채식을 해도 1년에 나무 15그루를 심는 효과가 있다고 합니다. 채식으로 몸을 가볍게 하고  육류를 생산하는 과정에서 배출되는 탄소를 조금이라도 줄일 수 있는 효과가 있습니다.', '/resources/images/challenge', 5000, SYSDATE);
+INSERT INTO CHAL_TODAY (CATEGORY, CHAL_NO, CHAL_TITLE, CHAL_CONTENT, CHAL_IMG_PATH, CHAL_POINT, CHAL_DATE)
+    VALUES (1, SEQ_CHLG_TODAY.NEXTVAL, '텀블러 사용하기', '일회용 플라스틱 사용을 자제하고 다회 사용 가능한 텀블러를 사용해보세요. 플라스틱은 바다에서 분해되어 미세 플라스틱이 되면 해양생물의 생명을 위협하게 됩니다.', '/resources/images/challenge', 5000, SYSDATE);
+INSERT INTO CHAL_TODAY (CATEGORY, CHAL_NO, CHAL_TITLE, CHAL_CONTENT, CHAL_IMG_PATH, CHAL_POINT, CHAL_DATE)
+    VALUES (1, SEQ_CHLG_TODAY.NEXTVAL, '메일함 비우기', '메일을 보관하는 데이터 센터는 24시간 가동되어야 하기 때문에 엄청난 전기가 필요합니다. 메일 한 통은 4g의 이산화탄소를 배출한다고 합니다. 메일함 1GB를 비우면 14.9kg의 이산화탄소 배출을 감축할 수 있습니다.', '/resources/images/challenge', 5000, SYSDATE);
 
 -- 오늘의 챌린지 테이블 삭제
 DROP SEQUENCE SEQ_CHLG_TODAY;
@@ -595,16 +628,63 @@ DROP TABLE CHAL_TODAY;
 SELECT * FROM CHAL_TODAY;
 
 SELECT
-    MEM_NO,
+    CATEGORY,
     CHAL_NO,
-    CHAL_NO2,
     CHAL_TITLE,
     CHAL_CONTENT,
-    CHAL_DATE,
-    CHAL_STATUS,
-    CHAL_POINT,
-    CHAL_POINT_STATUS
+    CHAL_IMG_PATH,
+    TO_CHAR(CHAL_POINT, 'FM999,999'),
+    CHAL_DATE
 FROM CHAL_TODAY;
+
+---------------------------------------------------------------------------------------------------------------
+
+-- 오늘의 챌린지 참여 회원 테이블 생성
+CREATE TABLE CHAL_TODAY_MEM (
+    MEM_NO NUMBER,
+    CHAL_NO NUMBER,
+    CHAL_DATE DATE,
+    CHAL_STATUS CHAR,
+    ORIGINAL_FILENAME VARCHAR2(1000),
+    RENAMED_FILENAME VARCHAR2(4000),
+    CHAL_POINT NUMBER,
+    CHAL_POINT_STATUS CHAR
+);
+
+-- 오늘의 챌린지 참여 회원 테이블 컬럼 설명
+COMMENT ON COLUMN CHAL_TODAY_MEM.MEM_NO IS '회원 번호';
+COMMENT ON COLUMN CHAL_TODAY_MEM.CHAL_NO IS '챌린지 번호';
+COMMENT ON COLUMN CHAL_TODAY_MEM.CHAL_DATE IS '달성일';
+COMMENT ON COLUMN CHAL_TODAY_MEM.CHAL_STATUS IS '달성 상태';
+COMMENT ON COLUMN CHAL_TODAY_MEM.ORIGINAL_FILENAME IS '원본 파일명';
+COMMENT ON COLUMN CHAL_TODAY_MEM.RENAMED_FILENAME IS '수정 파일명';
+COMMENT ON COLUMN CHAL_TODAY_MEM.CHAL_POINT IS '지급 포인트';
+COMMENT ON COLUMN CHAL_TODAY_MEM.CHAL_POINT_STATUS IS '포인트 지급 상태';
+
+-- 오늘의 챌린지 참여 회원 테이블 INSERT
+INSERT INTO CHAL_TODAY_MEM (MEM_NO, CHAL_NO, CHAL_DATE, CHAL_STATUS, ORIGINAL_FILENAME, RENAMED_FILENAME, CHAL_POINT, CHAL_POINT_STATUS)
+    VALUES (1, 1, SYSDATE, 'Y', '', '', '5000', 'N');
+
+-- 오늘의 챌린지 참여 회원 테이블 삭제
+DROP TABLE CHAL_TODAY_MEM;
+
+-- 오늘의 챌린지 참여 회원 목록 조회
+SELECT * FROM CHAL_TODAY_MEM;
+
+
+COMMIT;
+
+
+
+
+
+
+
+
+
+
+
+
 
 --------------------------------------------------------
 

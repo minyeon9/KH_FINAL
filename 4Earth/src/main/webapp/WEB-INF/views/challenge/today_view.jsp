@@ -31,11 +31,11 @@
                        <ul>
 							<c:if test="${ !empty todayView }">
 								<c:forEach var="todayView" items="${ todayView }">
-									<li class="complete">
-									    <i class="num">${ todayView.chalNo2 }</i>
+									<li>
+									    <i class="num">${ todayView.chalNo }</i>
 									    <div class="item">
 									        <div class="img-thumb">
-									            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+									            <img src="${ path }${todayView.chalImgPath}/challenge_today0${todayView.chalNo}.jpg" alt="">
 									        </div>
 									        <div class="item-cont">
 									            <strong>${ todayView.chalTitle }</strong>

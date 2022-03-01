@@ -140,7 +140,7 @@
 }
 .thumb-list.vertical ul li .img-thumb {
     width: 40%;
-    border: 0;
+    border: 1px solid #ccc;
 }
 .thumb-list.vertical ul li .item-cont {
     position: relative;
@@ -302,21 +302,42 @@
 
 /* 인증 */
 .prov-set {
-    display: flex;
+}
+.prov-set form {
+	display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-between;	
 }
 .prov-set .thumb-img {
     position: relative;
     overflow: hidden;
     width: 40%;
-    height: 400px;
+    height: 355px;
+    border: 1px solid #ccc;
+    background: #eee;
+}
+.prov-set .thumb-img strong {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #fff;
+	background: #000;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 7px 15px 10px;
+    z-index: 2;	
 }
 .prov-set .thumb-img img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
     width: 100%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
 }
 .prov-set .upload-wrap {
-    width: 55%
+    width: 55%;
 }
 .prov-set .upload-wrap strong {
     display: block;
@@ -331,6 +352,7 @@
     width: 100%;
     height: 270px;
     border: 1px solid #ccc;
+    border-radius: 10px;
 }
 .prov-set .upload-img:before {
     content: '사진을 업로드해주세요.';
@@ -355,11 +377,11 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     background: #fff;
     border-radius: 50%;
-    box-shadow: rgba(100, 100, 111, 0.5) 0px 3px 10px 0px;
+    box-shadow: rgba(100, 100, 111, 0.7) 0px 3px 10px 0px;
     z-index: 1;
 }
 .prov-set .upload-img .btn-delete-img i {
@@ -385,18 +407,16 @@
 .prov-set .prov-cont p {
     color: #666;
 }
-.prov-set form {
-    margin-top: 30px;
-}
 .prov-set .upload-file {
     width: 100%;
+    margin-top: 20px;
 }
 .prov-set .upload-file input[type="text"].input-file {
     width: calc(100% - 80px);
 }
-.prov-set > button {
+.prov-set form input[type="submit"].btn {
     display: block;
-    margin: 40px auto 0;
+    margin: 50px auto 0;
 }
 
 

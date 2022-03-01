@@ -31,8 +31,8 @@
 	                    <div class="img-thumb">
 	                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
 	                    </div>
-	                    <p>챌린지 인증이 완료되었습니다.</p>
-	                    <strong>지금까지 <span>6회</span> 달성 완료하셨습니다!</strong>
+	                    <p><span>${ loginMember.id }</span>님, 오늘의 챌린지 인증이 완료되었습니다.</p>
+	                    <strong><span>${ today.chalTitle }</span> 달성 완료되었습니다!</strong>
 	                    <a href="${ path }/today_list" class="btn">오늘의 챌린지 메인으로</a>
 	                </div>
 	            </div>
