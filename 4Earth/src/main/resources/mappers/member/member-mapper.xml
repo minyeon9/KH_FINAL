@@ -98,34 +98,5 @@
   			MODIFY_DATE = SYSDATE 
   		WHERE NO = #{no}
   	</update>
-  	<delete id="deleteMember" parameterType="_int">
-  		UPDATE MEMBER
-  		SET
-  			STATUS = 'N'
-  		WHERE 
-  			NO = #{no}
-  	</delete>
 	
-	<select id="findMember" parameterType="map" resultMap="memberResultMap">
-		<include refid="selectMemberSql" />
-		
-		WHERE STATUS = 'Y'
-		<choose>
-		   	<when test="name != null">
-		   		AND NAME LIKE '%' || #{name} || '%'
-		   	</when>
-		</choose>
-		ORDER BY NO DESC
-	</select>
-	
-	<select id="getMemberCount" parameterType="map" resultType="_int">
-		SELECT COUNT(*)
-	    FROM MEMBER
-	    WHERE STATUS = 'Y'
-		<choose>
-		   	<when test="name != null">
-		   		AND NAME LIKE '%' || #{name} || '%'
-		   	</when>
-		</choose>
-	</select>
 </mapper>

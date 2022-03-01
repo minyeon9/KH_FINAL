@@ -88,20 +88,32 @@
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td>내용4</td>
-                                            <td>
-                                                <button class="btn btn-s">등록</button>
-                                                <button class="btn btn-s gray">정지</button>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
+                                    <c:if test="${ empty list }">
+	                                    <tbody>
+		                                    <tr>
+		                                    	<td colspan="6">
+												조회된 멤버가 없습니다
+		                                    	</td>
+		                                    </tr>
+	                                    </tbody>
+									</c:if>
+									<c:if test="${ !empty list }">
+										<c:forEach var="reported" items="${ list }">
+		                                    <tbody>
+		                                        <tr>
+		                                            <td>${ reported.no }</td>
+		                                            <td>${ reported.name }</td>
+		                                            <td>${ reported.enrollDate }</td>
+		                                            <td>${ reported.member_type }</td>
+		                                            <td>${ reported.reportedTimes }</td>
+		                                            <td>
+		                                                <button class="btn btn-s">등록</button>
+		                                                <button id="delete" name="no" value=${ reported.no } class="btn btn-s gray">정지</button>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+										</c:forEach>
+									</c:if>
                                 </table>
                             </div>
                             <div class="btn-wrap">

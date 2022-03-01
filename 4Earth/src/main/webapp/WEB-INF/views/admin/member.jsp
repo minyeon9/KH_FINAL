@@ -107,7 +107,7 @@
 		                                            <td>${ member.id }</td>
 		                                            <td>${ member.name }</td>
 		                                            <td>${ member.enrollDate }</td>
-		                                            <td>{ member.level }</td>
+		                                            <td>${ member.member_type }</td>
 		                                            <td>{ member.repoted }</td>
 		                                            <td>
 		                                                <button class="btn btn-s">등록</button>

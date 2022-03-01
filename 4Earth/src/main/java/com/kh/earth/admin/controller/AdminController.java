@@ -7,14 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.earth.admin.model.service.ReportService;
+import com.kh.earth.admin.model.service.AdminService;
 import com.kh.earth.admin.model.vo.Report;
+import com.kh.earth.admin.model.vo.Reported;
 import com.kh.earth.common.util.PageInfo;
-import com.kh.earth.member.model.service.MemberService;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.store.model.vo.Product;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,11 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	@Autowired
-	private MemberService service;
+//	@Autowired
+//	private MemberService service;
 	
 	@Autowired
-	private ReportService rservice;
+	private AdminService service;
 
 	@GetMapping("/main")
 	public String admin() {
@@ -45,7 +45,7 @@ public class AdminController {
 		log.info("admin_report)list() - 호출");
 		
 		pageInfo = new PageInfo(page, 10, service.getMemberCount(), count);
-		list = rservice.getReportList(pageInfo);
+		list = service.getReportList(pageInfo);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
@@ -55,10 +55,22 @@ public class AdminController {
 	}
 	
 	@GetMapping("/reported_list")
-	public String admin_reported_list() {
+	public ModelAndView admin_reported_list(ModelAndView model, 
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Reported> list = null;
+		
 		log.info("admin_reported_list() - 호출");
 		
-		return "admin/reported_list";
+		pageInfo = new PageInfo(page, 10, service.getMemberCount(), count);
+		list = service.getReportedList(pageInfo);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		model.setViewName("/admin/reported_list");
+		
+		return model;
 	}
 	
 	@GetMapping("/notice")
@@ -109,10 +121,26 @@ public class AdminController {
 	}
 	
 	@GetMapping("/echo_list")
-	public String admin_echo_list() {
+	public ModelAndView admin_echo_list(
+			ModelAndView model,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count
+			) {
+		PageInfo pageInfo = null;
+		List<Product> list = null;
+		
 		log.info("admin_echo_list() - 호출");
 		
-		return "admin/echo_list";
+		pageInfo = new PageInfo(page, 10, service.getProductCount(), count);
+		list = service.getProductList(pageInfo);
+					
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		
+		model.setViewName("/admin/echo_list");
+		
+		return model;
 	}
 	
 	@GetMapping("/echo_order")
@@ -172,7 +200,7 @@ public class AdminController {
 		
 		int result = 0;
 		
-		result = service.delete(no);
+		result = service.deleteMember(no);
 		
 		if (result > 0) {
 			model.addObject("msg", "멤버 정지 완료");
@@ -196,7 +224,7 @@ public class AdminController {
 		
 		int result = 0;
 		
-		result = rservice.delete(no);
+		result = service.deleteReport(no);
 		
 		if (result > 0) {
 			model.addObject("msg", "신고 처리 완료");
@@ -211,7 +239,6 @@ public class AdminController {
 		
 		return model;
 	}
-	
 	
 	
 	

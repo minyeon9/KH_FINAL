@@ -34,5 +34,5 @@
 	 		
 	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
 	 	</interceptor>
-	 </interceptors>
+	 </interceptors>	
 </beans:beans>

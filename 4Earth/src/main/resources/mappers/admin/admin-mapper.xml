@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.kh.earth.admin.model.dao.AdminMapper">
+
+	<resultMap type="Report" id="ReportListResultMap">
+		<id property="reportNo" column="REPORT_NO"/>
+		<result property="reportMemberNo" column="REPORT_M_NO"/>
+		<result property="reportedMemberNo" column="REPORTED_M_NO"/>
+		<result property="reportDate" column="REPORT_DATE"/>
+		<result property="reportTitle" column="REPORT_TITLE"/>
+		<result property="reportContent" column="REPORT_CONTENT"/>
+		<result property="reportCategory" column="REPORT_CATEGORY"/>
+		<result property="reportStatus" column="REPORT_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="Member" id="memberResultMap">
+		<id property="no" column="NO"/>
+		<result property="id" column="ID"/>
+		<result property="password" column="PASSWORD"/>
+		<result property="member_type" column="MEMBER_TYPE"/>
+		<result property="name" column="NAME"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="platform_type" column="PLATFORM_TYPE"/>
+		<result property="status" column="STATUS"/>
+		<result property="img_name" column="IMG_NAME"/>	
+		<result property="modify_img_name" column="MODIFY_IMG_NAME"/>		
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="reportedTimes" column="REPORTED"/>
+	</resultMap>
+	
+	<resultMap type="Product" id="ProductListResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="proName" column="PRO_NAME"/>
+		<result property="proPrice" column="PRO_PRICE"/>
+		<result property="proDate" column="PRO_DATE"/>
+		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
+		<result property="proVol" column="PRO_VOL"/>
+		<result property="proImg" column="PRO_IMG"/>
+		<result property="proInfo" column="PRO_INFO"/>
+		<result property="proStat" column="PRO_STAT"/>
+		<result property="proCat" column="PRO_CAT"/>
+		<result property="proSold" column="PRO_SOLD"/>
+		<result property="proMfg" column="PRO_MFG"/>
+		<result property="proRating" column="PRO_RATING"/>
+	</resultMap>
+	
+	<resultMap type="Reported" extends="memberResultMap" id="ReportedListResultMap">
+		<result property="reportedTimes" column="REPORTED"/>
+	</resultMap>
+	
+	<sql id="selectReportSql">
+		SELECT REPORT_NO, 
+			    REPORT_M_NO, 
+			    REPORTED_M_NO, 
+			    REPORT_DATE,
+			    REPORT_TITLE, 
+			    REPORT_CONTENT, 
+			    REPORT_STATUS, 
+			    REPORT_CATEGORY
+	</sql>
+	
+	<sql id="selectMemberSql">
+		SELECT NO, 
+		    ID, 
+		    PASSWORD, 
+		    MEMBER_TYPE, 
+		    NAME, 
+		    PHONE, 
+		    EMAIL, 
+		    ADDRESS, 
+		    PLATFORM_TYPE, 
+		    STATUS, 
+		    IMG_NAME, 
+		    MODIFY_IMG_NAME, 
+		    ENROLL_DATE, 
+		    MODIFY_DATE
+		FROM MEMBER
+	</sql>
+	
+	<sql id="selectProductSql">
+		SELECT PRO_NO,
+			   PRO_NAME,
+			   PRO_PRICE, 
+			   PRO_DATE, 
+			   PRO_MODIFY_DATE, 
+			   PRO_VOL, 
+			   PRO_IMG, 
+			   PRO_INFO, 
+			   PRO_STAT,
+			   PRO_CAT, 
+			   PRO_SOLD, 
+			   PRO_MFG, 
+			   PRO_RATING
+	</sql>
+
+	<select id="getReportCount" resultType="_int">
+		SELECT COUNT(*) FROM REPORT
+	</select>
+	
+	<select id="getReportList" resultMap="ReportListResultMap">
+		<include refid="selectReportSql"/>
+		FROM REPORT
+		WHERE REPORT_STATUS = 'Y'
+		ORDER BY REPORT_NO DESC
+	</select>
+
+	<delete id="deleteReport" parameterType="_int">
+  		UPDATE REPORT
+  		SET
+  			REPORT_STATUS = 'N'
+  		WHERE 
+  			REPORT_NO = #{no}
+  	</delete>
+  	
+  	<delete id="deleteMember" parameterType="_int">
+  		UPDATE MEMBER
+  		SET
+  			STATUS = 'N'
+  		WHERE 
+  			NO = #{no}
+  	</delete>
+
+	<select id="getMemberCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM MEMBER
+	    WHERE STATUS = 'Y'
+		<choose>
+		   	<when test="name != null">
+		   		AND NAME LIKE '%' || #{name} || '%'
+		   	</when>
+		</choose>
+	</select>
+	
+	<select id="findMember" parameterType="map" resultMap="memberResultMap">
+		<include refid="selectMemberSql" />
+		
+		WHERE STATUS = 'Y'
+		<choose>
+		   	<when test="name != null">
+		   		AND NAME LIKE '%' || #{name} || '%'
+		   	</when>
+		</choose>
+		ORDER BY NO DESC
+	</select>
+	
+	<select id="getProductCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+	</select>
+	
+	<select id="getProductList" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+		FROM PRODUCT
+		ORDER BY PRO_NO
+	</select>
+	
+	<select id="getReportedList" parameterType="map" resultMap="ReportedListResultMap">
+		SELECT NO, 
+		       MEMBER_TYPE, 
+		       NAME, 
+		       STATUS,
+		       ENROLL_DATE,
+		       (SELECT COUNT(NO) FROM REPORT WHERE (REPORTED_M_NO)=NO) AS REPORTED
+			FROM MEMBER
+			WHERE NO IN(SELECT REPORTED_M_NO
+				        FROM REPORT)
+			AND STATUS = 'Y'
+		<choose>
+		   	<when test="name != null">
+		   		AND NAME LIKE '%' || #{name} || '%'
+		   	</when>
+		</choose>
+	</select>
+
+
+</mapper>

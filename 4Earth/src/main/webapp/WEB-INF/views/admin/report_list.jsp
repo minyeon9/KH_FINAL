@@ -125,13 +125,28 @@
                         </section>
                         <!-- // Category -->
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>                   
+							<!-- 맨 처음으로 -->
+							<a class="prev" href="${ path }/admin/report_list?page=1"></a>
+				
+							<!-- 이전 페이지로 -->
+							<a class="prev" href="${ path }/admin/report_list?page=${ pageInfo.prevPage }"></a>
+				
+							<!--  10개 페이지 목록 -->
+							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">			
+									<strong>${ status.current }</strong>
+								</c:if>
+								<c:if test="${ status.current != pageInfo.currentPage }">				
+									<a href="${ path }/admin/report_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+				
+							<!-- 다음 페이지로 -->
+							<a class="next" href="${ path }/admin/report_list?page=${ pageInfo.nextPage }"></a>
+				
+							<!-- 맨 끝으로 -->
+							<a class="next" href="${ path }/admin/report_list?page=${ pageInfo.maxPage }"></a>
+						</div>                   
                     </div>
                     
             </section>
