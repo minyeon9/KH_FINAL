@@ -12,12 +12,8 @@ public interface ChallengeService {
 
 	List<Today> getTodayList();
 
-	List<Today> getTodayView();
-
-	List<TodayMember> todayComplete();
+	Today findTodayListByNo(int chalNo);
 
 	int save(TodayMember todayMember);
-
-	List<TodayMember> getTodayMember();
-
+	
 }

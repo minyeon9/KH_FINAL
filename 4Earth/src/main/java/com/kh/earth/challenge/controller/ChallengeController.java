@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
+//@RequestMapping("/challenge")
 public class ChallengeController {
 	
 	@Autowired
@@ -32,76 +34,64 @@ public class ChallengeController {
 	@Autowired
 	private ResourceLoader resourceLoader;
 
-	// 오늘의 챌린지 리시트 조회
+	// 오늘의 챌린지 메인
+	@GetMapping("/today_main")
+	public ModelAndView todayMain(ModelAndView model) {
+		List<Today> todayMain = service.getTodayList();
+		
+		model.addObject("todayMain", todayMain);
+		model.setViewName("challenge/today_main");
+		
+		return model;
+	}
+	
+	// 오늘의 챌린지 목록
 	@GetMapping("/today_list")
 	public ModelAndView todayList(ModelAndView model) {
-		List<Today> todayList = null;
-		
-		todayList = service.getTodayList();
-		
-		// System.out.println(todayList);
+		List<Today> todayList = service.getTodayList();
 		
 		model.addObject("todayList", todayList);
 		model.setViewName("challenge/today_list");
 		
 		return model;
-		
-//		log.info("today_list - 호출");
-//		log.info("{}", page);
-		// string으로 받아서 내부에서 숫자나 문자인지 확인
-//		String str = "1123";
-//        boolean isNumeric = true;
-//        for (int i = 0; i < page.length(); i++) {
-//            if (!Character.isDigit(page.charAt(i))) {
-//                isNumeric = false;
-//            }
-//        }
-//        System.out.println(isNumeric);
-//        
-//        if( isNumeric = false ) {
-//        	model.addObject("msg", "잘못된 접근입니다.");
-//        	model.addObject("location", "/");
-//        	model.setViewName("common/msg");
-//        } else {
-//        	model.addObject("location", "today_list");
-//        }
 	}
 	
-	
-	// 오늘의 챌린지 상세 조회
+	// 오늘의 챌린지 상세 및 인증
 	@GetMapping("/today_view")
-	public ModelAndView todayView(ModelAndView model) {
-		// log.info("today_view - 호출");
+	public ModelAndView todayView(
+			ModelAndView model,
+			@RequestParam("chalNo") int chalNo) {
+		Today today = service.findTodayListByNo(chalNo);
 		
-		List<Today> todayView = null;
-		
-		todayView = service.getTodayView();
-		
-		// System.out.println(todayView);
-		
-		model.addObject("todayView", todayView);
+		model.addObject("today", today);
 		model.setViewName("challenge/today_view");
 		
-		return model;
-	}
-	
-	
-	// 오늘의 챌린지 인증 사진 업로드
-	@GetMapping("/today_write")
-	public String todayWrite() {
-		log.info("today_write - 호출(get)");
+		System.out.println("챌린지 번호 : " + chalNo);
 		
-		return "challenge/today_write";
+		return model;
 	}
 	
 	
 	// 오늘의 챌린지 인증 완료
 	@GetMapping("/today_complete")
 	public String todayComplete() {
-		log.info("today_complete - 호출(get)");
 		
 		return "challenge/today_complete";
 	}
+	
+//	@GetMapping("/today_complete")
+//	public ModelAndView todayComplete(
+//			ModelAndView model,
+//			@RequestParam("chalNo") int chalNo) {
+//		Today today = service.findTodayListByNo(chalNo);
+//		
+//		model.addObject("today", today);
+//		model.setViewName("challenge/today_complete");
+//		
+//		System.out.println("챌린지 번호 : " + chalNo);
+//		
+//		return model;
+//	}
 
 	
 	@PostMapping("/today_complete")
@@ -109,60 +99,56 @@ public class ChallengeController {
 			ModelAndView model,
 			@SessionAttribute(name = "loginMember") Member loginMember,
 			@ModelAttribute TodayMember todayMember,
+			// @ModelAttribute Today today,
+			// @RequestParam("chalNo") int chalNo,
 			@RequestParam("upfile") MultipartFile upfile) {
 		
-		log.info("today_complete - 호출(post)");
+		// Today today = service.findTodayListByNo(chalNo);		
+		// model.addObject("today", today);
 		
-		model.setViewName("/challenge/today_complete");
+		// model.setViewName("challenge/today_complete");
 		
-		log.info("complete: {} ", todayMember.toString());
 		
-		// List<TodayMember> todayComplete = null;
+		// System.out.println(today);
 		
-		// todayComplete = service.todayComplete();
+		int result = 0;
 		
-		// System.out.println("complete: " + todayComplete);
+//		log.info("Upfile Name : {}", upfile.getOriginalFilename()); // 파일 미 업로드 시 빈 문자열 출력
+//		log.info("Upfile isEmpty : {}", upfile.isEmpty()); // 첨부파일이 없을 경우 true, 있을 경우 false
 		
-//		model.addObject("todayComplete", todayMember);
-//		model.setViewName("challenge/today_complete");
-//		
-//		int result = 0;
-//		
-//		log.info("Upfile Name : {}", upfile.getOriginalFilename());
-//		log.info("Upfile isEmpty : {}", upfile.isEmpty());
-//		
-//		
-//		if( upfile != null && !upfile.isEmpty() ) {
-//			String renamedFileName = null;
-//			String location = null;
-//			
-//			try {
-//				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
-//				renamedFileName = FileProcess.save(upfile, location);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//			
-//			if ( renamedFileName != null ) {
-//				todayMember.setOriginalFilename(upfile.getOriginalFilename());
-//				todayMember.setRenamedFilename(renamedFileName);
-//			}
-//		}
-//		
-//		todayMember.setMemNo(loginMember.getNo());
-//		result = service.save(todayMember);
-//		
-//		if ( result > 0 ) {
-//			model.addObject("msg", "인증이 완료 되었습니다.");
-//			model.addObject("location", "/challenge/today_complete");
-//		} else {
-//			model.addObject("msg", "인증을 실패했습니다.");
-//			model.addObject("location", "/challenge/today_write");
-//		}
-//		
-//		System.out.println(result);
-//		
-//		model.setViewName("common/msg");
+		// 파일 저장
+		if( upfile != null && !upfile.isEmpty() ) {
+			String renamedFileName = null;
+			String location = null;
+			
+			try {
+				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				renamedFileName = FileProcess.save(upfile, location);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if ( renamedFileName != null ) {
+				todayMember.setOriginalFilename(upfile.getOriginalFilename());
+				todayMember.setRenamedFilename(renamedFileName);
+			}
+		}
+		
+		
+		// 게시글 저장
+		todayMember.setMemNo(loginMember.getNo());
+		// todayMember.setChalNo(today.getChalNo()); // 오늘의 챌린지 번호 저장
+		result = service.save(todayMember);
+		
+		if ( result > 0 ) {
+			model.addObject("msg", "게시글이 등록되었습니다.");
+			model.addObject("location", "/today_complete");
+		} else {
+			model.addObject("msg", "게시글 등록을 실패했습니다.");
+			model.addObject("location", "/today_list");
+		}
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}

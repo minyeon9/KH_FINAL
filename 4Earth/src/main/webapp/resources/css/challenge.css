@@ -320,10 +320,10 @@
 	display: block;
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	color: #fff;
-	background: #000;
-    font-size: 16px;
+	background: #67b16b;
+    font-size: 14px;
     font-weight: 400;
     padding: 7px 15px 10px;
     z-index: 2;	

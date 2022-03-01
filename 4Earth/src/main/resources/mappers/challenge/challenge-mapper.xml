@@ -58,6 +58,19 @@
 		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
   	</select>
   	
+  	<select id="selectTodayListByNo" parameterType="_int" resultMap="todayListResultMap">
+		SELECT
+		    CATEGORY,
+		    CHAL_NO,
+		    CHAL_TITLE,
+		    CHAL_CONTENT,
+		    CHAL_IMG_PATH,
+		    CHAL_POINT,
+		    CHAL_DATE
+		FROM CHAL_TODAY
+		WHERE CHAL_NO = #{ chalNo }
+	</select>
+  	
   	<insert id="insertTodayMember" parameterType="TodayMember" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
 		INSERT INTO CHAL_TODAY_MEM (
 			NO,
@@ -73,12 +86,11 @@
 			SEQ_CHLG_TODAY_MEM.NEXTVAL,
 			#{ memNo },
 			#{ chalNo },
-			#{ chalDate },
-			#{ chalStatus },
-			#{ originalFileName },
-			#{ renamedFileName },
-			1000,
 			DEFAULT,
+			DEFAULT,
+			#{ originalFilename },
+			#{ renamedFilename },
+			1000,
 			DEFAULT
 		)
 	</insert>

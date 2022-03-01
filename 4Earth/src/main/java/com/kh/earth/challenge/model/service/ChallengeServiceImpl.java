@@ -22,11 +22,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public List<Today> getTodayList() {
 		return mapper.findAllToday();
 	}
-
-	// 오늘의 챌린지 상세 조회
+	
+	// 오늘의 챌린지 상세 및 작성
 	@Override
-	public List<Today> getTodayView() {
-		return mapper.findAllToday();
+	public Today findTodayListByNo(int chalNo) {
+		return mapper.selectTodayListByNo(chalNo);
 	}
 
 	// 오늘의 챌린지 인증 저장
@@ -35,10 +35,9 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public int save(TodayMember todayMember) {
 		int result = 0;
 		
-		// todayMember 테이블에 
 		if( todayMember.getNo() != 0 ) {
 			// update
-			result = mapper.updateTodayMember(todayMember);
+			//result = mapper.updateTodayMember(todayMember);
 		} else {
 			// insert
 			result = mapper.insertTodayMember(todayMember);
@@ -46,17 +45,4 @@ public class ChallengeServiceImpl implements ChallengeService {
 		
 		return result;
 	}
-	
-	// 오늘의 챌린지 인증 완료
-	@Override
-	public List<TodayMember> todayComplete() {
-		return mapper.findAllTodayMember();
-	}
-
-	@Override
-	public List<TodayMember> getTodayMember() {
-		return mapper.findAllTodayMember();
-	}
-	
-
 }

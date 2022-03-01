@@ -27,13 +27,14 @@
 	            </div>
 	
 	            <div class="challenge">
+	            	<input type="text" name="chalNo" value="${ today.chalNo }" class="blind">
 	                <div class="complete-page">
 	                    <div class="img-thumb">
-	                        <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                        <img src="${ path }${ today.chalImgPath }/challenge_today0${ today.chalNo }.jpg" alt="">
 	                    </div>
-	                    <p><span>${ loginMember.id }</span>님, 오늘의 챌린지 인증이 완료되었습니다.</p>
+	                    <p><span>${ loginMember.name }</span>님, 오늘의 챌린지 인증이 완료되었습니다.</p>
 	                    <strong><span>${ today.chalTitle }</span> 달성 완료되었습니다!</strong>
-	                    <a href="${ path }/today_list" class="btn">오늘의 챌린지 메인으로</a>
+	                    <a href="${ path }/today_main" class="btn">오늘의 챌린지 메인으로</a>
 	                </div>
 	            </div>
 	        </section>
@@ -48,7 +49,7 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/today_list', '/4earth/month_list', '/4earth/ongoing_list'];
+        let menuPath = ['/4earth/today_main', '/4earth/month_list', '/4earth/ongoing_list'];
         let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
         let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
 

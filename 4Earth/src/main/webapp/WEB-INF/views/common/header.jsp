@@ -71,7 +71,7 @@
                     <li>
                         <h2><a href="#">에코 챌린지</a></h2>
                         <ul>
-                            <li><a href="${ path }/today_list">오늘의 챌린지</a></li>
+                            <li><a href="${ path }/today_main">오늘의 챌린지</a></li>
                             <li><a href="${ path }/month_list">이달의 챌린지</a></li>
                             <li><a href="${ path }/ongoing_list">참여 중인 챌린지</a></li>
                         </ul>
