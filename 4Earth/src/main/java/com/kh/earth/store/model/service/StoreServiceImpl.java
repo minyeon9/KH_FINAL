@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.dao.StoreMapper;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductOption;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -46,11 +47,8 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public int getProductCount(List<String> detail) {		
 		Map<String, Object> map = new HashMap<>();
-		
-			
+					
 		map.put("detail", detail);
-		
-		System.out.println("map : " + map.toString());
 		
 		return mapper.getProductCountByDetail(map);
 	}
@@ -116,6 +114,22 @@ public class StoreServiceImpl implements StoreService {
 		
 		return mapper.getProductListByDetail(rowBounds, map);
 	}
+
+	// 상품 상세
+	@Override
+	public Product findProductByNo(int no) {		
+		
+		return mapper.findProductByNo(no);
+	}
+
+	@Override
+	public List<ProductOption> findProductOption(int no) {
+		
+		return mapper.findProductOption(no);
+	}
+
+	
+	
 
 	
 

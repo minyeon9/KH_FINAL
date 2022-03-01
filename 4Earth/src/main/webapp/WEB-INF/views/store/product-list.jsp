@@ -59,7 +59,7 @@
                         <!-- Category -->
                         <section>	
                            	
-                          	<form action="${ path }/product_category">
+                          	<form action="${ path }/product_category?category="${ category }">
                             <div class="category">
                             	<div class="store-category">
 	                            	<strong>카테고리</strong>	 
@@ -138,7 +138,7 @@
                                 </ul>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn gray">초기화</button>
+                                <button class="btn gray" type="reset" onclick="removeChecked()">초기화</button>
                                 <button class="btn" type="submit">적용</button>
                             </div>
                         </form>     
@@ -151,9 +151,9 @@
                         <section>	  
                         	<div style="height:35px; margin-bottom:10px;">
 	                            <strong>
-	                                총 ${ count }개의 상품이 있습니다.
+	                                총 ${ count }개의 상품이 있습니다. 
 	                            </strong>
-	                            <form action="${ path }/product_arrange">
+	                            <form action="${ path }/product_arrange?category=${ category }">
 		                            <select name="arrange" id="store-arrange" class="store-selectbox" onchange="submit()">
 		                                <option value="신상품순" <c:if test="${arrange eq '신상품순'}">selected</c:if> >신상품순</option>	                            
 		                                <option value="판매순" <c:if test="${arrange eq '판매순'}">selected</c:if>>판매순</option>
@@ -161,7 +161,8 @@
 		                                <option value="낮은가격순" <c:if test="${arrange eq '낮은가격순'}">selected</c:if>>낮은가격순</option>
 		                                <option value="높은가격순" <c:if test="${arrange eq '높은가격순'}">selected</c:if>>높은가격순</option>
 		                            </select>  
-		                            <input type="hidden" name="category" value="${ category }">
+		                            <input type="hidden" name="category" value="${ category }">	
+		                            <input type="hidden" name="category-detail" value="${ detail }">		                            
 	                            </form>
                         	</div>                      
                             
@@ -283,8 +284,6 @@
     	
    		var radio = $(':radio[name="category"]:checked').val();
    		
-   		console.log(radio);
-   		
    		if(radio == "식품") {
    			$(".food").show();
    		} 
@@ -310,6 +309,12 @@
 	   });
 	 });   
 
+    // 체크박스 초기화
+    function removeChecked(){
+    	localStorage.removeItem('checked');
+    	
+    	location.href = "${ path }/product_category?category=${ category }";
+    }    
 </script>
 
 </html>

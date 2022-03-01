@@ -36,12 +36,16 @@
 		<result property="proMfg" column="PRO_MFG"/>
 		<result property="proRating" column="PRO_RATING"/>
 	</resultMap>
+	
+	<resultMap type="ProductOption" id="ProductOptionResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="oNo" column="O_NO"/>
+		<result property="oName" column="O_NAME"/>
+	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
 		<where>
-			<if test="category == '전체'">
-			</if>
 			<if test="category == '식품'">
 				AND PRO_CAT LIKE '1%'
 			</if>
@@ -63,7 +67,7 @@
 		FROM PRODUCT P
 		JOIN PRODUCT_CATEGORY C ON(P.PRO_CAT = C.C_NO)
 		<where>
-			<if test="detail != null">
+			<if test="detail != null and detail.size!=0">
 				AND C.C_NAME IN
 				<foreach collection="detail" item="filter" open="(" separator="," close=")">
 					#{filter}
@@ -142,7 +146,7 @@
 		FROM PRODUCT P
 		JOIN PRODUCT_CATEGORY C ON(P.PRO_CAT = C.C_NO)
 		<where>
-			<if test="detail != null">
+			<if test="detail != null and detail.size!=0">
 				AND C.C_NAME IN
 				<foreach collection="detail" item="filter" open="(" separator="," close=")">
 					#{filter}
@@ -169,9 +173,20 @@
 			ORDER BY PRO_PRICE DESC
 		</if>			
 	</select>
-
 	
+	<select id="findProductByNo" parameterType="_int" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+		FROM PRODUCT
+		WHERE PRO_NO = #{no}
+	</select>
 
+	<select id="findProductOption" parameterType="_int" resultMap="ProductOptionResultMap">
+		SELECT PRO_NO,
+			   O_NO,
+			   O_NAME 
+		FROM PRODUCT_OPT
+		WHERE PRO_NO = #{no}
+	</select>
 
 
 
