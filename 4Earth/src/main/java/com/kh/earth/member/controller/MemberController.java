@@ -116,6 +116,8 @@ public class MemberController {
 				 // 반환하는 객체는 Resource객체임, 파일이름, 경로, 파일등을 찾아올 수 있다. 
 				renamedFileName = FileProcess.save(imgname, location);
 				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

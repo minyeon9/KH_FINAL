@@ -33,6 +33,13 @@
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 	
 	<interceptors>
+		<interceptor>
+			<mapping path="/profile_view"/>
+			<mapping path="/profile_edit"/>
+			
+			<beans:bean class="com.kh.earth.common.interceptor.LoginCheckInterceptor" id="LoginCheckInterceptor"/>
+			
+		</interceptor>
 	 	<interceptor>
 	 		<mapping path="/admin/**"/>
 	 		<mapping path="/challenge/**"/>
@@ -40,6 +47,6 @@
 	 		<exclude-mapping path="/challenge/today_list"/>
 	 		
 	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
-	 	</interceptor>
+	 	</interceptor>	 	
 	 </interceptors>	
 </beans:beans>
