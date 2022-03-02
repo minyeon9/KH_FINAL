@@ -73,7 +73,7 @@
 
 .product {
     width: 100%;
-    height: 400px;
+    min-height: 400px;
 }
 
 
@@ -81,7 +81,7 @@
 /* 상품 상세 - slider */
 .slider{
     width: 500px;
-    height: 100%;
+    height: 400px;
     position: relative;
     margin: 0 auto;
     margin-left: 0%;
@@ -116,15 +116,15 @@ ul.imgs li img{
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: 20px;
+    bottom: 10px;
     z-index: 2;
 }
 .bullets label{
     display: inline-block;
     border-radius: 50%;
-    background-color: rgba(0,0,0,0.55);
-    width: 20px;
-    height: 20px;
+    background-color: rgba(0,0,0,0.35);
+    width: 15px;
+    height: 15px;
     cursor: pointer;
 }
 
@@ -164,12 +164,16 @@ ul.imgs li img{
 
 
 /* 상품 상세 */
+.pro-info {
+	width: calc(100% - 500px);
+	float: right;
+}
 .pro-table-div {
     width: 38%;
 }
 .pro-table {
-    width: calc(100% - 500px);
-    height: 100%;
+    width: 100%;
+    height: 260px;
     border-collapse: collapse;
 }
 .pro-table thead {
@@ -237,6 +241,100 @@ ul.imgs li img{
     outline: 0;
 }
 
+.pro-info ul {
+	width: 100%;
+}
+.pro-info li {
+	height: 35px;
+	padding: 13px 10px;
+}
+#selectedOption {
+	width: 40%;
+	display: inline-block;
+	float: left;
+	margin-top: 3px;
+}
+.pro-result {
+	width: 100%;
+}
+.price {
+	margin-top: 3px;
+	width: 33%;
+	float: right;
+}
+
+
+.quantity {
+  display: inline-block;
+  float: left;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number]
+{
+  -moz-appearance: textfield;
+}
+
+.quantity input {
+  width: 36px;
+  height: 26px;
+  line-height: 1.65;
+  float: left;
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-left: 8px;
+  border: 1px solid #eee;
+}
+
+.quantity input:focus {
+  outline: 0;
+}
+
+.quantity-nav {
+  float: left;
+  position: relative;
+  height: 26px;
+}
+
+.quantity-button {
+  position: relative;
+  cursor: pointer;
+  border-left: 1px solid #eee;
+  width: 16px;
+  text-align: center;
+  color: #333;
+  font-size: 14px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+  line-height: 1.1;
+  -webkit-transform: translateX(-100%);
+  transform: translateX(-100%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.quantity-button.quantity-up {
+  position: absolute;
+  height: 50%;
+  top: 0;
+  border-bottom: 1px solid #eee;
+}
+
+.quantity-button.quantity-down {
+  position: absolute;
+  bottom: -1px;
+  height: 50%;
+}
+
 .pro-btn {
     margin: 5px;
     width: 88px;
@@ -255,6 +353,7 @@ ul.imgs li img{
 
 .product-btn {
     border: 1px solid rgb(172, 172, 172);
+    float: right;
 }
 
 .pro-detail {
