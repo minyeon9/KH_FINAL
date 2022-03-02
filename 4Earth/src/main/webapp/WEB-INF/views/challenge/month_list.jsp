@@ -87,6 +87,7 @@
                 $(this).addClass('current');
             }
         });
+        
     });
 </script>
 

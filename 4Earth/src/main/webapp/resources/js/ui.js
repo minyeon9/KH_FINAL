@@ -387,12 +387,12 @@ $(() => {
     /* ----------------------------------
         odd thumb list
     ---------------------------------- */
-    let oddThumbList = $('.thumb-list.col-2 ul');
+    /* let oddThumbList = $('.thumb-list.col-2 ul');
     
     if( oddThumbList.length % 2 != 0 ) {
         let liItem = `<li>&nbsp;</li>`
         oddThumbList.append(liItem);
-    }
+    } */
     
 
 
