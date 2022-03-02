@@ -44,9 +44,9 @@
                     
                     <c:if test="${ !empty loginMember }">
                     <div class="after-login">
-                    	<!-- 
-                        <a href="#"><i class="material-icons md-18">manage_accounts</i> Admin</a>
-                    	 -->
+                    	<c:if test="${ loginMember.member_type eq 'ADMIN'}">
+                        <a href="${ path }/admin/main"><i class="material-icons md-18">manage_accounts</i> Admin</a>
+                    	</c:if>
                     	<a href="${ path }/purchase_cart"><i class="material-icons md-18">shopping_cart</i> 장바구니</a> 
                         <a href="#"><i class="material-icons md-18">account_circle</i> <b>${ loginMember.name }</b>님</a>
 
@@ -71,7 +71,7 @@
                     <li>
                         <h2><a href="#">에코 챌린지</a></h2>
                         <ul>
-                            <li><a href="${ path }/today_main">오늘의 챌린지</a></li>
+                            <li><a href="${ path }//today_main">오늘의 챌린지</a></li>
                             <li><a href="${ path }/month_list">이달의 챌린지</a></li>
                             <li><a href="${ path }/ongoing_list">참여 중인 챌린지</a></li>
                         </ul>
@@ -93,7 +93,7 @@
                             <li><a href="${ path }/wishlist">찜한 상품</a></li>
                             <li><a href="${ path }/">문의</a></li>
                             <li><a href="${ path }/">진행 중인 챌린지</a></li>
-                            <li><a href="${ path }/">회원정보</a></li>
+                            <li><a href="${ path }/profile_view">회원정보</a></li>
                         </ul>
                     </li>
                     <div class="bg-nav"></div>
