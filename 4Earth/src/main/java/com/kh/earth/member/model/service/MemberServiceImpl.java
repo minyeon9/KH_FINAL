@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.dao.MemberMapper;
@@ -32,33 +33,26 @@ public class MemberServiceImpl implements MemberService {
 		Member member = null;
 
 		member = this.findMemberById(id);
-		
-		System.out.println("서비스imple에서 찍는중 : "+member);
-		
-//		System.out.println(passwordEncoder.encode(password));
-//		System.out.println(member.getPassword());
-//		System.out.println(passwordEncoder.matches(password, member.getPassword()));
-		
-//		if(member != null && member.getPassword().equals(passwordEncoder.encode(password))) {
-//			return member;
-		
-		if(member != null && member.getPassword().equals(password)) {
-			return member;
 
-			
-		} else {
-			return null;
-		}
-		
-		// 삼항연산자로 처리
-//		return member != null && 
-//				passwordEncoder.matches(password, member.getPassword()) ? member : null;
+		return member != null && 
+				passwordEncoder.matches(password, member.getPassword()) ? member : null;
 	}
 
 	@Override
+	@Transactional
 	public int save(Member member) {
+		int result = 0;
 		
-		return 0;
+		if(member.getNo() != 0) {
+			// update
+		}else {
+			// insert
+			member.setPassword(passwordEncoder.encode(member.getPassword()));
+			result = mapper.insertMember(member);
+		}
+		
+		return result;
+
 	}
 
 	@Override

@@ -14,31 +14,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="container">
 			<div class="contents">
-                <div class="side-bar is-open">
-                    <button class="btn toggle-nav">
-                        <i class="material-icons md-24">last_page</i>
-                    </button>
-                    <ul>
-                        <li class="current">
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+<%@ include file="/WEB-INF/views/common/sideBar.jsp" %>               
 
                 <section class="content-wrap">
                     <div class="page-tit">

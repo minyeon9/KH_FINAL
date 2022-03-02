@@ -317,7 +317,7 @@ button {
   width: 200px;
   padding: 8px 0;
 }
-input[type="button"].btn:not(#checkDuplicate) {
+input[type="button"].btn:not(#checkDuplicate, #edit-btn) {
   height: 34px;
   line-height: 16px;
   padding: 8px 20px;

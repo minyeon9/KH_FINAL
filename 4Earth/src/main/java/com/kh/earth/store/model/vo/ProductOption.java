@@ -1,7 +1,5 @@
 package com.kh.earth.store.model.vo;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductFilter {
-	private int page;
+public class ProductOption {
+	private int proNo;
 	
-	private String category;
+	private int oNo;
 	
-	private List<String> detail;
-	
-	private String arrange;
+	private String oName;
 }

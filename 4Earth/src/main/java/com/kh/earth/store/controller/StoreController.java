@@ -1,21 +1,17 @@
 package com.kh.earth.store.controller;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.service.StoreService;
 import com.kh.earth.store.model.vo.Product;
-import com.kh.earth.store.model.vo.ProductFilter;
+import com.kh.earth.store.model.vo.ProductOption;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,11 +56,14 @@ public class StoreController {
 	@GetMapping("/product_category")
 	public ModelAndView productCategory(
 			ModelAndView model,
-			@RequestParam(value = "category", required = false) String category,
+			@RequestParam(value = "category", defaultValue = "전체") String category,
 			@RequestParam(value = "category-detail", required = false) List<String> detail,
+			@RequestParam(value = "arrange", defaultValue = "신상품순") String arrange,
 			@RequestParam(defaultValue="1") int page
 			) {
 		log.info("productCategory() - 호출");
+		
+		log.info("arrange : " + arrange);
 		
 		log.info("카테고리 : " + category);	
 		
@@ -74,18 +73,22 @@ public class StoreController {
 		int count = service.getProductCount(category);
 		
 		// 상세 필터 미선택
-		if(detail == null) {					
+		if(detail == null || detail.isEmpty()) {					
 			pageInfo = new PageInfo(page, 10, count, 8);
 			
-			list = service.getProductListByCategory(pageInfo, category);	
+			list = service.getProductListByCategory(pageInfo, category, arrange);	
 			
 		} else {
 			// 상세 필터 선택
+			log.info("상세 필터 : " + detail);
+			
 			count = service.getProductCount(detail);
 			
 			pageInfo = new PageInfo(page, 10, count, 8);
 			
-			list = service.getProductListByDetail(pageInfo, detail);	
+			list = service.getProductListByDetail(pageInfo, detail, arrange);	
+			
+			model.addObject("detail", detail);
 		}
 		
 		log.info("카테고리&필터 적용 count : " + count);
@@ -94,6 +97,7 @@ public class StoreController {
 		model.addObject("list", list);
 		model.addObject("count", count);
 		model.addObject("category", category);
+		model.addObject("arrange", arrange);
 		
 		model.setViewName("store/product-list");
 		
@@ -105,7 +109,7 @@ public class StoreController {
 	public ModelAndView productArrange(
 			ModelAndView model,
 			@RequestParam(value = "category", defaultValue = "전체") String category,
-			@RequestParam(value = "category-detail", required = false) List<String> detail,
+			@RequestParam(value = "category-detail", required = false) String detail,
 			@RequestParam(defaultValue="1") int page,
 			@RequestParam(value = "arrange") String arrange
 			) {
@@ -115,23 +119,36 @@ public class StoreController {
 		
 		List<Product> list = null;
 		PageInfo pageInfo = null;
+		int count = 0;
 		
 		// 카테고리 미적용
-		int count = service.getProductCount();
-		
-		pageInfo = new PageInfo(page, 10, count, 8);
-		
-		list = service.getProductList(pageInfo, arrange);
+		if(category.equals("전체")) {			
+			count = service.getProductCount();
+			
+			pageInfo = new PageInfo(page, 10, count, 8);
+			
+			list = service.getProductList(pageInfo, arrange);
+		}
 		
 		// 카테고리 적용
 		if(!category.equals("전체")) {	
 			// 상세 필터 선택
-			if(detail != null) {
-				count = service.getProductCount(detail);
+			if(detail != null && !detail.isEmpty()) {
+				
+				log.info("상세 필터 : " + detail.replace("[", "").replace("]", "").replace(" ", "").trim().split(","));
+				
+				List<String> detailList = Arrays.asList(detail.replace("[", "").replace("]", "").replace(" ", "").trim().split(","));				
+						
+				log.info("detailList : " + detailList.toString());
+				
+				count = service.getProductCount(detailList);
 				
 				pageInfo = new PageInfo(page, 10, count, 8);
 				
-				list = service.getProductListByDetail(pageInfo, detail, arrange);	
+				list = service.getProductListByDetail(pageInfo, detailList, arrange);	
+					
+				model.addObject("detail", detail.replace("[", " ").replace("]", ""));		
+				
 			} else {
 				
 				log.info("category : ", category);
@@ -149,7 +166,6 @@ public class StoreController {
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("category", category);
-		model.addObject("detail", detail);
 		model.addObject("list", list);
 		model.addObject("count", count);
 		model.addObject("arrange", arrange);
@@ -160,12 +176,28 @@ public class StoreController {
 	}
 	
 	
-	
+	// 소분샵 - 상품 상세
 	@GetMapping("/product_detail")
-	public String productDetail() {
+	public ModelAndView productDetail(
+			ModelAndView model,
+			@RequestParam("no") int no
+			) {
 		log.info("productDetail() - 호출");
+		log.info("no : " + no);
 		
-		return "store/product-detail";
+		Product product = service.findProductByNo(no);
+		
+		List<ProductOption> list = service.findProductOption(no);
+		
+		log.info("list : " + list.toString());
+		
+		log.info("product : " + product.toString());
+		
+		model.addObject("product", product);
+	
+		model.setViewName("store/product-detail");
+		
+		return model;
 	}
 	
 	@GetMapping("write_review")
