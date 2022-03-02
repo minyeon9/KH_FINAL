@@ -27,7 +27,8 @@ public interface StoreMapper {
 
 	Product findProductByNo(int no);
 
-	List<ProductOption> findProductOption(@Param("no") int no);
+	List<ProductOption> findProductOption(int no);
+
 
 
 }

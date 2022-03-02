@@ -178,7 +178,7 @@
 		                                        <div class="tag-wrap">
 		                                        	<c:if test="${ product.isNew lt 7 }">
 			                                            <span class="tag tag-orange">
-				                                            	NEW
+			                                            	NEW
 			                                            </span>
 		                                        	</c:if>
 		                                        </div>

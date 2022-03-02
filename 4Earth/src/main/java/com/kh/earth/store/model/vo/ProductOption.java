@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class ProductOption {
 	private int proNo;
 	
-	private int oNo;
+	private int optNo;
 	
-	private String oName;
+	private String optName;
 }
