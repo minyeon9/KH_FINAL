@@ -56,9 +56,8 @@
 
                    <section class="section">
                        <h4>챌린지 인증하기</h4>
-                       <input type="text" name="chalNo" value="${ today.chalNo }" class="blind">
                        <div class="prov-set">
-                           <form action="${ path }/today_complete" method="post" enctype="multipart/form-data">
+                           <form action="${ path }/today_complete?chalNo=${ today.chalNo }" method="post" enctype="multipart/form-data">
 	                           <div class="thumb-img">
 									<strong>예시 이미지</strong>
 	                                <img src="${ path }${ today.chalImgPath }/challenge_today0${ today.chalNo }.jpg" alt="">
@@ -83,7 +82,7 @@
                            		</div>
                            
 	                            <%-- <button type="submit" class="btn" onclick="location.href='${ path }/today_complete?chalNo=${ today.chalNo }'">인증하기</button> --%>
-	                            <input type="submit" class="btn" value="인증하기">
+	                            <input type="submit" class="btn" id="btnComplete" value="인증하기">
 							</form>
                        </div>
                    </section>
@@ -118,6 +117,13 @@
                 $(this).addClass('current');
             }
         });
+        
+        $('#btnComplete').on('click', function() {
+	        if( $('#inputFileOrigin').val().length == 0 ) {
+	        	alert(1);
+	        }
+        });
+        
     });
 </script>
 

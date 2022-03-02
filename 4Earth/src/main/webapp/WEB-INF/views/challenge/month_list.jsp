@@ -14,38 +14,14 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
         <div class="container">
             <div class="contents">
-                <div class="side-bar is-open">
-                    <button class="btn toggle-nav">
-                        <i class="material-icons md-24">last_page</i>
-                    </button>
-                    <ul>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
                 
                 <section class="content-wrap">
                     <div class="page-tit">
                         <h3>이달의 챌린지</h3>
                         <div class="bread-crumb">
                             <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                            <a href="#">에코 챌린지</a>
+                            <a href="${ path }/today_main">에코 챌린지</a>
                             <span>이달의 챌린지</span>
                         </div>
                     </div>
@@ -63,90 +39,22 @@
 
                         <div class="thumb-list vertical col-2">
                             <ul>
-                                <li class="complete">
-                                    <a href="month_view.html">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span class="icon-point">5,000</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="month_view.html">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span class="icon-point">5,000</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="month_view.html">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span class="icon-point">5,000</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="month_view.html">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span class="icon-point">5,000</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="month_view.html">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span class="icon-point">5,000</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="month_view.html">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span class="icon-point">5,000</span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="month_view.html">
-                                        <div class="img-thumb">
-                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <div class="item-cont">
-                                            <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                            <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                            <span class="icon-point">5,000</span>
-                                        </div>
-                                    </a>
-                                </li>
+                            	<c:if test="${ !empty monthList }">
+									<c:forEach var="monthList" items="${ monthList }">
+		                                <li class="complete">
+		                                    <a href="${ path }/month_view?chalNo=${ monthList.chalNo }">
+		                                        <div class="img-thumb">
+		                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                        </div>
+		                                        <div class="item-cont">
+		                                            <strong>${ monthList.chalTitle }</strong>
+		                                            <p>${ monthList.chalContent }</p>
+		                                            <span class="icon-point">${ monthList.chalPoint }</span>
+		                                        </div>
+		                                    </a>
+		                                </li>
+									</c:forEach>
+								</c:if>
                             </ul>
                         </div>
                     </div>

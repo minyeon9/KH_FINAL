@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.challenge.model.dao.ChallengeMapper;
+import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 
@@ -44,5 +45,22 @@ public class ChallengeServiceImpl implements ChallengeService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public TodayMember findTodayCompleteListByNo(int chalNo) {
+		return mapper.selectTodayCompleteListByNo(chalNo);
+	}
+
+	// 이달의 챌린지 목록 조회
+	@Override
+	public List<Month> getMonthList() {
+		return mapper.findAllMonth();
+	}
+
+	// 이달의 챌린지 상세 조회
+	@Override
+	public Month findMonthListByNo(int chalNo) {
+		return mapper.selectMonthListByNo(chalNo);
 	}
 }
