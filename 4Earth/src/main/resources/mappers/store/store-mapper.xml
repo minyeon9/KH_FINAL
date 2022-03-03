@@ -38,9 +38,26 @@
 	</resultMap>
 	
 	<resultMap type="ProductOption" id="ProductOptionResultMap">
-		<id property="proNo" column="PRO_NO"/>
-		<result property="oNo" column="O_NO"/>
-		<result property="oName" column="O_NAME"/>
+		<id property="proNo" column="O_PRO_NO"/>
+		<result property="optNo" column="O_O_NO"/>
+		<result property="optName" column="O_O_NAME"/>
+	</resultMap>
+	
+	<resultMap type="Product" id="ProductResultMap">
+		<id property="proNo" column="P_PRO_NO"/>
+		<result property="proName" column="P_PRO_NAME"/>
+		<result property="proPrice" column="P_PRO_PRICE"/>
+		<result property="proDate" column="P_PRO_DATE"/>
+		<result property="proModifyDate" column="P_PRO_MODIFY_DATE"/>
+		<result property="proVol" column="P_PRO_VOL"/>
+		<result property="proImg" column="P_PRO_IMG"/>
+		<result property="proInfo" column="P_PRO_INFO"/>
+		<result property="proStat" column="P_PRO_STAT"/>
+		<result property="proCat" column="P_PRO_CAT"/>
+		<result property="proSold" column="P_PRO_SOLD"/>
+		<result property="proMfg" column="P_PRO_MFG"/>
+		<result property="proRating" column="P_PRO_RATING"/>
+		<collection property="option" javaType="arraylist" resultMap="ProductOptionResultMap"/>
 	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
@@ -174,20 +191,36 @@
 		</if>			
 	</select>
 	
-	<select id="findProductByNo" parameterType="_int" resultMap="ProductListResultMap">
-		<include refid="selectProductSql"/>
-		FROM PRODUCT
-		WHERE PRO_NO = #{no}
-	</select>
+
 
 	<select id="findProductOption" parameterType="_int" resultMap="ProductOptionResultMap">
-		SELECT PRO_NO,
-			   O_NO,
-			   O_NAME 
+		SELECT PRO_NO AS O_PRO_NO,
+			   O_NO AS O_O_NO,
+			   O_NAME AS O_O_NAME
 		FROM PRODUCT_OPT
 		WHERE PRO_NO = #{no}
 	</select>
 
-
+	<select id="findProductByNo" parameterType="_int" resultMap="ProductResultMap">
+		SELECT P.PRO_NO AS P_PRO_NO,
+		       P.PRO_NAME AS P_PRO_NAME,
+		       P.PRO_PRICE AS P_PRO_PRICE, 
+		       P.PRO_DATE AS P_PRO_DATE, 
+		       P.PRO_MODIFY_DATE AS P_PRO_MODIFY_DATE, 
+		       P.PRO_VOL AS P_PRO_VOL, 
+		       P.PRO_IMG AS P_PRO_IMG, 
+		       P.PRO_INFO AS P_PRO_INFO, 
+		       P.PRO_STAT AS P_PRO_STAT,
+		       P.PRO_CAT AS P_PRO_CAT, 
+		       P.PRO_SOLD AS P_PRO_SOLD, 
+		       P.PRO_MFG AS P_PRO_MFG, 
+		       P.PRO_RATING AS P_PRO_RATING,
+		       O.PRO_NO AS O_PRO_NO,
+		       O.O_NO AS O_O_NO,
+		       O.O_NAME AS O_O_NAME
+		FROM PRODUCT P
+		LEFT OUTER JOIN PRODUCT_OPT O ON(P.PRO_NO = O.PRO_NO)
+		WHERE P.PRO_NO = #{no}
+	</select>
 
 </mapper>
