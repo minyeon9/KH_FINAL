@@ -382,7 +382,7 @@
 .category ul li {
     display: flex;
 }
-.category ul li + li {
+.category ul li + li:not(.find-area li) {
     border-top: 1px solid #ccc;
 }
 .category ul li strong {

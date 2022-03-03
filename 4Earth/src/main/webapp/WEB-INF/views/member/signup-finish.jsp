@@ -64,12 +64,13 @@
 			</div>
 	</div>
 	
-<script>
+<script type="text/javascript">
 //회원가입 완료 이름 출력
 const url = new URL(window.location.href);
 const urlParams = url.searchParams;
 document.getElementById("username").innerHTML=urlParams.get('name');
-const pageNum=""
+
+let idxNum=2;
 </script>	
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/member.js"></script>

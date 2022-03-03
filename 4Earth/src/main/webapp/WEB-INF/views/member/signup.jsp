@@ -11,31 +11,7 @@
        <div class="container">
             <div class="contents">
                 <!-- 왼쪽 사이드바 -->
-                <div class="side-bar is-open">
-                    <button class="btn toggle-nav">
-                        <i class="material-icons md-24">last_page</i>
-                    </button>
-                    <ul>
-                        <li class="current">
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
                 
                 <section class="content-wrap">
                     <div class="page-tit">
@@ -109,6 +85,9 @@
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
         </div>
-        
-        <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-    	<script src="resources/js/member.js"></script>
+   
+<script type="text/javascript">
+let idxNum=2;
+</script>   
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<script src="resources/js/member.js"></script>

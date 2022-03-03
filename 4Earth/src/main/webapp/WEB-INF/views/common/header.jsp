@@ -48,7 +48,7 @@
                         <a href="${ path }/admin/main"><i class="material-icons md-18">manage_accounts</i> Admin</a>
                     	</c:if>
                     	<a href="${ path }/purchase_cart"><i class="material-icons md-18">shopping_cart</i> 장바구니</a> 
-                        <a href="#"><i class="material-icons md-18">account_circle</i> <b>${ loginMember.name }</b>님</a>
+                        <a href="${ path }/profile_view"><i class="material-icons md-18">account_circle</i> <b>${ loginMember.name }</b>님</a>
 
                         <a href="${ path }/logout"><i class="material-icons md-18">logout</i> 로그아웃</a>
 
