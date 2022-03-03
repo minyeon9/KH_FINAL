@@ -86,6 +86,12 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.getReportedList(rowBounds);
 	}
 
+	@Override
+	public Report getReportDetail(int no) {
+		
+		return mapper.getReportDetail(no);
+	}
+
 	
 
 }

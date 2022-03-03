@@ -86,7 +86,6 @@
                                             <th>회원명</th>
                                             <th>가입일</th>
                                             <th>회원등급</th>
-                                            <th>신고된 회수</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -108,7 +107,6 @@
 		                                            <td>${ member.name }</td>
 		                                            <td>${ member.enrollDate }</td>
 		                                            <td>${ member.member_type }</td>
-		                                            <td>{ member.repoted }</td>
 		                                            <td>
 		                                                <button class="btn btn-s">등록</button>
 		                                                <button id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
@@ -177,9 +175,8 @@
 	        }
 	    });
 	});
-	
 	$(document).ready(() => {
-		$("#delete").on("click", (e) => {
+		$(document).on('click','#delete', (e) => {
 			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
 				location.replace("${ path }/admin/member_delete?no=" + e.target.value);
 			}

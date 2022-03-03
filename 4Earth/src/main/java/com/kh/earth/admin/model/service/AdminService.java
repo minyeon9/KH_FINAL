@@ -30,4 +30,6 @@ public interface AdminService {
 
 	List<Reported> getReportedList(PageInfo pageInfo);
 
+	Report getReportDetail(int no);
+
 }
