@@ -35,7 +35,7 @@
                                 <h2>회원정보</h2>
                                 <br>
                                 <c:if test="${ empty loginMember.modify_img_name }">
-                                <img id="preview" src="${ path }/resources/images/member/profile1.png" />
+                                <img id="preview" src="${ path }/resources/images/member/user_default1.jpg" />
                                 </c:if>
                                 <c:if test="${ !empty loginMember.modify_img_name }">
                                 <img id="preview" src="${ path }/resources/upload/member/${loginMember.modify_img_name}" />
@@ -79,6 +79,10 @@
                         <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
                     </div>
             </div>
-                
+
+<script type="text/javascript">
+let idxNum=5;
+</script>                 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/member.js"></script>
+<script src="resources/js/mypage.js"></script>

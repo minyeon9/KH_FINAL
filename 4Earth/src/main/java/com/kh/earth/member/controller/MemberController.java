@@ -1,6 +1,8 @@
 package com.kh.earth.member.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -145,6 +148,25 @@ public class MemberController {
 		return model;
 
 	}
+	
+	@GetMapping("/jsonTest")
+	@ResponseBody
+	public Object jsonTest() {		
+		return new Member("admin2", "1234", "관리자");
+	}
+	
+	@PostMapping(value = "/idCheck")
+	@ResponseBody
+	public Object idCheck(@RequestParam("userId") String userId) {
+		Map<String, Boolean> map = new HashMap<>();
+		
+		log.info("{}", userId);
+
+		map.put("duplicate", service.isDuplicateID(userId));
+		
+		return map;
+	}
+	
 	
 	@GetMapping("/signup_finish")
 	public String signup_finish() {

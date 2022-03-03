@@ -99,6 +99,9 @@
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
         </div>
-        
+
+<script type="text/javascript">
+let idxNum=1;
+</script>          
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/member.js"></script>

@@ -39,7 +39,7 @@
                                 <div id="form-test">
                                 <div id="profile_img_area">
                                 	<c:if test="${ empty loginMember.modify_img_name }">
-                                    <img id="preview_edit" src="${ path }/resources/images/member/profile1.png" />
+                                    <img id="preview_edit" src="${ path }/resources/images/member/user_default1.jpg" />
                                     </c:if>                                                                
                                 	<c:if test="${ !empty loginMember.modify_img_name }">
                                     <img id="preview_edit" src="${ path }/resources/upload/member/${loginMember.modify_img_name}" />
@@ -128,5 +128,9 @@
                     </div>
             </div>
 
+<script type="text/javascript">
+let idxNum=5;
+</script>                 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/member.js"></script>
+<script src="resources/js/mypage.js"></script>
