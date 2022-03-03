@@ -33,10 +33,10 @@
                             </div>
                             <div class="item-cont">
                                 <span>이달의 챌린지</span>
-                                <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
+                                <strong>${ monthList.chalTit }</strong>
+                                <p>${ monthList.chalContent }</p>
                                 <!-- <span class="point-info">오늘의 챌린지 모두 달성시 <span><em>5,000Point</em> 지급</span></span> -->
-                                <span class="icon-point">5,000</span>
+                                <span class="icon-point">${ monthList.chalPoint }</span>
                                 <button class="btn" onclick="location.href='month_write.html'">참여하기</button>
                             </div>
                         </div>

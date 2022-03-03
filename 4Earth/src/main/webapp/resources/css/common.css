@@ -404,7 +404,7 @@ input + .btn {
     tag
 ---------------------------------- */
 .tag {
-    font-size: 11px;
+    font-size: 10px;
     border-radius: 3px;
     padding: 0 3px 2px;
 }
@@ -623,7 +623,7 @@ input + .btn {
     list-style: none;
     width: calc(100% / 4 - 10px);
     border: 1px solid #ccc;
-    margin: 0 13px 20px 0;
+    margin: 0 13px 15px 0;
     box-sizing: border-box;
 }
 .thumb-list ul li:nth-of-type(4n+4) {
@@ -638,6 +638,9 @@ input + .btn {
     width: 100%;
     height: 100%;
 }
+.thumb-list ul li a:hover {
+	text-decoration: underline;
+}
 .thumb-list ul li .img-thumb {
     position: relative;
     overflow: hidden;
@@ -649,18 +652,18 @@ input + .btn {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
+    /* width: 100%; */
     transform: translate(-50%, -50%);
 }
 .thumb-list ul li strong {
     width: 90%;
-    min-height: 48px;
+    /* min-height: 48px; */
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.4;
     display: -webkit-box;
     letter-spacing: -1px;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     font-size: 16px;
     font-weight: 400;
@@ -685,9 +688,13 @@ input + .btn {
 .thumb-list .price {
     padding: 0 10px;
 }
+.thumb-list .review {
+	margin: 15px 0 10px;
+}
 .thumb-list .btn-wrap {
-    margin: 10px 0;
-    padding: 0 10px;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
 }
 .thumb-list .btn-wrap a {
     color: #666;
@@ -698,6 +705,7 @@ input + .btn {
     margin-left: 10px;
 }
 .thumb-list .tag-wrap {
+	font-size: 12px;
     padding: 5px 10px 0;
 }
 
