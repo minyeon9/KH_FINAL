@@ -1,7 +1,7 @@
 /* ----------------------------------
         side bar
 ---------------------------------- */
- $(() => {
+$(() => {
     let sideBarMenu = $('.side-bar ul li');
     let menuPath = ['/4earth', '/4earth/login','/4earth/signup'];
     let menuName = ['홈', '로그인', '회원가입'];
@@ -17,7 +17,7 @@
     }
 
     sideBarMenu.each(function(idx, el) {
-        if(idx == 1) {
+        if(idx == idxNum) {
             $(this).addClass('current');
         }
     });
@@ -30,6 +30,7 @@ reader.onload = (readerEvent) => {
     
 };
 
+// 회원가입 - 프로필 이미지 로딩
 document.querySelector("#profileImg").addEventListener("change", (changeEvent) => {
 
     const imgFile = changeEvent.target.files[0];
@@ -38,15 +39,27 @@ document.querySelector("#profileImg").addEventListener("change", (changeEvent) =
 });
 
 
+/*document.getElementById("checkbox1").setCustomValidity("개인정보 수집 및 이용약관을 체크해주세요."); */
 
-//아이디 중복 확인
+/* ----------------------------------
+        아이디 중복 확인
+---------------------------------- */
+
 $(document).ready(() => {
+	$("#userId").change(function () {
+		$("#userId").attr("check_result", "fail");
+	})
+
 	$("#checkDuplicate").on("click", () => {
 		let userId = $("#userId").val().trim();
-		
+
+		if (userId == '') {
+	      alert('아이디를 입력해주세요.')
+	      
+	    }else{		
 		$.ajax({
 			type: "post",
-			url: "${ path }/idCheck",
+			url: "idCheck",
 			dataType: "JSON",
 			data: {
 				userId
@@ -56,17 +69,36 @@ $(document).ready(() => {
 				
 				if(data.duplicate == true) {
 					alert("이미 사용중인 아이디 입니다.");
+					let id=document.getElementById('userId');
+					id.value=null;					
+					
 				} else {
 					alert("사용 가능한 아이디 입니다.");
+					/* $('#checkDuplicate').hide(); */
+					$('#userId').attr("check_result", "true");
 				}
 			},
 			error: (error) => {
 				console.log(error);
 			}	
 		});
+		}
 	});
 });
 
+function id_overlap_check() {
+	if ($('#userId').attr("check_result") == "fail"){
+	    alert("아이디 중복체크를 해주시기 바랍니다.");
+	    return false;
+	    $('.username_input').focus();
+	    	    
+	}
+	return true;
+}
+  
+/* ----------------------------------
+       	정규식 확인
+---------------------------------- */
 let idCheck = RegExp(/^[a-zA-Z][a-zA-Z\d]{5,12}$/);
 $('#userId').keyup(function() {
   if (!idCheck.test($('#userId').val())) {

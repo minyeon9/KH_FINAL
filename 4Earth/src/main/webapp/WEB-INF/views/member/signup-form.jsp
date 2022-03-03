@@ -38,9 +38,10 @@
                                 <hr class="long-line">
                                 <br>
                             
-                            <form name="signup-form" action="${ path }/signup_form" method="post" enctype="multipart/form-data" >
+                            <form name="signup-form" action="${ path }/signup_form" method="post" enctype="multipart/form-data"
+                            onsubmit="return id_overlap_check()">
                           
-                                <img id="preview" src="${ path }/resources/images/member/profile1.png" />
+                                <img id="preview" src="${ path }/resources/images/member/user_default1.jpg" />
                                 <div class="filebox">
                                     <label for="profileImg">프로필 사진 등록</label>
                                     <input type="file" name="imgname" id="profileImg" title="프로필사진"
@@ -55,7 +56,7 @@
                                     <p id="member-id"></p>
                                 </div>
                                     <br>
-                                    <input type="text" name="id" id="userId" 
+                                    <input type="text" name="id" id="userId" check_result="fail" 
                                         placeholder="첫 문자를 영어로 시작하여 총 5~12자로 입력하세요." required/>
                                     <input type="button" id="checkDuplicate" class="btn" value="중복검사">
                                     
@@ -151,10 +152,9 @@
                         <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
                     </div>
             </div>
-            
-
-<script>
- /*document.getElementById("checkbox1").setCustomValidity("개인정보 수집 및 이용약관을 체크해주세요."); */
-</script>           
+                    
+<script type="text/javascript">
+let idxNum=2;
+</script> 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/member.js"></script>
