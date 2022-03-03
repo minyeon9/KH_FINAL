@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.FileProcess;
+import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -134,14 +136,14 @@ public class ChallengeController {
 		result = service.save(todayMember);
 		
 		if ( result > 0 ) {
-			model.addObject("msg", "게시글이 등록되었습니다.");
+			model.addObject("msg", "오늘의 챌린지 인증이 완료되었습니다.");
 			model.addObject("location", "/today_complete");
 			
 			System.out.println("저장 챌린지 번호: " + chalNo);
 			System.out.println("회원번호 : " + loginMember.getNo());
 			
 		} else {
-			model.addObject("msg", "게시글 등록을 실패했습니다.");
+			model.addObject("msg", "오늘의 챌린지 인증을 실패했습니다.");
 			model.addObject("location", "/today_list");
 		}
 		
@@ -162,10 +164,34 @@ public class ChallengeController {
 	
 	
 	// 이달의 챌린지 목록 조회
+//	@GetMapping("/month_list")
+//	public ModelAndView monthList(ModelAndView model) {
+//		List<Month> monthList = service.getMonthList();
+//		
+//		model.addObject("monthList", monthList);
+//		model.setViewName("challenge/month_list");
+//		
+//		return model;
+//	}
+	
 	@GetMapping("/month_list")
-	public ModelAndView monthList(ModelAndView model) {
-		List<Month> monthList = service.getMonthList();
+	public ModelAndView monthList(
+			ModelAndView model,
+			@RequestParam(defaultValue = "1") int page) {
 		
+		int listCount = 0;
+		PageInfo pageInfo = null;
+		List<Month> monthList = null;
+		
+		log.info("현재 페이지 번호 : {}", page);
+		
+		listCount = service.getBoardCount();
+		pageInfo = new PageInfo(page, 10, listCount, 6);
+		monthList = service.getMonthList(pageInfo);
+		
+		log.info("전체 게시글 개수 : {}", listCount);
+		
+		model.addObject("pageInfo", pageInfo);
 		model.addObject("monthList", monthList);
 		model.setViewName("challenge/month_list");
 		
@@ -225,28 +251,22 @@ public class ChallengeController {
 	
 	
 	// -------------------------------------------------------------------------------------------------------------
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@GetMapping("/ongoing_list")
-	public String ongoingList() {
-		log.info("참여 중인 챌린지 - 호출");
-		
-		return "challenge/ongoing_list";
-	}
+//	@GetMapping("/ongoing_list")
+//	public ModelAndView ongoingList(
+//			ModelAndView model,
+//			// @RequestParam("chalNo") int chalNo,
+//			@SessionAttribute(name = "loginMember") Member loginMember,
+//			@ModelAttribute TodayMember todayMember) {
+//
+//		Month month = service.findMonthListByMemNo(loginMember.getNo());
+//		
+//		model.addObject("month", month);
+//		model.setViewName("challenge/ongoing_list");
+//		
+//		System.out.println("회원 번호 " + loginMember.getNo());
+//		
+//		return model;
+//	}
 	
 	
 }

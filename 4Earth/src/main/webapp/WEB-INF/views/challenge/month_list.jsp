@@ -29,10 +29,10 @@
                     <div class="challenge">
                         <div class="challenge-sort">
                             <form action="" method="">
-                                <select name="" id="" class="selectbox">
-                                    <option value="높은 포인트순" selected>높은 포인트순</option>
+                                <select name="filter" id="filter" class="selectbox">
+                                    <option value="최신순" selected>최신순</option>
+                                    <option value="높은 포인트순">높은 포인트순</option>
                                     <option value="낮은 포인트순">낮은 포인트순</option>
-                                    <option value="최신순">최신순</option>
                                 </select>
                             </form>
                         </div>
@@ -49,13 +49,34 @@
 		                                        <div class="item-cont">
 		                                            <strong>${ monthList.chalTitle }</strong>
 		                                            <p>${ monthList.chalContent }</p>
-		                                            <span class="icon-point">${ monthList.chalPoint }</span>
+		                                            <span class="icon-point">
+		                                            	<fmt:formatNumber pattern="##,###" value="${ monthList.chalPoint }" />
+		                                            </span>
 		                                        </div>
 		                                    </a>
 		                                </li>
 									</c:forEach>
 								</c:if>
                             </ul>
+                            
+                            <div class="paging">
+                            	<a href="${ path }/month_list?page=1" class="first"><span>맨 앞으로</span></a>
+                                <a href="${ path }/month_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+                                
+                                
+                                
+                                <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">	
+										<strong>${ status.current }</strong>
+									</c:if>
+									
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+                                <a href="${ path }/month_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+                                <a href="${ path }/month_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+                            </div>
                         </div>
                     </div>
                 </section>

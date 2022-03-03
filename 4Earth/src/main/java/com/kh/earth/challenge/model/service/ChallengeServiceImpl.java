@@ -2,6 +2,7 @@ package com.kh.earth.challenge.model.service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import com.kh.earth.challenge.model.dao.ChallengeMapper;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
+import com.kh.earth.common.util.PageInfo;
 
 
 @Service
@@ -63,4 +65,24 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public Month findMonthListByNo(int chalNo) {
 		return mapper.selectMonthListByNo(chalNo);
 	}
+
+	
+	
+	
+	
+	// 이달의 챌린지 목록 조회 + 페이징
+	@Override
+	public int getBoardCount() {
+		return mapper.getBoardCount();
+	}
+
+	@Override
+	public List<Month> getMonthList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.findAllMonth(rowBounds);
+	}
+
 }
