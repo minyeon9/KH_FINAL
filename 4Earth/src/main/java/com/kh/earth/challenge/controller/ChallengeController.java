@@ -166,8 +166,6 @@ public class ChallengeController {
 	
 	@GetMapping("/month_list")
 	public ModelAndView monthList(ModelAndView model) {
-		log.info("이달의 챌린지 list - 호출");
-		
 		List<Month> monthList = service.getMonthList();
 		
 		model.addObject("monthList", monthList);
@@ -194,6 +192,9 @@ public class ChallengeController {
 	public ModelAndView monthView(
 			ModelAndView model,
 			@RequestParam("chalNo") int chalNo) {
+		
+		log.info("이달의 챌린지 view - 호출");
+		
 		Month month = service.findMonthListByNo(chalNo);
 		
 		model.addObject("month", month);

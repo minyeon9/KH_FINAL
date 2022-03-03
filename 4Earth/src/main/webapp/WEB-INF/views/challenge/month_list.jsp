@@ -44,7 +44,7 @@
 		                                <li class="complete">
 		                                    <a href="${ path }/month_view?chalNo=${ monthList.chalNo }">
 		                                        <div class="img-thumb">
-		                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                            <img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
 		                                        </div>
 		                                        <div class="item-cont">
 		                                            <strong>${ monthList.chalTitle }</strong>
