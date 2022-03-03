@@ -64,9 +64,10 @@
                                 <label for="slide2">&nbsp;</label>
                                 <label for="slide3">&nbsp;</label>
                                 <label for="slide4">&nbsp;</label>
-                            </div>
-                        
+                            </div>                        
                         </div>
+                        
+                        <div class="pro-info">
                         
                         <table class="pro-table">
                             <thead>
@@ -89,41 +90,37 @@
                                     <td>제조사</td>
                                     <td colspan="3">${ product.proMfg }</td>
                                 </tr>
-                                <tr>
-                                    <td>옵션</td>
-                                    <td colspan="3">
-                                        <select name="" id="" class="pro-selectbox">
-                                            <option value="--------" selected>--------</option>
-                                            <option value="옵션">옵션</option>
-                                            <option value="옵션">${ product.option }</option>
-                                        </select>
-                                    </td>
-                                </tr>
                                 <tr style="border-bottom: 2px solid #467443;">
-                                    <td>구매량</td>
+                                    <td>옵션</td>
                                     <td colspan="3">
-                                        <select name="" id="" class="pro-selectbox">
-                                            <option value="--------" selected>--------</option>
-                                            <option value="50g">50g</option>
+                                        <select name="product-option" id="product-option" class="pro-selectbox" onchange="getOption(this)">
+                                            <option value="--------" selected>--------</option>                                            
+                                            <c:forEach var="optionList" items="${ list }">
+                                            	<option value="${ optionList.optName }">${ optionList.optName }</option>
+                                            </c:forEach>
                                         </select>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>옵션</td>
-                                    <td>구매량</td>
-                                    <td>가격</td>
-                                    <th style="width: 30px"><button class="product-btn"><i class="material-icons md-24">close</i></button></th>
-                                </tr>                                
-                            </tbody>
-                            <tr class="pro-result">
-                                <th colspan="4"><button class="btn pro-btn">바로구매</button>
+                             </tbody> 
+                           </table> 
+                                <!-- 선택 옵션 -->
+                                <div class="selected-wrap" >
+                                <ul>
+                             	                         	
+                                </ul>
+                                </div>
+                                                             
+                                <!-- // 선택 옵션 -->                              
+                            
+                            <div class="pro-result">
+                                <button class="btn pro-btn">바로구매</button>
                                 <button class="btn pro-btn">장바구니</button>
-                                <button class="btn pro-btn">찜</button></th>
-                            </tr>                            
-                        </table>
+                                <button class="btn pro-btn">찜</button>
+                            </div>                            
+                        </div>
                     </div>
 
-                    <br><br><br><br>
+                    <br><br><br><br><br>
                     
                     <!-- 상품설명 -->
                     <div class="pro-detail">
@@ -287,7 +284,65 @@
             menuIdx.find('a > span').text(menuName[i]);
         }
     });
+    
+    // 옵션 선택
+    function getOption(op){
+    	var option = op.value;
+    	var price = '<c:out value="${ product.proPrice }"/>';
+    	
+    	$(".selected-wrap").append("<li class='selectedProduct'><div id='selectedOption'>" +option+ "</div><div class='quantity'><input type='number' min='1' max='99' step='1' value='1'><div class='quantity-nav'><div class='quantity-button quantity-up'>+</div><div class='quantity-button quantity-down'>-</div></div></div><p class='price'>" +toCommas(price)+ "<button class='product-btn'><i class='material-icons md-24' style='font-size: 16px;'>close</i></button></p></li> ");
+    }
+    
+    // 숫자 3자리마다 , 찍기
+    function toCommas(value) {
+	    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원";
+	}
+    
+    // 수량 선택
+    $('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+   
+    $(document).on('click', '.quantity-button', function() {    
+	    $('.quantity').each(function() {
+	      var spinner = $(this),
+	        input = spinner.find('input[type="number"]'),
+	        btnUp = spinner.find('.quantity-up'),
+	        btnDown = spinner.find('.quantity-down'),
+	        min = 1,
+	        max = 99;
+	
+	      btnUp.click(function() {
+	        var oldValue = parseFloat(input.val());
+	        
+	        console.log(oldValue);
+	        
+	        if (oldValue >= max) {
+	          var newVal = oldValue;
+	        } else {
+	          var newVal = oldValue + 1;
+	        }
+	        
+	        console.log(newVal);
+	        
+	        spinner.find("input").val(newVal);
+	        spinner.find("input").trigger("change");
+	      });
+	
+	      btnDown.click(function() {
+	        var oldValue = parseFloat(input.val());
+	        console.log(oldValue);
+	        if (oldValue <= min) {
+	          var newVal = oldValue;
+	        } else {
+	          var newVal = oldValue - 1;
+	        }
+	        console.log(newVal);
+	        spinner.find("input").val(newVal);
+	        spinner.find("input").trigger("change");
+	      });
+	    });    
+    });
 
+    // 리뷰 작성
     $("#writeReview").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);
@@ -296,6 +351,7 @@
         open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
 
+    // 문의 작성
     $("#writeQnA").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);

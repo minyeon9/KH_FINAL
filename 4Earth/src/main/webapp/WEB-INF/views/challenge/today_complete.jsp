@@ -21,19 +21,19 @@
 	                <h3>오늘의 챌린지</h3>
 	                <div class="bread-crumb">
                        <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                       <a href="${ path }today_list">에코 챌린지</a>
+                       <a href="${ path }/today_main">에코 챌린지</a>
                        <span>오늘의 챌린지</span>
                    </div>
 	            </div>
 	
 	            <div class="challenge">
-	            	<input type="text" name="chalNo" value="${ today.chalNo }" class="blind">
+	            	${ today.chalTitle }
 	                <div class="complete-page">
-	                    <div class="img-thumb">
-	                        <img src="${ path }${ today.chalImgPath }/challenge_today0${ today.chalNo }.jpg" alt="">
-	                    </div>
-	                    <p><span>${ loginMember.name }</span>님, 오늘의 챌린지 인증이 완료되었습니다.</p>
-	                    <strong><span>${ today.chalTitle }</span> 달성 완료되었습니다!</strong>
+	                	<%-- <strong>${ todayMember.chalNo }</strong> --%>
+	                    <%-- <div class="img-thumb">
+	                        <img src="${ path }/resources/images/upload/${ todayMember.renamedFilename }" alt="">
+	                    </div> --%>
+	                    <p><span>${ loginMember.name }</span>님, 챌린지 인증이 완료되었습니다.</p>
 	                    <a href="${ path }/today_main" class="btn">오늘의 챌린지 메인으로</a>
 	                </div>
 	            </div>
