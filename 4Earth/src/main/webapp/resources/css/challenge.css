@@ -265,7 +265,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
+    /* width: 100%; */
     transform: translate(-50%, -50%);
 }
 .month-challenge-detail .item-cont {
@@ -325,9 +325,9 @@
 	right: 0;
 	color: #fff;
 	background: #67b16b;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
-    padding: 7px 15px 10px;
+    padding: 5px 10px 8px;
     z-index: 2;	
 }
 .prov-set .thumb-img img {

@@ -45,7 +45,7 @@ public class ChallengeController {
 		return model;
 	}
 	
-	// 오늘의 챌린지 목록
+	// 오늘의 챌린지 목록 조회
 	@GetMapping("/today_list")
 	public ModelAndView todayList(ModelAndView model) {
 		List<Today> todayList = service.getTodayList();
@@ -56,7 +56,7 @@ public class ChallengeController {
 		return model;
 	}
 	
-	// 오늘의 챌린지 상세 및 인증
+	// 오늘의 챌린지 상세 조회 및 작성
 	@GetMapping("/today_view")
 	public ModelAndView todayView(
 			ModelAndView model,
@@ -72,14 +72,12 @@ public class ChallengeController {
 	}
 	
 	
-	// 오늘의 챌린지 인증 완료
+	// 오늘의 챌린지 완료
 	@GetMapping("/today_complete")
 	public String todayComplete() {
-		
 		return "challenge/today_complete";
 	}
 
-	
 	@PostMapping("/today_complete")
 	public ModelAndView todayComplete(
 			ModelAndView model,
@@ -157,13 +155,13 @@ public class ChallengeController {
 	
 	
 	
+	// -------------------------------------------------------------------------------------------------------------
 	
 	
 	
 	
 	
-	
-	
+	// 이달의 챌린지 목록 조회
 	@GetMapping("/month_list")
 	public ModelAndView monthList(ModelAndView model) {
 		List<Month> monthList = service.getMonthList();
@@ -174,20 +172,7 @@ public class ChallengeController {
 		return model;
 	}
 	
-//	@GetMapping("/today_view")
-//	public ModelAndView todayView(
-//			ModelAndView model,
-//			@RequestParam("chalNo") int chalNo) {
-//		Today today = service.findTodayListByNo(chalNo);
-//		
-//		model.addObject("today", today);
-//		model.setViewName("challenge/today_view");
-//		
-//		System.out.println("챌린지 번호 : " + chalNo);
-//		
-//		return model;
-//	}
-	
+	// 이달의 챌린지 상세 조회
 	@GetMapping("/month_view")
 	public ModelAndView monthView(
 			ModelAndView model,
@@ -205,10 +190,63 @@ public class ChallengeController {
 		return model;
 	}
 	
+	// 이달의 챌린지 작성
+	@GetMapping("/month_write")
+	public String monthWrite() {
+			//ModelAndView model,
+			// @RequestParam("chalNo") int chalNo) {
+//		Today today = service.findTodayListByNo(chalNo);
+//		
+//		model.addObject("today", today);
+//		model.setViewName("challenge/today_view");
+//		
+//		System.out.println("챌린지 번호 : " + chalNo);
+//		
+//		return model;
+		
+		return ("challenge/month_write");
+	}
+	
+	// 이달의 챌린지 완료
+	@GetMapping("/month_complete")
+	public String monthComplete() {
+		return ("challenge/month_complete");
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// -------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GetMapping("/ongoing_list")
 	public String ongoingList() {
 		log.info("참여 중인 챌린지 - 호출");
 		
 		return "challenge/ongoing_list";
 	}
+	
+	
 }
