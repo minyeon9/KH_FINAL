@@ -29,4 +29,6 @@ public interface AdminMapper {
 	List<Member> findMember(RowBounds rowBounds);
 
 	List<Reported> getReportedList(RowBounds rowBounds);
+
+	Report getReportDetail(int no);
 }

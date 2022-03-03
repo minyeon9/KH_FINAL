@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class Reported {
 	private int No;
 	
+	private String id;
+	
 	private int reportedMemberNo;
 	
 	private String member_type;

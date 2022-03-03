@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -162,6 +163,19 @@ public class AdminController {
 		log.info("admin_echo_cancel() - 호출");
 		
 		return "admin/echo_cancel";
+	}
+	
+	@GetMapping("/report_view")
+	public ModelAndView admin_report_view(ModelAndView model,
+			@RequestParam("no")int no) {
+		log.info("admin_report_view() - 호출" + no);
+		
+		Report report = service.getReportDetail(no);
+		
+		model.addObject("report", report);
+//		model.setViewName("admin/report_view?no="+report.getReportNo());
+		
+		return model;
 	}
 	
 	@GetMapping("/challenge_month")
