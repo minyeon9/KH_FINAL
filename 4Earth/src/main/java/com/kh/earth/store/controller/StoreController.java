@@ -183,17 +183,16 @@ public class StoreController {
 			@RequestParam("no") int no
 			) {
 		log.info("productDetail() - 호출");
-		log.info("no : " + no);
 		
 		Product product = service.findProductByNo(no);
 		
 		List<ProductOption> list = service.findProductOption(no);
 		
-		log.info("list : " + list.toString());
-		
 		log.info("product : " + product.toString());
+		log.info("list : " + list.toString());		
 		
 		model.addObject("product", product);
+		model.addObject("list", list);
 	
 		model.setViewName("store/product-detail");
 		

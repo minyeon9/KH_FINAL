@@ -108,7 +108,7 @@
 		                                            <td>${ report.reportMemberNo }</td>
 		                                            <td>${ report.reportDate }</td>
 		                                            <td>${ report.reportCategory }</td>
-		                                            <td>${ report.reportContent }</td>
+		                                            <td><button class="btn btn-s gray" id="report_view" value="${ report.reportNo }">보기</button></td>
 		                                            <td>
 		                                                <button class="btn btn-s">등록</button>
 		                                                <button id="delete" name="no" value=${ report.reportNo } class="btn btn-s gray">정지</button>
@@ -180,11 +180,19 @@
 	});
 	
 	$(document).ready(() => {
-		$("#delete").on("click", (e) => {
+		$(document).on("click","#delete", (e) => {
 			if(confirm("정말로 이 신고를 처리하겠습니까??")) {
 				location.replace("${ path }/admin/report_delete?no=" + e.target.value);
 			}
 		})
+	
+		$(document).on("click","#report_view", (e) => {
+	        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+	        var popupY= (window.screen.height / 2) - (800 / 2);
+	        const url = "${ path }/admin/report_view?no=" + e.target.value;
+	        
+	        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+	    });
 	});
 </script>
 
