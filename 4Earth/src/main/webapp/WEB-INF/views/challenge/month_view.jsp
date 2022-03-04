@@ -35,7 +35,9 @@
                                 <span>이달의 챌린지</span>
                                 <strong>${ month.chalTitle }</strong>
                                 <p>${ month.chalContent }</p>
-                                <span class="icon-point">${ month.chalPoint }</span>
+                                <span class="icon-point">
+                                	<fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" />
+                                </span>
                                 <button class="btn" onclick="location.href='${ path }/month_write?chalNo=${ month.chalNo }'">참여하기</button>
                             </div>
                         </div>

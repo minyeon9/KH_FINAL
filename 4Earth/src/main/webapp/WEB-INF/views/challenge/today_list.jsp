@@ -27,7 +27,11 @@
                </div>
 
                <div class="challenge today">
-                   <div class="thumb-list vertical callenge">
+               		<strong>회원번호 : ${ loginMember.no }</strong><br>
+               		<strong>내가 인증한 챌린지 번호 : ${ map.chalNo0 }</strong><br>
+               		<strong>내가 인증한 챌린지 번호 : ${ map.chalNo1 }</strong>
+               			
+                   <div class="thumb-list vertical challenge">
                        <ul>
 							<c:if test="${ !empty todayList }">
 								<c:forEach var="todayList" items="${ todayList }">
@@ -40,7 +44,12 @@
 									        <div class="item-cont">
 									            <strong>${ todayList.chalTitle }</strong>
 									            <p>${ todayList.chalContent }</p>
-									            <span>오늘의 챌린지 모두 달성 시 <em class="icon-point">${ todayList.chalPoint }</em></span>
+									            <span>
+									            	오늘의 챌린지 모두 달성 시
+									            	<em class="icon-point">
+									            		<fmt:formatNumber pattern="##,###" value="${ todayList.chalPoint }" /> 
+									            	</em>
+									            </span>
 									            <button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
 									        </div>
 									    </div>

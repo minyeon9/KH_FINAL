@@ -31,7 +31,7 @@
                         <strong>오늘의 챌린지 참여 방법</strong>
                         <p>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고</p>
                     </div>
-
+					<p>${ loginMember.no }</p>
                     <div class="thumb-list">
                        	<c:if test="${ empty todayMain }">
                        		<div class="empty-content">

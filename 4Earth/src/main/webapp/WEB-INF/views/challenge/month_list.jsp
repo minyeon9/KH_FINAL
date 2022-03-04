@@ -28,11 +28,11 @@
 
                     <div class="challenge">
                         <div class="challenge-sort">
-                            <form action="" method="">
-                                <select name="filter" id="filter" class="selectbox">
-                                    <option value="최신순" selected>최신순</option>
-                                    <option value="높은 포인트순">높은 포인트순</option>
-                                    <option value="낮은 포인트순">낮은 포인트순</option>
+                            <form action="${ path }/challenge_arrange">
+                                <select name="arrange" id="challenge-arrange" class="selectbox" onchange="submit()">
+                                    <option value="최신순" <c:if test="${arrange eq '최신순'}">selected</c:if> >최신순</option>
+                                    <option value="높은포인트순" <c:if test="${arrange eq '높은포인트순'}">selected</c:if> >높은포인트순</option>
+                                    <option value="낮은포인트순" <c:if test="${arrange eq '낮은포인트순'}">selected</c:if> >낮은포인트순</option>
                                 </select>
                             </form>
                         </div>
@@ -62,9 +62,6 @@
                             <div class="paging">
                             	<a href="${ path }/month_list?page=1" class="first"><span>맨 앞으로</span></a>
                                 <a href="${ path }/month_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
-                                
-                                
-                                
                                 <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
 									<c:if test="${ status.current == pageInfo.currentPage }">	
 										<strong>${ status.current }</strong>

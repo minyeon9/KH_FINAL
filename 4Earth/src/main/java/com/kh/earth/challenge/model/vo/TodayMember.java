@@ -18,6 +18,8 @@ public class TodayMember {
 	
 	private int chalNo;
 	
+	private String chalTitle;
+	
 	private Date chalDate;
 	
 	private char chalStatus;
@@ -30,6 +32,6 @@ public class TodayMember {
 	
 	private char chalPointStatus;
 	
-	private List<Today> today;
+	// private List<Today> today;
 	
 }

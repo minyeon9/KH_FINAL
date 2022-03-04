@@ -39,7 +39,6 @@
 	 		<mapping path="/today_list"/>
 	 		<mapping path="/today_view"/>
 	 		<mapping path="/today_complete"/>
-	 		<mapping path="/month_list"/>
 	 		<mapping path="/month_view"/>
 	 		<mapping path="/month_complete"/>
 			

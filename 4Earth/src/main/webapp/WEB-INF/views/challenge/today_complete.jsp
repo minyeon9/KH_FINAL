@@ -27,13 +27,15 @@
 	            </div>
 	
 	            <div class="challenge">
-	            	${ today.chalTitle }
 	                <div class="complete-page">
-	                	<%-- <strong>${ todayMember.chalNo }</strong> --%>
-	                    <%-- <div class="img-thumb">
-	                        <img src="${ path }/resources/images/upload/${ todayMember.renamedFilename }" alt="">
-	                    </div> --%>
-	                    <p><span>${ loginMember.name }</span>님, 챌린지 인증이 완료되었습니다.</p>
+	                	<img class="deco" src="${ path }/resources/images/challenge/balloons.png" alt="">
+	                	<div class="txt">
+	                		<span class="user-name">${ loginMember.name }</span>님,
+	                		<p><span class="chal-title">${ list.chalTitle }</span> 챌린지 인증이 완료되었습니다.</p>
+	                	</div>
+	                    <div class="img-thumb">
+	                        <img src="${ path }/resources/upload/challenge/${ list.renamedFilename }" alt="">
+	                    </div>
 	                    <a href="${ path }/today_main" class="btn">오늘의 챌린지 메인으로</a>
 	                </div>
 	            </div>

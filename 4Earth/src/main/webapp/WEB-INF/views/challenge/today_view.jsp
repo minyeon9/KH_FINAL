@@ -73,7 +73,7 @@
 	                               <div class="prov-cont">
                                        <div class="upload-file">
                                            <input type="text" class="input-file" disabled placeholder="파일을 선택해주세요." multiple>
-                                           <input type="file" id="inputFileOrigin" name="upfile" accept="image/jpeg, image/jpg, image/gif, image/png">
+                                           <input type="file" id="inputFileOrigin" name="upfile" accept="image/jpeg, image/jpg, image/gif, image/png" required>
                                            <label for="inputFileOrigin" class="btn">파일 선택</label> 
                                            <span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
                                        </div>

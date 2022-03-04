@@ -17,6 +17,20 @@
 		FROM CHAL_TODAY
 	</sql>
 	
+	<sql id="monthListSql">
+		SELECT
+		    CATEGORY,
+		    CHAL_NO,
+		    CHAL_TITLE,
+		    CHAL_CONTENT,
+		    CHAL_IMG_PATH,
+		    CHAL_POINT,
+		    CHAL_COUNT,
+		    CHAL_DATE,
+		    CHAL_MODIFY_DATE
+		FROM CHAL_MONTH
+	</sql>
+	
 	<!-- 오늘의 챌린지 목록 -->
 	<resultMap type="Today" id="todayListResultMap">
 		<id property="chalNo" column="CHAL_NO" />
@@ -33,10 +47,11 @@
 		<id property="no" column="NO" />
 		<result property="memNo" column="MEM_NO" />
 		<result property="chalNo" column="CHAL_NO" />
+		<result property="chalTitle" column="T_CHAL_TITLE" />
 		<result property="chalDate" column="CHAL_DATE" />
 		<result property="chalStatus" column="CHAL_STATUS" />
 		<result property="originalFilename" column="ORIGINAL_FILENAME" />
-		<result property="renamedFilename" column="RENAMED_FILENAME" />
+		<result property="renamedFilename" column="M_RENAMED_FILENAME" />
 		<result property="chalPoint" column="CHAL_POINT" />
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS" />
 	</resultMap>
@@ -77,72 +92,25 @@
 		<include refid="todayListSql" />
   	</select>
   	
-  	<!-- 오늘의 챌린지 참여 회원 목록 조회 -->
-  	<select id="findAllTodayMember" parameterType="map" resultMap="todayMemberResultMap">
-  		<!-- SELECT 
-  			M.NO,
-  			M.MEM_NO,
-  			M.CHAL_NO,
-  			T.CHAL_TITLE,
-  			M.CHAL_DATE,
-  			M.CHAL_STATUS,
-  			M.ORIGINAL_FILENAME,
-  			M.RENAMED_FILENAME,
-  			M.CHAL_POINT,
-  			M.CHAL_POINT_STATUS
-		FROM CHAL_TODAY_MEM M
-		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO) -->
-		SELECT 
-		    NO,
-		    MEM_NO,
-		    CHAL_NO,
-		    CHAL_DATE,
-		    CHAL_STATUS,
-		    ORIGINAL_FILENAME,
-		    RENAMED_FILENAME,
-		    CHAL_POINT,
-		    CHAL_POINT_STATUS
-		FROM CHAL_TODAY_MEM
-  	</select>
-  	
-  	<!-- 챌린지 번호로 오늘의 챌린지 목록 조회 -->
+  	<!-- 오늘의 챌린지 상세 조회 -->
   	<select id="selectTodayListByNo" parameterType="_int" resultMap="todayListResultMap">
-		SELECT
-		    CATEGORY,
-		    CHAL_NO,
-		    CHAL_TITLE,
-		    CHAL_CONTENT,
-		    CHAL_IMG_PATH,
-		    CHAL_POINT,
-		    CHAL_DATE
-		FROM CHAL_TODAY
+		<include refid="todayListSql" />
 		WHERE CHAL_NO = #{ chalNo }
 	</select>
 	
-	<!-- 참여 회원, 참여한 오늘의 챌린지 조회 -->
-	<resultMap type="TodayMember" extends="todayMemberResultMap" id="todayMemberDetailResultMap">
-		<collection property="today" javaType="arraylist" columnPrefix="T_" resultMap="todayListResultMap" />
-	</resultMap>
-	
-	<select id="selectTodayCompleteListByNo" parameterType="map" resultMap="todayMemberDetailResultMap">
-		SELECT 
-		    M.NO,
-		    M.MEM_NO,
-		    M.CHAL_NO,
-		    T.CHAL_TITLE,
-		    M.CHAL_DATE,
-		    M.CHAL_STATUS,
-		    M.ORIGINAL_FILENAME,
-		    M.RENAMED_FILENAME,
-		    M.CHAL_POINT,
-		    M.CHAL_POINT_STATUS
+	<!-- 오늘의 챌린지 인증 완료 시, 완료 챌린지명 / 파일명 조회 -->
+	<select id="findChalTitle" parameterType="map" resultMap="todayMemberResultMap">
+		SELECT
+		    T.CHAL_TITLE AS T_CHAL_TITLE,
+		    M.RENAMED_FILENAME AS M_RENAMED_FILENAME
 		FROM CHAL_TODAY_MEM M
 		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
-		WHERE M.MEM_NO = #{ memNo } AND M.CHAL_NO = #{ chalNo }
+		WHERE M.CHAL_NO = #{ chalNo } AND M.MEM_NO = #{ no }
 	</select>
-  	
-  	<!-- 오늘의 챌린지 인증 시 참여 회원 추가 -->
-  	<insert id="insertTodayMember" parameterType="TodayMember" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
+	
+	
+  	<!-- 오늘의 챌린지 인증 시 참여 회원 저장 -->
+  	<insert id="insertTodayMember" parameterType="map" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
 		INSERT INTO CHAL_TODAY_MEM (
 			NO,
 			MEM_NO,
@@ -155,7 +123,7 @@
 			CHAL_POINT_STATUS
 		) VALUES (
 			SEQ_CHLG_TODAY_MEM.NEXTVAL,
-			#{ memNo },
+			#{ no },
 			#{ chalNo },
 			DEFAULT,
 			DEFAULT,
@@ -166,61 +134,71 @@
 		)
 	</insert>
 	
+	<!-- 오늘의 챌린지 참여 회원 목록 조회 -->
+	<select id="selectTodayMemberListByNo" parameterType="arraylist" resultMap="todayMemberResultMap">
+		<!-- SELECT 
+			M.NO,
+			M.MEM_NO,
+			M.CHAL_NO,
+			T.CHAL_TITLE,
+			M.CHAL_DATE,
+			M.CHAL_STATUS,
+			M.ORIGINAL_FILENAME,
+			M.RENAMED_FILENAME,
+			M.CHAL_POINT,
+			M.CHAL_POINT_STATUS
+		FROM CHAL_TODAY_MEM M
+		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
+		WHERE M.MEM_NO = #{ no } -->
+		SELECT 
+			CHAL_NO
+		FROM CHAL_TODAY_MEM
+		WHERE MEM_NO = #{ no }
+	</select>
 	
-	<!-- 이달의 챌린지 목록 조회 -->
-	<select id="findAllMonth" parameterType="map" resultMap="MonthListResultMap">
-		SELECT
-		    CATEGORY,
-		    CHAL_NO,
-		    CHAL_TITLE,
-		    CHAL_CONTENT,
-		    CHAL_IMG_PATH,
-		    CHAL_POINT,
-		    CHAL_COUNT,
-		    CHAL_DATE,
-		    CHAL_MODIFY_DATE
-		FROM CHAL_MONTH
-		ORDER BY CHAL_NO DESC
-  	</select>
-  	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 이달의 챌린지 전체 목록 개수 조회 -->
   	<select id="getBoardCount" parameterType="map" resultType="_int">
   		SELECT COUNT (*)
   		FROM CHAL_MONTH
   	</select>
   	
-  	<!-- 이달의 챌린지 목록 조회 (정렬) -->
-	<select id="selectFilterMonth" parameterType="map" resultMap="MonthListResultMap">
-		SELECT
-		    CATEGORY,
-		    CHAL_NO,
-		    CHAL_TITLE,
-		    CHAL_CONTENT,
-		    CHAL_IMG_PATH,
-		    CHAL_POINT,
-		    CHAL_COUNT,
-		    CHAL_DATE,
-		    CHAL_MODIFY_DATE
-		FROM CHAL_MONTH
-		<!-- <trim prefix="ORDER BY"> 
-	         <if test="orderby == 'CHAL_NO'">최신순</if>
-	         <if test="orderby == 'CHAL_POINT'">높은 포인트순</if>
-	         <if test="orderby == 'CHAL_POINT'">낮은 포인트순</if>
-		</trim> -->
+	<!-- 이달의 챌린지 목록 조회 -->
+	<select id="findAllMonth" parameterType="map" resultMap="MonthListResultMap">
+		<include refid="monthListSql" />
+		ORDER BY CHAL_NO DESC
+  	</select>
+  	
+  	<!-- 이달의 챌린지 목록 조회 + 정렬 -->
+  	<select id="findAllMonthArrange" parameterType="string" resultMap="MonthListResultMap">
+		<include refid="monthListSql" />
+		<if test="arrange == '최신순'">
+			ORDER BY CHAL_NO DESC
+		</if>
+		<if test="arrange == '높은포인트순'">
+			ORDER BY CHAL_POINT DESC
+		</if>
+		<if test="arrange == '낮은포인트순'">
+			ORDER BY CHAL_POINT
+		</if>
   	</select>
   	
   	<!-- 이달의 챌린지 상세 조회 -->
   	<select id="selectMonthListByNo" parameterType="_int" resultMap="MonthListResultMap">
-		SELECT
-		    CATEGORY,
-		    CHAL_NO,
-		    CHAL_TITLE,
-		    CHAL_CONTENT,
-		    CHAL_IMG_PATH,
-		    CHAL_POINT,
-		    CHAL_COUNT,
-		    CHAL_DATE,
-		    CHAL_MODIFY_DATE
-		FROM CHAL_MONTH
+		<include refid="monthListSql" />
 		WHERE CHAL_NO = #{ chalNo }
 	</select>
 	
@@ -230,27 +208,12 @@
 	
 	
 	
-	<!-- <select id="selectMonthListByMemNo" parameterType="_int" resultMap="MonthMemberResultMap">
-		SELECT 
-			M.NO,
-			M.MEM_NO,
-			M.CHAL_NO,
-			T.CHAL_TITLE,
-			M.CHAL_DATE,
-			M.ORIGINAL_FILENAME,
-			M.RENAMED_FILENAME,
-			M.CHAL_COUNT,
-			M.CHAL_STATUS,
-			M.CHAL_POINT,
-			M.CHAL_POINT_STATUS
-		FROM CHAL_MONTH_MEM M
-		LEFT JOIN CHAL_MONTH T ON (M.CHAL_NO = T.CHAL_NO)
-		WHERE M.MEM_NO = #{ memNo }
-	</select> -->
 	
 	
 	
 	
 	
-
+	
+	
+	
 </mapper>
