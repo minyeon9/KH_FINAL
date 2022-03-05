@@ -61,8 +61,8 @@
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요.">
-                                            <button><i class="material-icons">search</i></button>
+                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                            <button id="search"><i class="material-icons">search</i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -122,13 +122,28 @@
                         </section>
                         <!-- // Category -->
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>                   
+							<!-- 맨 처음으로 -->
+							<a class="prev" href="${ path }/admin_member?page=1"></a>
+				
+							<!-- 이전 페이지로 -->
+							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
+				
+							<!--  10개 페이지 목록 -->
+							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">			
+									<strong>${ status.current }</strong>
+								</c:if>
+								<c:if test="${ status.current != pageInfo.currentPage }">				
+									<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+				
+							<!-- 다음 페이지로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
+				
+							<!-- 맨 끝으로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+						</div>                    
                     </div>
                     
             </section>
@@ -159,6 +174,13 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	    
+	    
+	    $(document).ready(() => {
+			$('#search').on('click', () => {
+				location.replace("${ path }/admin/reported_list?name=" + $("#search-val").val());
+			})
+		});
 	});
 </script>
 

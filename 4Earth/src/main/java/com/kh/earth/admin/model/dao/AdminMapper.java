@@ -1,6 +1,7 @@
 package com.kh.earth.admin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -26,9 +27,9 @@ public interface AdminMapper {
 
 	List<Product> getProductList(RowBounds rowBounds);
 
-	List<Member> findMember(RowBounds rowBounds);
+	List<Member> findMember(RowBounds rowBounds, Map<String, String> name);
 
-	List<Reported> getReportedList(RowBounds rowBounds);
+	List<Reported> getReportedList(RowBounds rowBounds, String name);
 
 	Report getReportDetail(int no);
 }

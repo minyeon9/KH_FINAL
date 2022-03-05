@@ -69,9 +69,29 @@ nav .logo {
     transform: translateX(-50%);
     z-index: 4;
 }
-
-
-
+#report-content {
+    min-height: 200px; 
+}
+#report-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #999;
+}
+#report-table thead {
+    border: 1px solid #999;
+}
+#report-table tbody tr td {
+    color: #666;font-size: 14px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+#report-table tbody tr th {
+    color: #666;font-size: 14px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
 
 
 
