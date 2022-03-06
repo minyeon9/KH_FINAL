@@ -87,6 +87,7 @@
     color: #fff;
     font-style: normal;
     background: #67b16b;
+    border-radius: 0 0 10xp 0;
     padding: 4px 10px;
     box-sizing: border-box;
     z-index: 1;

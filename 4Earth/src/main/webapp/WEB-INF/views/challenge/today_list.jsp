@@ -28,32 +28,63 @@
 
                <div class="challenge today">
                		<strong>회원번호 : ${ loginMember.no }</strong><br>
-               		<strong>내가 인증한 챌린지 번호 : ${ map.chalNo0 }</strong><br>
-               		<strong>내가 인증한 챌린지 번호 : ${ map.chalNo1 }</strong>
-               			
+               		<%-- <strong>내가 인증한 챌린지 번호 : ${ map.chalNo0 }</strong><br>
+               		<strong>내가 인증한 챌린지 번호 : ${ map.chalNo1 }</strong> --%>
+               		<%-- <c:forEach var="values" items="${ values }" varStatus="status">
+               			내가 인증한 챌린지 번호 : <c:out value="${ values }"></c:out>
+               			<p>${ values }</p>
+               		</c:forEach> --%>
+               		<p>참여완료 챌린지 번호(array): ${ values }</p>
                    <div class="thumb-list vertical challenge">
                        <ul>
 							<c:if test="${ !empty todayList }">
-								<c:forEach var="todayList" items="${ todayList }">
-									<li>
-									    <i class="num">${ todayList.chalNo }</i>
-									    <div class="item">
-									        <div class="img-thumb">
-									            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
-									        </div>
-									        <div class="item-cont">
-									            <strong>${ todayList.chalTitle }</strong>
-									            <p>${ todayList.chalContent }</p>
-									            <span>
-									            	오늘의 챌린지 모두 달성 시
-									            	<em class="icon-point">
-									            		<fmt:formatNumber pattern="##,###" value="${ todayList.chalPoint }" /> 
-									            	</em>
-									            </span>
-									            <button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
-									        </div>
-									    </div>
-									</li>
+								<c:forEach var="values" items="${ values }">
+									<c:forEach var="todayList" items="${ todayList }">
+										<c:if test="${ values == todayList.chalNo }">
+											<li class="complete">
+											    <i class="num">${ todayList.chalNo }</i>
+											    <div class="item">
+											        <div class="img-thumb">
+											            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
+											        </div>
+											        <div class="item-cont">
+											            <strong>${ todayList.chalTitle }</strong>
+											            <p>${ todayList.chalContent }</p>
+											            <span>
+											            	오늘의 챌린지 모두 달성 시
+											            	<em class="icon-point">
+											            		<fmt:formatNumber pattern="##,###" value="${ todayList.chalPoint }" /> 
+											            	</em>
+											            </span>
+									            		<button class="btn gray" disabled onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여완료</button>
+											        </div>
+											    </div>
+											</li>
+										</c:if>
+										
+										<c:if test="${ values != todayList.chalNo }">
+											<li>
+											    <i class="num">${ todayList.chalNo }</i>
+											    <div class="item">
+											        <div class="img-thumb">
+											            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
+											        </div>
+											        <div class="item-cont">
+											            <strong>${ todayList.chalTitle }</strong>
+											            <p>${ todayList.chalContent }</p>
+											            <span>
+											            	오늘의 챌린지 모두 달성 시
+											            	<em class="icon-point">
+											            		<fmt:formatNumber pattern="##,###" value="${ todayList.chalPoint }" /> 
+											            	</em>
+											            </span>
+									            		<button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
+											        </div>
+											    </div>
+											</li>
+										</c:if>
+									</c:forEach>
+									
 								</c:forEach>
 							</c:if>
                        </ul>

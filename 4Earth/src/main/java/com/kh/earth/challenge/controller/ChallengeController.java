@@ -1,6 +1,8 @@
 package com.kh.earth.challenge.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -61,27 +62,26 @@ public class ChallengeController {
 		List<Today> todayList = service.getTodayList();
 		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo());
 		
+		System.out.println(todayMemberList.toString());
+		
 		Map<String, Object> map = new HashMap<>();
-		
 		int mapLenght = todayMemberList.size();
-	
-		System.out.println("mapLenght : " + mapLenght);
-		
+		System.out.println("내가 인증한 챌린지 갯수(mapLenght) : " + mapLenght);
 		for( int i = 0; i < mapLenght; i++ ) {
 			String chalNo = "chalNo" + i;
 			map.put(chalNo, todayMemberList.get(i).getChalNo());
 		}
 		
+		Collection<Object> values = map.values();
 		
-		model.addObject("map", map);
+		System.out.println("map -> array : " + values);
+		
+		model.addObject("values", values);
 		
 		System.out.println("map : " + map);
 		
 		model.addObject("todayList", todayList);
-		// model.addObject("todayMemberList", todayMemberList);
 		model.setViewName("challenge/today_list");
-		
-		// System.out.println(todayMemberList.getChalNo());
 		
 		return model;
 	}

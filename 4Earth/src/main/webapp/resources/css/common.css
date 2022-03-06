@@ -391,6 +391,7 @@ a.btn {
     padding: 0;
     box-sizing: border-box;
     box-shadow: rgba(100, 100, 111, 0.5) 0px 3px 10px 0px;
+    z-index: 2;
 }
 input + .btn {
     margin-left: 5px;
