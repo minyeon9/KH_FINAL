@@ -1,7 +1,20 @@
 package com.kh.earth.mypage.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.kh.earth.common.util.PageInfo;
+import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.store.model.service.StoreService;
+import com.kh.earth.store.model.service.StoreServiceImpl;
+import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.Wish;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,13 +36,32 @@ public class MypageController {
 		return "mypage/order";
 	}
 	
-	@GetMapping("/wishlist")
-	public String wishlist() {
-		log.info("wishlist() - 호출");
-		
-		return "mypage/wishlist";
-	}
-	
+//	@GetMapping("/wishlist")
+//	public ModelAndView wishlist(
+//			ModelAndView model,
+//			@RequestParam(defaultValue="1") int page,
+//			@SessionAttribute(name = "loginMember") Member loginMember
+//			) {
+//		log.info("wishlist() - 호출");
+//		
+//		System.out.println("loginMember.getNo() : " + loginMember.getNo());
+//		
+//		StoreService service = new StoreServiceImpl();
+//		
+//		int count = service.getWishCount(loginMember.getNo());
+//		
+//		PageInfo pageInfo = new PageInfo(page, 10, count, 8);
+//		
+//		List<Product> list = new StoreServiceImpl().getWishList(pageInfo, loginMember.getNo());
+//		
+//		model.addObject("list", list);
+//		model.addObject("pageInfo", pageInfo);
+//		
+//		model.setViewName("mypage/wishlist");
+//		
+//		return model;
+//	}
+
 	@GetMapping("/profile_view")
 	public String profile_view() {
 		log.info("profile_view() - 호출");

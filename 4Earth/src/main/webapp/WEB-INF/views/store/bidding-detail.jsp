@@ -181,7 +181,7 @@
         
         sideBarMenu.each(function(idx, el) {
             if(idx == 1) {
-                $(this).addClass('current');
+                $(this).toggleClass('current');
             }
         });
     });

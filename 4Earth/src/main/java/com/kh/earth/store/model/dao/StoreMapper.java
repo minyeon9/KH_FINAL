@@ -7,8 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
+import com.kh.earth.common.util.PageInfo;
+import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
+import com.kh.earth.store.model.vo.Wish;
 
 @Mapper
 public interface StoreMapper {
@@ -28,6 +32,30 @@ public interface StoreMapper {
 	Product findProductByNo(int no);
 
 	List<ProductOption> findProductOption(int no);
+
+	int addToCart(Cart cart);
+
+	List<Cart> getCartList(int no);
+
+	String getProductNameByNo(int productNo);
+
+	int addToWish(Wish wish);
+
+	int getWish(Wish wish);
+
+	int updateWish(Wish wish);
+
+	String getWishStat(Wish wish);
+
+	List<Product> getWishList(RowBounds rowBounds, int no);
+
+	int getWishCount(int no);
+
+	int writeQna(ProductInquiry productInquiry);
+
+	int getProductInqCount(int no);
+
+	List<ProductInquiry> getProductInqList(RowBounds rowBounds, int no);
 
 
 

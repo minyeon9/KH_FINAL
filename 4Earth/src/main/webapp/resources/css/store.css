@@ -63,6 +63,34 @@
     width: 400px;
 }
 
+.accordian .icon-question {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #76b779;
+    font-style: normal;
+    vertical-align: -8px;
+    margin-right: 10px;
+}
+.accordian .icon-question:before {
+    content: 'Q';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #76b779;
+    transform: translate(-50%, -50%);
+}
+.inqContent-wrap {
+	width: 95%;
+	min-height: 40px;	
+	border: 1px solid #ddd;
+}
+
 .store-selectbox {
     float: right;
 }
@@ -248,7 +276,7 @@ ul.imgs li img{
 	height: 35px;
 	padding: 13px 10px;
 }
-#selectedOption {
+.selectedOption {
 	width: 40%;
 	display: inline-block;
 	float: left;
@@ -257,7 +285,7 @@ ul.imgs li img{
 .pro-result {
 	width: 100%;
 }
-.price {
+.selected-price {
 	margin-top: 3px;
 	width: 33%;
 	float: right;
@@ -351,8 +379,7 @@ input[type=number]
     vertical-align: top;
 }
 
-.product-btn {
-    border: 1px solid rgb(172, 172, 172);
+.cart-delete {
     float: right;
 }
 

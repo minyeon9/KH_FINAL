@@ -38,6 +38,7 @@
 			<mapping path="/profile_edit"/>
 	 		<mapping path="/today_list"/>
 	 		<mapping path="/today_view"/>
+	 		<mapping path="/wishlist"/>
 	 		
 			<exclude-mapping path="/today_main"/>
 			
