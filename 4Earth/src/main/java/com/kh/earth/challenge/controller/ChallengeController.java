@@ -1,6 +1,7 @@
 package com.kh.earth.challenge.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -61,28 +62,41 @@ public class ChallengeController {
 		
 		List<Today> todayList = service.getTodayList();
 		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo());
+		// System.out.println(todayMemberList.toString());
 		
-		System.out.println(todayMemberList.toString());
+		//본인이 참여할 챌린지 넘버를 넣을 배열
+		List<Integer> myListNumber = new ArrayList<>();
+		
 		
 		Map<String, Object> map = new HashMap<>();
 		int mapLenght = todayMemberList.size();
+		
 		System.out.println("내가 인증한 챌린지 갯수(mapLenght) : " + mapLenght);
+		
 		for( int i = 0; i < mapLenght; i++ ) {
-			String chalNo = "chalNo" + i;
-			map.put(chalNo, todayMemberList.get(i).getChalNo());
+			// String chalNo = "chalNo" + i;
+			// map.put(chalNo, todayMemberList.get(i).getChalNo());
+			myListNumber.add(todayMemberList.get(i).getChalNo());
 		}
 		
 		Collection<Object> values = map.values();
 		
-		System.out.println("map -> array : " + values);
+		// System.out.println("map -> array : " + values);
 		
-		model.addObject("values", values);
+		// model.addObject("values", values);
 		
-		System.out.println("map : " + map);
+		// System.out.println("map : " + map);
 		
 		model.addObject("todayList", todayList);
 		model.setViewName("challenge/today_list");
+		model.addObject("myListNumber", myListNumber);
 		
+		System.out.println("myListNumber" + myListNumber);
+		
+		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
+		model.addObject("nameList", nameList);
+
+
 		return model;
 	}
 	

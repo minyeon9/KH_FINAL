@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	<script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
     <title>챌린지</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -29,9 +30,8 @@
                 <div class="challenge today">
                     <div class="how-to">
                         <strong>오늘의 챌린지 참여 방법</strong>
-                        <p>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고</p>
                     </div>
-					<p>${ loginMember.no }</p>
+					<p>회원번호: ${ loginMember.no }</p>
                     <div class="thumb-list">
                        	<c:if test="${ empty todayMain }">
                        		<div class="empty-content">

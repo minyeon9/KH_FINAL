@@ -27,22 +27,21 @@
                </div>
 
                <div class="challenge today">
-               		<strong>회원번호 : ${ loginMember.no }</strong><br>
-               		<%-- <strong>내가 인증한 챌린지 번호 : ${ map.chalNo0 }</strong><br>
-               		<strong>내가 인증한 챌린지 번호 : ${ map.chalNo1 }</strong> --%>
-               		<%-- <c:forEach var="values" items="${ values }" varStatus="status">
-               			내가 인증한 챌린지 번호 : <c:out value="${ values }"></c:out>
-               			<p>${ values }</p>
-               		</c:forEach> --%>
-               		<p>참여완료 챌린지 번호(array): ${ values }</p>
+					<%-- <c:forEach var="myListNumber" items="${myListNumber}" varStatus="status">
+						<p>참여 완료 챌린지 번호: ${myListNumber}</p>
+					</c:forEach> --%>
+					
                    <div class="thumb-list vertical challenge">
                        <ul>
 							<c:if test="${ !empty todayList }">
-								<c:forEach var="values" items="${ values }">
-									<c:forEach var="todayList" items="${ todayList }">
-										<c:if test="${ values == todayList.chalNo }">
+								<c:forEach var="todayList" items="${ todayList }" varStatus="listStatus">
+			            			<c:set var="myListNumberSet" value="${ myListNumber }" />
+			            			<c:choose>
+										<c:when test="${fn:contains(myListNumberSet, todayList.chalNo)}">
 											<li class="complete">
 											    <i class="num">${ todayList.chalNo }</i>
+												<%-- <p>${ todayList.chalNo }</p>
+												<p>${ myListNumber[todayList.chalNo - 1] }</p> --%>
 											    <div class="item">
 											        <div class="img-thumb">
 											            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
@@ -56,15 +55,26 @@
 											            		<fmt:formatNumber pattern="##,###" value="${ todayList.chalPoint }" /> 
 											            	</em>
 											            </span>
-									            		<button class="btn gray" disabled onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여완료</button>
+											            
+									            		<button class="btn gray" disabled>참여완료</button>
+		                                            	<%-- <c:choose>
+		                                            		<c:when test="${fn:contains(myListNumberSet, todayList.chalNo)}">
+		                                                    	<button class="btn gray" disabled>참여완료</button>
+		                                                	</c:when>
+		                                                	<c:otherwise>
+		                                                    	<button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
+		                                            		</c:otherwise>
+		                                           		</c:choose> --%> 
+									            		
 											        </div>
 											    </div>
 											</li>
-										</c:if>
-										
-										<c:if test="${ values != todayList.chalNo }">
+										</c:when>
+										<c:otherwise>
 											<li>
 											    <i class="num">${ todayList.chalNo }</i>
+												<%-- <p>${ todayList.chalNo }</p>
+												<p>${ myListNumber[todayList.chalNo - 1] }</p> --%>
 											    <div class="item">
 											        <div class="img-thumb">
 											            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
@@ -78,17 +88,22 @@
 											            		<fmt:formatNumber pattern="##,###" value="${ todayList.chalPoint }" /> 
 											            	</em>
 											            </span>
-									            		<button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
+		                                                <button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
+									            		
 											        </div>
 											    </div>
 											</li>
-										</c:if>
-									</c:forEach>
-									
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</c:if>
                        </ul>
                    </div>
+                   
+                   
+                   
+                   
+                   
                </div>
 
            </section>
@@ -99,7 +114,7 @@
 	
 
 <script type="text/javascript">
-let idxNum=0;
+	let idxNum=0;
 </script>          
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/challenge.js"></script>

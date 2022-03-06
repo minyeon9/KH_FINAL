@@ -154,6 +154,7 @@
 			CHAL_NO
 		FROM CHAL_TODAY_MEM
 		WHERE MEM_NO = #{ no }
+		ORDER BY NO
 	</select>
 	
 	

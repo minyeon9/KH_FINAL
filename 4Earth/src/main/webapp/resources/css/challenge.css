@@ -786,3 +786,20 @@
 .challenge .complete-page .btn {
 	margin-top: 40px;
 }
+
+
+/* slide */
+.challenge .slider {
+	float: none;
+}
+/* .challenge .how-to .slider {
+	width: 100%;
+}
+.challenge .how-to .slider ul li {
+	width: 100%;
+	padding: 0;
+}
+.challenge .how-to .slider ul li img {
+	border-radius: 0;
+	border: 0;
+} */
