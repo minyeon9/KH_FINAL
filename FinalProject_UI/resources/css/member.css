@@ -258,6 +258,10 @@
   text-align: left;
 }
 
+.layer-popup{
+  background-image: url(../images/member/login-background.jpg);
+}
+
 #profile {
   display: none;
 }
@@ -754,6 +758,10 @@ text-align: center;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
+
+/* ----------------------------------
+    unregister css
+---------------------------------- */
 #unregister-btn{
   width: 95px;
   font-size: 13px;
@@ -762,3 +770,29 @@ text-align: center;
   /* font-weight: bold; */
   font-family: 'Noto Sans KR', sans-serif; 
 }
+
+#unregster_notice{
+  width: 550px;
+  margin: auto;
+  text-align: left;
+  /* background-color: rgb(243, 243, 243); */
+}
+
+#unregster_notice h2{
+  text-align: center;
+}
+
+#unregister_cont{
+  /* position: relative; */
+  width: 550px;
+  padding: 20px 20px 20px 20px;
+  background-color: rgb(243, 243, 243);
+}
+
+.form-group2 p{
+  display: contents;
+  /* display: contents; */
+  /* margin-left: 240px; */
+  /* background-color: #03c75a; */
+}
+

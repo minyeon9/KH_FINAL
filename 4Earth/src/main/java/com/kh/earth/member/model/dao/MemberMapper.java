@@ -19,5 +19,7 @@ public interface MemberMapper {
 	int updateMember(Member member);
 
 	List<Member> findMember(RowBounds rowBounds);
+	
+	int deleteMember(int no);
 
 }

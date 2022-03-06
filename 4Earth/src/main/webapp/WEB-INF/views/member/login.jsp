@@ -100,8 +100,51 @@
             </div>
         </div>
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
+//사이드바의 인덱스 넘버
 let idxNum=1;
+
+// 어떤 애플리케이션이 연동될 것인지 설정(설정 사이트의 js키)
+window.Kakao.init("d33d858d13446389bd9ff29763e3a882");
+
+function kakaoLogin(){
+    window.Kakao.Auth.login({
+        // 동의 항목에서 설정한 정보들의 ID를 scope에 설정해준다. 
+        scope:'profile_nickname, profile_image, account_email',
+        success: function(authObj){
+            console.log(authObj);
+            window.Kakao.API.request({
+                url:'/v2/user/me',
+                success: res => {
+                    const kakao_account = res.kakao_account;
+                    console.log(kakao_account);
+                    
+                    $.ajax({ 
+                        type: "post", 
+                        url: "${ path }/kakao_login",
+                        data: res,
+                        datatype: 'JSON',
+                        success: function(data) {
+                            
+                            // console.log(res);
+                            // console.log(Object.keys(kakao_account));
+                            // console.log(Object.values(kakao_account));
+                            location.replace("http://localhost:8088/4earth/");
+
+                        }, 
+                        error: function(error) {
+                            console.log("error", error );
+                        },
+                        complete: function() {
+                            console.log("complete");
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
 </script>          
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/member.js"></script>
