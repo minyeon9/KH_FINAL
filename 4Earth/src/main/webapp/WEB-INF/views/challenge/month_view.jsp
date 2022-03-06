@@ -29,15 +29,16 @@
                     <div class="challenge">
                         <div class="month-challenge-detail">
                             <div class="img-thumb">
-                                <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+                                <img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
                             </div>
                             <div class="item-cont">
                                 <span>이달의 챌린지</span>
-                                <strong>걸어서 or 자전거로 출퇴근 하기</strong>
-                                <p>리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명 리스트 설명</p>
-                                <!-- <span class="point-info">오늘의 챌린지 모두 달성시 <span><em>5,000Point</em> 지급</span></span> -->
-                                <span class="icon-point">5,000</span>
-                                <button class="btn" onclick="location.href='month_write.html'">참여하기</button>
+                                <strong>${ month.chalTitle }</strong>
+                                <p>${ month.chalContent }</p>
+                                <span class="icon-point">
+                                	<fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" />
+                                </span>
+                                <button class="btn" onclick="location.href='${ path }/month_write?chalNo=${ month.chalNo }'">참여하기</button>
                             </div>
                         </div>
 
@@ -223,29 +224,10 @@
             </div>
         </div>
 
+<script type="text/javascript">
+let idxNum=1;
+</script>          
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
-<script>
-    $(() => {
-        let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/today_list', '/4earth/month_list', '/4earth/ongoing_list'];
-        let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
-
-        for( let i = 0; i < menuName.length; i++ ) {
-            let menuIdx = sideBarMenu.eq(i);
-
-            menuIdx.find('a').attr('href', menuPath[i]);
-            menuIdx.find('a > i').text(menuIcon[i]);
-            menuIdx.find('a > span').text(menuName[i]);
-        }
-
-        sideBarMenu.each(function(idx, el) {
-            if(idx == 1) {
-                $(this).addClass('current');
-            }
-        });
-    });
-</script>
-
-</html>
+<script src="resources/js/challenge.js"></script>

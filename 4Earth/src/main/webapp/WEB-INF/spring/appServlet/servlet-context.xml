@@ -35,13 +35,12 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/profile_view"/>
-			<mapping path="/member_delete"/>
 			<mapping path="/profile_edit"/>
 	 		<mapping path="/today_list"/>
 	 		<mapping path="/today_view"/>
-	 		<mapping path="/wishlist"/>
-	 		
-			<exclude-mapping path="/today_main"/>
+	 		<mapping path="/today_complete"/>
+	 		<mapping path="/month_view"/>
+	 		<mapping path="/month_complete"/>
 			
 			<beans:bean class="com.kh.earth.common.interceptor.LoginCheckInterceptor" id="LoginCheckInterceptor"/>
 			

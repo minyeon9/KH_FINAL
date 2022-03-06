@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TodayMember {
+public class MonthMember {
 	
 	private int no;
 
@@ -18,20 +18,20 @@ public class TodayMember {
 	
 	private int chalNo;
 	
-	private String chalTitle;
-	
 	private Date chalDate;
-	
-	private char chalStatus;
 	
 	private String originalFilename;
 	
 	private String renamedFilename;
 	
+	private int chalCount;
+	
+	private char chalStatus;
+	
 	private int chalPoint;
 	
 	private char chalPointStatus;
 	
-	// private List<Today> today;
+	private List<Month> month;
 	
 }

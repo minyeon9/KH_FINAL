@@ -27,28 +27,83 @@
                </div>
 
                <div class="challenge today">
-                   <div class="thumb-list vertical callenge">
+					<%-- <c:forEach var="myListNumber" items="${myListNumber}" varStatus="status">
+						<p>참여 완료 챌린지 번호: ${myListNumber}</p>
+					</c:forEach> --%>
+					
+                   <div class="thumb-list vertical challenge">
                        <ul>
 							<c:if test="${ !empty todayList }">
-								<c:forEach var="todayList" items="${ todayList }">
-									<li>
-									    <i class="num">${ todayList.chalNo }</i>
-									    <div class="item">
-									        <div class="img-thumb">
-									            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
-									        </div>
-									        <div class="item-cont">
-									            <strong>${ todayList.chalTitle }</strong>
-									            <p>${ todayList.chalContent }</p>
-									            <span>오늘의 챌린지 모두 달성 시 <em class="icon-point">${ todayList.chalPoint }</em></span>
-									            <button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
-									        </div>
-									    </div>
-									</li>
+								<c:forEach var="todayList" items="${ todayList }" varStatus="listStatus">
+			            			<c:set var="myListNumberSet" value="${ myListNumber }" />
+			            			<c:choose>
+										<c:when test="${fn:contains(myListNumberSet, todayList.chalNo)}">
+											<li class="complete">
+											    <i class="num">${ todayList.chalNo }</i>
+												<%-- <p>${ todayList.chalNo }</p>
+												<p>${ myListNumber[todayList.chalNo - 1] }</p> --%>
+											    <div class="item">
+											        <div class="img-thumb">
+											            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
+											        </div>
+											        <div class="item-cont">
+											            <strong>${ todayList.chalTitle }</strong>
+											            <p>${ todayList.chalContent }</p>
+											            <span>
+											            	오늘의 챌린지 모두 달성 시
+											            	<em class="icon-point">
+											            		<fmt:formatNumber pattern="##,###" value="${ todayList.chalPoint }" /> 
+											            	</em>
+											            </span>
+											            
+									            		<button class="btn gray" disabled>참여완료</button>
+		                                            	<%-- <c:choose>
+		                                            		<c:when test="${fn:contains(myListNumberSet, todayList.chalNo)}">
+		                                                    	<button class="btn gray" disabled>참여완료</button>
+		                                                	</c:when>
+		                                                	<c:otherwise>
+		                                                    	<button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
+		                                            		</c:otherwise>
+		                                           		</c:choose> --%> 
+									            		
+											        </div>
+											    </div>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li>
+											    <i class="num">${ todayList.chalNo }</i>
+												<%-- <p>${ todayList.chalNo }</p>
+												<p>${ myListNumber[todayList.chalNo - 1] }</p> --%>
+											    <div class="item">
+											        <div class="img-thumb">
+											            <img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
+											        </div>
+											        <div class="item-cont">
+											            <strong>${ todayList.chalTitle }</strong>
+											            <p>${ todayList.chalContent }</p>
+											            <span>
+											            	오늘의 챌린지 모두 달성 시
+											            	<em class="icon-point">
+											            		<fmt:formatNumber pattern="##,###" value="${ todayList.chalPoint }" /> 
+											            	</em>
+											            </span>
+		                                                <button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
+									            		
+											        </div>
+											    </div>
+											</li>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</c:if>
                        </ul>
                    </div>
+                   
+                   
+                   
+                   
+                   
                </div>
 
            </section>
@@ -58,29 +113,8 @@
    </div>
 	
 
+<script type="text/javascript">
+	let idxNum=0;
+</script>          
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-
-<script>
-    $(() => {
-        let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/today_main', '/4earth/month_list', '/4earth/ongoing_list'];
-        let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
-
-        for( let i = 0; i < menuName.length; i++ ) {
-            let menuIdx = sideBarMenu.eq(i);
-
-            menuIdx.find('a').attr('href', menuPath[i]);
-            menuIdx.find('a > i').text(menuIcon[i]);
-            menuIdx.find('a > span').text(menuName[i]);
-        }
-
-        sideBarMenu.each(function(idx, el) {
-            if(idx == 0) {
-                $(this).addClass('current');
-            }
-        });
-    });
-</script>
-
-</html>
+<script src="resources/js/challenge.js"></script>

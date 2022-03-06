@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	<script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
     <title>챌린지</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -29,9 +30,8 @@
                 <div class="challenge today">
                     <div class="how-to">
                         <strong>오늘의 챌린지 참여 방법</strong>
-                        <p>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고<br>어쩌고 저쩌고</p>
                     </div>
-
+					<p>회원번호: ${ loginMember.no }</p>
                     <div class="thumb-list">
                        	<c:if test="${ empty todayMain }">
                        		<div class="empty-content">
@@ -67,29 +67,8 @@
         </div>
     </div>
 
+<script type="text/javascript">
+let idxNum=0;
+</script>          
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-
-<script>
-    $(() => {
-        let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/today_main', '/4earth/month_list', '/4earth/ongoing_list'];
-        let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
-
-        for( let i = 0; i < menuName.length; i++ ) {
-            let menuIdx = sideBarMenu.eq(i);
-
-            menuIdx.find('a').attr('href', menuPath[i]);
-            menuIdx.find('a > i').text(menuIcon[i]);
-            menuIdx.find('a > span').text(menuName[i]);
-        }
-
-        sideBarMenu.each(function(idx, el) {
-            if(idx == 0) {
-                $(this).addClass('current');
-            }
-        });
-    });
-</script>
-
-</html>
+<script src="resources/js/challenge.js"></script>
