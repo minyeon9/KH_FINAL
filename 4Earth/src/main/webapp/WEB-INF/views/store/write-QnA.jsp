@@ -41,12 +41,13 @@
             	상품과 관련없는 문의는 강제 삭제 될 수 있습니다.
             </p>
 		</div>
-        <form method="post">
+        <form action="${ path }/write_qna" method="post">
+        	<input type="hidden" name="proNo" value="${ product.proNo }">
             <table class="store-editor">
                 <tr>
                     <td style="width: 50%;">
                         <label for="title">
-                            제목 : <input type="text" name="title" id="" size="38" maxlength="38" list="qnaType">
+                            제목 : <input type="text" name="inqTitle" id="" size="38" maxlength="38" list="qnaType">
                             <datalist id="qnaType">
                                 <option value="상품 관련 문의입니다.">상품 관련 문의입니다.</option>
                                 <option value="배송 관련 문의입니다.">배송 관련 문의입니다.</option>
@@ -56,14 +57,15 @@
                     </td>
                     <td style="text-align: left;">
                         <div class="check-box">
-                            <input type="checkbox" id="checkbox1"> 
+                            <input type="checkbox" name="secret" id="checkbox1"> 
                             <label for="checkbox1">비밀글</label>
                         </div>
+                        <input type="hidden" name="inqSecret" id="inqSecret">
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <textarea name="content" id="editor">
+                        <textarea name="inqContent" id="editor">
                         </textarea> 
                     </td>
                 </tr>                
@@ -78,6 +80,7 @@
     </div>
 </body>
     <script>
+    	// ckEditor 설정 
         ClassicEditor.create(document.querySelector('#editor'), {
             toolbar: {
                 items: [
@@ -98,6 +101,15 @@
             })
         .catch( error => {
             console.error( error );
-        } );
+        });
+    	
+    	// 비밀글 여부 
+    	$(".check-box").on("change", () => {
+    		if($("#checkbox1").is(":checked")){
+        		$("#inqSecret").val("Y");        		
+        	} else {
+        		$("#inqSecret").val("N");  
+        	}
+    	});    	
     </script>
 </html>

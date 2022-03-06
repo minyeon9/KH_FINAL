@@ -145,6 +145,12 @@
 		   	<when test="name != null">
 		   		AND NAME LIKE '%' || #{name} || '%'
 		   	</when>
+		   	<when test="id != null">
+		   		AND ID LIKE '%' || #{id} || '%'
+		   	</when>
+		   	<when test="no != null">
+		   		AND NO LIKE '%' || #{no} || '%'
+		   	</when>
 		</choose>
 		ORDER BY NO DESC
 	</select>
@@ -169,7 +175,7 @@
 			FROM MEMBER
 			WHERE NO IN(SELECT REPORTED_M_NO
 				        FROM REPORT)
-			AND STATUS = 'Y'
+				AND STATUS = 'Y'
 		<choose>
 		   	<when test="name != null">
 		   		AND NAME LIKE '%' || #{name} || '%'
