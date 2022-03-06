@@ -72,7 +72,10 @@
                         <table class="pro-table">
                             <thead>
                                 <tr>
-                                    <td colspan="4">${ product.proName }</td>
+                                    <td colspan="4">
+                                    	${ product.proName }
+                                    	<input type="hidden" name="no" value="${ product.proNo }">
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody class="tbody1">
@@ -93,10 +96,10 @@
                                 <tr style="border-bottom: 2px solid #467443;">
                                     <td>옵션</td>
                                     <td colspan="3">
-                                        <select name="product-option" id="product-option" class="pro-selectbox" onchange="getOption(this)">
-                                            <option value="--------" selected>--------</option>                                            
-                                            <c:forEach var="optionList" items="${ list }">
-                                            	<option value="${ optionList.optName }">${ optionList.optName }</option>
+                                        <select name="product-option" id="product-option" class="pro-selectbox">
+                                            <option value="--------" selected disabled="disabled">--------</option>                                            
+                                            <c:forEach var="optionList" items="${ option }">
+                                            	<option value="${ optionList.optNo }">${ optionList.optName }</option>
                                             </c:forEach>
                                         </select>
                                     </td>
@@ -104,18 +107,36 @@
                              </tbody> 
                            </table> 
                                 <!-- 선택 옵션 -->
-                                <div class="selected-wrap" >
-                                <ul>
-                             	                         	
-                                </ul>
-                                </div>
-                                                             
+                                <form name="addToCart">
+	                                <div class="selected-wrap" >	                                
+	                                <ul>
+	                                <!-- 
+	                                <li class="selectedProduct">
+	                                	<input type="hidden"; name="proNumber" value="${ product.proNo }">
+		                                <div id="selectedOption">사과향</div>
+		                                <div class="quantity">
+		                                	<input type="number" min="1" max="99" step="1" value="1">
+		                                	<div class="quantity-nav">
+			                                	<div class="quantity-button quantity-up">+</div>
+			                                	<div class="quantity-button quantity-down">-</div>
+		                                	</div>
+		                                </div>
+		                                <p class="selected-price">
+			                                10,000 원
+			                                <a href="" class="cart-delete"><i class="material-icons md-24" style="font-size: 16px;">close</i></a>
+		                                </p>
+	                                </li>	                                
+	                                 -->
+	                             	                         	
+	                                </ul>
+	                                </div>                                                             
+                                </form>
                                 <!-- // 선택 옵션 -->                              
                             
                             <div class="pro-result">
                                 <button class="btn pro-btn">바로구매</button>
-                                <button class="btn pro-btn">장바구니</button>
-                                <button class="btn pro-btn">찜</button>
+                                <button class="btn pro-btn" id="addCart">장바구니</button>
+                                <button class="btn pro-btn" id="addWish">찜</button>
                             </div>                            
                         </div>
                     </div>
@@ -209,51 +230,48 @@
 	                     </div>   
                         <div class="accordian inquiry">
                             <ul>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <p>답변완료</p>
-                                        <p>
-                                            <i class="material-icons md-16">lock</i>
-                                            비밀글입니다.
-                                        </p>
-                                        <p>2022-00-00</p>
-                                        <p>user ID</p>
-                                    </a>
-                                    <div>
-                                        <i class="icon-answer"></i>
-                                        <p>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br></p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <p>답변완료</p>
-                                        <p>
-                                            <i class="material-icons md-16">lock</i>
-                                            비밀글입니다.
-                                        </p>
-                                        <p>2022-00-00</p>
-                                        <p>user ID</p>
-                                    </a>
-                                    <div>
-                                        <i class="icon-answer"></i>
-                                        <p>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br></p>
-                                    </div>
-                                </li>
+                            	<c:if test="${ !empty inqList }">
+	                            	<c:forEach var="inq" items="${ inqList }">
+		                            	<li class="inquiry-li">
+		                                    <a href="javascript:void(0);">
+		                                        <p>답변완료</p>
+		                                        <p>
+		                                            <i class="material-icons md-16">lock</i>
+		                                            ${ inq.inqTitle }
+		                                        </p>
+		                                        <p>
+		                                        	<fmt:formatDate value="${ inq.inqDate }" pattern="yyy-MM-dd"/>
+		                                        </p>
+		                                        <p class="inquiry-writerId">${ inq.memberId }</p>
+		                                    </a>
+		                                    <div>
+		                                        <i class="icon-question"></i>
+		                                        <div class="inqContent-wrap" style="padding: 10px 5px;">
+			                                    	${ inq.inqContent }
+		                                    	</div>
+		                                    </div>
+		                                    <div>
+		                                        <i class="icon-answer"></i>
+		                                        <p>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br></p>
+		                                    </div>
+		                                </li>
+	                            	</c:forEach>
+                            	</c:if>                                
                             </ul>
                         </div>
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
-                            <a href="#">8</a>
-                            <a href="#">9</a>
-                            <a href="#">10</a>
-                            <a href="#" class="next"><span>다음</span></a>
+                            <a href="${ path }/product_detail?inqPage=${ inqPageInfo.prevPage }" class="prev"><span>이전</span></a>
+                            <c:forEach begin="${ inqPageInfo.startPage }" end="${ inqPageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == inqPageInfo.currentPage }">				
+									<strong>${ status.current }</strong>
+								</c:if>
+								
+								<c:if test="${ status.current != inqPageInfo.currentPage }">				
+									<a href="${ path }/product_detail?inqPage=${ status.current }&count=${ inqPageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+                            <a href="${ path }/product_detail?inqPage=${ inqPageInfo.nextPage }" class="next"><span>다음</span></a>
+                        	<input type="hidden" name="no" value="${ product.proNo }">
                         </div>
                     </section>
                     <!-- // Accordian -->
@@ -274,7 +292,7 @@
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['${ path }/product_list', '${ path }/bidding_list','${ path }/map'];
         let menuName = ['소분샵', '소분샵 입고 신청', '오프라인 매장 안내'];
-        let menuIcon = ['storefront', 'edit', 'location_on' ]
+        let menuIcon = ['storefront', 'edit', 'location_on' ];
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);
@@ -283,81 +301,296 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+        
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 0) {
+                $(this).addClass('current');
+            }
+        });
     });
     
     // 옵션 선택
-    function getOption(op){
-    	var option = op.value;
+//    $(document).ready(() => {
+//    	$("#product-option").on("change", () => {
+//    		var option = $("#product-option option:selected").val();
+//        	var price = '<c:out value="${ product.proPrice }"/>';
+//        	
+//        	$(".selected-wrap").append("<li class='selectedProduct'><div id='selectedOption'>" +option+ "</div><div class='quantity'><input type='number' min='1' max='99' step='1' value='1'><div class='quantity-nav'><div class='quantity-button quantity-up'>+</div><div class='quantity-button quantity-down'>-</div></div></div><p class='selected-price'>" +toCommas(price)+ "<a href='' class='cart-delete'><i class='material-icons md-24' style='font-size: 16px;'>close</i></a></p></li> ");	
+//    	
+//    	});
+//    });
+    
+    // 옵션 선택
+    $(document).on("change", "#product-option", function(e) {
+    	console.log($("#product-option option:selected").text());	
+    
+    	var option = $("#product-option option:selected").text();
+    	var optionNumber = $("#product-option option:selected").val();
     	var price = '<c:out value="${ product.proPrice }"/>';
     	
-    	$(".selected-wrap").append("<li class='selectedProduct'><div id='selectedOption'>" +option+ "</div><div class='quantity'><input type='number' min='1' max='99' step='1' value='1'><div class='quantity-nav'><div class='quantity-button quantity-up'>+</div><div class='quantity-button quantity-down'>-</div></div></div><p class='price'>" +toCommas(price)+ "<button class='product-btn'><i class='material-icons md-24' style='font-size: 16px;'>close</i></button></p></li> ");
-    }
+    	let selected = "<li class='selectedProduct'>"
+					    +   "<div class='selectedOption'>"
+					    +	option 
+					    +	"</div>"
+    					+ 	"<input type='hidden'; name='optNumber'; value='" +optionNumber+ "'>"
+					    +   "<div class='quantity'>"
+					    +    "<input type='number' min='1' max='99' step='1' value='1'>"
+					    +   	"<div class='quantity-nav'>"
+					    +        "<div class='quantity-button quantity-up'>+</div>"
+					    +        "<div class='quantity-button quantity-down'>-</div>"
+					    +    	"</div>"
+					    +    "</div>"
+					    +    "<p class='selected-price'>"
+					    +	 "<span class='price-span'>"
+					    +	toCommas(price)
+					    +	 "</span>"
+					    +	 "<a href='' class='cart-delete'><i class='material-icons md-24' style='font-size: 16px;'>close</i></a>"
+					    +    "</p>"
+					    + "</li>";	
+					    
+    	$(".selected-wrap ul").append(selected);   
+    	
+
+    	// 수량 변경
+    	/*
+    	이 코드가 잘못된 이유 : 클릭할 경우 이벤트를 등록하는 코드 -> 클릭할때마다 이벤트 등록만 반복
+    	$(".selectedProduct .quantity").on("click", e.target, function(e) {
+    		e.stopImmediatePropagation();
+    		
+    		let value = $(e.currentTarget).find('input[type="number"]').val();
+    		let btnUp = $(e.currentTarget).find('.quantity-up');
+    		let btnDown = $(e.currentTarget).find('.quantity-down');
+    		
+    		console.log(value);
+			
+			console.log(btnUp);
+			console.log(btnDown);
+			
+			// +
+			btnUp.on("click", () => {
+				console.log("+");
+			});
+			
+			// -
+			btnDown.on("click", () => {
+				console.log("+");
+			});
+    	});
+    	*/
+    	
+    	// +
+    	$(".quantity-up").on("click", function() {
+    		console.log("+");
+    		
+    		let input = $(this).parent().siblings('input[type="number"]');
+    		
+    		let value = input.val();
+    		
+    		console.log(value);
+    		
+    		value = isNaN(value) ? 1 : value;
+    		
+    		value++;
+    		
+    		// max 이상 입력 불가
+    		(value > input.attr('max')) ? value = input.attr('max') : value;
+    		
+    		console.log(value);
+    		
+    		input.val(value);
+    	});
+    	
+    	// -
+    	$(".quantity-down").on("click", function() {
+			console.log("-");
+    		
+			let input = $(this).parent().siblings('input[type="number"]');
+			
+    		let value = input.val();
+    		
+    		console.log(value);
+    		
+    		value--;
+    		
+    		// min(1) 미만 입력 불가능
+    		(value < input.attr('min')) ? value = input.attr('min') : value;
+    		
+    		console.log(value);
+    		
+    		input.val(value);
+    	});
+    	
+    	
+    	// 선택 옵션 삭제
+    	$(".selectedProduct").on("click", ".cart-delete", function(e) {
+    		console.log("삭제");
+    		
+    		e.preventDefault();
+    		 
+			$(this).closest('.selectedProduct').remove();
+    	});
+    	
+	});    
     
-    // 숫자 3자리마다 , 찍기
+    // 숫자 3자리마다 ',' 찍기
     function toCommas(value) {
 	    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원";
 	}
     
-    // 수량 선택
-    $('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
-   
-    $(document).on('click', '.quantity-button', function() {    
-	    $('.quantity').each(function() {
-	      var spinner = $(this),
-	        input = spinner.find('input[type="number"]'),
-	        btnUp = spinner.find('.quantity-up'),
-	        btnDown = spinner.find('.quantity-down'),
-	        min = 1,
-	        max = 99;
+	// 장바구니	
+	$(document).on("click", "#addCart", function() {	
+		let itemArr = new Array();
+		
+		$(".selected-wrap ul").find(".selectedOption").each(function() {
+			console.log($(this));
+			console.log($(this).next);
+			
+			var product = `${ product.proName }`;	
+			var productNumber = `${ product.proNo }`;
+			var optionNumber = $(this).next().val();
+			var option = $(this).text();			
+			var quantity = $(this).siblings(".quantity").children("input[type='number']").val(); // 수량
+			
+			console.log("option : " + option);
+			console.log("optionNumber : " + optionNumber);
+			console.log("quantity : " + quantity);
+			
+			let item = {
+					proNo : productNumber,
+					proName : product,
+					proOptNo : optionNumber,
+					proOpt : option,
+					cartQty : quantity
+			}
+			
+			console.log("item : " + item);
+			
+			itemArr.push(item);
+		});
+		
+		console.log(itemArr);	
+		console.log(JSON.stringify(itemArr));
+		
+		$.ajax({
+		    type : "post",
+		    url : "${ path }/add_cart", 
+		    data : 
+		    	JSON.stringify(itemArr)
+		    ,
+		    contentType : 'application/json; charset=UTF-8',
+		    error : function(request, error) {
+		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+		    	
+		    	if(request.status === 500){
+		    		alert("장바구니에 동일한 상품이 있습니다.")
+		    	}
+		    	else if(request.status === 400){		    		
+			    	alert("우선 로그인해주세요");
+			    	window.location = "${ path }/login";
+		    	}
+		    },
+		    success : function(data) {
+				console.log("ajax success");
+				console.log("data : " + data);
+				
+				alert("장바구니에 담았습니다.");	
+		    }
+		});
+	});
 	
-	      btnUp.click(function() {
-	        var oldValue = parseFloat(input.val());
-	        
-	        console.log(oldValue);
-	        
-	        if (oldValue >= max) {
-	          var newVal = oldValue;
-	        } else {
-	          var newVal = oldValue + 1;
-	        }
-	        
-	        console.log(newVal);
-	        
-	        spinner.find("input").val(newVal);
-	        spinner.find("input").trigger("change");
-	      });
-	
-	      btnDown.click(function() {
-	        var oldValue = parseFloat(input.val());
-	        console.log(oldValue);
-	        if (oldValue <= min) {
-	          var newVal = oldValue;
-	        } else {
-	          var newVal = oldValue - 1;
-	        }
-	        console.log(newVal);
-	        spinner.find("input").val(newVal);
-	        spinner.find("input").trigger("change");
-	      });
-	    });    
-    });
+	// 찜
+	$("#addWish").click(function() {
+		var selected = $(this);
+		var productNo = ${ product.proNo };
+        
+		console.log(productNo);
+		console.log(selected);
+		
+        console.log(JSON.stringify(productNo));
+        
+        $.ajax({
+			type : "post",
+			url : "${ path }/add_wish",
+			data : 
+				JSON.stringify(productNo),
+			contentType : 'application/json; charset=UTF-8',
+			error : function(request, error){
+		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+		    	
+		    	if(request.status === 500){
+		    		alert("이미 찜");
+		    	}
+		    	else if(request.status === 400){		    		
+			    	alert("우선 로그인해주세요");
+			    	window.location = "${ path }/login";
+		    	}
+			},
+			success : function(data){
+				console.log("ajax success");
+				console.log(data);
+				
+				if(data === "Wish Added" || data === "Wish Again"){
+					alert("찜 성공");
+				}
+				else if(data === "Wish Deleted"){
+					alert("찜 삭제");
+				}
+				
+			}
+		});     
+	});
 
     // 리뷰 작성
     $("#writeReview").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "${ path }/write_review";
+        var loginMember = "<%= session.getAttribute("loginMember") %>";
+        var no = ${ product.proNo };
+        const url = "${ path }/write_review?no=" + no;
         
-        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        if(loginMember == "null"){
+        	alert("로그인 후 이용이 가능합니다.");
+        	
+        	window.location = "${ path }/login";
+        } else{
+        	
+        	open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        }               
     });
 
     // 문의 작성
     $("#writeQnA").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "${ path }/write_qna";
+        var loginMember = "<%= session.getAttribute("loginMember") %>";
+        var no = ${ product.proNo };
+        const url = "${ path }/write_qna?no=" + no;
         
-        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        console.log(loginMember);
+        console.log(typeof(loginMember));
+        
+        if(loginMember == "null"){
+        	alert("로그인 후 이용이 가능합니다.");
+        	
+        	window.location = "${ path }/login";
+        } else{
+        	
+        	open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        }
+	});
+    
+    // 문의 - 비밀글 조회
+    $(".inquiry-li a").on("click", function(e){
+    	var loginMemberId = `${ memberId }`;
+		var inquiryMemberId = $(this).find(".inquiry-writerId").text();
+    	
+		if(loginMemberId != inquiryMemberId && loginMemberId != "admin1"){
+			alert("비밀글입니다.");
+			
+			$(".inquiry-li").accordian({
+				active: false, collapsible: true, active: true
+			});
+		}		
     });
 </script>
 

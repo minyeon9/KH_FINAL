@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.dao.StoreMapper;
+import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
+import com.kh.earth.store.model.vo.Wish;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -122,12 +125,106 @@ public class StoreServiceImpl implements StoreService {
 		return mapper.findProductByNo(no);
 	}
 
+	// 상품 상세 - 상품 옵션 가져오기
 	@Override
 	public List<ProductOption> findProductOption(int no) {
 		
 		return mapper.findProductOption(no);
 	}
 
+	// 상품 상세 - 장바구니 담기
+	@Override
+	public int addCart(Cart cart) {
+		
+		return mapper.addToCart(cart);
+	}
+
+	// 장바구니 조회
+	@Override
+	public List<Cart> getCartList(int no) {
+		
+		return mapper.getCartList(no);
+	}
+
+	// 상품 번호로 상품 이름 조회
+	@Override
+	public String getProductNameByNo(int productNo) {
+		
+		return mapper.getProductNameByNo(productNo);
+	}
+
+	// 찜하기
+	@Override
+	public int addWish(Wish wish) {
+		
+		return mapper.addToWish(wish);
+	}
+
+	// 찜 여부 조회
+	@Override
+	public int getWish(Wish wish) {
+		
+		return mapper.getWish(wish);
+	}
+
+	// 찜 삭제
+	@Override
+	public int updateWish(Wish wish) {
+		
+		return mapper.updateWish(wish);
+	}
+
+	// 찜 이력 조회
+	@Override
+	public String getWishStat(Wish wish) {
+		
+		return mapper.getWishStat(wish);
+	}
+
+	// 찜 목록 조회
+	@Override
+	public List<Product> getWishList(PageInfo pageInfo, int no) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);			
+		
+		return mapper.getWishList(rowBounds, no);
+	}
+
+	// 찜 개수 조회
+	public int getWishCount(int no) {
+		
+		return mapper.getWishCount(no);
+	}
+
+	// 상품 문의 작성
+	@Override
+	public int writeQna(ProductInquiry productInquiry) {
+		
+		return mapper.writeQna(productInquiry);
+	}
+
+	// 상품 문의 목록 조회
+	@Override
+	public List<ProductInquiry> getProductInqList(PageInfo inqPageInfo, int no) {
+		int offset = (inqPageInfo.getCurrentPage() - 1) * inqPageInfo.getListLimit();
+		int limit = inqPageInfo.getListLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);	
+		
+		return mapper.getProductInqList(rowBounds, no);
+	}
+
+
+	// 상품 문의 개수 조회
+	@Override
+	public int getProductInqCount(int no) {
+		
+		return mapper.getProductInqCount(no);
+	}
+
+	
 	
 
 	

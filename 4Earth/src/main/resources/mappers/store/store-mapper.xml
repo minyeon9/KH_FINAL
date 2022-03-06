@@ -59,6 +59,31 @@
 		<result property="proRating" column="P_PRO_RATING"/>
 		<collection property="option" javaType="arraylist" resultMap="ProductOptionResultMap"/>
 	</resultMap>
+	
+	<resultMap type="Cart" id="CartListResultMap">
+		<id property="memberNo" column="C_MEMBER_NO"/>
+		<result property="proNo" column="C_PRO_NO"/>
+		<result property="proName" column="P_PRO_NAME"/>
+		<result property="proPrice" column="P_PRO_PRICE"/>
+		<result property="proOpt" column="O_O_NAME"/>
+		<result property="proOptNo" column="C_PRO_OPT"/>
+		<result property="cartQty" column="C_CART_QTY"/>
+		<result property="cartStat" column="C_CART_STAT"/>
+		<result property="cartDate" column="C_CART_DATE"/>
+		<result property="proStat" column="P_PRO_STAT"/>
+	</resultMap>
+	
+	<resultMap type="ProductInquiry" id="ProductInqListResultMap">
+		<id property="proNo" column="I_PRO_NO"/>
+		<result property="memberNo" column="I_MEMBER_NO"/>
+		<result property="memberId" column="M_ID"/>
+		<result property="inqNo" column="I_INQ_NO"/>
+		<result property="inqDate" column="I_INQ_DATE"/>
+		<result property="inqModDate" column="I_INQ_MOD_DATE"/>
+		<result property="inqTitle" column="I_INQ_TITLE"/>
+		<result property="inqContent" column="I_INQ_CONTENT"/>
+		<result property="inqStat" column="I_INQ_STAT"/>
+	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
@@ -190,8 +215,6 @@
 			ORDER BY PRO_PRICE DESC
 		</if>			
 	</select>
-	
-
 
 	<select id="findProductOption" parameterType="_int" resultMap="ProductOptionResultMap">
 		SELECT PRO_NO AS O_PRO_NO,
@@ -221,6 +244,147 @@
 		FROM PRODUCT P
 		LEFT OUTER JOIN PRODUCT_OPT O ON(P.PRO_NO = O.PRO_NO)
 		WHERE P.PRO_NO = #{no}
+	</select>
+	
+	<insert id="addToCart" parameterType="Cart">
+		INSERT INTO CART (
+			MEMBER_NO, 
+			PRO_NO, 
+			PRO_OPT, 
+			CART_QTY, 
+			CART_STAT, 
+			CART_DATE
+		) VALUES (
+			3,
+			#{proNo},
+			#{proOptNo},
+			#{cartQty},
+			'Y',
+			DEFAULT
+		)
+	</insert>
+	
+	<select id="getCartList" parameterType="_int" resultMap="CartListResultMap">
+		SELECT DISTINCT C.MEMBER_NO AS C_MEMBER_NO,
+		       C.PRO_NO AS C_PRO_NO,
+		       P.PRO_NAME AS P_PRO_NAME,
+		       P.PRO_PRICE AS P_PRO_PRICE,
+		       C.PRO_OPT AS C_PRO_OPT,
+		       O.O_NAME AS O_O_NAME,
+		       C.CART_QTY AS C_CART_QTY,
+		       C.CART_STAT AS C_CART_STAT,
+		       P.PRO_STAT AS P_PRO_STAT,
+		       C.CART_DATE AS C_CART_DATE
+		FROM CART C
+		JOIN PRODUCT P ON(C.PRO_NO = P.PRO_NO)
+		JOIN PRODUCT_OPT O ON(C.PRO_OPT = O.O_NO)
+		WHERE 
+			C.MEMBER_NO = #{no}
+		    AND C.CART_STAT = 'Y'
+		    AND P.PRO_STAT = 3
+	</select>
+	
+	<select id="getProductNameByNo" parameterType="_int" resultType="string">
+		SELECT PRO_NAME
+		FROM PRODUCT 
+		WHERE PRO_NO = #{no}
+	</select>
+	
+	<insert id="addToWish" parameterType="Wish">
+		INSERT INTO WISH (
+		    PRO_NO,
+		    WISH_STAT,
+		    MEMBER_NO,
+		    WISH_DATE
+		)
+		VALUES (
+		    #{proNo},
+		    'Y',
+		    #{memberNo},
+		    DEFAULT
+		)
+	</insert>
+	
+	<select id="getWish" parameterType="Wish" resultType="_int">
+		SELECT COUNT(*)
+		FROM WISH
+		WHERE MEMBER_NO = #{memberNo}
+			  AND PRO_NO = #{proNo}
+	</select>
+	
+	<select id="getWishStat" parameterType="Wish" resultType="string">
+		SELECT WISH_STAT
+		FROM WISH
+		WHERE MEMBER_NO = #{memberNo}
+			  AND PRO_NO = #{proNo}
+	</select>
+	
+	<update id="updateWish" parameterType="Wish">
+		UPDATE WISH
+		SET WISH_STAT = #{wishStat}
+		WHERE MEMBER_NO = #{memberNo}
+			  AND PRO_NO = #{proNo}		
+	</update>
+	
+	<select id="getWishList" parameterType="_int" resultMap="ProductListResultMap">
+		SELECT W.PRO_NO,
+		       P.PRO_NAME,
+		       P.PRO_PRICE,
+		       P.PRO_RATING
+		FROM WISH W
+		JOIN PRODUCT P ON(W.PRO_NO = P.PRO_NO)
+		WHERE WISH_STAT = 'Y' AND MEMBER_NO = #{no}
+	</select>
+	
+	<select id="getWishCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM WISH
+		WHERE MEMBER_NO = #{no}
+			  AND WISH_STAT = 'Y'
+	</select>
+	
+	<insert id="writeQna" parameterType="ProductInquiry">
+		INSERT INTO PRODUCT_INQUIRY(
+			PRO_NO, 
+			MEMBER_NO, 
+			INQ_NO, 
+			INQ_DATE, 
+			INQ_MOD_DATE, 
+			INQ_TITLE, 
+			INQ_CONTENT, 
+			INQ_STAT
+		)
+		VALUES (
+			#{proNo}, 
+			#{memberNo}, 
+			SEQ_INQNO.NEXTVAL, 
+			DEFAULT, 
+			DEFAULT, 
+			#{inqTitle}, 
+			#{inqContent}, 
+			'N'
+		)
+	</insert>
+	
+	<select id="getProductInqCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCT_INQUIRY
+		WHERE PRO_NO = #{no}
+	</select>
+	
+	<select id="getProductInqList" parameterType="_int" resultMap="ProductInqListResultMap">
+		SELECT I.PRO_NO AS I_PRO_NO, 
+			I.MEMBER_NO AS I_MEMBER_NO, 
+			M.ID AS M_ID, 
+			I.INQ_NO AS I_INQ_NO, 
+			I.INQ_DATE AS I_INQ_DATE, 
+			I.INQ_MOD_DATE AS I_INQ_MOD_DATE, 
+			I.INQ_TITLE AS I_INQ_TITLE, 
+			I.INQ_CONTENT AS I_INQ_CONTENT, 
+			I.INQ_STAT AS I_INQ_STAT
+		FROM PRODUCT_INQUIRY I
+		JOIN MEMBER M ON(I.MEMBER_NO = M.NO)
+		WHERE PRO_NO = #{no}
 	</select>
 
 </mapper>
