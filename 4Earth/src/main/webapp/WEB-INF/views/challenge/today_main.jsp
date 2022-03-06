@@ -30,6 +30,27 @@
                 <div class="challenge today">
                     <div class="how-to">
                         <strong>오늘의 챌린지 참여 방법</strong>
+                        
+                        <div class="slide">
+                        	<div class="slide-inner">
+	                        	<ul>
+	                        		<li>
+										<img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">                        		
+	                        		</li>
+	                        		<li>
+										<img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">                        		
+	                        		</li>
+	                        		<li>
+										<img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">                        		
+	                        		</li>
+	                        	</ul>
+	                        	<ul class="control">
+	                        		<a href="javascript:void(0);" type="button">1</a>
+	                        		<a href="javascript:void(0);" type="button">2</a>
+	                        		<a href="javascript:void(0);" type="button">3</a>
+	                        	</ul>
+	                        </div>
+                        </div>
                     </div>
 					<p>회원번호: ${ loginMember.no }</p>
                     <div class="thumb-list">

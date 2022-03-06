@@ -4,6 +4,7 @@
 }
 /* 오늘의 챌린지 */
 .challenge .how-to {
+	overflow: hidden;
     background: #f9f9f9;
     border: 1px solid #ddd;
     padding: 20px 20px 30px 20px;
@@ -33,49 +34,49 @@
     font-size: 16px;
     font-weight: 400;
 }
-.challenge .how-to ul {
+.challenge .how-to .example ul {
     display: flex;
     justify-content: space-between;
     margin-top: 40px;
 }
-.challenge .how-to ul li {
+.challenge .how-to .example ul li {
     width: 50%;
     text-align: center;
     padding: 0 20px;
 }
-.challenge .how-to ul li img {
+.challenge .how-to .example ul li img {
     display: block;
     border: 5px solid #516ab9;
     border-radius: 50%;
     margin: 0 auto 20px;
 }
-.challenge .how-to ul li:last-child img {
+.challenge .how-to .example ul li:last-child img {
     border: 5px solid #c91717;
 }
-.challenge .how-to ul li strong {
+.challenge .how-to .example ul li strong {
     display: block;
     color: #516ab9;
     font-size: 18px;
     font-weight: 400;
     margin-bottom: 10px;
 }
-.challenge .how-to ul li:last-child strong {
+.challenge .how-to .example ul li:last-child strong {
     color: #c91717;
 }
-.challenge .how-to ul li strong i {
+.challenge .how-to .example ul li strong i {
     vertical-align: top;
 }
-.challenge .how-to ul li:last-child strong i {
+.challenge .how-to .example ul li:last-child strong i {
     vertical-align: bottom;
 }
-.challenge .how-to ul li p {
+.challenge .how-to .example ul li p {
     color: #666;
     font-size: 15px;
 }
 .challenge .thumb-list ul li:hover {
     border: 1px solid #ccc;
 }
-.challenge .how-to ul li:last-child {
+.challenge .how-to .example ul li:last-child {
     border-left: 1px dashed #ccc;
 }
 .challenge .thumb-list ul li .num {
@@ -87,7 +88,7 @@
     color: #fff;
     font-style: normal;
     background: #67b16b;
-    border-radius: 0 0 10xp 0;
+    border-radius: 0 0 10px 0;
     padding: 4px 10px;
     box-sizing: border-box;
     z-index: 1;
@@ -789,17 +790,50 @@
 
 
 /* slide */
-.challenge .slider {
-	float: none;
+.slide {
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	margin-top: 20px;
 }
-/* .challenge .how-to .slider {
+.slide-inner {
+	width: 1000%;
+}
+.slide ul {
+}
+.slide ul li {
+	float: left;
+	width: 768px;
+}
+.slide ul li img {
 	width: 100%;
 }
-.challenge .how-to .slider ul li {
-	width: 100%;
-	padding: 0;
+.slide .control {
+	position: absolute;
+	bottom: 30px;
+	left: 50%;
+	transform: translateX(-50%);
 }
-.challenge .how-to .slider ul li img {
-	border-radius: 0;
-	border: 0;
-} */
+.slide .control a {
+	display: inline-block;
+	position: relative;
+	width: 15px;
+	height: 15px;
+	text-indent: -999em;
+}
+.slide .control a + a {
+	margin-left: 10px;
+}
+.slide .control a:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	border-radius: 50%;
+}
+
+
+
