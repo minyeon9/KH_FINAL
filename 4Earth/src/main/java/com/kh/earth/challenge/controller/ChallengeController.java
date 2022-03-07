@@ -205,7 +205,7 @@ public class ChallengeController {
 		log.info("현재 페이지 번호 : {}", page);
 		
 		listCount = service.getBoardCount();
-		pageInfo = new PageInfo(page, 10, listCount, 6);
+		pageInfo = new PageInfo(page, 10, listCount, 8);
 		monthList = service.getMonthList(pageInfo);
 		
 		log.info("전체 게시글 개수 : {}", listCount);
