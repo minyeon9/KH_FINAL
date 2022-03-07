@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.challenge.model.dao.ChallengeMapper;
 import com.kh.earth.challenge.model.vo.Month;
+import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
@@ -34,12 +35,13 @@ public class ChallengeServiceImpl implements ChallengeService {
 		return mapper.selectTodayListByNo(chalNo);
 	}
 	
-	// 오늘의 챌린지 인증 완료
+	// 오늘의 챌린지 인증 저장
 	@Override
 	public int saveTodayMemberList(Map<String, Object> map) {
 		return mapper.insertTodayMember(map);
 	}
-
+	
+	// 오늘의 챌린지 인증 완료
 	@Override
 	public List<TodayMember> findChalTitle(Map<String, Object> map) {
 		return mapper.findChalTitle(map);
@@ -87,6 +89,18 @@ public class ChallengeServiceImpl implements ChallengeService {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		return mapper.findAllMonthArrange(rowBounds, arrange);
+	}
+	
+	// 이달의 챌린지 참여 회원 저장
+	@Override
+	public int saveMonthMemberList(Map<String, Object> map) {
+		return mapper.insertMonthMember(map);
+	}
+	
+	// 이달의 챌린지 완료
+	@Override
+	public List<MonthMember> findMonthCompleteList(Map<String, Object> map) {
+		return mapper.findMonthCompleteList(map);
 	}
 
 	

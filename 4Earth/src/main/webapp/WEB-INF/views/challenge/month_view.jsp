@@ -20,13 +20,14 @@
                     <div class="page-tit">
                         <h3>이달의 챌린지</h3>
                         <div class="bread-crumb">
-                            <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">에코 챌린지</a>
+                            <a href="${ path }"><i class="material-icons md-16">home</i></a>
+                            <a href="${ path }/today_main">에코 챌린지</a>
                             <span>이달의 챌린지</span>
                         </div>
                     </div>
-
+			
                     <div class="challenge">
+                    <p>${ loginMember.no }</p>
                         <div class="month-challenge-detail">
                             <div class="img-thumb">
                                 <img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">

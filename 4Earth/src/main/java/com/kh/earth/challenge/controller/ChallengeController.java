@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.earth.challenge.model.service.ChallengeService;
 import com.kh.earth.challenge.model.vo.Month;
+import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.FileProcess;
@@ -69,8 +70,8 @@ public class ChallengeController {
 		}
 		
 		model.addObject("todayList", todayList);
-		model.setViewName("challenge/today_list");
 		model.addObject("myListNumber", myListNumber);
+		model.setViewName("challenge/today_list");
 
 		return model;
 	}
@@ -94,7 +95,7 @@ public class ChallengeController {
 	}
 	
 	
-	// 오늘의 챌린지 완료
+	// 오늘의 챌린지 작성 및 완료
 	@GetMapping("/today_complete")
 	public ModelAndView todayComplete(
 			ModelAndView model,
@@ -102,7 +103,6 @@ public class ChallengeController {
 			@RequestParam("chalNo") int chalNo) {
 		
 		Map<String, Object> map = new HashMap<>();
-		
 		map.put("chalNo", chalNo);
 		map.put("no", loginMember.getNo());
 		
@@ -114,7 +114,7 @@ public class ChallengeController {
 		return model;
 	}
 
-	// 오늘의 챌린지 인증 저장 및 완료
+	// 오늘의 챌린지 작성 및 완료
 	@PostMapping("/today_complete")
 	public ModelAndView todayComplete(
 			ModelAndView model,
@@ -217,9 +217,7 @@ public class ChallengeController {
 		return model;
 	}
 	
-	
-	
-	
+	// 이달의 챌린지 목록 정렬
 	@GetMapping("/challenge_arrange")
 	public ModelAndView productArrange(
 			ModelAndView model,
@@ -234,7 +232,7 @@ public class ChallengeController {
 		List<Month> monthList = null;
 		
 		listCount = service.getBoardCount();
-		pageInfo = new PageInfo(page, 10, listCount, 6);
+		pageInfo = new PageInfo(page, 10, listCount, 8);
 		monthList = service.getMonthList(pageInfo, arrange);
 		
 		log.info("{}", monthList);
@@ -247,9 +245,6 @@ public class ChallengeController {
 		
 		return model;
 	}
-	
-	
-	
 	
 	// 이달의 챌린지 상세 조회
 	@GetMapping("/month_view")
@@ -271,31 +266,105 @@ public class ChallengeController {
 	
 	// 이달의 챌린지 작성
 	@GetMapping("/month_write")
-	public String monthWrite() {
-			//ModelAndView model,
-			// @RequestParam("chalNo") int chalNo) {
-//		Today today = service.findTodayListByNo(chalNo);
-//		
-//		model.addObject("today", today);
-//		model.setViewName("challenge/today_view");
-//		
-//		System.out.println("챌린지 번호 : " + chalNo);
-//		
-//		return model;
+	public ModelAndView monthWrite(
+			ModelAndView model,
+			@RequestParam("chalNo") int chalNo) {
 		
-		return ("challenge/month_write");
+		Month month = service.findMonthListByNo(chalNo);
+		
+		model.addObject("month", month);
+		model.setViewName("challenge/month_write");
+		
+		System.out.println("챌린지 번호 : " + chalNo);
+
+		return model;
+		
 	}
 	
-	// 이달의 챌린지 완료
+	// 이달의 챌린지 저장 및 완료
 	@GetMapping("/month_complete")
-	public String monthComplete() {
-		return ("challenge/month_complete");
+	public ModelAndView monthComplete(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("chalNo", chalNo);
+		map.put("no", loginMember.getNo());
+		
+		List<MonthMember> list = service.findMonthCompleteList(map);
+		
+		model.addObject("list", list.get(0));
+		
+		model.setViewName("challenge/month_complete");
+		
+		return model;
 	}
 	
-	
-	
-	
-	
+	// 이달의 챌린지 저장 및 완료
+	@PostMapping("/month_complete")
+	public ModelAndView monthComplete(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo,
+			@RequestParam("upfile") MultipartFile upfile) {
+		
+		Map<String, Object> map = new HashMap<>();
+		MonthMember monthMember = new MonthMember();
+		
+		map.put("chalNo", chalNo);
+		map.put("no", loginMember.getNo());
+		
+		int result = 0;
+		
+		log.info("Upfile Name : {}", upfile.getOriginalFilename()); // 파일 미 업로드 시 빈 문자열 출력
+		log.info("Upfile isEmpty : {}", upfile.isEmpty()); // 첨부파일이 없을 경우 true, 있을 경우 false
+		
+		// 파일 저장
+		if( upfile != null && !upfile.isEmpty() ) {
+			String renamedFileName = null;
+			String location = null;
+			
+			try {
+				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				renamedFileName = FileProcess.save(upfile, location);
+				
+				System.out.println("이미지 저장 경로: " + location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if ( renamedFileName != null ) {
+				monthMember.setOriginalFilename(upfile.getOriginalFilename());
+				monthMember.setRenamedFilename(renamedFileName);
+				
+				map.put("originalFilename", upfile.getOriginalFilename());
+				map.put("renamedFilename", renamedFileName);
+			}
+		}
+		
+		result = service.saveMonthMemberList(map);
+		
+		// 게시글 저장
+		monthMember.setChalNo(chalNo);
+		
+		if ( result > 0 ) {
+			model.addObject("msg", "이달의 챌린지 인증이 완료되었습니다.");
+			model.addObject("location", "/month_complete?chalNo=" + chalNo);
+			
+			System.out.println("저장 챌린지 번호: " + chalNo);
+			System.out.println("회원번호 : " + loginMember.getNo());
+			
+		} else {
+			model.addObject("msg", "이달의 챌린지 인증을 실패했습니다.");
+			model.addObject("location", "/month_list");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	
 	

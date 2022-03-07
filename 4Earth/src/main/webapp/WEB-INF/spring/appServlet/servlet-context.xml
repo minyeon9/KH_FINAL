@@ -40,6 +40,7 @@
 	 		<mapping path="/today_view"/>
 	 		<mapping path="/today_complete"/>
 	 		<mapping path="/month_view"/>
+	 		<mapping path="/month_write"/>
 	 		<mapping path="/month_complete"/>
 			
 			<beans:bean class="com.kh.earth.common.interceptor.LoginCheckInterceptor" id="LoginCheckInterceptor"/>

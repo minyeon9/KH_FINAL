@@ -74,9 +74,10 @@
 		<id property="no" column="NO" />
 		<result property="memNo" column="MEM_NO" />
 		<result property="chalNo" column="CHAL_NO" />
+		<result property="chalTitle" column="T_CHAL_TITLE" />
 		<result property="chalDate" column="CHAL_DATE" />
 		<result property="originalFilename" column="ORIGINAL_FILENAME" />
-		<result property="renamedFilename" column="RENAMED_FILENAME" />
+		<result property="renamedFilename" column="M_RENAMED_FILENAME" />
 		<result property="chalPoint" column="CHAL_COUNT" />
 		<result property="chalStatus" column="CHAL_STATUS" />
 		<result property="chalPoint" column="CHAL_POINT" />
@@ -107,7 +108,6 @@
 		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
 		WHERE M.CHAL_NO = #{ chalNo } AND M.MEM_NO = #{ no }
 	</select>
-	
 	
   	<!-- 오늘의 챌린지 인증 시 참여 회원 저장 -->
   	<insert id="insertTodayMember" parameterType="map" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
@@ -203,7 +203,42 @@
 		WHERE CHAL_NO = #{ chalNo }
 	</select>
 	
+	<!-- 이달의 챌린지 인증 완료 시, 완료 챌린지명 / 파일명 조회 -->
+	<select id="findMonthCompleteList" parameterType="map" resultMap="MonthMemberResultMap">
+		SELECT
+		    T.CHAL_TITLE AS T_CHAL_TITLE,
+		    M.RENAMED_FILENAME AS M_RENAMED_FILENAME
+		FROM CHAL_MONTH_MEM M
+		JOIN CHAL_MONTH T ON (M.CHAL_NO = T.CHAL_NO)
+		WHERE M.CHAL_NO = #{ chalNo } AND M.MEM_NO = #{ no }
+	</select>
 	
+	<!-- 이달의 챌린지 인증 시 참여 회원 저장 -->
+  	<insert id="insertMonthMember" parameterType="map" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
+		INSERT INTO CHAL_MONTH_MEM (
+		    NO,
+		    MEM_NO,
+		    CHAL_NO,
+		    CHAL_DATE,
+		    ORIGINAL_FILENAME,
+		    RENAMED_FILENAME,
+		    CHAL_COUNT,
+		    CHAL_STATUS,
+		    CHAL_POINT,
+		    CHAL_POINT_STATUS
+		) VALUES (
+		    SEQ_CHLG_MONTH_MEM.NEXTVAL,
+		    #{ no },
+		    #{ chalNo },
+		    SYSDATE,
+		    #{ originalFilename },
+			#{ renamedFilename },
+		    1,
+		    DEFAULT,
+		    1000,
+		    DEFAULT
+		)
+	</insert>
 	
 	
 	

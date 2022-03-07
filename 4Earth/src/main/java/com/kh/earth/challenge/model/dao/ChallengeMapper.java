@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.earth.challenge.model.vo.Month;
+import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 
@@ -20,7 +21,7 @@ public interface ChallengeMapper {
 	// 오늘의 챌린지 상세 조회
 	Today selectTodayListByNo(@Param("chalNo") int chalNo);
 	
-	// 오늘의 챌린지 인증 저장 및 완료
+	// 오늘의 챌린지 참여 회원 저장 및 완료
 	int insertTodayMember(Map<String, Object> map);
 	List<TodayMember> findChalTitle(Map<String, Object> map);
 	
@@ -38,6 +39,10 @@ public interface ChallengeMapper {
 
 	// 이달의 챌린지 상세 조회
 	Month selectMonthListByNo(int chalNo);
+
+	// 이달의 챌린지 참여 회원 저장 및 완료
+	int insertMonthMember(Map<String, Object> map);
+	List<MonthMember> findMonthCompleteList(Map<String, Object> map);
 
 
 

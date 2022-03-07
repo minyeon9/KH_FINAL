@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.challenge.model.vo.Month;
+import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
@@ -22,7 +23,7 @@ public interface ChallengeService {
 	int saveTodayMemberList(Map<String, Object> map);
 	List<TodayMember> findChalTitle(Map<String, Object> map);
 	
-	// 오늘의 챌린지 참여 회원 조회
+	// 오늘의 챌린지 참여 회원 조회(내가 참여한 챌린지 체크)
 	List<TodayMember> findTodayMemberListByNo(int no);
 	
 
@@ -41,6 +42,13 @@ public interface ChallengeService {
 	
 	// 이달의 챌린지 목록 조회 + 페이징 + 정렬
 	List<Month> getMonthList(PageInfo pageInfo, String arrange);
+
+	// 이달의 챌린지 참여 회원 저장
+	int saveMonthMemberList(Map<String, Object> map);
+	
+	// 이달의 챌린지 완료
+	List<MonthMember> findMonthCompleteList(Map<String, Object> map);
+
 
 
 
