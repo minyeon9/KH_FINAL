@@ -41,8 +41,7 @@ public class ChallengeController {
 	// 오늘의 챌린지 메인
 	@GetMapping("/today_main")
 	public ModelAndView todayMain(
-			ModelAndView model,
-			@SessionAttribute(name = "loginMember") Member loginMember) {
+			ModelAndView model) {
 		List<Today> todayMain = service.getTodayList();
 		
 		model.addObject("todayMain", todayMain);
@@ -52,7 +51,6 @@ public class ChallengeController {
 	}
 	
 	// 오늘의 챌린지 목록 조회
-	// 회원번호로.. todayMember 조회 > chalNo > 해당 번호가 있으면 완료했다고 체크...!!
 	@GetMapping("/today_list")
 	public ModelAndView todayList(
 			ModelAndView model,
@@ -62,40 +60,17 @@ public class ChallengeController {
 		
 		List<Today> todayList = service.getTodayList();
 		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo());
-		// System.out.println(todayMemberList.toString());
-		
-		//본인이 참여할 챌린지 넘버를 넣을 배열
 		List<Integer> myListNumber = new ArrayList<>();
 		
-		
-		Map<String, Object> map = new HashMap<>();
 		int mapLenght = todayMemberList.size();
 		
-		System.out.println("내가 인증한 챌린지 갯수(mapLenght) : " + mapLenght);
-		
 		for( int i = 0; i < mapLenght; i++ ) {
-			// String chalNo = "chalNo" + i;
-			// map.put(chalNo, todayMemberList.get(i).getChalNo());
 			myListNumber.add(todayMemberList.get(i).getChalNo());
 		}
-		
-		Collection<Object> values = map.values();
-		
-		// System.out.println("map -> array : " + values);
-		
-		// model.addObject("values", values);
-		
-		// System.out.println("map : " + map);
 		
 		model.addObject("todayList", todayList);
 		model.setViewName("challenge/today_list");
 		model.addObject("myListNumber", myListNumber);
-		
-		System.out.println("myListNumber" + myListNumber);
-		
-		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
-		model.addObject("nameList", nameList);
-
 
 		return model;
 	}
