@@ -54,10 +54,11 @@
                                     <div class="select-wrap">
                                         <select name="" id="" class="selectbox">
                                             <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="1">n개씩 보기</option>
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
@@ -173,6 +174,10 @@
 	        if(idx == 1) {
 	            $(this).addClass('current');
 	        }
+	        
+	        $('#count-select').on('change',  (e) => {
+				location.replace("${ path }/admin/reported_list?count=" + e.target.value);
+			})
 	    });
 	    
 	    

@@ -17,19 +17,23 @@ public interface AdminMapper {
 
 	int getProductCount();
 
-	List<Report> getReportList(RowBounds rowBounds);
+	List<Report> getReportList(RowBounds rowBounds, Map<String, String> name);
 
 	int deleteReport(int no);
 	
 	int deleteMember(int no);
 
-	int getMemberCount();
+	int getMemberCount(Map<String, String> name);
 
 	List<Product> getProductList(RowBounds rowBounds);
 
 	List<Member> findMember(RowBounds rowBounds, Map<String, String> name);
 
-	List<Reported> getReportedList(RowBounds rowBounds, String name);
+	List<Reported> getReportedList(RowBounds rowBounds, Map<String, String> name);
 
 	Report getReportDetail(int no);
+
+	int getReportCount(Map<String, String> name);
+
+	int getReportedCount();
 }

@@ -52,17 +52,20 @@
                             <div style="margin-bottom: 5px;">
                                 <div class="board-head">
                                     <div class="select-wrap">
-                                        <select name="" id="" class="selectbox">
-                                            <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
+                                        <select name="" id="member-select" class="selectbox">
+                                            <option value="1" selected>번호순</option>
+                                            <option value="2">신고한순</option>
+                                            <option value="3">신고받은순</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="1">n개씩 보기</option>
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요.">
-                                            <button><i class="material-icons">search</i></button>
+                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                            <button id="search"><i class="material-icons">search</i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -100,15 +103,33 @@
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="report" items="${ list }">
+										<c:forEach var="report" items="${ list }" varStatus="vs">
 		                                    <tbody>
 		                                        <tr>
 		                                            <td>${ report.reportNo }</td>
-		                                            <td>${ report.reportedMemberNo }</td>
-		                                            <td>${ report.reportMemberNo }</td>
+		                                            <td>${ report.reportedMemberName }</td>
+		                                            <td>${ report.reportMemberName }</td>
 		                                            <td>${ report.reportDate }</td>
 		                                            <td>${ report.reportCategory }</td>
-		                                            <td><button class="btn btn-s gray" id="report_view" value="${ report.reportNo }">보기</button></td>
+		                                            <td>
+		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+					                                 <div class="layer-popup" id="popup${ vs.index }">
+						                                <div class="layer-inner">
+						                                    <div class="pop-head">
+						                                    	${ report.reportNo }
+						                                        <strong>${ report.reportTitle }</strong>
+						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+						                                    </div>
+						                                    <div class="pop-cont">
+						                                        ${ report.reportContent }
+						                                    </div>
+						                                    <div class="btn-wrap">
+						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button class="btn">저장</button>
+						                                    </div>
+						                                </div>
+						                            </div>
+                            						</td>
 		                                            <td>
 		                                                <button class="btn btn-s">등록</button>
 		                                                <button id="delete" name="no" value=${ report.reportNo } class="btn btn-s gray">정지</button>
@@ -177,6 +198,10 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	    
+	    $('#count-select').on('change',  (e) => {
+			location.replace("${ path }/admin/report_list?count=" + e.target.value);
+		})
 	});
 	
 	$(document).ready(() => {
@@ -193,6 +218,21 @@
 	        
 	        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 	    });
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click', '#search', () => {
+			console.log($("#member-select option:selected").val());
+			if($("#member-select option:selected").val() == 1) {
+				location.replace("${ path }/admin/report_list?no=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 2) {
+				location.replace("${ path }/admin/report_list?name=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 3) {
+				location.replace("${ path }/admin/report_list?name2=" + $("#search-val").val());
+			}
+		})
 	});
 </script>
 
