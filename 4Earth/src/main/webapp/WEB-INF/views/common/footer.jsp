@@ -9,7 +9,9 @@
         <footer>
             <div class="footer-about">
                 <div class="footer-inner">
-                    <a href="#" class="logo">logo</a>
+                    <a href="${ path }" class="logo">
+                    	<img src="${ path }/resources/images/common/logo_footer.png" alt="4Earth">
+                    </a>
 
                     <div class="follow-sns">
                         <strong>Follow Us</strong>
