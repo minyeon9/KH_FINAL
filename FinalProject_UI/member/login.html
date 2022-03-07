@@ -238,7 +238,67 @@
     </div>
 </body>
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
+    // 어떤 애플리케이션이 연동될것인지 설정(아까 복사한 우리 사이트의 js키)
+    window.Kakao.init("d33d858d13446389bd9ff29763e3a882");
+
+    function kakaoLogin(){
+        window.Kakao.Auth.login({
+            // 동의항목에서 설정한 정보들 ID를 설정해준다. 
+            scope:'profile_nickname, profile_image, account_email',
+            success: function(authObj){
+                console.log(authObj);
+                window.Kakao.API.request({
+                    url:'/v2/user/me',
+                    success: res => {
+                        const kakao_account = res.kakao_account;
+                        console.log(kakao_account);
+
+                        $.ajax({ 
+                            type: "post", 
+                            url: "${ path }/kakaologin",
+                            data: res,
+                            datatype: 'JSON',
+                            success: function(data) {
+                                
+                                console.log(res);
+                                console.log(Object.keys(kakao_account));
+                                console.log(Object.values(kakao_account));
+                                location.href="http://localhost:8088/4earth/";
+
+                            }, 
+                            error: function(error) {
+                                console.log("error", error );
+                            },
+                            complete: function() {
+                                console.log("complete");
+                            }
+                        });
+
+                    }
+                });
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['../index.html', 'login.html','signup.html'];

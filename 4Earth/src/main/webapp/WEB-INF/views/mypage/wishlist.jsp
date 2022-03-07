@@ -59,79 +59,55 @@
                             <br>                
                             <div class="thumb-list">
                                 <ul>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="../store/product-detail.html">상품명</a></strong>
-                                        <div class="price">가격</div>
-                                        <div class="review"><small>별점</small></div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="../store/product-detail.html">상품명</a></strong>
-                                        <div class="price">가격</div>
-                                        <div class="review"><small>별점</small></div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="../store/product-detail.html">상품명</a></strong>
-                                        <div class="price">가격</div>
-                                        <div class="review"><small>별점</small></div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="../store/product-detail.html">상품명</a></strong>
-                                        <div class="price">가격</div>
-                                        <div class="review"><small>별점</small></div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="../store/product-detail.html">상품명</a></strong>
-                                        <div class="price">가격</div>
-                                        <div class="review"><small>별점</small></div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="../store/product-detail.html">상품명</a></strong>
-                                        <div class="price">가격</div>
-                                        <div class="review"><small>별점</small></div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="../store/product-detail.html">상품명</a></strong>
-                                        <div class="price">가격</div>
-                                        <div class="review"><small>별점</small></div>
-                                    </li>
+                                    <c:if test="${ !empty list }">
+                                		<c:forEach var="product" items="${ list }">
+                                			<li>
+		                                        <div class="img-thumb">
+		                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                        </div>
+		                                        <div class="tag-wrap">
+		                                        	<c:if test="${ product.isNew lt 7 }">
+			                                            <span class="tag tag-orange">
+			                                            	NEW
+			                                            </span>
+		                                        	</c:if>
+		                                        </div>
+		                                        <input type="hidden" value="${ product.proNo }">
+		                                        <strong><a href="${ path }/product_detail?no=${ product.proNo }">${ product.proName }</a></strong>
+		                                        <div class="price">
+		                                        	<fmt:formatNumber value="${ product.proPrice }" pattern="##,###,###"/> 원
+		                                        </div>
+		                                        <div class="review">
+		                                        	<small>
+			                                        <span class="icon-star">
+		                                                <i class="unfill"></i>
+		                                                <i class="fill" style="width: ${ product.proRating * 20 }%"></i>
+		                                            </span>
+		                                        	${ product.proRating }
+		                                        	</small>
+		                                        </div>
+		                                        <div class="btn-wrap">
+		                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
+		                                        </div>
+		                                    </li>
+                                		</c:forEach>
+                                	</c:if>
                                 </ul>
                             </div>
                         </section>
 
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
-                            <a href="#">8</a>
-                            <a href="#">9</a>
-                            <a href="#">10</a>
-                            <a href="#" class="next"><span>다음</span></a>
+                            <a href="${ path }/wish_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+                            <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">				
+									<strong>${ status.current }</strong>
+								</c:if>
+								
+								<c:if test="${ status.current != pageInfo.currentPage }">				
+									<a href="${ path }/wish_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+                            <a href="${ path }/wish_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
                         </div>
 
 
@@ -165,13 +141,40 @@
         }
     });
 
-    $(".writeReview").on("click", () => {
-        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
-        var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "file:///C:/FINAL/FinalProject_UI/store/write-review.html";
+ // 찜
+    $(".heart.fa").click(function() {
+        var selected = $(this);
+    	var productNo = $(this).parents("li").find("input[type='hidden']").val();
         
-        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-    });
+        console.log(JSON.stringify(productNo));
+        
+		$.ajax({
+			type : "post",
+			url : "${ path }/add_wish",
+			data : 
+				productNo,
+			contentType : 'application/json; charset=UTF-8',
+			error : function(request, error){
+		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+		    	
+		    	if(request.status === 500){
+		    		alert("이미 찜");
+		    	}
+		    	else if(request.status === 400){		    		
+			    	alert("우선 로그인해주세요");
+			    	window.location = "${ path }/login";
+		    	}
+			},
+			success : function(data){
+				console.log("ajax success");
+				console.log(data);
+				
+				console.log(selected);
+				selected.toggleClass("fa-heart fa-heart-o");
+			}
+		});        
+    }); 
+	
 </script>
 
 </html>

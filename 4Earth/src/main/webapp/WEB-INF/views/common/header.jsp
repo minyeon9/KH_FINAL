@@ -14,9 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="resources/css/style.css">
-    <link rel="stylesheet" href="resources/css/jquery.fullPage.css">
     <script src="resources/js/jquery-3.6.0.js"></script>
-    <script src="resources/js/jquery.fullPage.js"></script>
     <script src="resources/js/ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="shortcut icon" href="resources/favicon.ico">
@@ -71,7 +69,7 @@
                     <li>
                         <h2><a href="#">에코 챌린지</a></h2>
                         <ul>
-                            <li><a href="${ path }//today_main">오늘의 챌린지</a></li>
+                            <li><a href="${ path }/today_main">오늘의 챌린지</a></li>
                             <li><a href="${ path }/month_list">이달의 챌린지</a></li>
                             <li><a href="${ path }/ongoing_list">참여 중인 챌린지</a></li>
                         </ul>

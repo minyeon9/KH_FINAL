@@ -104,18 +104,18 @@ $('#userId').keyup(function() {
   if (!idCheck.test($('#userId').val())) {
     $('#member-id').css('color', 'red').text("형식에 맞지 않음");
   } else {
-    $('#member-id').css('color', 'green').text("OK!");
+    $('#member-id').css('color', 'green').text("OK");
   }
 });
 
 /*
 // 비밀번호
-let passwordCheck = RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^~*+=-])(?=.*[0-9]).{8,16}$/);
+let passwordCheck = RegExp(/^(?=.*[A-Za-z])(?=.*[!@#$%)^~(*+=-])(?=.*\d).{8,16}$/);
 $('#userPwd').keyup(function() {
   if (!passwordCheck.test($('#userPwd').val())) {
     $('#member-password').css('color', 'red').text("형식에 맞지 않음");
   } else {
-    $('#member-password').css('color', 'green').text("형식에 맞음");
+    $('#member-password').css('color', 'green').text("OK");
   }
 });
 */
@@ -127,24 +127,44 @@ $('#userPwCheck').keyup(function(){
 
   if(passwd == passwdcheck){
     passCheck = true;
-    $('#member-passwordcheck').text('동일한 비밀번호 입니다.');
+    $('#member-passwordcheck').text('OK');
     $('#member-passwordcheck').css('color', '#08a600');
   }else{
     passCheck = false;
-    $('#member-passwordcheck').text('동일하지 않은 비밀번호 입니다.');
+    $('#member-passwordcheck').text('동일하지 않습니다.');
     $('#member-passwordcheck').css('color', 'red');
   }
 });
 
-/*
+
 // 이름
-let nameCheck = RegExp(/^[a-zA-Z가-힣]{2,}$/);
+let nameCheck = RegExp(/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,16}$/);
 $('#userName').keyup(function() {
   if (!nameCheck.test($('#userName').val())) {
     $('#member-name').css('color', 'red').text("형식에 맞지 않음");
   } else {
-    $('#member-name').css('color', 'green').text("형식에 맞음");
+    $('#member-name').css('color', 'green').text("OK");
   }
 });
-*/
 
+
+// 이메일
+let emailCheck = RegExp(/^[\w-]+@([\w-]+)\.([A-Za-z\.]{2,3})$/);
+$('#userEmail').keyup(function() {
+	if (!emailCheck.test($('#userEmail').val())) {
+		$('#member-email').css('color', 'red').text("형식에 맞지 않음");
+		} else {
+      $('#member-email').css('color', 'green').text("OK");
+    }
+});
+
+
+// 전화번호
+let phoneCheck = RegExp(/^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/);
+$('#userPhone').keyup(function() {
+	if (!phoneCheck.test($('#userPhone').val())) {
+		$('#member-phone').css('color', 'red').text("형식에 맞지 않음");
+		} else {
+      $('#member-phone').css('color', 'green').text("OK");
+    }
+});

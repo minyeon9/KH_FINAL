@@ -182,6 +182,7 @@
 			                                            </span>
 		                                        	</c:if>
 		                                        </div>
+		                                        <input type="hidden" value="${ product.proNo }">
 		                                        <strong><a href="${ path }/product_detail?no=${ product.proNo }">${ product.proName }</a></strong>
 		                                        <div class="price">
 		                                        	<fmt:formatNumber value="${ product.proPrice }" pattern="##,###,###"/> 원
@@ -232,8 +233,8 @@
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
-<script>
-    $(() => {
+<script>	
+	$(() => {
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['${ path }/product_list', '${ path }/bidding_list','${ path }/map'];
         let menuName = ['소분샵', '소분샵 입고 신청', '오프라인 매장 안내'];
@@ -250,33 +251,45 @@
         sideBarMenu.each(function(idx, el) {
             if(idx == 0) {
                 $(this).addClass('current');
+            } else {
+            	$(this).removeClass('current');
             }
         });
     });
 
-    // 찜 버튼
+    // 찜
     $(".heart.fa").click(function() {
-        $(this).toggleClass("fa-heart fa-heart-o");
-    });
-    
-    // 상품 정렬 
-    /* 
-    $("#store-arrange").on("change", () => {
-    	let arrange = $("#store-arrange option:selected").val();
-    	
-    	$.ajax({
-    		type: "get",
-    		url: "${ path }/product_list",
-    		data: {"arrange": arrange},
-    		success: (data) => {
-    			console.log(data);
-    		},
-    		error: (error) => {
-				console.log(error);
+        var selected = $(this);
+    	var productNo = $(this).parents("li").find("input[type='hidden']").val();
+        
+        console.log(JSON.stringify(productNo));
+        
+		$.ajax({
+			type : "post",
+			url : "${ path }/add_wish",
+			data : 
+				productNo,
+			contentType : 'application/json; charset=UTF-8',
+			error : function(request, error){
+		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+		    	
+		    	if(request.status === 500){
+		    		alert("이미 찜");
+		    	}
+		    	else if(request.status === 400){		    		
+			    	alert("우선 로그인해주세요");
+			    	window.location = "${ path }/login";
+		    	}
+			},
+			success : function(data){
+				console.log("ajax success");
+				console.log(data);
+				
+				console.log(selected);
+				selected.toggleClass("fa-heart fa-heart-o");
 			}
-    	});
-    });
-    */    
+		});        
+    }); 
      
     // 상세 필터 - 체크박스
     $(document).ready(() => {

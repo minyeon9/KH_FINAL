@@ -15,12 +15,13 @@
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 	
-	<div class="container">
+<div class="container">
+	<div class="contents">
 		<section class="content-wrap">
 		<div class="purchase-wrap">
 		
 	          <div class="page-tit">
-	              <h3></h3>
+	              <h3>장바구니</h3>
 	              <div class="bread-crumb">
 	                  <a href="#"><strong>장바구니</strong></a>
 	                  <a href="#">주문/결제</a>
@@ -32,7 +33,7 @@
 	
 	              <!-- Cart -->
 	              <section>
-	                  <strong>장바구니</strong>                            
+	                  	<c:set var="col_sum" value="0"/>                            
 	                      <table class="cart-table">
 	                          <thead>
 	                              <tr style="border-bottom: 2px solid rgb(206, 206, 206);">
@@ -41,45 +42,37 @@
 	                                  <th>금액</th>
 	                              </tr>
 	                          </thead>
-	                          <tbody>
-	                              <tr>
-	                                  <td>
-	                                      <div class="check-box">
-	                                          <input type="checkbox" id="checkbox1" checked> 
-	                                          <label for="checkbox1"></label>
-	                                      </div>
-	                                  </td>
-	                                  <td>
-	                                      <div class="cart-img">
-	                                          <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-	                                      </div>
-	                                  </td>
-	                                  <td colspan="2">
-	                                      <strong>상품명</strong>
-	                                      <p>옵션</p>
-	                                  </td>
-	                                  <td style="text-align: center;">구매량</td>
-	                                  <td style="text-align: center;">가격</td>
-	                              </tr>
-	                              <tr>
-	                                  <td>
-	                                      <div class="check-box">
-	                                          <input type="checkbox" id="checkbox2" checked> 
-	                                          <label for="checkbox2"></label>
-	                                      </div>
-	                                  </td>
-	                                  <td>
-	                                      <div class="cart-img">
-	                                          <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-	                                      </div>
-	                                  </td>
-	                                  <td colspan="2">
-	                                      <strong>상품명</strong>
-	                                      <p>옵션 그런데 이제 옵션명이 매우 긴 경우에</p>
-	                                  </td>
-	                                  <td style="text-align: center;">구매량</td>
-	                                  <td style="text-align: center;">가격</td>
-	                              </tr>
+	                          <tbody>	                              
+	                              <c:if test="${ !empty list }">
+		                              <c:forEach var="product" items="${ list }" varStatus="count">
+			                              <tr class="cart-list">
+			                                  <td>
+			                                      <div class="check-box">
+			                                          <input type="checkbox" id="checkbox${ count.count }"> 
+			                                          <label for="checkbox${ count.count }"></label>
+			                                      </div>
+			                                  </td>
+			                                  <td>
+			                                      <div class="cart-img">
+			                                          <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+			                                      </div>
+			                                  </td>
+			                                  <td colspan="2">
+			                                      <strong>${ product.proName }</strong>
+			                                      <p>${ product.proOpt }</p>
+			                                  </td>
+			                                  <td style="text-align: center;" id="qty">${ product.cartQty }</td>
+			                                  <td style="text-align: center;">
+				                                  <span id="priceForcheckbox${ count.count }" class="cart-price">
+					                                  <fmt:formatNumber value="${ product.proPrice * product.cartQty }" pattern="##,###,###"/> 원
+					                                  <input type="hidden" value="${ product.proPrice * product.cartQty }">
+				                                  </span>
+			                                  	  <c:set var="col_sum" value="${ col_sum + product.proPrice * product.cartQty }"/>
+			                                  </td>		                                 
+			                              </tr>
+		                              </c:forEach>
+	                              </c:if>
+	                              	
 	                          </tbody>
 	                          <tr id="cart-result1">
 	                              <th style="width: 20%; vertical-align: bottom;">
@@ -97,29 +90,35 @@
 	                              <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
 	                                  총 금액
 	                              </th>
-	                              <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
-	                                  7,500 원
+	                              <th rowspan="2" id="sum-final" style="vertical-align: middle; font-size: 18px;">	                                  
+	                                  <c:if test="${ col_sum ge 30000 }">
+	                                  	<fmt:formatNumber value="${ col_sum }" pattern="##,###,###"/> 원
+	                                  </c:if>
+	                                  <c:if test="${ col_sum lt 30000 }">
+	                                  	<fmt:formatNumber value="${ col_sum + 2500 }" pattern="##,###,###"/> 원
+	                                  </c:if>	                                  		                                  	
 	                              </th>
 	                          </tr>
 	                          <tr id="cart-result2">
-	                              <th style="vertical-align: top;">
-	                                  5,000 원
+	                              <th id="sum-product" style="vertical-align: top;">
+	                                  <fmt:formatNumber value="${ col_sum }" pattern="##,###,###"/> 원
 	                              </th>                                        
-	                              <th style="vertical-align: top;">
-	                                  2,500 원
+	                              <th id="sum-delivery" style="vertical-align: top;">
+	                                  <c:if test="${ col_sum ge 30000 }">
+		                                  0 원		                                 
+	                                  </c:if>
+	                                  <c:if test="${ col_sum lt 30000 }">
+	                                  	  2,500 원
+	                                  </c:if>
 	                              </th>                                        
 	                          </tr> 
 	                          <tr>
 	                              <th colspan="6">
-	                                  <button class="cart-btn">계속 쇼핑하기</button>
-	                                  <button onclick="location.href='${ path }/purchase_payment'" class="cart-btn">주문하기</button>
+	                                  <button class="cart-btn" onclick="location.href='${ path }/product_list'">계속 쇼핑하기</button>
+	                                  <button id="purchase" class="cart-btn">주문하기</button>
 	                              </th>
 	                          </tr>
-	                      </table>
-	                  <div>
-	                      
-	                      
-	                  </div>
+	                      </table>	                  
 	              </section>
 	              <!-- // Cart -->
 	
@@ -128,10 +127,104 @@
            </section>
            
            <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
-         </div>    
+         </div> 
+</div>    
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
+	// 체크박스
+	$(document).ready(() => {
+		$("input[type='checkbox']").prop("checked", true);
+		
+		var sum = ${ col_sum };
+
+		console.log("sum : " + sum);
+		console.log("typeOfsum : " + typeof(sum));
+		
+		$(".check-box input[type='checkbox']").on("change", (e) => {
+			var item = e.target;
+			
+			var price = parseInt($("#priceFor"+ item.id).find("input[type='hidden']").val());
+			
+			var delivery = 2500;
+			
+			if(item.checked){
+				console.log("check");
+				
+				console.log(price);
+				console.log("typeOfprice : " + typeof(price));
+				
+				sum = sum + price;
+				
+				console.log("sum : " + sum);
+				
+				$(item).parents(".cart-table").find("#sum-product").text(toCommas(sum));
+				
+				if(sum < 30000){
+					
+					$(item).parents(".cart-table").find("#sum-delivery").text(toCommas(delivery));
+					$(item).parents(".cart-table").find("#sum-final").text(toCommas(sum + delivery));
+				} else {
+					delivery = 0;
+					
+					$(item).parents(".cart-table").find("#sum-delivery").text(toCommas(delivery));
+					$(item).parents(".cart-table").find("#sum-final").text(toCommas(sum + delivery));					
+				}
+			} else {
+				console.log("uncheck");
+				
+				console.log(price);
+				console.log("typeOfprice : " + typeof(price));
+				
+				sum = sum - price;
+				
+				console.log("sum : " + sum);
+
+				$(item).parents(".cart-table").find("#sum-product").text(toCommas(sum));
+				
+				if(sum < 30000){
+					
+					$(item).parents(".cart-table").find("#sum-delivery").text(toCommas(delivery));
+					$(item).parents(".cart-table").find("#sum-final").text(toCommas(sum + delivery));
+				} else {
+					delivery = 0;
+					
+					$(item).parents(".cart-table").find("#sum-delivery").text(toCommas(delivery));
+					$(item).parents(".cart-table").find("#sum-final").text(toCommas(sum + delivery));					
+				}
+			}			
+		});
+	});
 	
+	// 숫자 3자리마다 ',' 찍기
+    function toCommas(value) {
+	    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원";
+	}
+	
+	// 주문하기 - 작업중
+	$(document).on("click", "#purchase", function() {
+		if($("#sum-product") == 0){
+			alert("상품을 선택해주세요.");
+		}  else {
+			let itemArr = new Array();
+			
+			$("tbody").find("input[type='checkbox']:checked").each(function() {
+				
+				var checked = $(this);
+				
+				var product = checked.parents(".cart-list").find("strong").text();
+				var option = checked.parents(".cart-list").find("p").text();
+				var quantity = checked.parents(".cart-list").find("#qty").text();
+				var price = checked.parents(".cart-list").find("input[type='hidden']").val();
+				
+				console.log(product);
+				console.log(option);
+				console.log(quantity);
+				console.log(price);
+			});
+		}
+		
+		
+	});
 </script>
 </html>
