@@ -582,6 +582,9 @@ input + .btn {
     padding: 20px 20px 20px 65px;
     border-top: 1px solid #ddd;
 }
+.accordian ul li div a:before {
+	display: none;
+}
 .accordian .icon-answer {
     position: absolute;
     top: 20px;

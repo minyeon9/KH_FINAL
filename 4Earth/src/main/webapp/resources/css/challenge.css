@@ -4,6 +4,7 @@
 }
 /* 오늘의 챌린지 */
 .challenge .how-to {
+	overflow: hidden;
     background: #f9f9f9;
     border: 1px solid #ddd;
     padding: 20px 20px 30px 20px;
@@ -11,7 +12,7 @@
 }
 .challenge .how-to > strong {
     display: block;
-    color: #76b779;
+    color: #67b16b;
     font-size: 16px;
     font-weight: 500;
     margin-bottom: 2px;
@@ -33,49 +34,49 @@
     font-size: 16px;
     font-weight: 400;
 }
-.challenge .how-to ul {
+.challenge .how-to .example ul {
     display: flex;
     justify-content: space-between;
     margin-top: 40px;
 }
-.challenge .how-to ul li {
+.challenge .how-to .example ul li {
     width: 50%;
     text-align: center;
     padding: 0 20px;
 }
-.challenge .how-to ul li img {
+.challenge .how-to .example ul li img {
     display: block;
     border: 5px solid #516ab9;
     border-radius: 50%;
     margin: 0 auto 20px;
 }
-.challenge .how-to ul li:last-child img {
+.challenge .how-to .example ul li:last-child img {
     border: 5px solid #c91717;
 }
-.challenge .how-to ul li strong {
+.challenge .how-to .example ul li strong {
     display: block;
     color: #516ab9;
     font-size: 18px;
     font-weight: 400;
     margin-bottom: 10px;
 }
-.challenge .how-to ul li:last-child strong {
+.challenge .how-to .example ul li:last-child strong {
     color: #c91717;
 }
-.challenge .how-to ul li strong i {
+.challenge .how-to .example ul li strong i {
     vertical-align: top;
 }
-.challenge .how-to ul li:last-child strong i {
+.challenge .how-to .example ul li:last-child strong i {
     vertical-align: bottom;
 }
-.challenge .how-to ul li p {
+.challenge .how-to .example ul li p {
     color: #666;
     font-size: 15px;
 }
 .challenge .thumb-list ul li:hover {
     border: 1px solid #ccc;
 }
-.challenge .how-to ul li:last-child {
+.challenge .how-to .example ul li:last-child {
     border-left: 1px dashed #ccc;
 }
 .challenge .thumb-list ul li .num {
@@ -87,7 +88,7 @@
     color: #fff;
     font-style: normal;
     background: #67b16b;
-    border-radius: 0 0 10xp 0;
+    border-radius: 0 0 10px 0;
     padding: 4px 10px;
     box-sizing: border-box;
     z-index: 1;
@@ -296,6 +297,7 @@
 }
 .month-challenge-detail .item-cont p {
     color: #666;
+    min-height: 40px;
     margin-bottom: 20px;
 }
 
@@ -324,9 +326,10 @@
 	top: 0;
 	right: 0;
 	color: #fff;
-	background: #67b16b;
     font-size: 12px;
     font-weight: 400;
+	background: #67b16b;
+	border-radius: 0 0 0 10px;
     padding: 5px 10px 8px;
     z-index: 2;	
 }
@@ -451,9 +454,10 @@
     display: flex;
 }
 .using-user .user-list ul li {
-    min-width: 120px;
+	flex: 0 0 auto;
     padding: 0 20px;
     text-align: center;
+    min-width: 100px;
     box-sizing: border-box;
 }
 .using-user .user-list ul li:first-of-type {
@@ -467,9 +471,22 @@
     position: relative;
     width: 50px;
     height: 50px;
-    border: 1px solid #999;
+    border: 1px solid #ddd;
     border-radius: 50%;
+    background: #f9f9f9;
     margin: 0 auto 5px;
+}
+.using-user .user-list ul li .img-thumb:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 30px;
+	height: 30px;
+	transform: translate(-50%, -50%);
+	background: url(../images/common/icon_user.png) 0 0 no-repeat;
+	background-size: 30px;
+	opacity: .3;
 }
 .using-user .user-list ul li .img-thumb img {
     position: absolute;
@@ -480,6 +497,14 @@
 }
 .using-user .user-list ul li span {
     color: #888;
+}
+.using-user .user-list p {
+	color: #666;
+	text-align: center;
+}
+.using-user .user-list p strong {
+	color: #67b16b;
+	line-height: 1.8;
 }
 
 
@@ -650,7 +675,7 @@
     height: 27px;
     background: url(../images/challenge/my_count01.png) 0 0 no-repeat;
 }
-.gauge ul li.complate span {
+.gauge ul li.complete span {
     background-position: 0 -27px;
 }
 .gauge ul li p {
@@ -661,7 +686,7 @@
     font-size: 12px;
     transform: translateX(-50%);
 }
-.gauge ul li.complate p {
+.gauge ul li.complete p {
     color: #5CB65A;
     font-weight: 500;
 }
@@ -670,7 +695,7 @@
     height: 36px;
     background: url(../images/challenge/my_count02.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(2).complate span {
+.gauge ul li:nth-of-type(2).complete span {
     background-position: 0 -36px;
 }
 .gauge ul li:nth-of-type(3) span {
@@ -678,7 +703,7 @@
     height: 58px;
     background: url(../images/challenge/my_count03.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(3).complate span {
+.gauge ul li:nth-of-type(3).complete span {
     background-position: 0 -58px;
 }
 .gauge ul li:nth-of-type(4) span {
@@ -686,7 +711,7 @@
     height: 66px;
     background: url(../images/challenge/my_count04.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(4).complate span {
+.gauge ul li:nth-of-type(4).complete span {
     background-position: 0 -66px;
 }
 .gauge ul li:nth-of-type(5) span {
@@ -694,7 +719,7 @@
     height: 75px;
     background: url(../images/challenge/my_count05.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(5).complate span {
+.gauge ul li:nth-of-type(5).complete span {
     background-position: 0 -75px;
 }
 .gauge ul li:nth-of-type(6) span {
@@ -702,7 +727,7 @@
     height: 75px;
     background: url(../images/challenge/my_count06.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(6).complate span {
+.gauge ul li:nth-of-type(6).complete span {
     background-position: 0 -75px;
 }
 .gauge ul li:nth-of-type(7) span {
@@ -710,7 +735,7 @@
     height: 74px;
     background: url(../images/challenge/my_count07.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(7).complate span {
+.gauge ul li:nth-of-type(7).complete span {
     background-position: 0 -74px;
 }
 .gauge ul li:nth-of-type(8) span {
@@ -718,7 +743,7 @@
     height: 90px;
     background: url(../images/challenge/my_count08.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(8).complate span {
+.gauge ul li:nth-of-type(8).complete span {
     background-position: 0 -90px;
 }
 .gauge ul li:nth-of-type(9) span {
@@ -726,7 +751,7 @@
     height: 107px;
     background: url(../images/challenge/my_count09.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(9).complate span {
+.gauge ul li:nth-of-type(9).complete span {
     background-position: 0 -107px;
 }
 .gauge ul li:nth-of-type(10) span {
@@ -734,7 +759,7 @@
     height: 114px;
     background: url(../images/challenge/my_count10.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(10).complate span {
+.gauge ul li:nth-of-type(10).complete span {
     background-position: 0 -114px;
 }
 
@@ -788,18 +813,37 @@
 }
 
 
-/* slide */
-.challenge .slider {
-	float: none;
+.step {
+	margin-top: 20px;
 }
-/* .challenge .how-to .slider {
-	width: 100%;
+.step-list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
-.challenge .how-to .slider ul li {
-	width: 100%;
-	padding: 0;
+.step-list li {
+	display: flex;
+	width: 48%;
 }
-.challenge .how-to .slider ul li img {
-	border-radius: 0;
-	border: 0;
-} */
+.step-list li i {
+	width: 20px;
+	height: 20px;
+	color: #fff;
+	font-style: normal;
+	text-align: center;
+	background: #67b16b;
+	border-radius: 50%;
+	margin: 2px 10px 0 0;
+}
+.step-list li strong {
+	font-weight: 500;
+}
+.step-list li p {
+	color: #666;
+}
+.challenge .step-list li:nth-child(-n+2) {
+	margin-bottom: 20px;
+}
+
+
+

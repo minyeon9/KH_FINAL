@@ -1,7 +1,6 @@
 package com.kh.earth.challenge.model.vo;
 
 import java.util.Date;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,13 +15,19 @@ public class MonthMember {
 
 	private int memNo;
 	
+	private String id;
+	
 	private int chalNo;
+	
+	private String chalTitle;
 	
 	private Date chalDate;
 	
 	private String originalFilename;
 	
 	private String renamedFilename;
+	
+	private String modifyImgName;
 	
 	private int chalCount;
 	
@@ -32,6 +37,6 @@ public class MonthMember {
 	
 	private char chalPointStatus;
 	
-	private List<Month> month;
+	// private List<Month> month;
 	
 }

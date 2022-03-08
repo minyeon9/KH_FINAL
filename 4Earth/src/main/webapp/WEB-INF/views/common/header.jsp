@@ -24,7 +24,11 @@
     <div class="wrap">
         <header>
             <div class="header-inner">
-                <h1 class="logo"><a href="${ path }">logo</a></h1>
+                <h1 class="logo">
+                	<a href="${ path }">
+                		<img src="${ path }/resources/images/common/logo.png" alt="4Earth">
+                	</a>
+                	</h1>
                 <div class="user">
                 
                 <c:if test="${ empty loginMember }">
@@ -54,7 +58,9 @@
             </div>
 
             <nav class="nav">
-                <a href="${ path }" class="logo">logo</a>
+                <a href="${ path }" class="logo">
+                	<img src="${ path }/resources/images/common/icon_logo.png" alt="">
+                </a>
                 <ul class="nav-list">
                     <li>
                         <h2><a href="#">About Us</a></h2>
