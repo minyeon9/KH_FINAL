@@ -152,7 +152,9 @@
                                                     <label for="checkbox2" id="check-cont">안내사항을 모두 확인하였으며, 이에 동의합니다.</label>
                                                 </div>
                                                 </div>
+                                                </c:if>
                                             </div>
+                                            <c:if test="${ loginMember.platform_type == 'HOMEPAGE' }">
                                             <br>
                                             <h3>탈퇴를 희망하신다면 비밀번호를 다시 한번 입력해주세요.</h3>
                                             <br>
@@ -164,25 +166,20 @@
                                                 <p>비밀번호 재확인이 완료되면 회원탈퇴가 진행됩니다.</p>
                                                 <br>
                                                 </div>
-                                                </c:if>
+                                               </c:if>
                                                 <br>
                                                 <c:if test="${ loginMember.platform_type == 'KAKAO' }">
-                                                	
                                                 	<!--  <button type="submit"></button>  -->
 				                                    <a href="javascript:unlinkWithKakao();">
 				                                    <img class="login-btn" src="${ path }/resources/images/member/kakao_unlink_btn.png">
 				                                    </a>
-				                                    
 			                                    </c:if>
 			                                    <c:if test="${ loginMember.platform_type == 'HOMEPAGE' }">
                                                 <button type="submit" class="btn btn-login" >회원탈퇴</button>
+                                                <br><br>
                                                 </c:if>
                                                 <br>
                                             </form>
-                                        </div>
-                                        <div class="btn-wrap">
-                                            <!-- <button class="btn gray btn-close-pop">취소</button> -->
-                                            <!-- <button class="btn btn-close-pop">확인</button> -->
                                         </div>
                                     </div>
                                     <div class="dimed"></div>

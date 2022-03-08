@@ -1,7 +1,7 @@
 /* ----------------------------------
         kakao unlink
 ---------------------------------- */
- window.Kakao.init("d33d858d13446389bd9ff29763e3a882");
+// window.Kakao.init("d33d858d13446389bd9ff29763e3a882");
  window.Kakao.isInitialized(); 
  function unlinkWithKakao() {
      Kakao.API.request({
