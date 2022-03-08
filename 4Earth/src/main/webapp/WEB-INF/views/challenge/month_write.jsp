@@ -51,8 +51,8 @@
 
 				<section class="section">
 					<h4>챌린지 인증하기</h4>
-					<p>${ loginMember.no }</p>
-					<p>${ month.chalNo }</p>
+					<%-- <p>회원 번호: ${ loginMember.no }</p>
+					<p>챌린지 번호: ${ month.chalNo }</p> --%>
 					<div class="prov-set">
 						<form action="${ path }/month_complete?chalNo=${ month.chalNo }"method="post" enctype="multipart/form-data">
 							<div class="thumb-img">
@@ -83,23 +83,34 @@
 					</div>
 				</section>
 
-				<section class="section">
-					<h4>나의 챌린지 참여 현황</h4>
-					<div class="gauge">
-						<ul>
-							<li class="complate"><span></span><p>1회 달성</p></li>
-							<li class="complate"><span></span><p>2회 달성</p></li>
-							<li class="complate"><span></span><p>3회 달성</p></li>
-							<li class="complate"><span></span><p>4회 달성</p></li>
-							<li class="complate"><span></span><p>5회 달성</p></li>
-							<li class="complate"><span></span><p>6회 달성</p></li>
-							<li class="complate"><span></span><p>7회 달성</p></li>
-							<li class="complate"><span></span><p>8회 달성</p></li>
-							<li><span></span><p>9회 달성</p></li>
-							<li><span></span><p>10회 달성</p></li>
-						</ul>
-					</div>
-				</section>
+				<c:if test="${ !empty count }">
+					<section class="section">
+						<h4>나의 챌린지 참여 현황</h4>
+						<div class="gauge">
+							<c:set var="remainCount" value="${ requiredCount - fn:length(count) }" />
+							<%-- 필요 횟수: ${ requiredCount }번<br>
+							완료 횟수: ${ fn:length(count) }번<br>
+							남은 횟수: ${ requiredCount - fn:length(count) }번 --%>
+							<ul>
+								<!-- 달성 완료 횟수 -->
+								<c:forEach var="count" items="${ count }" varStatus="status">
+									<li class="complete">
+										<span></span>
+										<p>${ status.count }회 달성 완료</p>
+									</li>
+								</c:forEach>
+								
+								<c:forEach var="remainCountList" items="${ remainCountList }" varStatus="remainStatus">
+									<c:set var="completeCount" value="${ fn:length(count) }" />
+									<li>
+										<span></span>
+										<p>${ completeCount + remainStatus.count }회</p>
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
+					</section>
+				</c:if>
 			</div>
 
 		</section>

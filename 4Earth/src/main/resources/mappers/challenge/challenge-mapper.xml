@@ -192,10 +192,10 @@
 			ORDER BY CHAL_NO DESC
 		</if>
 		<if test="arrange == '높은포인트순'">
-			ORDER BY CHAL_POINT DESC
+			ORDER BY CHAL_POINT DESC, CHAL_NO DESC
 		</if>
 		<if test="arrange == '낮은포인트순'">
-			ORDER BY CHAL_POINT
+			ORDER BY CHAL_POINT ASC, CHAL_NO DESC
 		</if>
   	</select>
   	
@@ -213,6 +213,7 @@
 		FROM CHAL_MONTH_MEM M
 		JOIN CHAL_MONTH T ON (M.CHAL_NO = T.CHAL_NO)
 		WHERE M.CHAL_NO = #{ chalNo } AND M.MEM_NO = #{ no }
+		ORDER BY NO DESC
 	</select>
 	
 	<!-- 이달의 챌린지 인증 시 참여 회원 저장 -->
@@ -254,9 +255,16 @@
 	
 	<!-- 참여 중인 사용자 목록 갯수 조회 -->
 	<select id="findOngoingUserCount" parameterType="_int" resultType="_int">
-		SELECT COUNT (*)
+		SELECT COUNT (DISTINCT MEM_NO)
 		FROM MEMBER MEMBER
 		JOIN CHAL_MONTH_MEM T ON (MEMBER.NO = T.MEM_NO)
 		WHERE CHAL_NO = #{ chalNo } AND MEM_NO != #{ no }
+	</select>
+	
+	<!-- 이달의 챌린지 참여 횟수 조회 -->
+	<select id="getMonthGuage" parameterType="arraylist" resultMap="MonthMemberResultMap">
+		SELECT CHAL_COUNT
+		FROM CHAL_MONTH_MEM
+		WHERE MEM_NO = #{ no } AND CHAL_NO = #{ chalNo }
 	</select>
 </mapper>

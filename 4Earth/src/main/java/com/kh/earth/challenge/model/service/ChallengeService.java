@@ -56,6 +56,9 @@ public interface ChallengeService {
 	// 참여 중인 사용자 목록 갯수 조회
 	int findOngoingUserCount(Map<String, Object> mapCount);
 
+	// 이달의 챌린지 참여 횟수 조회
+	List<MonthMember> getMonthGuage(Map<String, Object> map);
+
 
 
 

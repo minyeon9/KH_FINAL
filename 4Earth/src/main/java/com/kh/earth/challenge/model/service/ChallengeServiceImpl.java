@@ -111,11 +111,18 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 	// 참여 중인 사용자 목록 갯수 조회
-
 	@Override
 	public int findOngoingUserCount(Map<String, Object> mapCount) {
 		return mapper.findOngoingUserCount(mapCount);
 	}
+
+	// 이달의 챌린지 참여 횟수 조회
+	@Override
+	public List<MonthMember> getMonthGuage(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return mapper.getMonthGuage(map);
+	}
+	
 
 
 	

@@ -34,6 +34,7 @@
 					<div class="item-cont">
 						<span>이달의 챌린지</span>
 						<strong>${ month.chalTitle }</strong>
+						<p>${ month.chalContent }</p>
 						<span class="icon-point">
 							<fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" />
 						</span>
@@ -72,7 +73,7 @@
 
 				<section class="section">
 					<h4>챌린지 참여 리뷰</h4>
-					<div class="reply">st="${ !empty loginMember }">
+					<div class="reply">
 						<form action="" method="">
 							<textarea name="" id="" placeholder="간단한 참여 후기를 작성해주세요."></textarea>
 							<button class="btn">등록</button>

@@ -201,13 +201,12 @@ public class ChallengeController {
 		PageInfo pageInfo = null;
 		List<Month> monthList = null;
 		
-		log.info("현재 페이지 번호 : {}", page);
-		
 		listCount = service.getBoardCount();
 		pageInfo = new PageInfo(page, 10, listCount, 8);
 		monthList = service.getMonthList(pageInfo);
 		
-		log.info("전체 게시글 개수 : {}", listCount);
+		// log.info("현재 페이지 번호 : {}", page);
+		// log.info("전체 게시글 개수 : {}", listCount);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("monthList", monthList);
@@ -222,7 +221,7 @@ public class ChallengeController {
 			ModelAndView model,
 			@RequestParam(defaultValue="1") int page,
 			@RequestParam(value = "arrange", defaultValue="최신순") String arrange) {
-		log.info("challengeArrange() - 호출");
+		// log.info("challengeArrange() - 호출");
 		
 		int listCount = 0;
 		PageInfo pageInfo = null;
@@ -280,14 +279,41 @@ public class ChallengeController {
 	@GetMapping("/month_write")
 	public ModelAndView monthWrite(
 			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo) {
 		
 		Month month = service.findMonthListByNo(chalNo);
 		
+		// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
+		Map<String, Object> map = new HashMap<>();
+		map.put("chalNo", chalNo);
+		map.put("no", loginMember.getNo());
+		List<MonthMember> count = service.getMonthGuage(map);
+		
+		 // 전체 필요 횟수
+		int requiredCount = 10;
+//		Map<String, Object> requiredCountMap = new HashMap<>();
+//		requiredCountMap.put("required", requiredCount);
+		
+		 // 남은 횟수
+		int remainCount = requiredCount - count.size();
+		ArrayList<Integer> remainCountList = new ArrayList<>();
+		for( int i = 0; i < remainCount; i++ ) {
+			remainCountList.add(i);
+		}
+		
+		System.out.println("남은 횟수: " + remainCountList);
+		
 		model.addObject("month", month);
+		model.addObject("requiredCount", requiredCount);
+		model.addObject("remainCount", remainCount);
+		model.addObject("count", count);
+		// model.addObject("requiredCountMap", requiredCountMap);
+		model.addObject("remainCountList", remainCountList);
 		model.setViewName("challenge/month_write");
 		
 		System.out.println("챌린지 번호 : " + chalNo);
+		System.out.println("남은 횟수: " + remainCountList);
 
 		return model;
 		

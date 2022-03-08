@@ -297,6 +297,7 @@
 }
 .month-challenge-detail .item-cont p {
     color: #666;
+    min-height: 40px;
     margin-bottom: 20px;
 }
 
@@ -456,7 +457,7 @@
 	flex: 0 0 auto;
     padding: 0 20px;
     text-align: center;
-    min-width: 120px;
+    min-width: 100px;
     box-sizing: border-box;
 }
 .using-user .user-list ul li:first-of-type {
@@ -674,7 +675,7 @@
     height: 27px;
     background: url(../images/challenge/my_count01.png) 0 0 no-repeat;
 }
-.gauge ul li.complate span {
+.gauge ul li.complete span {
     background-position: 0 -27px;
 }
 .gauge ul li p {
@@ -685,7 +686,7 @@
     font-size: 12px;
     transform: translateX(-50%);
 }
-.gauge ul li.complate p {
+.gauge ul li.complete p {
     color: #5CB65A;
     font-weight: 500;
 }
@@ -694,7 +695,7 @@
     height: 36px;
     background: url(../images/challenge/my_count02.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(2).complate span {
+.gauge ul li:nth-of-type(2).complete span {
     background-position: 0 -36px;
 }
 .gauge ul li:nth-of-type(3) span {
@@ -702,7 +703,7 @@
     height: 58px;
     background: url(../images/challenge/my_count03.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(3).complate span {
+.gauge ul li:nth-of-type(3).complete span {
     background-position: 0 -58px;
 }
 .gauge ul li:nth-of-type(4) span {
@@ -710,7 +711,7 @@
     height: 66px;
     background: url(../images/challenge/my_count04.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(4).complate span {
+.gauge ul li:nth-of-type(4).complete span {
     background-position: 0 -66px;
 }
 .gauge ul li:nth-of-type(5) span {
@@ -718,7 +719,7 @@
     height: 75px;
     background: url(../images/challenge/my_count05.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(5).complate span {
+.gauge ul li:nth-of-type(5).complete span {
     background-position: 0 -75px;
 }
 .gauge ul li:nth-of-type(6) span {
@@ -726,7 +727,7 @@
     height: 75px;
     background: url(../images/challenge/my_count06.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(6).complate span {
+.gauge ul li:nth-of-type(6).complete span {
     background-position: 0 -75px;
 }
 .gauge ul li:nth-of-type(7) span {
@@ -734,7 +735,7 @@
     height: 74px;
     background: url(../images/challenge/my_count07.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(7).complate span {
+.gauge ul li:nth-of-type(7).complete span {
     background-position: 0 -74px;
 }
 .gauge ul li:nth-of-type(8) span {
@@ -742,7 +743,7 @@
     height: 90px;
     background: url(../images/challenge/my_count08.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(8).complate span {
+.gauge ul li:nth-of-type(8).complete span {
     background-position: 0 -90px;
 }
 .gauge ul li:nth-of-type(9) span {
@@ -750,7 +751,7 @@
     height: 107px;
     background: url(../images/challenge/my_count09.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(9).complate span {
+.gauge ul li:nth-of-type(9).complete span {
     background-position: 0 -107px;
 }
 .gauge ul li:nth-of-type(10) span {
@@ -758,7 +759,7 @@
     height: 114px;
     background: url(../images/challenge/my_count10.png) 0 0 no-repeat;
 }
-.gauge ul li:nth-of-type(10).complate span {
+.gauge ul li:nth-of-type(10).complete span {
     background-position: 0 -114px;
 }
 
