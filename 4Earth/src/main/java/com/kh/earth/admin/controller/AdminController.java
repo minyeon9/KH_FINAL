@@ -39,19 +39,23 @@ public class AdminController {
 	}
 	
 	@GetMapping("/report_list")
-	public ModelAndView admin_report_list(ModelAndView model, 
+	public ModelAndView admin_report_list(ModelAndView model,
+			@RequestParam Map<String, String> name,
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10")int count) {
 		PageInfo pageInfo = null;
 		List<Report> list = null;
 		
+		
 		log.info("admin_report)list() - 호출");
 		
-		pageInfo = new PageInfo(page, 10, service.getMemberCount(), count);
-		list = service.getReportList(pageInfo);
+		pageInfo = new PageInfo(page, 10, service.getReportCount(name), count);
+		list = service.getReportList(pageInfo, name);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
+		model.addObject("name", name.get("name"));
+		
 		model.setViewName("/admin/report_list");
 		
 		return model;
@@ -59,7 +63,7 @@ public class AdminController {
 	
 	@GetMapping("/reported_list")
 	public ModelAndView admin_reported_list(ModelAndView model, 
-			@RequestParam(value = "name", required=false)String name,
+			@RequestParam Map<String, String> name,
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10")int count) {
 		PageInfo pageInfo = null;
@@ -67,12 +71,12 @@ public class AdminController {
 		
 		log.info("admin_reported_list() - 호출");
 		
-		pageInfo = new PageInfo(page, 10, service.getMemberCount(), count);
+		pageInfo = new PageInfo(page, 10, service.getReportedCount(), count);
 		list = service.getReportedList(pageInfo, name);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
-		model.addObject("name", name);
+		model.addObject("name", name.get("name"));
 		model.setViewName("/admin/reported_list");
 		
 		return model;
@@ -93,15 +97,15 @@ public class AdminController {
 		PageInfo pageInfo = null;
 		List<Member> list = null;
 		System.out.println(name);
+
 		
 		log.info("admin_member() - 호출", page);
 		
-		pageInfo = new PageInfo(page, 10, service.getMemberCount(), count);
+		pageInfo = new PageInfo(page, 10, service.getMemberCount(name), count);
 		list = service.getMemberList(pageInfo, name);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
-		model.addObject("name", name.get("name"));
 		
 		
 		model.setViewName("/admin/member");

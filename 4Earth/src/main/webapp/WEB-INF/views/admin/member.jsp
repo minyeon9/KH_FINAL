@@ -57,8 +57,10 @@
                                             <option value="2">이름순</option>
                                             <option value="3">아이디순</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="1">n개씩 보기</option>
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
@@ -87,6 +89,7 @@
                                             <th>회원명</th>
                                             <th>가입일</th>
                                             <th>회원등급</th>
+                                            <th>세부내용</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -100,7 +103,7 @@
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="member" items="${ list }">
+										<c:forEach var="member" items="${ list }" varStatus="vs">
 		                                    <tbody>
 		                                        <tr>
 		                                            <td>${ member.no }</td>
@@ -108,6 +111,25 @@
 		                                            <td>${ member.name }</td>
 		                                            <td>${ member.enrollDate }</td>
 		                                            <td>${ member.member_type }</td>
+		                                            <td>
+		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+					                                 <div class="layer-popup" id="popup${ vs.index }">
+						                                <div class="layer-inner">
+						                                    <div class="pop-head">
+						                                    	${ member.no }
+						                                        <strong>${ member.id }</strong>
+						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+						                                    </div>
+						                                    <div class="pop-cont">
+						                                       ${ member.enrollDate }
+						                                    </div>
+						                                    <div class="btn-wrap">
+						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button class="btn">저장</button>
+						                                    </div>
+						                                </div>
+						                            </div>
+                            						</td>
 		                                            <td>
 		                                                <button class="btn btn-s">등록</button>
 		                                                <button id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
@@ -175,6 +197,10 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	    
+	    $('#count-select').on('change',  (e) => {
+			location.replace("${ path }/admin/member?count=" + e.target.value);
+		})
 	});
 	
 	$(document).ready(() => {
@@ -187,7 +213,6 @@
 	
 	$(document).ready(() => {
 		$(document).on('click', '#search', () => {
-			console.log($("#member-select option:selected").val());
 			if($("#member-select option:selected").val() == 1) {
 				location.replace("${ path }/admin/member?no=" + $("#search-val").val());
 			}
@@ -199,6 +224,9 @@
 			}
 		})
 	});
+	
+	
+	
 </script>
 
 </html>
