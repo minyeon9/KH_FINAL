@@ -150,67 +150,83 @@ public class MemberController {
 	}
 	
 	@PostMapping("/kakao_login")
-	public ModelAndView kakao_login(ModelAndView model, 
+	@ResponseBody
+	public Object kakao_login(ModelAndView model, 
 			@ModelAttribute Member member, 
 			HttpServletRequest request) {
 		HttpSession session = request.getSession();
+		Map<String, String> map = new HashMap<>();
 		
-	    Enumeration params = request.getParameterNames();
-	    while(params.hasMoreElements()) {
-	      String name = (String) params.nextElement();
-	      System.out.print(" ▶ "+name + " : " + request.getParameter(name)); 
-	    }
+//	    Enumeration params = request.getParameterNames();
+//	    while(params.hasMoreElements()) {
+//	      String name = (String) params.nextElement();
+//	      System.out.print(" ▶ "+name + " : " + request.getParameter(name)); 
+//	    }
 	    
 		String id = request.getParameter("id");
-		System.out.println("아이디 : "+id);
 		String email = request.getParameter("kakao_account[email]");
-		System.out.println("이메일 : "+email);
 		String nickName = request.getParameter("properties[nickname]");
-		System.out.println("닉네임 : "+nickName);
 		String image = request.getParameter("properties[profile_image]");
-		System.out.println("이미지 : "+image);
-		
+
 		member.setId(id);
 		member.setName(nickName);
 		member.setEmail(email);
 		member.setImg_name(image);
 		member.setPlatform_type("KAKAO");
-		
-    	System.out.println("저장 전 memeber값 : "+member);
+    	// System.out.println("저장 전 memeber값 : "+member);
     	
-    	Member resultM = service.findMemberById(id);
-    	System.out.println("DB에서 조회한 회원값 : "+resultM);
+    	Member resultM = service.findMemberById_forSNS(id);
+    	// System.out.println("DB에서 조회한 회원값 : "+resultM);
     	
     	if(resultM == null) {
-    		// 회원정보가 없다면 회원가입을 시킨다.
+    		// 1. 회원정보가 없다면 회원가입을 시킨다.
     		service.save(member);
 			
+    		// 소셜 로그인의 경우 가입과 동시에 로그인 진행 
 			Member loginMember = service.login(id, member.getPassword());
 			session.setAttribute("loginMember", loginMember);
 			
-			model.addObject("msg", "회원가입이 정상적으로 완료되었습니다.");
-			model.addObject("location", "/signup_finish?name="+member.getName());
-			model.setViewName("common/msg");
+			map.put("location", "http://localhost:8088/4earth/signup_finish?name="+member.getName());
+			return map;
 			
-			return model;
-    	} 
+    	} else if(resultM.getStatus().equals("N")){
+    		// 2. 탈퇴했다가 다시 가입하는것이라면 상태값을 바꾸어준다. 
+    		int result = service.reSignup(resultM.getId());
+    		if(result>0) {
+    			System.out.println("재가입에 성공하였습니다.");
+    					
+    			// 소셜 로그인의 경우 가입과 동시에 로그인 진행
+    			Member loginMember = service.login(id, member.getPassword());	
+    			session.setAttribute("loginMember", loginMember);
+    			
+    			map.put("location", "http://localhost:8088/4earth/signup_finish?name="+resultM.getName());
+    			
+    			return map;
+    			
+    		}else {
+    			// 가입 실패시 메인으로 이동
+    			map.put("location", "http://localhost:8088/4earth/");
+    			return map;
+    		}
+
+    	}
     	
-		// 회원정보가 있다면 로그인을 시킨다.
+		// 3. (신규가입X, 재가입X 일 경우) 로그인을 시킨다.
     	Member loginMember = service.login(id, member.getPassword());	
-       	System.out.println("sns회원가입으로 정보가 있는 사람 로긴 : "+loginMember);
+       	// System.out.println("sns회원가입으로 정보가 있는 사람 로긴 : "+loginMember);
        	
     	if(loginMember!=null) {
-    		session.setAttribute("loginMember", loginMember);
-    		System.out.println("로그인 성공");    
-    		model.setViewName("redirect:/");
+    		// 로그인 성공
+    		session.setAttribute("loginMember", loginMember); 
+    		map.put("result", "login");
+    		map.put("location", "http://localhost:8088/4earth/");
     	} else {
-    		System.out.println("로그인 실패");
-			model.addObject("msg", "로그인에 실패하였습니다.");
-			model.addObject("location", "/login");
-    		model.setViewName("common/msg");
+    		// 로그인 실패
+    		map.put("result", "login_fail");
+    		map.put("location", "http://localhost:8088/4earth/login");
     	}
 		
-    	return model;
+    	return map;
 	}
 	
 	
@@ -277,7 +293,26 @@ public class MemberController {
 		
 	}	
 	
-	
+	@PostMapping("/kakao_unlink")
+	@ResponseBody
+	public Object kakao_unlink(ModelAndView model,
+			@SessionAttribute(name="loginMember")Member loginMember) {
+			Map<String, String> map = new HashMap<>();
+		
+			// 탈퇴 진행
+			int result = service.delete(loginMember.getNo());
+			
+			if(result > 0) {
+				map.put("location", "http://localhost:8088/4earth/logout");
+				map.put("msg", "정상적으로 탈퇴되었습니다.");
+
+			}else {
+				map.put("msg", "회원 탈퇴에 실패하였습니다.");
+				map.put("location", "http://localhost:8088/4earth/profile_view");
+			}
+			
+			return map;
+	};
 	
 	
 	@GetMapping("/find_id")

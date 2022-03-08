@@ -6,6 +6,8 @@ import com.kh.earth.member.model.vo.Member;
 public interface MemberService {
 	
 	Member findMemberById(String id);
+	
+	Member findMemberById_forSNS(String id);
 
 	Member login(String id, String password);
 
@@ -14,4 +16,7 @@ public interface MemberService {
 	Boolean isDuplicateID(String userId);
 	
 	int delete(int no);
+
+	int reSignup(String id);
+
 }

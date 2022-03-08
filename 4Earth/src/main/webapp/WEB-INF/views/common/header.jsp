@@ -13,9 +13,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="resources/css/style.css">
-    <script src="resources/js/jquery-3.6.0.js"></script>
-    <script src="resources/js/ui.js"></script>
+    <link rel="stylesheet" href="${ path }/resources/css/style.css">
+    <script src="${ path }/resources/js/jquery-3.6.0.js"></script>
+    <script src="${ path }/resources/js/ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="shortcut icon" href="resources/favicon.ico">
     <title>main</title>
@@ -29,8 +29,6 @@
                 
                 <c:if test="${ empty loginMember }">
                     <div class="before-login">
-                        <a href="${ path }/admin/main">admin(임시)</a>
-                        <!-- <a href="${ path }/guide">Guide</a>  -->
                         <a href="${ path }/login">
                             <i class="material-icons md-18">login</i> 로그인
                         </a>

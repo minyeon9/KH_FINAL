@@ -23,6 +23,11 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mapper.findMemberById(id);
 	}
+	
+	@Override
+	public Member findMemberById_forSNS(String id) {
+		return mapper.findMemberById_forSNS(id);
+	}
 
 	@Override
 	public Member login(String id, String password) {
@@ -71,5 +76,12 @@ public class MemberServiceImpl implements MemberService {
 	public int delete(int no) {	
 		return mapper.deleteMember(no);
 	}
+
+	@Override
+	public int reSignup(String id) {
+		return mapper.reSignup(id);
+	}
+
+
 
 }

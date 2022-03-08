@@ -54,6 +54,11 @@
 		WHERE ID=#{id} AND STATUS = 'Y'
   	</select>
   	
+  	<select id="findMemberById_forSNS" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql" />
+		WHERE ID=#{id}
+  	</select>
+  	
   	<insert id="insertMember" parameterType="Member" 
   			useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
 		INSERT INTO MEMBER (
@@ -115,5 +120,13 @@
   		WHERE 
   			NO = #{no}
   	</delete>
+  	
+  	<update id="reSignup" parameterType="string">
+  		UPDATE MEMBER
+  		SET
+  			STATUS = 'Y'
+  		WHERE 
+  			ID = #{id}
+  	</update>
 	
 </mapper>

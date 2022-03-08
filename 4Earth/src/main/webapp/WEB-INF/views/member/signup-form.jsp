@@ -39,7 +39,7 @@
                                 <br>
                             
                             <form name="signup-form" action="${ path }/signup_form" method="post" enctype="multipart/form-data"
-                            onsubmit="return id_overlap_check()">
+                            onsubmit="return check_All()">
                           
                                 <img id="preview" src="${ path }/resources/images/member/user_default1.jpg" />
                                 <div class="filebox">
@@ -148,6 +148,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="dimed"></div>
                                 <br><br>
                                 <button type="submit" class="btn btn-login">가입하기</button>
                             </form>
@@ -165,7 +166,8 @@
                         <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
                     </div>
             </div>
-                    
+            
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>                    
 <script type="text/javascript">
 let idxNum=2;
 </script> 
