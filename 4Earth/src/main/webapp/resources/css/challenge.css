@@ -453,9 +453,10 @@
     display: flex;
 }
 .using-user .user-list ul li {
-    min-width: 120px;
+	flex: 0 0 auto;
     padding: 0 20px;
     text-align: center;
+    min-width: 120px;
     box-sizing: border-box;
 }
 .using-user .user-list ul li:first-of-type {
@@ -469,9 +470,22 @@
     position: relative;
     width: 50px;
     height: 50px;
-    border: 1px solid #999;
+    border: 1px solid #ddd;
     border-radius: 50%;
+    background: #f9f9f9;
     margin: 0 auto 5px;
+}
+.using-user .user-list ul li .img-thumb:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 30px;
+	height: 30px;
+	transform: translate(-50%, -50%);
+	background: url(../images/common/icon_user.png) 0 0 no-repeat;
+	background-size: 30px;
+	opacity: .3;
 }
 .using-user .user-list ul li .img-thumb img {
     position: absolute;
@@ -482,6 +496,14 @@
 }
 .using-user .user-list ul li span {
     color: #888;
+}
+.using-user .user-list p {
+	color: #666;
+	text-align: center;
+}
+.using-user .user-list p strong {
+	color: #67b16b;
+	line-height: 1.8;
 }
 
 

@@ -72,12 +72,14 @@
 	<!-- 이달의 챌린지 참여 회원 목록 -->
 	<resultMap type="MonthMember" id="MonthMemberResultMap">
 		<id property="no" column="NO" />
-		<result property="memNo" column="MEM_NO" />
+		<result property="memNo" column="T_MEM_NO" />
+		<result property="id" column="MEMBER_ID" />
 		<result property="chalNo" column="CHAL_NO" />
 		<result property="chalTitle" column="T_CHAL_TITLE" />
 		<result property="chalDate" column="CHAL_DATE" />
 		<result property="originalFilename" column="ORIGINAL_FILENAME" />
 		<result property="renamedFilename" column="M_RENAMED_FILENAME" />
+		<result property="modifyImgName" column="MEMBER_MODIFY_IMG_NAME" />
 		<result property="chalPoint" column="CHAL_COUNT" />
 		<result property="chalStatus" column="CHAL_STATUS" />
 		<result property="chalPoint" column="CHAL_POINT" />
@@ -240,16 +242,21 @@
 		)
 	</insert>
 	
+	<!-- 참여 중인 사용자 목록 조회 -->
+	<select id="findOngoingUserList" parameterType="map" resultMap="MonthMemberResultMap">
+		SELECT DISTINCT
+			MEMBER.MODIFY_IMG_NAME AS MEMBER_MODIFY_IMG_NAME,
+			MEMBER.ID AS MEMBER_ID
+		FROM MEMBER MEMBER
+		JOIN CHAL_MONTH_MEM T ON (MEMBER.NO = T.MEM_NO)
+		WHERE CHAL_NO = #{ chalNo } AND MEM_NO != #{ no }
+	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<!-- 참여 중인 사용자 목록 갯수 조회 -->
+	<select id="findOngoingUserCount" parameterType="_int" resultType="_int">
+		SELECT COUNT (*)
+		FROM MEMBER MEMBER
+		JOIN CHAL_MONTH_MEM T ON (MEMBER.NO = T.MEM_NO)
+		WHERE CHAL_NO = #{ chalNo } AND MEM_NO != #{ no }
+	</select>
 </mapper>

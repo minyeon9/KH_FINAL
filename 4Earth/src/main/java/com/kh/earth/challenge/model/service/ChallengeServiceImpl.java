@@ -15,6 +15,7 @@ import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
+import com.kh.earth.member.model.vo.Member;
 
 
 @Service
@@ -102,6 +103,20 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public List<MonthMember> findMonthCompleteList(Map<String, Object> map) {
 		return mapper.findMonthCompleteList(map);
 	}
+
+	// 참여 중인 사용자 목록 조회
+	@Override
+	public List<MonthMember> findOngoingUser(Map<String, Object> map) {
+		return mapper.findOngoingUserList(map);
+	}
+
+	// 참여 중인 사용자 목록 갯수 조회
+
+	@Override
+	public int findOngoingUserCount(Map<String, Object> mapCount) {
+		return mapper.findOngoingUserCount(mapCount);
+	}
+
 
 	
 

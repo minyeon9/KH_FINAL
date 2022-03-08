@@ -29,83 +29,55 @@
 				<p>${ loginMember.no }</p>
 				<div class="month-challenge-detail">
 					<div class="img-thumb">
-						<img
-							src="${ path }/resources/images/challenge/challenge_today01.jpg"
-							alt="">
+						<img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
 					</div>
 					<div class="item-cont">
-						<span>이달의 챌린지</span> <strong>${ month.chalTitle }</strong>
-						<p>${ month.chalContent }</p>
-						<span class="icon-point"> <fmt:formatNumber
-								pattern="##,###" value="${ month.chalPoint }" />
+						<span>이달의 챌린지</span>
+						<strong>${ month.chalTitle }</strong>
+						<span class="icon-point">
+							<fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" />
 						</span>
-						<button class="btn"
-							onclick="location.href='${ path }/month_write?chalNo=${ month.chalNo }'">참여하기</button>
+						<button class="btn" onclick="location.href='${ path }/month_write?chalNo=${ month.chalNo }'">참여하기</button>
 					</div>
 				</div>
 
 				<section class="section">
 					<div class="using-user">
 						<h4>참여중인 사용자</h4>
-						<span class="count"><em>12명</em>의 사용자가 참여 중입니다</span>
+						<span class="count"><em>${ count }</em>명의 사용자가 참여 중입니다</span>
 						<div class="user-list">
-							<ul>
-								<li>
-									<div class="img-thumb">
-										<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-									</div> <span>minyeongpark</span>
-								</li>
-								<li>
-									<div class="img-thumb">
-										<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-									</div> <span>user ID</span>
-								</li>
-								<li>
-									<div class="img-thumb">
-										<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-									</div> <span>user ID</span>
-								</li>
-								<li>
-									<div class="img-thumb">
-										<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-									</div> <span>user ID</span>
-								</li>
-								<li>
-									<div class="img-thumb">
-										<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-									</div> <span>user ID</span>
-								</li>
-								<li>
-									<div class="img-thumb">
-										<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-									</div> <span>user ID</span>
-								</li>
-								<li>
-									<div class="img-thumb">
-										<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
-									</div> <span>user ID</span>
-								</li>
-							</ul>
+							<c:if test="${ !empty ongoingMember }">
+								<ul>
+									<c:forEach var="ongoingMember" items="${ ongoingMember }">
+										<li>
+											<div class="img-thumb">
+												<c:if test="${ ongoingMember.modifyImgName != null }">
+													<img src="${ path }/resources/upload/member/${ ongoingMember.modifyImgName }" alt="">
+												</c:if>
+												<c:if test="${ ongoingMember.modifyImgName == null }">
+													<img src="" alt="">
+												</c:if>
+											</div>
+											<span>${ ongoingMember.id }</span>
+										</li>
+									</c:forEach>
+								</ul>
+							</c:if>
+							<c:if test="${ empty ongoingMember }">
+								<p>아직 참여 중인 사용자가 없습니다.<br><strong>${ loginMember.id }</strong>님이 제일 먼저 시작해보세요!</p>
+							</c:if>
 						</div>
 					</div>
 				</section>
 
 				<section class="section">
 					<h4>챌린지 참여 리뷰</h4>
-					<div class="reply">
-						<c:if test="${ empty loginMember }">
-							<form action="" method="">
-								<textarea name="" id="" placeholder="로그인 후 작성 가능합니다." disabled></textarea>
-								<button class="btn gray" disabled>등록</button>
-							</form>
-						</c:if>
-						<c:if test="${ !empty loginMember }">
-							<form action="" method="">
-								<textarea name="" id="" placeholder="간단한 참여 후기를 작성해주세요."></textarea>
-								<button class="btn">등록</button>
-								<span class="count-reply"><em>0</em> / 3000</span>
-							</form>
-						</c:if>
+					<div class="reply">st="${ !empty loginMember }">
+						<form action="" method="">
+							<textarea name="" id="" placeholder="간단한 참여 후기를 작성해주세요."></textarea>
+							<button class="btn">등록</button>
+							<span class="count-reply"><em>0</em> / 3000</span>
+						</form>
 
 						<div class="reply-list">
 							<ul>
@@ -115,8 +87,8 @@
 											<div class="img-thumb">
 												<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
 											</div>
-											<span>minyeongpark</span> <span class="date">0000-00-00
-												00:00</span>
+											<span>minyeongpark</span>
+											<span class="date">0000-00-00 00:00</span>
 										</div>
 										<div class="reply-cont">
 											<p>어쩌고 저쩌고 합니다. 오오오오오오 어쩌고 저쩌고 합니다. 오오오오오오 어쩌고 저쩌고 합니다.
@@ -135,8 +107,8 @@
 													<img src="../resources/images/@temp/@thumbnail01.jpg"
 														alt="">
 												</div>
-												<span>minyeongpark</span> <span class="date">0000-00-00
-													00:00</span>
+												<span>minyeongpark</span>
+												<span class="date">0000-00-00 00:00</span>
 											</div>
 											<div class="reply-cont">
 												<p>어쩌고 저쩌고 합니다.</p>
@@ -149,11 +121,9 @@
 										<li>
 											<div class="user-info">
 												<div class="img-thumb">
-													<img src="../resources/images/@temp/@thumbnail01.jpg"
-														alt="">
+													<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
 												</div>
-												<span>minyeongpark</span> <span class="date">0000-00-00
-													00:00</span>
+												<span>minyeongpark</span> <span class="date">0000-00-00 00:00</span>
 											</div>
 											<div class="reply-cont">
 												<p>어쩌고 저쩌고 합니다. 오오오오오오 어쩌고 저쩌고 합니다. 오오오오오오 어쩌고 저쩌고 합니다.
@@ -170,11 +140,9 @@
 								<li>
 									<div class="user-info">
 										<div class="img-thumb">
-											<img src="../resources/images/@temp/@thumbnail01.jpg"
-												" alt="">
+											<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
 										</div>
-										<span>jinahlee</span> <span class="date">0000-00-00
-											00:00</span>
+										<span>jinahlee</span> <span class="date">0000-00-00 00:00</span>
 									</div>
 									<div class="reply-cont">
 										<p>어쩌고 저쩌고 합니다. 오오오오오오</p>
@@ -187,11 +155,9 @@
 								<li>
 									<div class="user-info">
 										<div class="img-thumb">
-											<img src="../resources/images/@temp/@thumbnail01.jpg"
-												" alt="">
+											<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
 										</div>
-										<span>user ID user</span> <span class="date">0000-00-00
-											00:00</span>
+										<span>user ID user</span> <span class="date">0000-00-00 00:00</span>
 									</div>
 									<div class="reply-cont">
 										<p>어쩌고 저쩌고 합니다. 오오오오오오</p>
@@ -204,11 +170,9 @@
 								<li>
 									<div class="user-info">
 										<div class="img-thumb">
-											<img src="../resources/images/@temp/@thumbnail01.jpg"
-												" alt="">
+											<img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
 										</div>
-										<span>user ID user</span> <span class="date">0000-00-00
-											00:00</span>
+										<span>user ID user</span> <span class="date">0000-00-00 00:00</span>
 									</div>
 									<div class="reply-cont">
 										<p>어쩌고 저쩌고 합니다. 오오오오오오</p>
@@ -221,9 +185,13 @@
 							</ul>
 
 							<div class="paging">
-								<a href="#" class="prev"><span>이전</span></a> <strong>1</strong>
-								<a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a
-									href="#">5</a> <a href="#" class="next"><span>다음</span></a>
+								<a href="#" class="prev"><span>이전</span></a>
+								<strong>1</strong>
+								<a href="#">2</a>
+								<a href="#">3</a>
+								<a href="#">4</a>
+								<a href="#">5</a>
+								<a href="#" class="next"><span>다음</span></a>
 							</div>
 						</div>
 

@@ -15,6 +15,8 @@ public class MonthMember {
 
 	private int memNo;
 	
+	private String id;
+	
 	private int chalNo;
 	
 	private String chalTitle;
@@ -24,6 +26,8 @@ public class MonthMember {
 	private String originalFilename;
 	
 	private String renamedFilename;
+	
+	private String modifyImgName;
 	
 	private int chalCount;
 	

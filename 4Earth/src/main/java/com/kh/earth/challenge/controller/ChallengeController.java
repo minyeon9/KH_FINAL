@@ -2,12 +2,11 @@ package com.kh.earth.challenge.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
@@ -225,8 +224,6 @@ public class ChallengeController {
 			@RequestParam(value = "arrange", defaultValue="최신순") String arrange) {
 		log.info("challengeArrange() - 호출");
 		
-		log.info("arrange : " + arrange);
-		
 		int listCount = 0;
 		PageInfo pageInfo = null;
 		List<Month> monthList = null;
@@ -250,16 +247,31 @@ public class ChallengeController {
 	@GetMapping("/month_view")
 	public ModelAndView monthView(
 			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo) {
 		
-		log.info("이달의 챌린지 view - 호출");
-		
+		// 이달의 챌린지 조회
 		Month month = service.findMonthListByNo(chalNo);
 		
-		model.addObject("month", month);
-		model.setViewName("challenge/month_view");
+		// 참여 중인 사용자 목록 조회
+		Map<String, Object> map = new HashMap<>();
+		map.put("chalNo", chalNo);
+		map.put("no", loginMember.getNo());
+		List<MonthMember> ongoingMember = service.findOngoingUser(map);
 		
-		System.out.println("챌린지 번호 : " + chalNo);
+		// 참여 중인 사용자 목록 갯수 조회
+		Map<String, Object> mapCount = new HashMap<>();
+		mapCount.put("chalNo", chalNo);
+		mapCount.put("no", loginMember.getNo());
+		int count = service.findOngoingUserCount(mapCount);
+		
+		model.addObject("month", month);
+		model.addObject("ongoingMember", ongoingMember);
+		model.addObject("count", count);
+		
+		System.out.println();
+		
+		model.setViewName("challenge/month_view");
 		
 		return model;
 	}

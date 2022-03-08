@@ -10,6 +10,7 @@ import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
+import com.kh.earth.member.model.vo.Member;
 
 @Transactional
 public interface ChallengeService {
@@ -48,6 +49,13 @@ public interface ChallengeService {
 	
 	// 이달의 챌린지 완료
 	List<MonthMember> findMonthCompleteList(Map<String, Object> map);
+	
+	// 참여 중인 사용자 목록 조회
+	List<MonthMember> findOngoingUser(Map<String, Object> map);
+
+	// 참여 중인 사용자 목록 갯수 조회
+	int findOngoingUserCount(Map<String, Object> mapCount);
+
 
 
 

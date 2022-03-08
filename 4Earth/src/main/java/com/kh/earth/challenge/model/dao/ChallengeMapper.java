@@ -11,6 +11,7 @@ import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
+import com.kh.earth.member.model.vo.Member;
 
 
 @Mapper
@@ -43,6 +44,12 @@ public interface ChallengeMapper {
 	// 이달의 챌린지 참여 회원 저장 및 완료
 	int insertMonthMember(Map<String, Object> map);
 	List<MonthMember> findMonthCompleteList(Map<String, Object> map);
+
+	// 참여 중인 사용자 목록 조회
+	List<MonthMember> findOngoingUserList(Map<String, Object> map);
+
+	// 참여 중인 사용자 목록 갯수 조회
+	int findOngoingUserCount(Map<String, Object> mapCount);
 
 
 

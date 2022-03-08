@@ -9,7 +9,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
     <title>챌린지</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
