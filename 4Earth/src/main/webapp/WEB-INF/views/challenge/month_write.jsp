@@ -60,7 +60,7 @@
 								<img src="${ path }/resources/images/challenge/challenge_today01.jpg"alt="">
 							</div>
 							
-							<div class="upload-wrap">
+							<!-- <div class="upload-wrap">
 								<div class="upload-img">
 									<button type="button" class="btn-delete-img">
 										<i class="material-icons md-22">delete_outline</i>
@@ -75,7 +75,20 @@
 										<span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
 									</div>
 								</div>
-							</div>
+							</div> -->
+							
+							<div class="upload-wrap">
+                                <div class="upload-img"></div>
+                                <div class="upload-file">
+                                    <input type="text" class="input-file" disabled="" placeholder="파일을 선택해주세요." multiple="">
+                                    <input type="file" id="inputFileOrigin" name="upfile" accept="image/jpeg, image/jpg, image/gif, image/png" required>
+                                    <label for="inputFileOrigin" class="btn">파일 선택</label> 
+                                    <span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
+                                </div>
+                                <div class="file-edit-icon">
+                                    <a href="javascript:void(0);" class="btn-delete-img"><i class="material-icons md-22">delete_outline</i></a>
+                                </div>
+                            </div>
 
 							<%-- <button type="submit" class="btn" onclick="location.href='${ path }/today_complete?chalNo=${ today.chalNo }'">인증하기</button> --%>
 							<input type="submit" class="btn" id="btnComplete" value="인증하기">
@@ -88,9 +101,9 @@
 						<h4>나의 챌린지 참여 현황</h4>
 						<div class="gauge">
 							<c:set var="remainCount" value="${ requiredCount - fn:length(count) }" />
-							필요 횟수: ${ requiredCount }번<br>
+							<%-- 필요 횟수: ${ requiredCount }번<br>
 							완료 횟수: ${ fn:length(count) }번<br>
-							남은 횟수: ${ requiredCount - fn:length(count) }번
+							남은 횟수: ${ requiredCount - fn:length(count) }번 --%>
 							<ul>
 								<!-- 달성 완료 횟수 -->
 								<c:forEach var="count" items="${ count }" varStatus="status">
