@@ -39,6 +39,7 @@
 	 		<mapping path="/today_list"/>
 	 		<mapping path="/today_view"/>
 	 		<mapping path="/wishlist"/>
+	 		<mapping path="/purchase_cart"/>
 	 		
 			<exclude-mapping path="/today_main"/>
 			
