@@ -12,7 +12,12 @@
 <title>챌린지</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<div class="container">
+<c:if test="${ mapLength == requiredCount }">
+	<div class="container js-container">
+</c:if>
+<c:if test="${ mapLength < requiredCount }">
+	<div class="container">
+</c:if>
 	<div class="contents">
 		<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
@@ -47,9 +52,8 @@
 </div>
 
 <script type="text/javascript">
-let idxNum=1;
+let idxNum = 1;
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
-
 <script src="resources/js/challenge.js"></script>

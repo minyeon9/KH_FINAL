@@ -675,7 +675,20 @@ DROP TABLE CHAL_TODAY_MEM;
 --SELECT M.NO, M.MEM_NO, M.CHAL_NO, T.CHAL_TITLE, M.CHAL_DATE, M.CHAL_STATUS, M.ORIGINAL_FILENAME, M.RENAMED_FILENAME, M.CHAL_POINT, M.CHAL_POINT_STATUS
 --FROM CHAL_TODAY_MEM M
 --JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
---WHERE M.MEM_NO = 1;
+--WHERE M.MEM_NO = 2;
+
+-- 오늘의 챌린지 모두 참여 여부 조회
+--SELECT M.MEM_NO, M.CHAL_NO, M.CHAL_STATUS, T.CHAL_DATE
+--FROM CHAL_TODAY_MEM M
+--JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
+--WHERE M.MEM_NO = 2;
+
+--SELECT 
+--    CHAL_NO,
+--    CHAL_DATE
+--FROM CHAL_TODAY_MEM
+--WHERE MEM_NO = 2
+--ORDER BY NO;
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------

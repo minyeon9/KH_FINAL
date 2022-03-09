@@ -1,7 +1,10 @@
 package com.kh.earth.challenge.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,19 +59,29 @@ public class ChallengeController {
 			ModelAndView model,
 			@SessionAttribute(name = "loginMember") Member loginMember) {
 		
-		System.out.println("list 호출");
+		// System.out.println("list 호출");
 		
-		List<Today> todayList = service.getTodayList();
-		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo());
-		List<Integer> myListNumber = new ArrayList<>();
+		List<Today> todayList = service.getTodayList(); // 오늘의 챌린지 목록 조회
+		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo()); // 로그인한 사용자의 참여 목록 조회
+		List<Integer> myListNumber = new ArrayList<>(); // 참여 완료한 챌린지 번호 저장
 		
-		int mapLenght = todayMemberList.size();
+		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯수
 		
-		for( int i = 0; i < mapLenght; i++ ) {
+		for( int i = 0; i < mapLength; i++ ) {  // 참여 완료한 챌린지 번호 저장
 			myListNumber.add(todayMemberList.get(i).getChalNo());
 		}
 		
+		// 챌린지 날짜
+		Date todayDate = new Date();
+		if( mapLength != 0 ) {
+			todayDate = todayMemberList.get(0).getChalDate();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy년 MM월 dd일");
+			String todayDateStr = format.format(todayDate);
+			model.addObject("todayDateStr", todayDateStr);
+		}
+		
 		model.addObject("todayList", todayList);
+		model.addObject("mapLength", mapLength);
 		model.addObject("myListNumber", myListNumber);
 		model.setViewName("challenge/today_list");
 
@@ -107,7 +120,11 @@ public class ChallengeController {
 		
 		List<TodayMember> list = service.findChalTitle(map);
 		
+		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo()); // 로그인한 사용자의 참여 목록 조회
+		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯
+		
 		model.addObject("list", list.get(0));
+		model.addObject("mapLength", mapLength);
 		model.setViewName("challenge/today_complete");
 		
 		return model;
@@ -131,6 +148,26 @@ public class ChallengeController {
 		
 		log.info("Upfile Name : {}", upfile.getOriginalFilename()); // 파일 미 업로드 시 빈 문자열 출력
 		log.info("Upfile isEmpty : {}", upfile.isEmpty()); // 첨부파일이 없을 경우 true, 있을 경우 false
+		
+		
+		// 파일 확장자 체크
+		File file = new File( upfile.getOriginalFilename() );
+		String fileName = file.getName();
+		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+//		String[] extensionArr = new String[4];
+//		extensionArr[0] = "gif";
+//		extensionArr[1] = "jpg";
+//		extensionArr[2] = "jpeg";
+//		extensionArr[3] = "png";
+//		
+//		System.out.println("파일명: " + fileName);
+//		System.out.println("확장자: " + extension);
+//		
+//		System.out.println("arr: " + extensionArr);
+		
+		if ( !extension.equals("gif") &&  !extension.equals("jpg") && !extension.equals("jpeg") && !extension.equals("png") ) {
+			System.out.println("잘못된 형식의 파일입니다.");
+		}
 		
 		// 파일 저장
 		if( upfile != null && !upfile.isEmpty() ) {
@@ -290,30 +327,29 @@ public class ChallengeController {
 		map.put("no", loginMember.getNo());
 		List<MonthMember> count = service.getMonthGuage(map);
 		
-		 // 전체 필요 횟수
+		// 전체 필요 횟수
 		int requiredCount = 10;
 //		Map<String, Object> requiredCountMap = new HashMap<>();
 //		requiredCountMap.put("required", requiredCount);
 		
-		 // 남은 횟수
+		// 남은 횟수
 		int remainCount = requiredCount - count.size();
 		ArrayList<Integer> remainCountList = new ArrayList<>();
 		for( int i = 0; i < remainCount; i++ ) {
 			remainCountList.add(i);
 		}
 		
-		System.out.println("남은 횟수: " + remainCountList);
+		// System.out.println("남은 횟수: " + remainCountList);
 		
 		model.addObject("month", month);
 		model.addObject("requiredCount", requiredCount);
 		model.addObject("remainCount", remainCount);
 		model.addObject("count", count);
-		// model.addObject("requiredCountMap", requiredCountMap);
 		model.addObject("remainCountList", remainCountList);
 		model.setViewName("challenge/month_write");
 		
-		System.out.println("챌린지 번호 : " + chalNo);
-		System.out.println("남은 횟수: " + remainCountList);
+//		System.out.println("챌린지 번호 : " + chalNo);
+//		System.out.println("남은 횟수: " + remainCountList);
 
 		return model;
 		
@@ -329,10 +365,15 @@ public class ChallengeController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("chalNo", chalNo);
 		map.put("no", loginMember.getNo());
-		
 		List<MonthMember> list = service.findMonthCompleteList(map);
 		
+		int mapLength = list.size();
+		
+		int requiredCount = 10;
+		
 		model.addObject("list", list.get(0));
+		model.addObject("requiredCount", requiredCount);
+		model.addObject("mapLength", mapLength);
 		
 		model.setViewName("challenge/month_complete");
 		

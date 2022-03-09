@@ -88,9 +88,9 @@
 						<h4>나의 챌린지 참여 현황</h4>
 						<div class="gauge">
 							<c:set var="remainCount" value="${ requiredCount - fn:length(count) }" />
-							<%-- 필요 횟수: ${ requiredCount }번<br>
+							필요 횟수: ${ requiredCount }번<br>
 							완료 횟수: ${ fn:length(count) }번<br>
-							남은 횟수: ${ requiredCount - fn:length(count) }번 --%>
+							남은 횟수: ${ requiredCount - fn:length(count) }번
 							<ul>
 								<!-- 달성 완료 횟수 -->
 								<c:forEach var="count" items="${ count }" varStatus="status">

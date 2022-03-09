@@ -26,7 +26,7 @@
 			</div>
 
 			<div class="challenge">
-				<p>${ loginMember.no }</p>
+				<%-- <p>${ loginMember.no }</p> --%>
 				<div class="month-challenge-detail">
 					<div class="img-thumb">
 						<img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
