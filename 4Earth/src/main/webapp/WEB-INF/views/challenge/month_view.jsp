@@ -45,7 +45,9 @@
 				<section class="section">
 					<div class="using-user">
 						<h4>참여중인 사용자</h4>
-						<span class="count"><em>${ count }</em>명의 사용자가 참여 중입니다</span>
+						<c:if test="${ !empty ongoingMember }">
+							<span class="count"><em>${ count }</em>명의 사용자가 참여 중입니다</span>
+						</c:if>
 						<div class="user-list">
 							<c:if test="${ !empty ongoingMember }">
 								<ul>
