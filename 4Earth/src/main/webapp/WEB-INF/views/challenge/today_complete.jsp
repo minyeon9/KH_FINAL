@@ -27,13 +27,15 @@
 	            </div>
 	
 	            <div class="challenge">
-	            	${ today.chalTitle }
 	                <div class="complete-page">
-	                	<%-- <strong>${ todayMember.chalNo }</strong> --%>
-	                    <%-- <div class="img-thumb">
-	                        <img src="${ path }/resources/images/upload/${ todayMember.renamedFilename }" alt="">
-	                    </div> --%>
-	                    <p><span>${ loginMember.name }</span>님, 챌린지 인증이 완료되었습니다.</p>
+	                	<img class="deco" src="${ path }/resources/images/challenge/balloons.png" alt="">
+	                	<div class="txt">
+	                		<span class="user-name">${ loginMember.name }</span>님,
+	                		<p><span class="chal-title">${ list.chalTitle }</span> 챌린지 인증이 완료되었습니다.</p>
+	                	</div>
+	                    <div class="img-thumb">
+	                        <img src="${ path }/resources/upload/challenge/${ list.renamedFilename }" alt="">
+	                    </div>
 	                    <a href="${ path }/today_main" class="btn">오늘의 챌린지 메인으로</a>
 	                </div>
 	            </div>
@@ -43,30 +45,8 @@
 	    </div>
 	</div>
 	
-
+<script type="text/javascript">
+let idxNum=0;
+</script>          
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-
-<script>
-    $(() => {
-        let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/today_main', '/4earth/month_list', '/4earth/ongoing_list'];
-        let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
-
-        for( let i = 0; i < menuName.length; i++ ) {
-            let menuIdx = sideBarMenu.eq(i);
-
-            menuIdx.find('a').attr('href', menuPath[i]);
-            menuIdx.find('a > i').text(menuIcon[i]);
-            menuIdx.find('a > span').text(menuName[i]);
-        }
-
-        sideBarMenu.each(function(idx, el) {
-            if(idx == 0) {
-                $(this).addClass('current');
-            }
-        });
-    });
-</script>
-
-</html>
+<script src="resources/js/challenge.js"></script>

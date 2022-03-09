@@ -32,14 +32,15 @@
                             <i class="material-icons md-18">person_add</i> 회원가입
                         </a>
                     </div> -->
-    
+                    
+    				<c:if test="${ !empty loginMember }">
                     <div class="after-login">
-                        <a href="#">Guide</a>
-                        <a href="#"><i class="material-icons md-18">manage_accounts</i> Admin</a>
-                        <a href="#"><i class="material-icons md-18">account_circle</i> 
-                            박민영</b>님</a>
-                        <a href="#"><i class="material-icons md-18">logout</i> 로그아웃</a>
+                        <a href="${ path }"><i class="material-icons md-18">manage_accounts</i> User</a>
+                        <a href="${ path }/profile_view"><i class="material-icons md-18">account_circle</i> 
+                            ${ loginMember.name }</b>님</a>
+                        <a href="${ path }/logout"><i class="material-icons md-18">logout</i> 로그아웃</a>
                     </div>
+                    </c:if>
                 </div>
             </div>
             <nav class="nav">

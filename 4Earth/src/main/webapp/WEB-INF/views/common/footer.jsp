@@ -9,7 +9,9 @@
         <footer>
             <div class="footer-about">
                 <div class="footer-inner">
-                    <a href="#" class="logo">logo</a>
+                    <a href="${ path }" class="logo">
+                    	<img src="${ path }/resources/images/common/logo_footer.png" alt="4Earth">
+                    </a>
 
                     <div class="follow-sns">
                         <strong>Follow Us</strong>
@@ -33,9 +35,9 @@
                     <div class="follow-sns">
                         <strong>고객센터</strong>
                         <ul>
-                            <li><a href="#"><i class="icon icon-twiter"></i>유선상담</a></li>
-                            <li><a href="#"><i class="icon icon-twiter"></i>신고하기</a></li>
-                            <li><a href="#"><i class="icon icon-twiter"></i>1:1 문의</a></li>
+                            <li><a href="#"><i class="icon icon-tell"></i>유선상담</a></li>
+                            <li><a href="#"><i class="icon icon-report"></i>신고하기</a></li>
+                            <li><a href="#"><i class="icon icon-inquiry"></i>1:1 문의</a></li>
                         </ul>
                     </div>
                 </div>

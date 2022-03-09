@@ -28,11 +28,11 @@
 
                     <div class="challenge">
                         <div class="challenge-sort">
-                            <form action="" method="">
-                                <select name="" id="" class="selectbox">
-                                    <option value="높은 포인트순" selected>높은 포인트순</option>
-                                    <option value="낮은 포인트순">낮은 포인트순</option>
-                                    <option value="최신순">최신순</option>
+                            <form action="${ path }/challenge_arrange">
+                                <select name="arrange" id="challenge-arrange" class="selectbox" onchange="submit()">
+                                    <option value="최신순" <c:if test="${arrange eq '최신순'}">selected</c:if> >최신순</option>
+                                    <option value="높은포인트순" <c:if test="${arrange eq '높은포인트순'}">selected</c:if> >높은포인트순</option>
+                                    <option value="낮은포인트순" <c:if test="${arrange eq '낮은포인트순'}">selected</c:if> >낮은포인트순</option>
                                 </select>
                             </form>
                         </div>
@@ -44,18 +44,38 @@
 		                                <li class="complete">
 		                                    <a href="${ path }/month_view?chalNo=${ monthList.chalNo }">
 		                                        <div class="img-thumb">
-		                                            <img src="../resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                            <img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
 		                                        </div>
 		                                        <div class="item-cont">
 		                                            <strong>${ monthList.chalTitle }</strong>
 		                                            <p>${ monthList.chalContent }</p>
-		                                            <span class="icon-point">${ monthList.chalPoint }</span>
+		                                            <span class="icon-point">
+		                                            	<fmt:formatNumber pattern="##,###" value="${ monthList.chalPoint }" />
+		                                            </span>
 		                                        </div>
 		                                    </a>
 		                                </li>
 									</c:forEach>
 								</c:if>
                             </ul>
+                            
+                            <div class="paging">
+                            	<a href="${ path }/month_list?page=1" class="first"><span>맨 앞으로</span></a>
+                                <a href="${ path }/month_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+                                <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">	
+										<strong>${ status.current }</strong>
+									</c:if>
+									
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<%-- <a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a> --%>
+										<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
+										<%-- <a href="${ path }/product_arrange?category=${ category }&category-detail=${ detail }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a> --%>
+									</c:if>
+								</c:forEach>
+                                <a href="${ path }/month_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+                                <a href="${ path }/month_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -65,30 +85,10 @@
             </div>
         </div>
 
+<script type="text/javascript">
+let idxNum=1;
+</script>          
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
-<script>
-    $(() => {
-        let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/today_list', '/4earth/month_list', '/4earth/ongoing_list'];
-        let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
-
-        for( let i = 0; i < menuName.length; i++ ) {
-            let menuIdx = sideBarMenu.eq(i);
-
-            menuIdx.find('a').attr('href', menuPath[i]);
-            menuIdx.find('a > i').text(menuIcon[i]);
-            menuIdx.find('a > span').text(menuName[i]);
-        }
-
-        sideBarMenu.each(function(idx, el) {
-            if(idx == 1) {
-                $(this).addClass('current');
-            }
-        });
-        
-    });
-</script>
-
-</html>
+<script src="resources/js/challenge.js"></script>

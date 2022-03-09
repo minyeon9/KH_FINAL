@@ -64,14 +64,13 @@
                                 <div class="simple-login-area">
                                     <p>SNS 간편 로그인</p>
                                     <a href="javascript:kakaoLogin();">
-                                    <!-- <input type="button" class="splgin-btn" id="kakao" style="cursor:pointer;" value="카카오 간편 로그인"> -->
                                     <img class="login-btn" src="${ path }/resources/images/member/kakao-login-btn.png">
                                     </a>
                                     <a href="">
                                     <img class="login-btn" src="${ path }/resources/images/member/naver-login-btn.png" alt="">
                                     <!-- <input type="button" class="splgin-btn" id="naver" style="cursor:pointer;" value="네이버 간편 로그인"> -->
                                     </a>
-                                    <a href="javascript:kakaoLogout();">
+                                    <a href="javascript:unlinkWithKakao();">
                                     <img class="login-btn" src="${ path }/resources/images/member/google-login-btn.png">
                                     <!-- <input type="button" class="splgin-btn" id="google" style="cursor:pointer;" value="카카오 로그아웃"> -->
                                     </a>
@@ -100,8 +99,11 @@
             </div>
         </div>
 
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
+//사이드바의 인덱스 넘버
 let idxNum=1;
+
 </script>          
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/member.js"></script>

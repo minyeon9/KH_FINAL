@@ -1,6 +1,7 @@
 package com.kh.earth.member.controller;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
@@ -93,12 +95,12 @@ public class MemberController {
 	}
 	
 	@PostMapping("/signup_form")
-	public ModelAndView enroll(ModelAndView model, @ModelAttribute Member member, @RequestParam("imgname") MultipartFile imgname) {
+	public ModelAndView enroll(ModelAndView model, 
+			@ModelAttribute Member member, 
+			@RequestParam("imgname") 
+			MultipartFile imgname) {
 
 		log.info(member.toString());
-		
-		 System.out.println(imgname.getOriginalFilename());
-		 System.out.println(imgname.isEmpty());
 		 
 		 // 파일을 업로드하지 않으면 "", 파일을 업로드하면 "파일명"
 		 log.info("imgname Name : {}", imgname.getOriginalFilename());
@@ -115,8 +117,6 @@ public class MemberController {
 			 
 			try {
 				location = resourceLoader.getResource("resources/upload/member").getFile().getPath();
-				 // file:, classpath:등의 접두어로 리소스를 찾아올수있다. 웹루트는 접두어 필요없음. 
-				 // 반환하는 객체는 Resource객체임, 파일이름, 경로, 파일등을 찾아올 수 있다. 
 				renamedFileName = FileProcess.save(imgname, location);
 				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
 				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
@@ -149,6 +149,88 @@ public class MemberController {
 
 	}
 	
+	@PostMapping("/kakao_login")
+	@ResponseBody
+	public Object kakao_login(ModelAndView model, 
+			@ModelAttribute Member member, 
+			HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Map<String, String> map = new HashMap<>();
+		
+//	    Enumeration params = request.getParameterNames();
+//	    while(params.hasMoreElements()) {
+//	      String name = (String) params.nextElement();
+//	      System.out.print(" ▶ "+name + " : " + request.getParameter(name)); 
+//	    }
+	    
+		String id = request.getParameter("id");
+		String email = request.getParameter("kakao_account[email]");
+		String nickName = request.getParameter("properties[nickname]");
+		String image = request.getParameter("properties[profile_image]");
+
+		member.setId(id);
+		member.setName(nickName);
+		member.setEmail(email);
+		member.setImg_name(image);
+		member.setPlatform_type("KAKAO");
+    	// System.out.println("저장 전 memeber값 : "+member);
+    	
+    	Member resultM = service.findMemberById_forSNS(id);
+    	// System.out.println("DB에서 조회한 회원값 : "+resultM);
+    	
+    	if(resultM == null) {
+    		// 1. 회원정보가 없다면 회원가입을 시킨다.
+    		service.save(member);
+			
+    		// 소셜 로그인의 경우 가입과 동시에 로그인 진행 
+			Member loginMember = service.login(id, member.getPassword());
+			session.setAttribute("loginMember", loginMember);
+			
+			map.put("location", "http://localhost:8088/4earth/signup_finish?name="+member.getName());
+			return map;
+			
+    	} else if(resultM.getStatus().equals("N")){
+    		// 2. 탈퇴했다가 다시 가입하는것이라면 상태값을 바꾸어준다. 
+    		int result = service.reSignup(resultM.getId());
+    		if(result>0) {
+    			System.out.println("재가입에 성공하였습니다.");
+    					
+    			// 소셜 로그인의 경우 가입과 동시에 로그인 진행
+    			Member loginMember = service.login(id, member.getPassword());	
+    			session.setAttribute("loginMember", loginMember);
+    			
+    			map.put("location", "http://localhost:8088/4earth/signup_finish?name="+resultM.getName());
+    			
+    			return map;
+    			
+    		}else {
+    			// 가입 실패시 메인으로 이동
+    			map.put("location", "http://localhost:8088/4earth/");
+    			return map;
+    		}
+
+    	}
+    	
+		// 3. (신규가입X, 재가입X 일 경우) 로그인을 시킨다.
+    	Member loginMember = service.login(id, member.getPassword());	
+       	// System.out.println("sns회원가입으로 정보가 있는 사람 로긴 : "+loginMember);
+       	
+    	if(loginMember!=null) {
+    		// 로그인 성공
+    		session.setAttribute("loginMember", loginMember); 
+    		map.put("result", "login");
+    		map.put("location", "http://localhost:8088/4earth/");
+    	} else {
+    		// 로그인 실패
+    		map.put("result", "login_fail");
+    		map.put("location", "http://localhost:8088/4earth/login");
+    	}
+		
+    	return map;
+	}
+	
+	
+	
 	@GetMapping("/jsonTest")
 	@ResponseBody
 	public Object jsonTest() {		
@@ -172,15 +254,65 @@ public class MemberController {
 	public String signup_finish() {
 		log.info("signup_finish() - 호출");
 		
-		
-		
 		return "member/signup-finish";
 	}
 	
 	
+	@PostMapping("/member_delete")
+	public ModelAndView member_delete(ModelAndView model, @RequestParam String password,
+			@SessionAttribute(name="loginMember")Member loginMember) {
+		
+		// 로그인 멤버의 id와 입력한 패스워드로 로그인하여 해당 멤버인지 확인
+		Member member = service.login(loginMember.getId(), password);		
+
+		if(member != null) {
+			// 비밀번호를 제대로 입력했을 경우 탈퇴 진행
+			int result = service.delete(loginMember.getNo());
+			
+			if(result > 0) {
+				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+				model.addObject("location", "/logout"); 
+			}else {
+				model.addObject("msg", "회원 탈퇴에 실패하였습니다.");
+				model.addObject("location", "/profile_view");
+			}
+			
+			model.setViewName("common/msg");
+			
+			return model;
+			
+		}else {
+			// 비밀번호를 잘 못 입력한 경우
+			model.addObject("msg", "비밀번호를 잘못입력하셨습니다.");
+			model.addObject("location", "/profile_view");
+			model.setViewName("common/msg");
+			
+			return model;
+				
+		}
+		
+	}	
 	
-	
-	
+	@PostMapping("/kakao_unlink")
+	@ResponseBody
+	public Object kakao_unlink(ModelAndView model,
+			@SessionAttribute(name="loginMember")Member loginMember) {
+			Map<String, String> map = new HashMap<>();
+		
+			// 탈퇴 진행
+			int result = service.delete(loginMember.getNo());
+			
+			if(result > 0) {
+				map.put("location", "http://localhost:8088/4earth/logout");
+				map.put("msg", "정상적으로 탈퇴되었습니다.");
+
+			}else {
+				map.put("msg", "회원 탈퇴에 실패하였습니다.");
+				map.put("location", "http://localhost:8088/4earth/profile_view");
+			}
+			
+			return map;
+	};
 	
 	
 	@GetMapping("/find_id")

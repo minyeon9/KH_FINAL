@@ -10,6 +10,7 @@
 <html lang="ko">
 <head>
 	<link rel="stylesheet" href="${ path }/resources/css/style.css">
+	<link rel="stylesheet" href="${ path }/resources/css/admin.css">
     <link rel="stylesheet" href="${ path }/resources/css/jquery.fullPage.css">
     <script src="${ path }/resources/js/jquery-3.6.0.js"></script>
     <script src="${ path }/resources/js/ui.js"></script>
@@ -20,34 +21,44 @@
     <title>신고내용</title>
 </head>
 <body>
-	<div class="">
-        <h2>신고 제목 : ${ report.reportTitle }</h2>
-        <br>
-			<h4>신고 번호 : ${ report.reportNo }</h4>
-		<br>
-			<div>
-				신고분류 ${ report.reportCategory } <br>
-				신고일 ${ report.reportDate } <br>
-      			신고 회원 ${ report.reportMemberNo } <br>
-       			신고받은 회원 ${ report.reportedMemberNo } <br>
-			</div>
-		<div class="board">
-	           <table class="table">
-	        	<tbody>
-	        		<tr>
-	        			<th colspan="6">내용</th>
-	        		</tr>
-	        		<tr>
-	        			<td colspan="6">${ report.reportContent }</td>
-	        		</tr>
-	        	</tbody>
-	           </table>
-	       </div>
-	        <form method="post">
-	            <table class="store-editor">
-	            </table>                                   
-	        </form>
-	    </div>
+	<div class="admin-report">
+        <h2 style="text-align: center">신고 보기</h2> <br>
+           <table id="report-table">
+	           <colgroup>
+	           		<col style="10%">
+	           		<col style="40%">
+	           		<col style="15%">
+	           		<col style="35%">
+	    		</colgroup>
+		        	<tbody>
+		        		<tr>
+		        			<th>신고번호</th>
+		        			<td>${ report.reportNo }</td>
+		        			<th>제목</th>
+		        			<td>${ report.reportTitle }</td>
+		        		</tr>
+		        		<tr>
+		        			<th>신고 분류</th>
+		        			<td>${ report.reportCategory }</td>
+		        			<th>신고일</th>
+		        			<td>${ report.reportDate }</td>
+		        		</tr>
+		        		<tr>
+		        			<th>신고 회원</th>
+		        			<td>${ report.reportMemberNo }</td>
+		        			<th>신고받은 회원</th>
+		        			<td>${ report.reportedMemberNo }</td>
+		        		</tr>
+		        		<tr style="min-height: 200px;">
+		        			<td colspan="4">
+			        			<div id="report-content">
+				        			${ report.reportContent }
+			        			</div>
+			        		</td>
+		        		</tr>
+	        		</tbody>
+	       		</table>
+	       	</div>
     
     <script>
     </script>

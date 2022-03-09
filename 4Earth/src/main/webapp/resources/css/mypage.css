@@ -82,8 +82,45 @@
 /* ----------------------------------
     내정보
 ---------------------------------- */
+#unregister-btn2{
+  width: 95px;
+  font-size: 13px;
+  margin-left: 5px;
+  /* color: gray; */
+  /* border: 2px solid gray; */
+  /* font-weight: bold; */
+  font-family: 'Noto Sans KR', sans-serif; 
+}
+
+#unregster_notice{
+  width: 550px;
+  margin: auto;
+  text-align: left;
+  /* background-color: rgb(243, 243, 243); */
+}
+
+#unregster_notice h2{
+  text-align: center;
+}
+
+#unregister_cont{
+  /* position: relative; */
+  width: 550px;
+  padding: 20px 20px 20px 20px;
+  background-color: rgb(243, 243, 243);
+}
+
+.layer-inner{
+	  text-align: center;
+}
 
 
+.readonly:read-only{
+background-color: rgba(239, 239, 239, 0.3);
 
+}
 
+.readonly:focus{
+	border: 1px solid #ccc;
+}
 

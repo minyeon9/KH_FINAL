@@ -73,7 +73,7 @@
 	                               <div class="prov-cont">
                                        <div class="upload-file">
                                            <input type="text" class="input-file" disabled placeholder="파일을 선택해주세요." multiple>
-                                           <input type="file" id="inputFileOrigin" name="upfile" accept="image/jpeg, image/jpg, image/gif, image/png">
+                                           <input type="file" id="inputFileOrigin" name="upfile" accept="image/jpeg, image/jpg, image/gif, image/png" required>
                                            <label for="inputFileOrigin" class="btn">파일 선택</label> 
                                            <span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
                                        </div>
@@ -94,37 +94,8 @@
        </div>
    </div>
 	
-
+<script type="text/javascript">
+	let idxNum=0;
+</script>          
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-
-<script>
-    $(() => {
-        let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/today_main', '/4earth/month_list', '/4earth/ongoing_list'];
-        let menuName = ['오늘의 챌린지', '이달의 챌린지', '참여 중인 챌린지'];
-        let menuIcon = ['task_alt', 'public', 'bookmark_border' ]
-
-        for( let i = 0; i < menuName.length; i++ ) {
-            let menuIdx = sideBarMenu.eq(i);
-
-            menuIdx.find('a').attr('href', menuPath[i]);
-            menuIdx.find('a > i').text(menuIcon[i]);
-            menuIdx.find('a > span').text(menuName[i]);
-        }
-
-        sideBarMenu.each(function(idx, el) {
-            if(idx == 0) {
-                $(this).addClass('current');
-            }
-        });
-        
-        $('#btnComplete').on('click', function() {
-	        if( $('#inputFileOrigin').val().length == 0 ) {
-	        	alert(1);
-	        }
-        });
-        
-    });
-</script>
-
-</html>
+<script src="resources/js/challenge.js"></script>
