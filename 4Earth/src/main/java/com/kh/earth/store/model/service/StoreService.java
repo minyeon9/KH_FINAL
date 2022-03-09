@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.vo.Cart;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
@@ -32,6 +34,8 @@ public interface StoreService {
 	List<ProductOption> findProductOption(int no);
 
 	int addCart(Cart cart);
+	
+	int deleteCart(Cart cart);
 
 	List<Cart> getCartList(int no);
 
@@ -54,6 +58,17 @@ public interface StoreService {
 	List<ProductInquiry> getProductInqList(PageInfo inqPageInfo, int no);
 
 	int getProductInqCount(int no);
+
+	int createOrderSum(OrderSum orderSum);
+
+	int addOrderDetail(OrderDetail orderDetail);
+
+	int updateOrderSum(OrderSum orderSum);
+
+	List<OrderDetail> getOrderDetailList(int orderNo);
+
+
+
 
 
 

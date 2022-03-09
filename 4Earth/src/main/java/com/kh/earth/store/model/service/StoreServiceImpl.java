@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.dao.StoreMapper;
 import com.kh.earth.store.model.vo.Cart;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
@@ -138,6 +140,13 @@ public class StoreServiceImpl implements StoreService {
 		
 		return mapper.addToCart(cart);
 	}
+	
+	// 장바구니 삭제
+	@Override
+	public int deleteCart(Cart cart) {
+		
+		return mapper.deleteCart(cart);
+	}
 
 	// 장바구니 조회
 	@Override
@@ -216,13 +225,42 @@ public class StoreServiceImpl implements StoreService {
 		return mapper.getProductInqList(rowBounds, no);
 	}
 
-
 	// 상품 문의 개수 조회
 	@Override
 	public int getProductInqCount(int no) {
 		
 		return mapper.getProductInqCount(no);
 	}
+
+	// 주문번호 생성
+	@Override
+	public int createOrderSum(OrderSum orderSum) {
+		
+		return mapper.createOrderSum(orderSum);
+	}	
+
+	// 주문 상세 INSERT
+	@Override
+	public int addOrderDetail(OrderDetail orderDetail) {
+		
+		return mapper.addOrderDetail(orderDetail);
+	}
+
+	// 주문 가격 UPDATE
+	@Override
+	public int updateOrderSum(OrderSum orderSum) {
+		
+		return mapper.updateOrderSum(orderSum);
+	}
+
+	// 주문 상품 리스트 조회
+	@Override
+	public List<OrderDetail> getOrderDetailList(int orderNo) {
+		
+		return mapper.getOrderDetailList(orderNo);
+	}
+
+	
 
 	
 	
