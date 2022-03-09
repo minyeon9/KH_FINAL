@@ -16,6 +16,10 @@ public class Report {
 	
 	private int reportMemberNo;
 	
+	private String reportedMemberName;
+	
+	private String reportMemberName;
+	
 	private Date reportDate;
 	
 	private String reportTitle;

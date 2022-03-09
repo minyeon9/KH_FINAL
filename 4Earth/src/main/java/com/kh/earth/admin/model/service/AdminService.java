@@ -1,6 +1,7 @@
 package com.kh.earth.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
@@ -12,15 +13,15 @@ import com.kh.earth.store.model.vo.Product;
 
 public interface AdminService {
 
-	int getReportCount();
+	int getReportCount(Map<String, String> name);
 
-	List<Report> getReportList(PageInfo pageInfo);
+	List<Report> getReportList(PageInfo pageInfo, Map<String, String> name);
 
 	int deleteReport(int no);
 	
-	int getMemberCount();
+	int getMemberCount(Map<String, String> name);
 	
-	List<Member> getMemberList(PageInfo pageInfo);
+	List<Member> getMemberList(PageInfo pageInfo, Map<String, String> name);
 	
 	int deleteMember(int no);
 	
@@ -28,8 +29,10 @@ public interface AdminService {
 
 	List<Product> getProductList(PageInfo pageInfo);
 
-	List<Reported> getReportedList(PageInfo pageInfo);
+	List<Reported> getReportedList(PageInfo pageInfo, Map<String, String> name);
 
 	Report getReportDetail(int no);
+
+	int getReportedCount();
 
 }

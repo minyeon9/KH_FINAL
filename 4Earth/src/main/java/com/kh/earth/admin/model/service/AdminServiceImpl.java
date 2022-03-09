@@ -1,6 +1,7 @@
 package com.kh.earth.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,19 @@ public class AdminServiceImpl implements AdminService {
 	private AdminMapper mapper;
 	
 	@Override
-	public int getReportCount() {
+	public int getReportCount(Map<String, String> name) {
 		
-		return mapper.getProductCount();
+		return mapper.getReportCount(name);
 	}
 
 	@Override
-	public List<Report> getReportList(PageInfo pageInfo) {
+	public List<Report> getReportList(PageInfo pageInfo, Map<String, String> name) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		int limit = pageInfo.getListLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return mapper.getReportList(rowBounds);
+		return mapper.getReportList(rowBounds, name);
 	}
 	
 	@Override
@@ -47,18 +48,18 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public int getMemberCount() {
+	public int getMemberCount(Map<String, String> name) {
 		
-		return mapper.getMemberCount();
+		return mapper.getMemberCount(name);
 	}
 	
 	@Override
-	public List<Member> getMemberList(PageInfo pageInfo) {
+	public List<Member> getMemberList(PageInfo pageInfo, Map<String, String> name) {
 		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
 		int limit = pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return mapper.findMember(rowBounds);
+		return mapper.findMember(rowBounds, name);
 	}
 	
 	@Override
@@ -78,12 +79,12 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<Reported> getReportedList(PageInfo pageInfo) {
+	public List<Reported> getReportedList(PageInfo pageInfo, Map<String, String> name) {
 		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
 		int limit = pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return mapper.getReportedList(rowBounds);
+		return mapper.getReportedList(rowBounds, name);
 	}
 
 	@Override
@@ -91,6 +92,13 @@ public class AdminServiceImpl implements AdminService {
 		
 		return mapper.getReportDetail(no);
 	}
+
+	@Override
+	public int getReportedCount() {
+		
+		return mapper.getReportedCount();
+	}
+
 
 	
 

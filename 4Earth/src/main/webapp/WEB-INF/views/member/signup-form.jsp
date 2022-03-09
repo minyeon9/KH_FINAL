@@ -39,7 +39,7 @@
                                 <br>
                             
                             <form name="signup-form" action="${ path }/signup_form" method="post" enctype="multipart/form-data"
-                            onsubmit="return id_overlap_check()">
+                            onsubmit="return check_All()">
                           
                                 <img id="preview" src="${ path }/resources/images/member/user_default1.jpg" />
                                 <div class="filebox">
@@ -57,40 +57,53 @@
                                 </div>
                                     <br>
                                     <input type="text" name="id" id="userId" check_result="fail" 
-                                        placeholder="첫 문자를 영어로 시작하여 총 5~12자로 입력하세요." required/>
+                                        placeholder="첫 문자를 영어로 시작하여 총 5~12자로 입력" required/>
                                     <input type="button" id="checkDuplicate" class="btn" value="중복검사">
                                     
                                 </div>
                                 <div class="form-group">
+                                <div id="name-area">
                                     <label for="userPw">비밀번호</label>
+                                    <p id="member-password"></p>
+                                    </div>
                                     <br>
                                     <input type="password" name="password" id="userPwd"
-                                        placeholder="대/소문자, 숫자, 특수문자 포함하여 총 8~16자로 입력하세요." required />
-                                    <p id="member-password"></p>
+                                        placeholder="문자, 숫자, 특수문자 포함 총 8~16자로 입력" required />
+                                    
                                 </div>
                                 <div class="form-group">
+                                <div id="name-area">
                                     <label for="userPw">비밀번호 재확인</label>
+                                    <p id="member-passwordcheck"></p>
+                                    </div>
                                     <br>
                                     <input type="password" id="userPwCheck" placeholder="입력하신 패스워드를 다시 입력하세요." required/>
-                                    <div id="member-passwordcheck"></div>
+                                    
                                 </div>
                                 <div class="form-group">
+                                <div id="name-area">
                                     <label for="userName">이름</label>
-                                    <br>
-                                    <input type="text" name="name" id="userName" placeholder="이름" required/>
                                     <p id="member-name"></p>
+                                    </div>
+                                    <br>
+                                    <input type="text" name="name" id="userName" placeholder="총 2~16자로 입력" required/>
                                 </div>
                                 <div class="form-group">
+                                <div id="name-area">
                                     <label for="userEmail">이메일</label>
+                                    <p id="member-email"></p>
+                                    </div>
                                     <br>
                                     <input type="mail" name="email" id="userEmail" placeholder="이메일" required />
-                                    <p id="member-email"></p>
+                                    
                                 </div>
                                 <div class="form-group">
+                                <div id="name-area">
                                     <label for="userPhone">전화번호</label>
+                                    <p id="member-phone"></p>
+                                    </div>
                                     <br>
                                     <input type="text" name="phone" id="userPhone" placeholder="휴대전화" required/>
-                                    <p id="member-phone"></p>
                                 </div>
                                 <div class="form-group">
                                     <label for="userAddress">주소</label>
@@ -135,6 +148,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="dimed"></div>
                                 <br><br>
                                 <button type="submit" class="btn btn-login">가입하기</button>
                             </form>
@@ -152,7 +166,8 @@
                         <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
                     </div>
             </div>
-                    
+            
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>                    
 <script type="text/javascript">
 let idxNum=2;
 </script> 

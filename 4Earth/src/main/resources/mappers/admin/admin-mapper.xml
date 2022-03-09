@@ -15,6 +15,8 @@
 		<result property="reportContent" column="REPORT_CONTENT"/>
 		<result property="reportCategory" column="REPORT_CATEGORY"/>
 		<result property="reportStatus" column="REPORT_STATUS"/>
+		<result property="reportMemberName" column="REPORT_M_NAME"/>
+		<result property="reportedMemberName" column="REPORTED_M_NAME"/>
 	</resultMap>
 	
 	<resultMap type="Member" id="memberResultMap">
@@ -99,14 +101,65 @@
 			   PRO_RATING
 	</sql>
 
-	<select id="getReportCount" resultType="_int">
-		SELECT COUNT(*) FROM REPORT
+	<select id="getReportCount" resultType="_int" parameterType="string" >
+	SELECT COUNT(*)
+	FROM REPORT R
+	JOIN MEMBER M1 ON(R.REPORTED_M_NO = M1.NO)
+    JOIN MEMBER M2 ON(R.REPORT_M_NO = M2.NO)
+    <!--	<where>
+			<if test="category == '식품'">
+				AND PRO_CAT LIKE '1%'
+			</if>
+			<if test="category == '생활'">
+				AND PRO_CAT LIKE '2%'
+			</if>
+			<if test="category == '뷰티'">
+				AND PRO_CAT LIKE '3%'
+			</if>
+			<if test="category == '반려동물'">
+				AND PRO_CAT LIKE '4%'
+			</if>
+			AND PRO_STAT = 3
+		</where> -->
+		<choose>
+			<when test="no != null">
+		   		WHERE REPORT_NO LIKE '%' || {name} || '%'
+		   	</when>
+			<when test="name != null">
+		   		WHERE M1.NO LIKE '%' || {name} || '%'
+		   	</when>
+		   	<when test="name2 != null">
+		   		WHERE M2.NO LIKE '%' || {name} || '%'
+		   	</when>
+		</choose>
 	</select>
 	
 	<select id="getReportList" resultMap="ReportListResultMap">
-		<include refid="selectReportSql"/>
-		FROM REPORT
+		SELECT R.REPORT_NO, 
+			   R.REPORT_M_NO, 
+			   R.REPORTED_M_NO, 
+			    R.REPORT_DATE,
+			    R.REPORT_TITLE, 
+			    R.REPORT_CONTENT, 
+			    R.REPORT_STATUS, 
+			    R.REPORT_CATEGORY,
+			    M1.NAME AS REPORTED_M_NAME,
+			    M2.NAME AS REPORT_M_NAME
+		FROM REPORT R
+		JOIN MEMBER M1 ON(R.REPORTED_M_NO = M1.NO)
+		JOIN MEMBER M2 ON(R.REPORT_M_NO = M2.NO)
 		WHERE REPORT_STATUS = 'Y'
+		<choose>
+		   	<when test="no != null">
+		   		AND REPORT_NO LIKE '%' || #{no} || '%'
+		   	</when>
+			<when test="name != null">
+		   		AND M2.NAME LIKE '%' || #{name} || '%'
+		   	</when>
+		   	<when test="name2 != null">
+		   		AND M1.NAME LIKE '%' || #{name2} || '%'
+		   	</when>
+		</choose>
 		ORDER BY REPORT_NO DESC
 	</select>
 
@@ -131,6 +184,12 @@
 	    FROM MEMBER
 	    WHERE STATUS = 'Y'
 		<choose>
+		   	<when test="no != null">
+		   		AND NAME LIKE '%' || #{no} || '%'
+		   	</when>
+		   	<when test="id != null">
+		   		AND NAME LIKE '%' || #{id} || '%'
+		   	</when>
 		   	<when test="name != null">
 		   		AND NAME LIKE '%' || #{name} || '%'
 		   	</when>
@@ -145,12 +204,30 @@
 		   	<when test="name != null">
 		   		AND NAME LIKE '%' || #{name} || '%'
 		   	</when>
+		   	<when test="id != null">
+		   		AND ID LIKE '%' || #{id} || '%'
+		   	</when>
+		   	<when test="no != null">
+		   		AND NO LIKE '%' || #{no} || '%'
+		   	</when>
 		</choose>
 		ORDER BY NO DESC
 	</select>
 	
 	<select id="getProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
+	</select>
+	
+	<select id="getReportedCount" resultType="_int">
+		SELECT COUNT(*) FROM(
+				SELECT NO, 
+		       MEMBER_TYPE, 
+		       NAME,
+		       (SELECT COUNT(NO) FROM REPORT WHERE (REPORTED_M_NO)=NO) AS REPORTED
+			FROM MEMBER
+			WHERE NO IN(SELECT REPORTED_M_NO
+				        FROM REPORT)
+			AND STATUS = 'Y')
 	</select>
 	
 	<select id="getProductList" resultMap="ProductListResultMap">
@@ -169,12 +246,13 @@
 			FROM MEMBER
 			WHERE NO IN(SELECT REPORTED_M_NO
 				        FROM REPORT)
-			AND STATUS = 'Y'
+				AND STATUS = 'Y'
 		<choose>
 		   	<when test="name != null">
 		   		AND NAME LIKE '%' || #{name} || '%'
 		   	</when>
 		</choose>
+			ORDER BY REPORTED DESC
 	</select>
 
 	<select id="getReportDetail" parameterType="_int" resultMap="ReportListResultMap">

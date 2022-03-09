@@ -54,6 +54,11 @@
 		WHERE ID=#{id} AND STATUS = 'Y'
   	</select>
   	
+  	<select id="findMemberById_forSNS" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql" />
+		WHERE ID=#{id}
+  	</select>
+  	
   	<insert id="insertMember" parameterType="Member" 
   			useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
 		INSERT INTO MEMBER (
@@ -80,7 +85,14 @@
 		    #{phone},
 		    #{email},
 		    #{address},
-		    DEFAULT,
+		    <choose>
+		    	<when test="platform_type != null">
+					#{platform_type},
+		    	</when>
+		    	<otherwise>
+		    		DEFAULT,
+		    	</otherwise>
+		    </choose>
 		    DEFAULT,
 		    #{img_name}, 
 		    #{modify_img_name}, 
@@ -95,8 +107,26 @@
   			PHONE = #{phone},
   			EMAIL = #{email},
   			ADDRESS = #{address},
+  			IMG_NAME = #{img_name},
+            MODIFY_IMG_NAME = #{modify_img_name},
   			MODIFY_DATE = SYSDATE 
   		WHERE NO = #{no}
+  	</update>
+  	
+  	<delete id="deleteMember" parameterType="_int">
+  		UPDATE MEMBER
+  		SET
+  			STATUS = 'N'
+  		WHERE 
+  			NO = #{no}
+  	</delete>
+  	
+  	<update id="reSignup" parameterType="string">
+  		UPDATE MEMBER
+  		SET
+  			STATUS = 'Y'
+  		WHERE 
+  			ID = #{id}
   	</update>
 	
 </mapper>
