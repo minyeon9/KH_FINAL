@@ -2,8 +2,10 @@ package com.kh.earth.challenge.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.earth.challenge.model.service.ChallengeService;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.FileProcess;
@@ -100,8 +104,8 @@ public class ChallengeController {
 		model.addObject("today", today);
 		model.setViewName("challenge/today_view");
 		
-		System.out.println("챌린지 번호 : " + chalNo);
-		System.out.println("회원 번호 : " + loginMember.getNo());
+//		System.out.println("챌린지 번호 : " + chalNo);
+//		System.out.println("회원 번호 : " + loginMember.getNo());
 		
 		return model;
 	}
@@ -111,6 +115,7 @@ public class ChallengeController {
 	@GetMapping("/today_complete")
 	public ModelAndView todayComplete(
 			ModelAndView model,
+			@ModelAttribute Point point,
 			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo) {
 		
@@ -118,10 +123,12 @@ public class ChallengeController {
 		map.put("chalNo", chalNo);
 		map.put("no", loginMember.getNo());
 		
+		// 완료한 해당 챌린지 제목 / 업로드 파일명 포인트 조회
 		List<TodayMember> list = service.findChalTitle(map);
 		
+		// 최종 완료 체크(confetti)
 		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo()); // 로그인한 사용자의 참여 목록 조회
-		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯
+		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯수
 		
 		model.addObject("list", list.get(0));
 		model.addObject("mapLength", mapLength);
@@ -134,40 +141,20 @@ public class ChallengeController {
 	@PostMapping("/today_complete")
 	public ModelAndView todayComplete(
 			ModelAndView model,
+			@ModelAttribute Point point,
 			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo,
+			@RequestParam("chalPoint") int chalPoint,
 			@RequestParam("upfile") MultipartFile upfile) {
 		
 		Map<String, Object> map = new HashMap<>();
-		TodayMember todayMember = new TodayMember();
-		
 		map.put("chalNo", chalNo);
 		map.put("no", loginMember.getNo());
 		
-		int result = 0;
+		TodayMember todayMember = new TodayMember();
 		
 		log.info("Upfile Name : {}", upfile.getOriginalFilename()); // 파일 미 업로드 시 빈 문자열 출력
 		log.info("Upfile isEmpty : {}", upfile.isEmpty()); // 첨부파일이 없을 경우 true, 있을 경우 false
-		
-		
-		// 파일 확장자 체크
-		File file = new File( upfile.getOriginalFilename() );
-		String fileName = file.getName();
-		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-//		String[] extensionArr = new String[4];
-//		extensionArr[0] = "gif";
-//		extensionArr[1] = "jpg";
-//		extensionArr[2] = "jpeg";
-//		extensionArr[3] = "png";
-//		
-//		System.out.println("파일명: " + fileName);
-//		System.out.println("확장자: " + extension);
-//		
-//		System.out.println("arr: " + extensionArr);
-		
-		if ( !extension.equals("gif") &&  !extension.equals("jpg") && !extension.equals("jpeg") && !extension.equals("png") ) {
-			System.out.println("잘못된 형식의 파일입니다.");
-		}
 		
 		// 파일 저장
 		if( upfile != null && !upfile.isEmpty() ) {
@@ -193,21 +180,44 @@ public class ChallengeController {
 			}
 		}
 		
-		result = service.saveTodayMemberList(map);
-		
 		// 게시글 저장
+		int result = 0;
+		result = service.saveTodayMemberList(map);
 		todayMember.setChalNo(chalNo);
 		
 		if ( result > 0 ) {
 			model.addObject("msg", "오늘의 챌린지 인증이 완료되었습니다.");
 			model.addObject("location", "/today_complete?chalNo=" + chalNo);
-			
-			System.out.println("저장 챌린지 번호: " + chalNo);
-			System.out.println("회원번호 : " + loginMember.getNo());
-			
 		} else {
 			model.addObject("msg", "오늘의 챌린지 인증을 실패했습니다.");
 			model.addObject("location", "/today_list");
+		}
+		
+		// 포인트 적립(insert/update)
+		// 소멸 예정일
+		SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd");	
+		Date time = new Date();	//현재 날짜
+		Calendar cal = Calendar.getInstance(); // 날짜 계산	
+		cal.setTime(time);	
+		cal.add(Calendar.MONTH, 1); // + 1달
+		String date = simpleDate.format(cal.getTime());
+		
+        try {
+			Date disapearDate = simpleDate.parse(date); // String > Date 형변환
+			point.setDisapearDate(disapearDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		point.setMemNo(loginMember.getNo());
+		point.setPoint(chalPoint);
+		
+		// 최종 완료 체크(포인트 지급)
+		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo()); // 로그인한 사용자의 참여 목록 조회
+		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯수
+		
+		if( mapLength == 4 ) {
+			int pointResult = service.savePoint(point);
 		}
 		
 		model.setViewName("common/msg");
@@ -220,6 +230,7 @@ public class ChallengeController {
 	
 	
 	
+
 	// -------------------------------------------------------------------------------------------------------------
 	
 	
@@ -322,15 +333,13 @@ public class ChallengeController {
 		Month month = service.findMonthListByNo(chalNo);
 		
 		// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
-		Map<String, Object> map = new HashMap<>();
-		map.put("chalNo", chalNo);
-		map.put("no", loginMember.getNo());
-		List<MonthMember> count = service.getMonthGuage(map);
+		Map<String, Object> completeCount = new HashMap<>();
+		completeCount.put("chalNo", chalNo);
+		completeCount.put("no", loginMember.getNo());
+		List<MonthMember> count = service.getMonthGuage(completeCount);
 		
 		// 전체 필요 횟수
 		int requiredCount = 10;
-//		Map<String, Object> requiredCountMap = new HashMap<>();
-//		requiredCountMap.put("required", requiredCount);
 		
 		// 남은 횟수
 		int remainCount = requiredCount - count.size();
@@ -339,17 +348,12 @@ public class ChallengeController {
 			remainCountList.add(i);
 		}
 		
-		// System.out.println("남은 횟수: " + remainCountList);
-		
 		model.addObject("month", month);
 		model.addObject("requiredCount", requiredCount);
 		model.addObject("remainCount", remainCount);
 		model.addObject("count", count);
 		model.addObject("remainCountList", remainCountList);
 		model.setViewName("challenge/month_write");
-		
-//		System.out.println("챌린지 번호 : " + chalNo);
-//		System.out.println("남은 횟수: " + remainCountList);
 
 		return model;
 		
@@ -384,17 +388,16 @@ public class ChallengeController {
 	@PostMapping("/month_complete")
 	public ModelAndView monthComplete(
 			ModelAndView model,
+			@ModelAttribute Point point,
 			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo,
+			@RequestParam("chalPoint") int chalPoint,
 			@RequestParam("upfile") MultipartFile upfile) {
 		
 		Map<String, Object> map = new HashMap<>();
 		MonthMember monthMember = new MonthMember();
-		
 		map.put("chalNo", chalNo);
 		map.put("no", loginMember.getNo());
-		
-		int result = 0;
 		
 		log.info("Upfile Name : {}", upfile.getOriginalFilename()); // 파일 미 업로드 시 빈 문자열 출력
 		log.info("Upfile isEmpty : {}", upfile.isEmpty()); // 첨부파일이 없을 경우 true, 있을 경우 false
@@ -423,10 +426,9 @@ public class ChallengeController {
 			}
 		}
 		
-		result = service.saveMonthMemberList(map);
-		
 		// 게시글 저장
 		monthMember.setChalNo(chalNo);
+		int result = service.saveMonthMemberList(map);
 		
 		if ( result > 0 ) {
 			model.addObject("msg", "이달의 챌린지 인증이 완료되었습니다.");
@@ -438,6 +440,40 @@ public class ChallengeController {
 		} else {
 			model.addObject("msg", "이달의 챌린지 인증을 실패했습니다.");
 			model.addObject("location", "/month_list");
+		}
+		
+		// 포인트 적립(insert/update)
+		// 소멸 예정일
+		SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd");	
+		Date time = new Date();	//현재 날짜
+		Calendar cal = Calendar.getInstance(); // 날짜 계산	
+		cal.setTime(time);	
+		cal.add(Calendar.MONTH, 1); // + 1달
+		String date = simpleDate.format(cal.getTime());
+		
+        try {
+			Date disapearDate = simpleDate.parse(date); // String > Date 형변환
+			point.setDisapearDate(disapearDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		point.setMemNo(loginMember.getNo());
+		point.setPoint(chalPoint);
+		
+		System.out.println("sdfljsdflkd: " + chalPoint);
+		
+		// 최종 완료 체크(포인트 지급)
+		Map<String, Object> completeCount = new HashMap<>();
+		completeCount.put("chalNo", chalNo);
+		completeCount.put("no", loginMember.getNo());
+		
+		List<MonthMember> count = service.getMonthGuage(completeCount);
+		int mapLength = count.size();
+		int requiredCount = 10;
+		
+		if( mapLength == requiredCount ) {
+			int pointResult = service.savePoint(point);
 		}
 		
 		model.setViewName("common/msg");

@@ -55,27 +55,12 @@
 					<p>챌린지 번호: ${ month.chalNo }</p> --%>
 					<div class="prov-set">
 						<form action="${ path }/month_complete?chalNo=${ month.chalNo }"method="post" enctype="multipart/form-data">
+							<input type="text" name="chalPoint" value="${ month.chalPoint }" class="blind">
+							
 							<div class="thumb-img">
 								<strong>예시 이미지</strong>
-								<img src="${ path }/resources/images/challenge/challenge_today01.jpg"alt="">
+								<img src="${ path }${ month.chalImgPath }/challenge_today0${ month.chalNo }.jpg" alt="">
 							</div>
-							
-							<!-- <div class="upload-wrap">
-								<div class="upload-img">
-									<button type="button" class="btn-delete-img">
-										<i class="material-icons md-22">delete_outline</i>
-									</button>
-									<img src="" alt="">
-								</div>
-								<div class="prov-cont">
-									<div class="upload-file">
-										<input type="text" class="input-file" disabled placeholder="파일을 선택해주세요." multiple>
-										<input type="file" id="inputFileOrigin" name="upfile" accept="image/jpeg, image/jpg, image/gif, image/png" required>
-										<label for="inputFileOrigin" class="btn">파일 선택</label>
-										<span class="validate">gif, png, jpg 파일만 업로드 가능합니다.</span>
-									</div>
-								</div>
-							</div> -->
 							
 							<div class="upload-wrap">
                                 <div class="upload-img"></div>

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.earth.challenge.model.dao.ChallengeMapper;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
@@ -40,6 +41,20 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public int saveTodayMemberList(Map<String, Object> map) {
 		return mapper.insertTodayMember(map);
+	}
+	
+	// 오늘의 챌린지 달성 시 포인트 저장
+	@Override
+	public int savePoint(Point point) {
+		int result = 0;
+		
+		if( point.getNo() != 0 ) {
+			// result = mapper.updateBoard(board);
+		} else {
+			result = mapper.insertPoint(point);
+		}
+		
+		return result;
 	}
 	
 	// 오늘의 챌린지 인증 완료
@@ -118,12 +133,21 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	// 이달의 챌린지 참여 횟수 조회
 	@Override
-	public List<MonthMember> getMonthGuage(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return mapper.getMonthGuage(map);
+	public List<MonthMember> getMonthGuage(Map<String, Object> completeCount) {
+		return mapper.getMonthGuage(completeCount);
 	}
 	
 
+	
+
+
+	
+
+	
+
+	
+
+
 
 	
 
@@ -131,21 +155,6 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	
 
-
-	
-
-	
-	
-
-	
-
-
-	
-
-
-
-
-	
 	
 
 }

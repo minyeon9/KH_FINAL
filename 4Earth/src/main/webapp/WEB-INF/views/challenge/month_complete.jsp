@@ -32,15 +32,22 @@
 
 			<div class="challenge">
 				<div class="complete-page">
-					<img class="deco" src="${ path }/resources/images/challenge/balloons.png" alt="">
+					<i class="material-icons md-36">task_alt</i>
 					<div class="txt">
 						<span class="user-name">${ loginMember.name }</span>님,
 						<p><span class="chal-title">${ list.chalTitle }</span> 챌린지 인증이 완료되었습니다.</p>
+						<c:if test="${ mapLength == requiredCount }">
+							<div class="point"><strong class="icon-point">${ list.chalPoint } Point</strong> 지급 되었습니다.</div>
+							<a href="${ path }/point" class="link">
+								포인트 내역 <i class="material-icons md-20">arrow_right</i>
+							</a>
+						</c:if>
 					</div>
 					<div class="img-thumb">
 						<img src="${ path }/resources/upload/challenge/${ list.renamedFilename }" alt="">
 					</div>
-					<a href="${ path }/month_list" class="btn">이달의 챌린지 메인으로</a>
+					
+					<a href="${ path }/month_list" class="btn">이달의 챌린지 목록</a>
 				</div>
 			</div>
 		</section>
