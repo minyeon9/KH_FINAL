@@ -40,7 +40,8 @@
 							<img id="congratulation" src="${ path }/resources/images/member/concratulation.png" alt="">
 
 							<h1 id="signup-finish-title">
-								<span id="username"></span>님의 가입을 환영합니다!
+								<span id="username"></span>
+								님의 가입을 환영합니다!
 							</h1>
 							<br>
 							<p id="signup-finish-text">
@@ -48,7 +49,9 @@
 							</p>
 							<br><br>
 							<button class="btn btn-l gray" id="signup-finish-btn1" onClick="location.href='${ path }/'">홈으로</button>
+							<c:if test="${ empty loginMember }">
 							<button class="btn btn-l" id="signup-finish-btn2" onClick="location.href='${ path }/login'">로그인</button>
+							</c:if>
 							<br><br><br><br><br><br><br>
 						</div>
 					</div>

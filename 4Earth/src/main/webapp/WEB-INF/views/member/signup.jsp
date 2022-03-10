@@ -51,7 +51,6 @@
                                 <div class="simple-login-area">
                                     <p>SNS 간편 회원가입</p>
                                     <a href="javascript:kakaoLogin();">
-                                    <!-- <input type="button" class="splgin-btn" id="kakao" style="cursor:pointer;" value="카카오 간편 로그인"> -->
                                     <img class="login-btn" src="${ path }/resources/images/member/kakao-signup-btn.png">
                                     </a>
                                     <a href="">
@@ -85,7 +84,8 @@
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
         </div>
-   
+        
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
 let idxNum=2;
 </script>   

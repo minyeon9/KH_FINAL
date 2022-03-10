@@ -1,4 +1,44 @@
 /* ----------------------------------
+        kakao unlink
+---------------------------------- */
+// window.Kakao.init("d33d858d13446389bd9ff29763e3a882");
+ window.Kakao.isInitialized(); 
+ function unlinkWithKakao() {
+     Kakao.API.request({
+         url: '/v1/user/unlink',
+         success: res => {
+             // console.log("unlink :" + JSON.stringify(res));
+             // console.log(Object.keys(res));
+             
+             $.ajax({ 
+                 type: "post", 
+                 url: "kakao_unlink",
+                 data: res,
+                 datatype: 'JSON',
+                 success: function(data) {
+                     
+                	 location.replace(data.location);
+                
+                	 alert(data.msg);
+
+                     // console.log(res);
+                     // console.log(Object.keys(kakao_account));
+                     // console.log(Object.values(kakao_account));
+                     // location.replace("http://localhost:8088/4earth/");
+                 }, 
+                 error: function(error) {
+                     console.log("error", error );
+                 },
+                 complete: function() {
+                     console.log("complete");
+                 }
+             });
+         }
+     });
+ }
+
+
+/* ----------------------------------
         side bar
 ---------------------------------- */
     $(() => {
@@ -33,3 +73,6 @@ $(document).ready(()=>{
 	});
 });
 */
+
+
+

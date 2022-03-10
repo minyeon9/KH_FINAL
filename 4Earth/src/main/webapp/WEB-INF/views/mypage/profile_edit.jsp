@@ -70,8 +70,8 @@
                                     <input type="button" id="unregister-btn2" class="btn gray" value="회원탈퇴">
                                 	</a>
                                     
-                                    
                                 </div>
+                                <c:if test="${ !empty loginMember.password }">
                                 <div class="form-group2">
                                     <!-- <label for="userPw">비밀번호</label> -->
                                     <!-- <br> -->
@@ -79,8 +79,8 @@
                                     <input type="password" name="password" id="userPwd" value="*****"
                                         placeholder="비밀번호" class="readonly" disabled/>
                                     <input type="button" id="edit-btn" class="btn" value="비밀번호 변경">
-                                    
                                 </div>
+                                </c:if>
                                 <div class="form-group2">
                                     <!-- <label for="userName">이름</label> -->
                                     <!-- <br> -->
@@ -138,17 +138,23 @@
                                                     <p>1. 회원탈퇴 시 고객님의 정보는 상품 반품 및 A/S를 위해 전자상거래 등에서의 소비자 보호에 관한 법률에 의거한 고객정보 보호정책에 따라 관리됩니다. </p>
                                                     <p>2. 탈퇴 시 고객님께서 보유하셨던 포인트는 모두 삭제됩니다. </p>
                                                     <p>3. 탈퇴한 아이디는 본인과 타인 모두 재사용이 불가하오니 신중하게 선택해주시기 바랍니다. </p>
+                                                    <c:if test="${ loginMember.platform_type == 'KAKAO' }">
+                                                    <p>  (단 SNS 로그인의 경우 탈퇴 후 같은 아이디로 재가입이 가능합니다. )</p>
+                                                    </c:if>
                                                     <p>4. 혹시 이용 과정에서 불편한 점이 있으셨다면 [1:1 문의]로 내용을 남겨주세요. </p>
                                                 </div>
                                                 </div>
                                                 <br>
+                                                <c:if test="${ loginMember.platform_type == 'HOMEPAGE' }">
                                                 <div class="form-group">
                                                 <div class="check-box">
                                                     <input type="checkbox" id="checkbox2" required> 
                                                     <label for="checkbox2" id="check-cont">안내사항을 모두 확인하였으며, 이에 동의합니다.</label>
                                                 </div>
                                                 </div>
+                                                </c:if>
                                             </div>
+                                            <c:if test="${ loginMember.platform_type == 'HOMEPAGE' }">
                                             <br>
                                             <h3>탈퇴를 희망하신다면 비밀번호를 다시 한번 입력해주세요.</h3>
                                             <br>
@@ -158,19 +164,25 @@
                                                     <br><br>
                                                 <p>본인확인을 위해 비밀번호를 다시 한번 확인합니다. </p>
                                                 <p>비밀번호 재확인이 완료되면 회원탈퇴가 진행됩니다.</p>
-
                                                 <br>
                                                 </div>
+                                               </c:if>
                                                 <br>
+                                                <c:if test="${ loginMember.platform_type == 'KAKAO' }">
+                                                	<!--  <button type="submit"></button>  -->
+				                                    <a href="javascript:unlinkWithKakao();">
+				                                    <img class="login-btn" src="${ path }/resources/images/member/kakao_unlink_btn.png">
+				                                    </a>
+			                                    </c:if>
+			                                    <c:if test="${ loginMember.platform_type == 'HOMEPAGE' }">
                                                 <button type="submit" class="btn btn-login" >회원탈퇴</button>
+                                                <br><br>
+                                                </c:if>
                                                 <br>
                                             </form>
                                         </div>
-                                        <div class="btn-wrap">
-                                            <!-- <button class="btn gray btn-close-pop">취소</button> -->
-                                            <!-- <button class="btn btn-close-pop">확인</button> -->
-                                        </div>
                                     </div>
+                                    <div class="dimed"></div>
 
                         </div>
                     </div>
@@ -180,11 +192,13 @@
 
                         <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
                     </div>
+            	</div>
             </div>
-
+            
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
 let idxNum=5;
 </script>                 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
-<script src="resources/js/member.js"></script>
 <script src="resources/js/mypage.js"></script>
+<script src="resources/js/member.js"></script>

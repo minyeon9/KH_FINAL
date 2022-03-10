@@ -26,10 +26,9 @@ header {
     justify-content: space-between;
     width: 1100px;
     margin: 0 auto;
-    padding: 10px 0 20px;
+    padding: 15px 0;
 }
 .header-inner .logo {
-    font-size: 24px;
 }
 header .user {
     padding: 10px 0;
@@ -79,7 +78,7 @@ nav {
 }
 nav .logo {
     position: absolute;
-    top: 20px;
+    top: 17px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
@@ -274,8 +273,6 @@ footer a {
 }
 footer .logo {
     width: 100px;
-    height: 30px;
-    background: #888;
 }
 footer .cop-info ul li + li {
     margin-top: 5px;
@@ -312,7 +309,7 @@ footer .icon {
     width: 30px;
     height: 30px;
     background: url(../images/common/icon_sns.png) 0 0 no-repeat;
-    opacity: .5;
+    opacity: .3;
     margin: 0 auto 5px;
 }
 footer .icon:hover {
@@ -322,8 +319,11 @@ footer .icon:hover {
 footer .icon.icon-instargram { background-position: -80px 0; }
 footer .icon.icon-facebook { background-position: 0 0; }
 footer .icon.icon-youtube { background-position: -120px 0; }
+footer .icon.icon-tell { background-position: 0 -30px; }
+footer .icon.icon-report { background-position: -40px -30px; }
+footer .icon.icon-inquiry { background-position: -80px -30px; }
 .footer-copy .footer-inner {
-    padding-left: 165px;
+    padding-left: 185px;
     justify-content: flex-start;
 }
 .footer-copy .terms a {
@@ -333,7 +333,7 @@ footer .icon.icon-youtube { background-position: -120px 0; }
     margin-left: 10px;
 }
 .footer-copy .copy {
-    margin-left: 130px;
+    margin-left: 165px;
 }
 
 

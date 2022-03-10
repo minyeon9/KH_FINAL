@@ -38,9 +38,14 @@
 			<mapping path="/profile_edit"/>
 	 		<mapping path="/today_list"/>
 	 		<mapping path="/today_view"/>
-	 		<mapping path="/today_complete"/>
+      <mapping path="/today_complete"/>
 	 		<mapping path="/month_view"/>
+	 		<mapping path="/month_write"/>
 	 		<mapping path="/month_complete"/>
+	 		<mapping path="/wishlist"/>
+	 		<mapping path="/purchase_cart"/>
+	 		
+			<exclude-mapping path="/today_main"/>
 			
 			<beans:bean class="com.kh.earth.common.interceptor.LoginCheckInterceptor" id="LoginCheckInterceptor"/>
 			
