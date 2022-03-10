@@ -1,6 +1,7 @@
 package com.kh.earth.member.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -26,6 +27,7 @@ public interface MemberMapper {
 
 	int reSignup(String id);
 
+	int updatePassword(Map<String, String> map);
 
 
 }

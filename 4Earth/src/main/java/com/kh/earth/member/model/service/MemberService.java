@@ -19,4 +19,6 @@ public interface MemberService {
 
 	int reSignup(String id);
 
+	int updatePassword(int no, String password);
+
 }

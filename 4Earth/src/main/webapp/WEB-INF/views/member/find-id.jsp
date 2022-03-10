@@ -81,7 +81,7 @@
                         <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
                     </div>
             </div>
-
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
 let idxNum=1;
 </script>  

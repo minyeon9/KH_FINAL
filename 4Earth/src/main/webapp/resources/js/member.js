@@ -78,24 +78,6 @@ $(() => {
     });
 });
 
-// 프로필 이미지 등록시 미리보기
-const reader = new FileReader();
-
-reader.onload = (readerEvent) => {
-    document.querySelector("#preview").setAttribute("src", readerEvent.target.result);
-    
-};
-
-// 회원가입 - 프로필 이미지 로딩
-document.querySelector("#profileImg").addEventListener("change", (changeEvent) => {
-
-    const imgFile = changeEvent.target.files[0];
-    reader.readAsDataURL(imgFile);
-
-});
-
-
-/*document.getElementById("checkbox1").setCustomValidity("개인정보 수집 및 이용약관을 체크해주세요."); */
 
 /* ----------------------------------
         아이디 중복 확인
@@ -256,3 +238,133 @@ function check_All() {
 	
 	return true;
 }
+
+/* ----------------------------------
+      비밀번호 변경
+---------------------------------- */
+// 비밀번호
+$('#userPwd2').keyup(function() {
+  if (!passwordCheck.test($('#userPwd2').val())) {
+    $('#member-password2').css('color', 'red').text("형식 불일치");
+  } else {
+    $('#member-password2').css('color', 'green').text("OK");
+  }
+});
+
+// 비밀번호 확인체크
+$('#userPwCheck2').keyup(function(){
+  let passwd = $('#userPwd2').val();
+  let passwdcheck = $('#userPwCheck2').val();
+
+  if(passwd == passwdcheck){
+    passCheck = true;
+    $('#member-passwordcheck').text(' OK');
+    $('#member-passwordcheck').css('color', '#08a600');
+  }else{
+    passCheck = false;
+    $('#member-passwordcheck').text('동일하지 않음');
+    $('#member-passwordcheck').css('color', 'red');
+  }
+});
+
+function pw_change_check() {
+  let passwd = $('#userPwd1').val();
+  let newpasswd = $('#userPwd2').val();
+  let passwdcheck = $('#userPwCheck2').val();
+  let loginpw = $('#userPwd3').val();
+  console.log(loginpw);
+  console.log(document.cookie);
+  
+	if(!passwordCheck.test($('#userPwd2').val())){
+		alert("형식에 맞지 않는 비밀번호입니다.");
+		return false;
+	}else if(newpasswd != passwdcheck){
+		alert("비밀번호 재확인 결과가 동일하지 않습니다.");
+		return false;
+	}
+	
+	// return true;
+
+}
+
+/* ----------------------------------
+      비밀번호 찾기
+---------------------------------- */
+$(document).ready(()=>{
+	$("#findPw").on("click", ()=>{
+		let id = $("#id").val().trim();
+		let name = $("#name").val().trim(); 
+        let email = $("#email").val().trim();
+		// alert("버튼클릭 : "+id+", "+email+", "+name);
+		$.ajax({
+			type: "post",
+			url: "find_pw", 
+			dataType: "json",
+			data: {
+				id, name, email
+			},
+			success: (data)=>{
+			
+			console.log(data.result);
+			console.log(data.msg);
+
+			if(data.result == 'success'){
+			    let dimed = $('.dimed');
+				let popupWidth = $('.layer-popup').width();
+			    let popupHeight = $('.layer-popup').height();		
+			    let winX = ( $(window).width() - popupWidth) / 2;
+			    let winY = ( $(window).height() - popupHeight) / 2;
+	    
+	            $('.container').on('scroll touchmove mousewheel', function(event) { 
+	                event.preventDefault();
+	                event.stopPropagation();
+	                return false; 
+	            });
+				
+				dimed.css({display: 'block'}, 400);
+				
+	            $( '#popup02' ).addClass('is-open').css({
+	                left: winX + 'px',
+	                top: winY + 'px' 
+	            });
+			}else{
+				alert(data.msg);
+			}
+
+
+			},
+			error: (error)=>{
+				console.log(error);
+				console.log('에러야 에러');
+			}
+		});
+	});
+});
+
+
+
+
+
+
+// 프로필 이미지 등록시 미리보기
+const reader = new FileReader();
+
+reader.onload = (readerEvent) => {
+    document.querySelector("#preview").setAttribute("src", readerEvent.target.result);
+    
+};
+
+// 회원가입 - 프로필 이미지 로딩
+document.querySelector("#profileImg").addEventListener("change", (changeEvent) => {
+
+    const imgFile = changeEvent.target.files[0];
+    reader.readAsDataURL(imgFile);
+
+});
+
+
+/*document.getElementById("checkbox1").setCustomValidity("개인정보 수집 및 이용약관을 체크해주세요."); */
+
+
+
+

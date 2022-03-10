@@ -9,7 +9,7 @@
     <script src="../resources/js/jquery-3.6.0.js"></script>
     <script src="../resources/js/ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>아이디 찾기</title>
+    <title>비밀번호 찾기</title>
 </head>
 <body>
     <div class="wrap">
@@ -108,10 +108,10 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>아이디 찾기</h3>
+                        <h3>비밀번호 찾기</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="./find-id.html">아이디 찾기</a>
+                            <a href="./find-pw.html">비밀번호 찾기</a>
                         </div>
                     </div>
 
@@ -121,7 +121,7 @@
                         <div class="login-wrap">
 
                             <div class="img-area2">
-                                <img id="img2" src="../resources/images/member/find-id2.jpg">
+                                <img id="img2" src="../resources/images/member/find-pw2.jpg">
                             </div>
 
 
@@ -129,29 +129,62 @@
                             <div class="right-area">
                             <div class="find-form">
                                 <br><br><br><br>
-                                <h1>아이디 찾기</h1>
+                                <h1>비밀번호 재설정</h1>
                                 <br>
                                 <!-- <hr class="short-line"> -->
-                                <img id="result-img" src="../resources/images/member/find-id-result.png">
+                                <!-- <img id="result-img2" src="../resources/images/member/find-pw-result.png">
+                                <br>
+                                <br>
+                                <p id="find-pw-text">회원가입 시, 기입하신 이메일로
+                                    <br>임시 비밀번호가 발송되었습니다. </p>
                                 <br>
 
+                                <span id="small-text">
+                                    임시 비밀번호로 로그인 하신 후, <br>
+                                    마이페이지에서 꼭 비밀번호를 변경해주세요. 
+                                </span><br><br> -->
 
+                                <form name="pw_reset_form" action="${ path }/pw_reset" method="post" onsubmit="return pw_change_check()">
+                                        <table id="pw-reset-table">
+                                            <tr>
+                                                <th>새 비밀번호</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group1">
+                                                        <input type="password" name="userPwd2" id="userPwd2" placeholder="문자, 숫자, 특수문자 포함 총 8~16자" required/>
+                                                        <span id="member-password2"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr style="padding-top: -20px;">
+                                                <th>새 비밀번호 확인</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group1">
+                                                        <input type="password" name="userPwCheck2" id="userPwCheck2" placeholder="새 비밀번호와 동일하게 입력" required/>
+                                                        <span id="member-passwordcheck"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <br>
+                                        <div id="btn-area">
+                                        <button class="btn btn-login" id="chg-btn" type="submit">비밀번호 재설정</button>
+                                        </div>
+                                        <br><br>
+                                    </form>
 
-                                <br>
-
-                                <p id="find-text">회원님의 아이디는
-                                    <br> <span>potato1</span> 입니다.</p>
-                                <br>
-
-                                <button class="btn btn-login">비밀번호 찾기</button>
+                                <!-- <button class="btn btn-login" onclick="location.href='./login.html';">로그인 하러 가기</button> -->
                                 <br>
                                 <div id="find-area-box">
                                 <ul class="find-area2">
-                                    <li><a href="./login.html" class="sml-text2"><span>이전 화면으로</span></a></li>
+                                    <li><a href="./find-id.html" class="sml-text2"><span>아이디 찾기</span></a></li>
                                     <li id="bar">|</li>
                                     <!-- <li><a href="#" class="sml-text2"><span>로그인</span></a></li> -->
                                     <!-- <li id="bar">|</li> -->
-                                    <li><a href="${ path }/enroll" class="sml-text2"><span>회원가입</span></a></li>
+                                    <li><a href="./signup.html" class="sml-text2"><span>회원가입</span></a></li>
                                 </ul>
                                 </div>
                                 <hr class="short-line2">

@@ -128,5 +128,13 @@
   		WHERE 
   			ID = #{id}
   	</update>
+  	
+  	<update id="updatePassword" parameterType="map">
+  		UPDATE MEMBER
+  		SET
+  			PASSWORD = #{password}
+  		WHERE 
+  			NO = #{no}
+  	</update>
 	
 </mapper>

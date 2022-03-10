@@ -56,7 +56,8 @@ public class MemberController {
 		
 		if(member != null) {
 			session.setAttribute("loginMember", member);
-			
+//			session.setAttribute("test1", "dfdfd");
+//			System.out.println(session.getAttribute("test1"));
 			return "redirect:/";
 		}else {    
 			model.addAttribute("msg", "아이디나 비밀번호가 일치하지 않습니다.");
@@ -314,6 +315,36 @@ public class MemberController {
 			return map;
 	};
 	
+	@PostMapping("/pw_change")
+	public ModelAndView pw_change(ModelAndView model,
+			String userPwd1, String userPwd2, String userPwCheck2, 
+			@SessionAttribute(name="loginMember") Member loginMember) {
+		int result = 0;
+//		log.info("{}", userPwd1);
+//		log.info("{}, {}", userPwd2, userPwCheck2);
+		
+		Member loginSuccess = service.login(loginMember.getId(), userPwd1);
+		
+		if(loginSuccess != null) {
+			result = service.updatePassword(loginSuccess.getNo(), userPwd2);
+
+			if(result > 0) {
+				model.addObject("msg", "비밀번호를 변경하였습니다. 다시 로그인해주세요.");
+				model.addObject("location", "/logout");
+			}else {
+				model.addObject("msg", "비밀번호 변경에 실패하였습니다.");
+				model.addObject("location", "/profile_edit");
+			}
+				
+		}else {
+			model.addObject("msg", "기존 비밀번호를 잘못 입력하셨습니다.");
+			model.addObject("location", "/profile_edit");
+		}
+		
+		model.setViewName("common/msg");
+
+		return model;
+	}
 	
 	@GetMapping("/find_id")
 	public String find_id() {
@@ -327,6 +358,80 @@ public class MemberController {
 		log.info("find_pw() - 호출");
 		
 		return "member/find-pw";
+	}
+	
+	
+	
+	@PostMapping("/find_pw")
+	@ResponseBody
+	public Object find_pw(ModelAndView model,
+			@ModelAttribute Member member) {
+		Map<String, String> map = new HashMap<>();
+
+		log.info("{}, {}", member.getName(), member.getId());
+		log.info("이메일 : {}", member.getEmail());
+		
+		Member resultM = service.findMemberById(member.getId());
+
+		if(resultM != null) {
+			
+			boolean resultName = resultM.getName().equals(member.getName());
+			boolean resultEmail = resultM.getEmail().equals(member.getEmail());
+			
+			if(!resultName){
+				map.put("result", "fail");
+				map.put("msg", "이름이 일치하지 않습니다.");
+			}else if(!resultEmail) {
+				map.put("result", "fail");
+				map.put("msg", "이메일이 일치하지 않습니다.");
+			}else if(resultName && resultEmail) {
+				map.put("result", "success");
+				map.put("msg", "해당 회원이 존재합니다.");
+			}
+			
+			return map;
+		}else {
+			map.put("result", "fail");
+			map.put("msg", "해당 ID의 회원이 존재하지 않습니다.");
+		}
+		return map;
+	}
+	
+	@PostMapping("/verification")
+	public ModelAndView verification(ModelAndView model, String vf_code) {
+		
+		String str = "1111";
+		
+		if(str.equals(vf_code)) {
+			System.out.println("인증성공!");	
+			model.addObject("msg", "인증에 성공하셨습니다.");
+			model.addObject("location", "/");
+			
+		}else {
+			System.out.println("인증실패!");	
+			model.addObject("msg", "인증에 실패하셨습니다.");
+			model.addObject("location", "/");
+		}
+		
+		model.setViewName("common/msg");
+		return model;
+	}
+	
+	
+	
+	
+	@GetMapping("/find_pw_finish")
+	public String find_pw_finish() {
+		log.info("find_pw_finish() - 호출");
+		
+		return "member/find-pw-finish";
+	}
+	
+	@GetMapping("/find_id_finish")
+	public String find_id_finish() {
+		log.info("find_id_finish() - 호출");
+		
+		return "member/find-id-finish";
 	}
 
 }

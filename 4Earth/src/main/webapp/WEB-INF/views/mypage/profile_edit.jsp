@@ -76,15 +76,19 @@
                                     <!-- <label for="userPw">비밀번호</label> -->
                                     <!-- <br> -->
                                     <!-- <p id="member-id"><i class="material-icons md-16">check</i> OK</p> -->
-                                    <input type="password" name="password" id="userPwd" value="*****"
-                                        placeholder="비밀번호" class="readonly" disabled/>
-                                    <input type="button" id="edit-btn" class="btn" value="비밀번호 변경">
+                                    <!-- <input type="hidden" name="password3" id="userPwd3" value="${loginMember.password} }"/> -->
+                                    <!--  <input type="password" name="password" id="userPwd" value="*****"
+                                        placeholder="비밀번호" class="readonly" disabled/>  -->
+                                    <!--  <a href="#popup02" class="btn btn-open-pop" id="edit-btn1">비밀번호 변경</a> -->
                                 </div>
                                 </c:if>
                                 <div class="form-group2">
                                     <!-- <label for="userName">이름</label> -->
                                     <!-- <br> -->
                                     <input type="text" name="name" id="userName" placeholder="이름" value="${ loginMember.name }"/>
+                                    <c:if test="${ !empty loginMember.password }">
+                                    <a href="#popup02" class="btn btn-open-pop" id="edit-btn1">비밀번호 변경</a>
+                                    </c:if>
                                     <p id="member-name"></p>
                                 </div>
                                 <div class="form-group2">
@@ -194,6 +198,61 @@
                     </div>
             	</div>
             </div>
+            
+            
+            <div class="layer-popup" id="popup02">
+                <div class="layer-inner">
+                    <div class="pop-head">
+                        <strong>비밀번호 변경</strong>
+                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+                    </div>
+                    <div class="pop-cont">
+                        <form name="pw_change_form" action="${ path }/pw_change" method="post" onsubmit="return pw_change_check()">
+                        <br>
+                        <h2>비밀번호 변경</h2>
+                        <br>
+                            <table id="pw-change-table">
+                                <tr>
+                                    <th>기존 비밀번호</th>
+                                    <td>
+                                        <div class="input-group1">
+                                        <input type="password" name="userPwd1" id="userPwd1" placeholder="기존 비밀번호" required/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>새 비밀번호</th>
+                                    <td>
+                                        <div class="input-group1">
+                                            <input type="password" name="userPwd2" id="userPwd2" placeholder="문자, 숫자, 특수문자 포함 총 8~16자" required/>
+                                            <span id="member-password2"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>새 비밀번호 확인</th>
+                                    <td>
+                                        <div class="input-group1">
+                                            <input type="password" name="userPwCheck2" id="userPwCheck2" placeholder="새 비밀번호와 동일하게 입력" required/>
+                                            <span id="member-passwordcheck"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br>
+                            <div id="btn-area">
+                            <button class="btn btn-login" id="chg-btn" type="submit">비밀번호 변경</button>
+                            </div>
+                            <br><br>
+                        </form>
+                    </div>
+                    <!-- <div class="btn-wrap">
+                        <button class="btn gray btn-close-pop">취소</button>
+                        <button class="btn">저장</button>
+                    </div> -->
+                </div>
+            </div>
+            <div class="dimed"></div>
             
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">

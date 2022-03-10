@@ -380,23 +380,37 @@
   /* width: 430px; */
   height: 550px;
   overflow: hidden;
-  background-color: blue;
+  /* background-color: blue; */
 }
 
 #img2 {
-  /* position: relative; */
+  position: relative;
   /* position: absolute; */
   left: 0px;
   width: 390px;
   height: 100%;
+  overflow-x:hidden;
+  overflow-y:hidden;
+  z-index: 1;
 }
+/* -------find-id img animation-------- */
+.img-area2 > #img2 {
+  transform: translateY(0px);
+  transition: transform 3s;
+}
+
+.img-area2:hover > #img2 {
+  transform: scale(1.1) translateY(10px);
+}
+
+
 
 .right-area {
   /* display: inline-flexbox; */
   /* position: absolute; */
   position: relative;
   /* right: 0px; */
-  width: 60%;
+  width: 52%;
   height: 550px;
   /* background-color: red; */
 }
@@ -758,10 +772,54 @@ text-align: center;
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-.form-group2 #edit-btn{
-  justify-content: center;
+#edit-btn1{
+  width: 95px;
+  font-size: 13px;
+  font-family: 'Noto Sans KR', sans-serif;
+  padding-top: 7px;
 }
 
+#pw-change-table{
+  width: 500px;
+  height: 200px;
+  /* background-color: lemonchiffon; */
+  border-collapse: collapse;
+  border: 1px solid #c4c4c4;
+  border-top: 2px solid #c4c4c4;
+  margin: auto;
+  border-left: none;
+  border-right: none;
+}
+
+#pw-change-table th{
+  width: 30%;
+  text-align: right;
+  padding-right: 20px;
+  background-color: rgb(245, 245, 245);
+}
+
+#pw-change-table tr{
+  border-bottom: 1px solid #c4c4c4;
+}
+
+#pw-change-table td{
+  border: none;
+  padding-left: 15px;
+}
+
+#btn-area{
+  text-align: center;
+}
+
+.pop-cont h2{
+  text-align: center;
+}
+
+.input-group1 input:not(.btn) {
+  border-radius: 10px;
+  width: 250px;
+  height: 38px;
+}
 
 /* ----------------------------------
     unregister css
@@ -800,3 +858,36 @@ text-align: center;
   /* background-color: #03c75a; */
 }
 
+/* ----------------------------------
+    find-pw-reset css
+---------------------------------- */
+#pw-reset-table{
+  width: 300px;
+  height: 150px;
+  /* background-color: lemonchiffon; */
+  border-collapse: collapse;
+  border: 1px solid #c4c4c4;
+  border-top: 2px solid #c4c4c4;
+  margin: auto;
+  border-left: none;
+  border-right: none;
+}
+
+#pw-reset-table th{
+  /* width: 40%; */
+  height: 40px;
+  text-align: left;
+  padding-left: 15px;
+  background-color: rgb(245, 245, 245);
+}
+
+#pw-reset-table tr{
+  /* border-bottom: 1px solid #c4c4c4; */
+}
+
+#pw-reset-table td{
+  border: none;
+  height: 60px;
+  /* background-color: white; */
+  /* padding-left: 15px; */
+}

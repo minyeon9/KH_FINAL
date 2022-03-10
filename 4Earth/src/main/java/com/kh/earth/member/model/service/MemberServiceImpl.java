@@ -1,5 +1,8 @@
 package com.kh.earth.member.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -80,6 +83,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int reSignup(String id) {
 		return mapper.reSignup(id);
+	}
+
+	@Override
+	public int updatePassword(int no, String password) {
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("no", String.valueOf(no));
+		map.put("password", passwordEncoder.encode(password));
+		
+		return mapper.updatePassword(map);
 	}
 
 
