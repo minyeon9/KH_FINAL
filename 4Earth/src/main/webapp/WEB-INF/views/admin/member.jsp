@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                    <div class="guide">
+                    <div class="admin-member">
                         <!-- Category -->
                         <section>
                             <div style="margin-bottom: 5px;">
@@ -113,7 +113,7 @@
 		                                            <td>${ member.member_type }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
-					                                 <div class="layer-popup" id="popup${ vs.index }">
+					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
 						                                    	${ member.no }
@@ -121,7 +121,34 @@
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
-						                                       ${ member.enrollDate }
+						                                       <table id="view-table">
+													           <colgroup>
+													           		<col style="10%">
+													           		<col style="40%">
+													           		<col style="15%">
+													           		<col style="35%">
+													    		</colgroup>
+													        	<tbody>
+													        		<tr>
+													        			<th>이름</th>
+													        			<td>${ member.name }</td>
+													        			<th>가입일</th>
+													        			<td>${ member.enrollDate }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>이메일</th>
+													        			<td>${ member.email }</td>
+													        			<th>신고일</th>
+													        			<td>${ member.phone }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>주소</th>
+													        			<td>${ member.address }</td>
+													        			<th>빈칸</th>
+													        			<td>빈칸</td>
+													        		</tr>
+												        		</tbody>
+													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
 						                                        <button class="btn gray btn-close-pop">취소</button>
