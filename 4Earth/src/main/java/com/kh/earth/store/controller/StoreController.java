@@ -21,6 +21,9 @@ import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.service.StoreService;
 import com.kh.earth.store.model.service.StoreServiceImpl;
 import com.kh.earth.store.model.vo.Cart;
+import com.kh.earth.store.model.vo.CartList;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
@@ -366,6 +369,7 @@ public class StoreController {
 			log.info("list : " + list.toString());
 			
 			model.addObject("list", list);
+			model.addObject("loginMember", loginMember);
 			
 			model.setViewName("store/purchase-cart");	
 		} else {
@@ -377,11 +381,122 @@ public class StoreController {
 		return model;
 	}
 	
-	@GetMapping("/purchase_payment")
-	public String purchasePayment() {
-		log.info("purchasePayment() - 호출");
+	// 장바구니 삭제
+	@PostMapping("/delete_cart")
+	public String deleteCart(
+			@RequestBody Map<String, Object> product,
+			@SessionAttribute(name = "loginMember") Member loginMember
+			) {
+		String data = "";
 		
-		return "store/purchase-payment";
+		if(loginMember != null) {
+			log.info("product : " + product);
+			
+			Cart cart = new Cart();
+			
+			cart.setProNo(Integer.parseInt(product.get("proNo").toString()));
+			cart.setProOptNo(Integer.parseInt(product.get("proOptNo").toString()));
+			cart.setMemberNo(Integer.parseInt(product.get("memberNo").toString()));
+			
+			int result = service.deleteCart(cart);
+			
+			if(result > 0) {
+				data = "success";
+			} else {
+				data = "fail";
+			}
+			
+		} else {
+			log.info("로그인되어있지 않음");
+		}
+		
+		return data;
+	}
+	
+	// 주문하기
+	@PostMapping("/purchase_payment")
+	public ModelAndView purchasePayment(
+			ModelAndView model,
+			@ModelAttribute CartList cartList,
+			@SessionAttribute(name = "loginMember") Member loginMember
+			) {
+		log.info("purchasePayment() - 호출");
+		int detailResult = 0;
+		
+		if(loginMember != null) {
+			System.out.println(cartList.getCartList().size());
+			
+			OrderSum orderSum = new OrderSum();
+			
+			orderSum.setMemberNo(loginMember.getNo());
+			
+			// 주문번호(시퀀스) 생성
+			int sumResult = service.createOrderSum(orderSum);
+			
+			if(sumResult > 0) {
+				int result = 0;
+				int orderNo = orderSum.getOrderNo();
+				int orderPrice = 0; 
+				
+				log.info("orderNo : " + orderNo);
+				
+				// Cart -> OrderDetail
+				for(Cart c : cartList.getCartList()) {
+					System.out.println(c.toString());
+					
+					OrderDetail orderDetail = new OrderDetail();
+					
+					orderDetail.setOrderNo(orderNo);
+					orderDetail.setMemberNo(loginMember.getNo());
+					orderDetail.setDetailProNo(c.getProNo());
+					orderDetail.setDetailProName(c.getProName());
+					orderDetail.setDetailOpt(c.getProOptNo());
+					orderDetail.setDetailOptName(c.getProOpt());
+					orderDetail.setDetailQty(c.getCartQty());
+					orderDetail.setDetailPrice(c.getProPrice());
+					
+					log.info("orderDetail : " + orderDetail.toString());
+					
+					detailResult = service.addOrderDetail(orderDetail);					
+					
+					if(detailResult > 0) {
+						// 성공
+						orderPrice += orderDetail.getDetailPrice() * orderDetail.getDetailQty();
+						
+						
+					} else {
+						// 실패 
+						
+					}
+				}
+				
+				log.info("orderPrice : " + orderPrice);
+				
+				orderSum.setOrderPrice(orderPrice);
+				
+				result = service.updateOrderSum(orderSum);
+				
+				List<OrderDetail> OrderDetailList = service.getOrderDetailList(orderNo);
+				
+				model.addObject("list", OrderDetailList);
+				model.addObject("orderSum", orderSum);
+				model.addObject("loginMember", loginMember);
+				
+				log.info("loginMember : " + loginMember.toString());
+				
+				model.setViewName("store/purchase-payment");
+				
+			} else {
+				log.info("주문번호 생성 실패");
+			}
+			
+		} else {
+			model.addObject("msg", "로그인 후 이용이 가능합니다.");
+			model.addObject("location", "/login");			
+			model.setViewName("common/msg");
+		}
+		
+		return model;
 	}
 	
 	@GetMapping("/write_review")

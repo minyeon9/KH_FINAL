@@ -15,6 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.earth.admin.model.service.AdminService;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
+import com.kh.earth.challenge.model.vo.Month;
+import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.Today;
+import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.vo.Product;
@@ -178,46 +182,121 @@ public class AdminController {
 		return "admin/echo_cancel";
 	}
 	
-	@GetMapping("/report_view")
-	public ModelAndView admin_report_view(ModelAndView model,
-			@RequestParam("no")int no
-			) {
-		log.info("admin_report_view() - 호출" + no);
+	@GetMapping("/echo_write")
+	public String admin_echo_write(ModelAndView model) {
+		log.info("admin_echo_write() - 호출");
 		
-		Report report = service.getReportDetail(no);
+		return "admin/echo_write";
+	}
+	
+	@PostMapping("/echo_write")
+	public ModelAndView admin_echo_write(ModelAndView model,
+			@ModelAttribute("product")Product product) {
+		int result = 0;
 		
-		model.addObject("report", report);
-//		model.setViewName("admin/report_view?no="+report.getReportNo());
+		log.info("admin_echo_write() - post 호출");
+		
+		result = service.save(product);
+		
+		if (result > 0) {
+			model.addObject("msg", "에코샵 등록 성공");
+			model.addObject("location", "/admin/echo_write");
+		}else {
+			model.addObject("msg", "에코샵 등록 실패");
+			model.addObject("location", "/admin/echo_write");
+		}
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}
 	
-	@GetMapping("/challenge_month")
-	public String admin_challenge_month() {
-		log.info("admin_challenge_month() - 호출");
+	@GetMapping("/challenge_today")
+	public ModelAndView admin_challenge_today(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Today> list = null;
 		
-		return "admin/challenge_month";
+		log.info("admin_challenge_today() - 호출", page);
+		
+		pageInfo = new PageInfo(page, 10, service.getTodayCount(), count);
+		list = service.getTodayList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		
+		
+		model.setViewName("admin/challenge_today");
+		
+		return model;
 	}
-	
+
+	@GetMapping("/challenge_month")
+	public ModelAndView admin_challenge_month(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Month> list = null;
+		
+		log.info("admin_challenge_month() - 호출", page);
+		
+		pageInfo = new PageInfo(page, 10, service.getMonthCount(), count);
+		list = service.getMonthList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		System.out.println(list);
+		
+		model.setViewName("admin/challenge_month");
+		
+		return model;
+	}
+
 	@GetMapping("/challenge_month_manage")
-	public String admin_challenge_month_manage() {
+	public ModelAndView admin_challenge_month_manage(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<MonthMember> list = null;
+		
 		log.info("admin_challenge_month_manage() - 호출");
 		
-		return "admin/challenge_month_manage";
-	}
-	
-	@GetMapping("/challenge_today")
-	public String admin_challenge_today() {
-		log.info("admin_challenge_today() - 호출");
+		pageInfo = new PageInfo(page, 10, service.getMonthMemCount(), count);
+		list = service.getMonthMemList(pageInfo, name);
 		
-		return "admin/challenge_today";
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		System.out.println(list);
+		
+		model.setViewName("admin/challenge_month_manage");
+		
+		return model;
 	}
-	
+
 	@GetMapping("/challenge_today_manage")
-	public String admin_challenge_today_manage() {
+	public ModelAndView admin_challenge_today_manage(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<TodayMember> list = null;
+		
 		log.info("admin_challenge_today_manage() - 호출");
 		
-		return "admin/challenge_today_manage";
+		pageInfo = new PageInfo(page, 10, service.getTodayMemCount(), count);
+		list = service.getTodayMemList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		System.out.println(list);
+		
+		model.setViewName("admin/challenge_today_manage");
+		
+		return model;
 	}
 	
 	@PostMapping("/member_delete")

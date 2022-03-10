@@ -84,38 +84,97 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th> 챌린지 번호</th>
-                                            <th>챌린지 제목</th>
-                                            <th>챌린지 포인트</th>
+                                            <th>챌린지 참가 번호</th>
+                                            <th>챌린지 참여자</th>
+                                            <th>챌린지 번호</th>
                                             <th>작성일</th>
+                                            <th>포인트</th>
                                             <th>내용</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td><button class="btn btn-s gray">보기</td>
-                                            <td>
-                                                <button class="btn btn-s">승인</button>
-                                                <button class="btn btn-s gray">거절</button>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
+                                    <c:if test="${ empty list }">
+	                                    <tbody>
+		                                    <tr>
+		                                    	<td colspan="6">
+												조회된 멤버가 없습니다
+		                                    	</td>
+		                                    </tr>
+	                                    </tbody>
+									</c:if>
+									<c:if test="${ !empty list }">
+										<c:forEach var="todayMember" items="${ list }" varStatus="vs">
+		                                    <tbody>
+		                                        <tr>
+		                                            <td>${ todayMember.no }</td>
+		                                            <td>${ todayMember.memNo }</td>
+		                                            <td>${ todayMember.chalNo }</td>
+		                                            <td>${ todayMember.chalDate }</td>
+		                                            <td>${ todayMember.chalPoint }</td>
+		                                            <td>
+		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+					                                <div class="layer-popup" id="popup${ vs.index }">
+						                                <div class="layer-inner">
+						                                    <div class="pop-head">
+						                                    	${ todayMember.no }
+						                                        <strong>${ todayMember.chalNo }</strong>
+						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+						                                    </div>
+						                                    <div class="pop-cont">
+						                                       <table id="view-table">
+													           <colgroup>
+													           		<col style="10%">
+													           		<col style="40%">
+													           		<col style="15%">
+													           		<col style="35%">
+													    		</colgroup>
+													        	<tbody>
+													        		<tr>
+													        			<th>이름</th>
+													        			<td>${ todayMember.memNo }</td>
+													        			<th>참여일</th>
+													        			<td>${ todayMember.chalDate }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>포인트</th>
+													        			<td>${ todayMember.chalPoint }</td>
+													        			<th>빈칸</th>
+													        			<td>빈칸</td>
+													        		</tr>
+													        		<tr>
+													        			<th colspan="4">사진</th>
+													        		</tr>
+													        		<tr>
+													        			<td colspan="4" style="height: 300px">사진내용</td>
+													        		</tr>
+												        		</tbody>
+													       		</table>
+						                                    </div>
+						                                    <div class="btn-wrap">
+						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button class="btn">저장</button>
+						                                    </div>
+						                                </div>
+						                            </div>
+                            						</td>
+		                                            <td>
+		                                                <button class="btn btn-s">등록</button>
+		                                                <button id="delete" name="no" value=${ todayMember.no } class="btn btn-s gray">정지</button>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+										</c:forEach>
+									</c:if>
                                 </table>
                             </div>
                             <div class="btn-wrap">
@@ -124,14 +183,28 @@
                         </section>
                         <!-- // Category -->
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>                   
-                    </div>
+							<!-- 맨 처음으로 -->
+							<a class="prev" href="${ path }/admin_member?page=1"></a>
+				
+							<!-- 이전 페이지로 -->
+							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
+				
+							<!--  10개 페이지 목록 -->
+							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">			
+									<strong>${ status.current }</strong>
+								</c:if>
+								<c:if test="${ status.current != pageInfo.currentPage }">				
+									<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+				
+							<!-- 다음 페이지로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
+				
+							<!-- 맨 끝으로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+						</div>
             </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>

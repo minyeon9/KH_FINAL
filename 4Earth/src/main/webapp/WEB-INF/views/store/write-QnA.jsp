@@ -60,7 +60,7 @@
                             <input type="checkbox" name="secret" id="checkbox1"> 
                             <label for="checkbox1">비밀글</label>
                         </div>
-                        <input type="hidden" name="inqSecret" id="inqSecret">
+                        <input type="hidden" name="inqSecret" id="inqSecret" value="N">
                     </td>
                 </tr>
                 <tr>

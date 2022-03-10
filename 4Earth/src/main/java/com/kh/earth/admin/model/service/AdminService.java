@@ -7,6 +7,10 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
+import com.kh.earth.challenge.model.vo.Month;
+import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.Today;
+import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.vo.Product;
@@ -34,5 +38,23 @@ public interface AdminService {
 	Report getReportDetail(int no);
 
 	int getReportedCount();
+
+	int getTodayCount();
+
+	List<Today> getTodayList(PageInfo pageInfo, Map<String, String> name);
+
+	int getMonthCount();
+
+	List<Month> getMonthList(PageInfo pageInfo, Map<String, String> name);
+
+	int getMonthMemCount();
+
+	List<MonthMember> getMonthMemList(PageInfo pageInfo, Map<String, String> name);
+
+	int getTodayMemCount();
+
+	List<TodayMember> getTodayMemList(PageInfo pageInfo, Map<String, String> name);
+
+	int save(Product product);
 
 }

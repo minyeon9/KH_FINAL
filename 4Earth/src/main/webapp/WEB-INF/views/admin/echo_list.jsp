@@ -130,7 +130,7 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
+                                <button id="echo_write" class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
@@ -183,6 +183,14 @@
 	        }
 	    });
 	});
+	
+	$(document).on("click","#echo_write", (e) => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "${ path }/admin/echo_write";
+        
+        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+    });
 	
 	$(document).ready(() => {
 		$("#delete").on("click", (e) => {
