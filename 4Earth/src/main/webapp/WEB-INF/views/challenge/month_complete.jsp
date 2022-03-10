@@ -51,8 +51,15 @@
 	</button>
 </div>
 
+<script src="${ path }/resources/js/confetti.js"></script>
 <script type="text/javascript">
 let idxNum = 1;
+$(() => {
+	setTimeout(() => {
+		$('.container').removeClass('js-container');
+		$('.confetti-container').fadeOut(3000);
+	}, 3000);
+});
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

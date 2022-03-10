@@ -75,7 +75,6 @@ nav {
     position: relative;
     border-top: 1px solid #ddd;
     padding: 10px 0 12px;
-    z-index: 20;
 }
 nav .logo {
     position: absolute;
@@ -171,7 +170,6 @@ nav .bg-nav {
     background: #67b16b;
     box-sizing: border-box;
     transition: all 0.2s ease-out;
-    z-index: 10;
 }
 .side-bar ul {
     position: sticky;
@@ -336,6 +334,9 @@ footer .icon.icon-inquiry { background-position: -80px -30px; }
 }
 .footer-copy .copy {
     margin-left: 165px;
+}
+.footer-copy .copy strong {
+	font-weight: 500;
 }
 
 

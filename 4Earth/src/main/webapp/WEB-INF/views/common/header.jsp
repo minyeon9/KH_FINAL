@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="${ path }/resources/css/style.css">
     <script src="${ path }/resources/js/jquery-3.6.0.js"></script>
     <script src="${ path }/resources/js/ui.js"></script>
-    <script src="${ path }/resources/js/confetti.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="shortcut icon" href="resources/favicon.ico">
     <title>main</title>
