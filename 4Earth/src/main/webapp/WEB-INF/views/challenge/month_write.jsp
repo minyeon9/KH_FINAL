@@ -74,41 +74,18 @@
                                     <a href="javascript:void(0);" class="btn-delete-img"><i class="material-icons md-22">delete_outline</i></a>
                                 </div>
                             </div>
-
-							<%-- <button type="submit" class="btn" onclick="location.href='${ path }/today_complete?chalNo=${ today.chalNo }'">인증하기</button> --%>
-							<input type="submit" class="btn" id="btnComplete" value="인증하기">
+							
+							<c:set var="complete" value="${ fn:length(count) }" />
+							<c:if test="${ requiredCount != complete }">
+                            	<input type="submit" class="btn" id="btnComplete" value="인증하기">
+                            </c:if>
+							<c:if test="${ requiredCount == complete }">
+								<%-- <button type="submit" class="btn" onclick="location.href='${ path }/today_complete?chalNo=${ today.chalNo }'">인증하기</button> --%>
+								<input type="submit" class="btn gray" id="btnComplete" value="참여 완료" disabled>
+							</c:if>
 						</form>
 					</div>
 				</section>
-
-				<c:if test="${ !empty count }">
-					<section class="section">
-						<h4>나의 챌린지 참여 현황</h4>
-						<div class="gauge">
-							<c:set var="remainCount" value="${ requiredCount - fn:length(count) }" />
-							<%-- 필요 횟수: ${ requiredCount }번<br>
-							완료 횟수: ${ fn:length(count) }번<br>
-							남은 횟수: ${ requiredCount - fn:length(count) }번 --%>
-							<ul>
-								<!-- 달성 완료 횟수 -->
-								<c:forEach var="count" items="${ count }" varStatus="status">
-									<li class="complete">
-										<span></span>
-										<p>${ status.count }회 달성 완료</p>
-									</li>
-								</c:forEach>
-								
-								<c:forEach var="remainCountList" items="${ remainCountList }" varStatus="remainStatus">
-									<c:set var="completeCount" value="${ fn:length(count) }" />
-									<li>
-										<span></span>
-										<p>${ completeCount + remainStatus.count }회</p>
-									</li>
-								</c:forEach>
-							</ul>
-						</div>
-					</section>
-				</c:if>
 			</div>
 
 		</section>

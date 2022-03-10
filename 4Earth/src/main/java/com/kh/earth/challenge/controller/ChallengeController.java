@@ -310,27 +310,7 @@ public class ChallengeController {
 		Map<String, Object> mapCount = new HashMap<>();
 		mapCount.put("chalNo", chalNo);
 		mapCount.put("no", loginMember.getNo());
-		int count = service.findOngoingUserCount(mapCount);
-		
-		model.addObject("month", month);
-		model.addObject("ongoingMember", ongoingMember);
-		model.addObject("count", count);
-		
-		System.out.println();
-		
-		model.setViewName("challenge/month_view");
-		
-		return model;
-	}
-	
-	// 이달의 챌린지 작성
-	@GetMapping("/month_write")
-	public ModelAndView monthWrite(
-			ModelAndView model,
-			@SessionAttribute(name = "loginMember") Member loginMember,
-			@RequestParam("chalNo") int chalNo) {
-		
-		Month month = service.findMonthListByNo(chalNo);
+		int countUser = service.findOngoingUserCount(mapCount);
 		
 		// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
 		Map<String, Object> completeCount = new HashMap<>();
@@ -349,10 +329,32 @@ public class ChallengeController {
 		}
 		
 		model.addObject("month", month);
+		model.addObject("ongoingMember", ongoingMember);
+		model.addObject("countUser", countUser);
 		model.addObject("requiredCount", requiredCount);
 		model.addObject("remainCount", remainCount);
 		model.addObject("count", count);
 		model.addObject("remainCountList", remainCountList);
+		
+		System.out.println();
+		
+		model.setViewName("challenge/month_view");
+		
+		return model;
+	}
+	
+	// 이달의 챌린지 작성
+	@GetMapping("/month_write")
+	public ModelAndView monthWrite(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo) {
+		
+		Month month = service.findMonthListByNo(chalNo);
+		
+		
+		
+		model.addObject("month", month);
 		model.setViewName("challenge/month_write");
 
 		return model;

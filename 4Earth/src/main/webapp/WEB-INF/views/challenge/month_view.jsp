@@ -38,7 +38,13 @@
 						<span class="icon-point">
 							<fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" />
 						</span>
-						<button class="btn" onclick="location.href='${ path }/month_write?chalNo=${ month.chalNo }'">참여하기</button>
+						<c:set var="complete" value="${ fn:length(count) }" />
+						<c:if test="${ requiredCount != complete }">
+							<button class="btn" onclick="location.href='${ path }/month_write?chalNo=${ month.chalNo }'">참여하기</button>
+						</c:if>
+						<c:if test="${ requiredCount == complete }">
+							<button class="btn gray" disabled>참여완료</button>
+						</c:if>
 					</div>
 				</div>
 
@@ -46,7 +52,7 @@
 					<div class="using-user">
 						<h4>참여중인 사용자</h4>
 						<c:if test="${ !empty ongoingMember }">
-							<span class="count"><em>${ count }</em>명의 사용자가 참여 중입니다</span>
+							<span class="count"><em>${ countUser }</em>명의 사용자가 참여 중입니다</span>
 						</c:if>
 						<div class="user-list">
 							<c:if test="${ !empty ongoingMember }">
@@ -72,6 +78,35 @@
 						</div>
 					</div>
 				</section>
+				
+				<c:if test="${ !empty count }">
+					<section class="section">
+						<h4>나의 챌린지 참여 현황</h4>
+						<div class="gauge">
+							<c:set var="remainCount" value="${ requiredCount - fn:length(count) }" />
+							<%-- 필요 횟수: ${ requiredCount }번<br>
+							완료 횟수: ${ fn:length(count) }번<br>
+							남은 횟수: ${ requiredCount - fn:length(count) }번 --%>
+							<ul>
+								<!-- 달성 완료 횟수 -->
+								<c:forEach var="count" items="${ count }" varStatus="status">
+									<li class="complete">
+										<span></span>
+										<p>${ status.count }회 달성 완료</p>
+									</li>
+								</c:forEach>
+								
+								<c:forEach var="remainCountList" items="${ remainCountList }" varStatus="remainStatus">
+									<c:set var="completeCount" value="${ fn:length(count) }" />
+									<li>
+										<span></span>
+										<p>${ completeCount + remainStatus.count }회</p>
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
+					</section>
+				</c:if>
 
 				<section class="section">
 					<h4>챌린지 참여 리뷰</h4>
@@ -200,6 +235,7 @@
 
 					</div>
 				</section>
+				
 			</div>
 		</section>
 
