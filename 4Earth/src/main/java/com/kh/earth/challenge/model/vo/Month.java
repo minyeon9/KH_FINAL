@@ -24,7 +24,9 @@ public class Month {
 	
 	private int chalCount;
 	
-	private Date chalDate;
+	private Date startDate;
 	
-	private Date chalModifyDate;
+	private Date endDate;
+	
+	private char chalStatus;
 }
