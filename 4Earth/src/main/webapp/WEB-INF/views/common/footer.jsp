@@ -27,7 +27,7 @@
                             <li>주식회사 어쩌고 저쩌고</li>
                             <li>(14900) 서울시 서초구 내곡동 1-338</li>
                             <li><strong>통신판매업신고번호</strong> 2021-서울서초-3522 사업자정보확인</li>
-                            <li><strong>이메일 </strong><a href="mainto:Eco5@eco.co.kr">Eco5@eco.co.kr</a></li>
+                            <li><strong>이메일 </strong><a href="mailto:Eco5@eco.co.kr">Eco5@eco.co.kr</a></li>
                             <li><strong>개인정보보호책임자</strong> (주)Eco5</li>
                         </ul>
                     </div>
@@ -49,7 +49,7 @@
                         <a href="#">이용약관</a>
                         <a href="#">개인정보처리방침</a>
                     </div>
-                    <p class="copy">Copyright @ 사이트명 Co. All rights reserved.</p>
+                    <p class="copy">Copyright @ <strong>4Earth Co.</strong> All rights reserved.</p>
                 </div>
             </div>
         </footer>

@@ -383,20 +383,26 @@ $(() => {
 
 
 
-
-    /* ----------------------------------
-        odd thumb list
-    ---------------------------------- */
-    /* let oddThumbList = $('.thumb-list.col-2 ul');
+	/* ----------------------------------
+	    upload images
+	---------------------------------- */
+    function handleFileSelect(event) {
+        var input = this;
+        
+        if (input.files && input.files.length) {
+            var reader = new FileReader();
+            this.enabled = false;
+            reader.onload = (function (e) {
+            
+            console.log(e)
+                $(".upload-img").html(['<img src="', e.target.result, '" title="', escape(e.name), '"/>'].join(''))
+            });
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
     
-    if( oddThumbList.length % 2 != 0 ) {
-        let liItem = `<li>&nbsp;</li>`
-        oddThumbList.append(liItem);
-    } */
-    
-
-
-
+    $('#inputFileOrigin').change(handleFileSelect);
 
 });
 
@@ -414,8 +420,6 @@ $( window ).scroll( function() {
 });
 
 
-
-
 /* ----------------------------------
     upload images
 ---------------------------------- */
@@ -424,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function(){
         return (['image/jpeg','image/jpg', 'image/gif', 'image/png'].indexOf(img.type) > -1);
     }
 
-    var validateName = function(fname){
+    /* var validateName = function(fname){
         let extensions = ['jpeg','jpg', 'gif', 'png'];
         let fparts = fname.split('.');
         let fext = '';
@@ -444,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     
         return validated;
-    }
+    } */
 
     document.getElementById('inputFileOrigin').addEventListener('change', function(e){
         let elem = e.target;
@@ -452,14 +456,10 @@ document.addEventListener('DOMContentLoaded', function(){
         if( validateType(elem.files[0]) ) {
             let preview = document.querySelector('.upload-img img');
             preview.src = URL.createObjectURL(elem.files[0]);
-            document.querySelector('.btn-delete-img').style.display = 'block';
             preview.onload = function() {
                 URL.revokeObjectURL(preview.src);
             }
 
-            /* ----------------------------------
-                input upload file
-            ---------------------------------- */
             let inputFile = $('#inputFileOrigin');
             let inputName = $('.input-file');
 
@@ -470,18 +470,24 @@ document.addEventListener('DOMContentLoaded', function(){
             });
         } else {
             let inputName = $('.input-file');
-            alert("jpeg, jpg, gif, png 형식의 파일만 업로드 가능합니다.\n사진을 다시 업로드해주세요.");
-            inputName.val("파일을 선택해주세요.");
+            alert("gif, png, jpg 형식의 파일만 업로드 가능합니다.\n사진을 다시 업로드해주세요.");
+            $('#inputFileOrigin').val("");
         }
     });
-
+	
     document.querySelector('.btn-delete-img').addEventListener('click', function(e){
         let preview = document.querySelector('.upload-img img');
         let inputName = $('.input-file');
         preview.src = '';
-        document.querySelector('.btn-delete-img').style.display = 'none';
         inputName.val("파일을 선택해주세요.");
+        $(".upload-img").empty()
+        $("#inputFileOrigin").val("");
     });
 });
+
+
+
+
+
 
 

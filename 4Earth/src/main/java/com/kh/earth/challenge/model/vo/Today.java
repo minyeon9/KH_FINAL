@@ -23,6 +23,9 @@ public class Today {
 	
 	private int chalPoint;
 	
-	private Date chalDate;
+	private Date startDate;
 	
+	private Date endDate;
+	
+	private char chalStatus;
 }

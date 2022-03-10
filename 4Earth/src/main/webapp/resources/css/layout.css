@@ -335,6 +335,9 @@ footer .icon.icon-inquiry { background-position: -80px -30px; }
 .footer-copy .copy {
     margin-left: 165px;
 }
+.footer-copy .copy strong {
+	font-weight: 500;
+}
 
 
 

@@ -7,6 +7,7 @@
 	overflow: hidden;
     background: #f9f9f9;
     border: 1px solid #ddd;
+    border-radius: 10px;
     padding: 20px 20px 30px 20px;
     margin-bottom: 50px;
 }
@@ -342,6 +343,7 @@
     z-index: 1;
 }
 .prov-set .upload-wrap {
+	position: relative;
     width: 55%;
 }
 .prov-set .upload-wrap strong {
@@ -377,8 +379,7 @@
     width: 100%;
     transform: translate(-50%, -50%);
 }
-.prov-set .upload-img .btn-delete-img { /* button delete */
-    display: none;
+.prov-set .btn-delete-img { /* button delete */
     position: absolute;
     top: 10px;
     right: 10px;
@@ -389,10 +390,14 @@
     box-shadow: rgba(100, 100, 111, 0.7) 0px 3px 10px 0px;
     z-index: 1;
 }
-.prov-set .upload-img .btn-delete-img i {
+.prov-set .btn-delete-img i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
     color: #999;
+    transform: translate(-50%, -50%);
 }
-.prov-set .upload-img .btn-delete-img:hover i {
+.prov-set .btn-delete-img:hover i {
     color: #5CB65A;
 }
 .prov-set .prov-cont {
@@ -796,6 +801,7 @@
     display: block;
     font-size: 16px;
     font-weight: 400;
+    line-height: 1.6;
     text-align: center;
     margin-bottom: 30px;
 }
@@ -809,10 +815,31 @@
     font-weight: 400;
 }
 .challenge .complete-page .btn {
+	position: relative;
 	margin-top: 40px;
 }
 
 
+/* 챌린지 완료 문구 */
+.challenge .complete-info {
+	color: #666;
+	font-size: 18px;
+	text-align: center;
+	line-height: 1.6;
+	background: #f9f9f9;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	padding: 20px;
+	margin-bottom: 50px;
+}
+.challenge .complete-info strong {
+	display: block;
+	color: #67b16b;
+}
+
+
+
+/* 챌린지 참여 방법 안내 */
 .step {
 	margin-top: 20px;
 }
@@ -844,6 +871,49 @@
 .challenge .step-list li:nth-child(-n+2) {
 	margin-bottom: 20px;
 }
+
+
+/* 챌린지 전체 완료 시 */
+@keyframes confetti-slow {
+  0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+  100% { transform: translate3d(25px, 105vh, 0) rotateX(360deg) rotateY(180deg); }
+}
+@keyframes confetti-medium {
+  0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+  100% { transform: translate3d(100px, 105vh, 0) rotateX(100deg) rotateY(360deg); }
+}
+@keyframes confetti-fast {
+  0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+  100% { transform: translate3d(-50px, 105vh, 0) rotateX(10deg) rotateY(250deg); }
+}
+.confetti-container {
+  perspective: 700px;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.confetti {
+  position: absolute;
+  z-index: 1;
+  top: -10px;
+  border-radius: 0%;
+}
+.confetti--animation-slow {
+  animation: confetti-slow 2.25s linear 1 forwards;
+}
+.confetti--animation-medium {
+  animation: confetti-medium 1.75s linear 1 forwards;
+}
+.confetti--animation-fast {
+  animation: confetti-fast 1.25s linear 1 forwards;
+}
+
+
+
+
 
 
 

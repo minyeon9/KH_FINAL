@@ -13,7 +13,9 @@
 		    CHAL_CONTENT,
 		    CHAL_IMG_PATH,
 		    CHAL_POINT,
-		    CHAL_DATE
+		    START_DATE,
+		    END_DATE,
+		    CHAL_STATUS
 		FROM CHAL_TODAY
 	</sql>
 	
@@ -26,8 +28,9 @@
 		    CHAL_IMG_PATH,
 		    CHAL_POINT,
 		    CHAL_COUNT,
-		    CHAL_DATE,
-		    CHAL_MODIFY_DATE
+		    START_DATE,
+		    END_DATE,
+		    CHAL_STATUS
 		FROM CHAL_MONTH
 	</sql>
 	
@@ -39,7 +42,9 @@
 		<result property="chalContent" column="CHAL_CONTENT" />
 		<result property="chalImgPath" column="CHAL_IMG_PATH" />
 		<result property="chalPoint" column="CHAL_POINT" />
-		<result property="chalDate" column="CHAL_DATE" />
+		<result property="startDate" column="START_DATE" />
+		<result property="endtDate" column="END_DATE" />
+		<result property="charStatus" column="CHAL_STAUTS" />
 	</resultMap>
 	
 	<!-- 오늘의 챌린지 참여 회원 목록 -->
@@ -65,8 +70,9 @@
 		<result property="chalImgPath" column="CHAL_IMG_PATH" />
 		<result property="chalPoint" column="CHAL_POINT" />
 		<result property="chalCount" column="CHAL_COUNT" />
-		<result property="chalDate" column="CHAL_DATE" />
-		<result property="chalModifyDate" column="CHAL_MODIFY_DATE" />
+		<result property="startDate" column="START_DATE" />
+		<result property="endDate" column="END_DATE" />
+		<result property="chalStatus" column="CHAL_STATUS" />
 	</resultMap>
 	
 	<!-- 이달의 챌린지 참여 회원 목록 -->
@@ -153,7 +159,8 @@
 		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
 		WHERE M.MEM_NO = #{ no } -->
 		SELECT 
-			CHAL_NO
+			CHAL_NO,
+			CHAL_DATE
 		FROM CHAL_TODAY_MEM
 		WHERE MEM_NO = #{ no }
 		ORDER BY NO
