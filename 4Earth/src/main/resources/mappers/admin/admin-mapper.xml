@@ -53,6 +53,50 @@
 		<result property="proRating" column="PRO_RATING"/>
 	</resultMap>
 	
+	<resultMap type="Today" id="TodayListResultMap">
+		<id property="chalNo" column="CHAL_NO"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="chalTitle" column="CHAL_TITLE"/>
+		<result property="chalContent" column="CHAL_CONTENT"/>
+		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
+		<result property="chalPoint" column="CHAL_POINT"/>
+		<result property="chalDate" column="CHAL_DATE"/>
+	</resultMap>
+	
+	<resultMap type="Month" id="MonthListResultMap">
+		<id property="chalNo" column="CHAL_NO"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="chalTitle" column="CHAL_TITLE"/>
+		<result property="chalContent" column="CHAL_CONTENT"/>
+		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
+		<result property="chalPoint" column="CHAL_POINT"/>
+		<result property="chalDate" column="CHAL_DATE"/>
+	</resultMap>
+	
+	<resultMap type="MonthMember" id="MonthMemListResultMap">
+		<id property="no" column="NO"/>
+		<result property="memNo" column="MEM_NO"/>
+		<result property="chalNo" column="CHAL_NO"/>
+		<result property="chalDate" column="CHAL_DATE"/>
+		<result property="originalFilename" column="CHAL_CONTENT"/>
+		<result property="renamedFilename" column="CHAL_IMG_PATH"/>
+		<result property="chalStatus" column="CHAL_STATUS"/>
+		<result property="chalPoint" column="CHAL_POINT"/>
+		<result property="chalPointStatus" column="CHAL_POINT_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="TodayMember" id="TodayMemListResultMap">
+		<id property="no" column="NO"/>
+		<result property="memNo" column="MEM_NO"/>
+		<result property="chalNo" column="CHAL_NO"/>
+		<result property="chalDate" column="CHAL_DATE"/>
+		<result property="originalFilename" column="CHAL_CONTENT"/>
+		<result property="renamedFilename" column="CHAL_IMG_PATH"/>
+		<result property="chalStatus" column="CHAL_STATUS"/>
+		<result property="chalPoint" column="CHAL_POINT"/>
+		<result property="chalPointStatus" column="CHAL_POINT_STATUS"/>
+	</resultMap>
+	
 	<resultMap type="Reported" extends="memberResultMap" id="ReportedListResultMap">
 		<result property="reportedTimes" column="REPORTED"/>
 	</resultMap>
@@ -106,21 +150,6 @@
 	FROM REPORT R
 	JOIN MEMBER M1 ON(R.REPORTED_M_NO = M1.NO)
     JOIN MEMBER M2 ON(R.REPORT_M_NO = M2.NO)
-    <!--	<where>
-			<if test="category == '식품'">
-				AND PRO_CAT LIKE '1%'
-			</if>
-			<if test="category == '생활'">
-				AND PRO_CAT LIKE '2%'
-			</if>
-			<if test="category == '뷰티'">
-				AND PRO_CAT LIKE '3%'
-			</if>
-			<if test="category == '반려동물'">
-				AND PRO_CAT LIKE '4%'
-			</if>
-			AND PRO_STAT = 3
-		</where> -->
 		<choose>
 			<when test="no != null">
 		   		WHERE REPORT_NO LIKE '%' || {name} || '%'
@@ -214,8 +243,72 @@
 		ORDER BY NO DESC
 	</select>
 	
+	<select id="getTodayList" parameterType="map" resultMap="TodayListResultMap">
+		SELECT  CHAL_NO,
+				CATEGORY,
+				CHAL_TITLE,
+				CHAL_CONTENT,
+				CHAL_IMG_PATH,
+				CHAL_POINT,
+				CHAL_DATE
+		FROM CHAL_TODAY
+	</select>
+	
+	<select id="getMonthList" parameterType="map" resultMap="MonthListResultMap">
+		SELECT  CHAL_NO,
+				CATEGORY,
+				CHAL_TITLE,
+				CHAL_CONTENT,
+				CHAL_IMG_PATH,
+				CHAL_POINT,
+				CHAL_DATE
+		FROM CHAL_MONTH
+	</select>
+	
+	<select id="getMonthMemList" parameterType="map" resultMap="MonthMemListResultMap">
+		SELECT  NO,
+				MEM_NO,
+				CHAL_NO,
+				CHAL_DATE,
+				CHAL_STATUS,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				CHAL_POINT,
+				CHAL_POINT_STATUS
+		FROM CHAL_MONTH_MEM
+	</select>
+	
+	<select id="getTodayMemList" parameterType="map" resultMap="TodayMemListResultMap">
+		SELECT  NO,
+				MEM_NO,
+				CHAL_NO,
+				CHAL_DATE,
+				CHAL_STATUS,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				CHAL_POINT,
+				CHAL_POINT_STATUS
+		FROM CHAL_TODAY_MEM
+	</select>
+	
 	<select id="getProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
+	</select>
+	
+	<select id="getTodayCount" resultType="_int">
+		SELECT COUNT(*) FROM CHAL_TODAY
+	</select>
+	
+	<select id="getMonthCount" resultType="_int">
+		SELECT COUNT(*) FROM CHAL_MONTH
+	</select>
+	
+	<select id="getMonthMemCount" resultType="_int">
+		SELECT COUNT(*) FROM CHAL_MONTH_MEM
+	</select>
+	
+	<select id="getTodayMemCount" resultType="_int">
+		SELECT COUNT(*) FROM CHAL_MONTH_MEM
 	</select>
 	
 	<select id="getReportedCount" resultType="_int">
@@ -260,5 +353,28 @@
 			FROM REPORT
 			WHERE REPORT_NO = #{ no }
 	</select>
+	
+	<insert id="insertProduct" parameterType="Product"
+	 	useGeneratedKeys="true" keyProperty="proNo" keyColumn="PRO_NO">
+	 	INSERT INTO PRODUCT(
+	 		PRO_NO,
+	 		PRO_NAME,
+	 		PRO_PRICE,
+	 		PRO_INFO,
+	 		PRO_VOL,
+	 		PRO_MODIFY_DATE,
+	 		PRO_SOLD,
+	 		PRO_MFG
+	 	) VALUES(
+	 		SEQ_PRONO.NEXTVAL,
+	 		#{proName},
+	 		#{proPrice},
+	 		#{proInfo},
+	 		0,
+	 		DEFAULT,
+			0,
+			#{proMfg}
+	 	)
+	 </insert>
 
 </mapper>

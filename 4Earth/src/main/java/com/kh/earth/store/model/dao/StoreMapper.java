@@ -9,6 +9,8 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.vo.Cart;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
@@ -56,6 +58,18 @@ public interface StoreMapper {
 	int getProductInqCount(int no);
 
 	List<ProductInquiry> getProductInqList(RowBounds rowBounds, int no);
+
+	int createOrderNo();
+
+	int addOrderDetail(OrderDetail orderDetail);
+
+	int createOrderSum(OrderSum orderSum);
+
+	int updateOrderSum(OrderSum orderSum);
+
+	List<OrderDetail> getOrderDetailList(int orderNo);
+
+	int deleteCart(Cart cart);
 
 
 

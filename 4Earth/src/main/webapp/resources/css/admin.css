@@ -69,28 +69,37 @@ nav .logo {
     transform: translateX(-50%);
     z-index: 4;
 }
-#report-content {
+#view-content {
     min-height: 200px; 
 }
-#report-table {
+#view-table {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #999;
 }
-#report-table thead {
+#view-table thead {
     border: 1px solid #999;
 }
-#report-table tbody tr td {
+#view-table tbody tr td {
     color: #666;font-size: 14px;
     text-align: center;
     padding: 10px;
     border: 1px solid #ddd;
 }
-#report-table tbody tr th {
+#view-table tbody tr th {
     color: #666;font-size: 14px;
     text-align: center;
     padding: 10px;
     border: 1px solid #ddd;
+}
+.echo-write {
+	margin-top: 10px;
+    width: 100%;
+    border-top: 2px solid #467443;
+    border-bottom: 1px solid #999;
+    padding: 0 10px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
 }
 
 

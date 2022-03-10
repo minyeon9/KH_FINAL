@@ -210,15 +210,15 @@
 				location.replace("${ path }/admin/report_delete?no=" + e.target.value);
 			}
 		})
-	
-		$(document).on("click","#report_view", (e) => {
-	        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
-	        var popupY= (window.screen.height / 2) - (800 / 2);
-	        const url = "${ path }/admin/report_view?no=" + e.target.value;
-	        
-	        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-	    });
 	});
+	
+	$(document).on("click","#report_view", (e) => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "${ path }/admin/report_view?no=" + e.target.value;
+        
+        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+    });
 	
 	$(document).ready(() => {
 		$(document).on('click', '#search', () => {

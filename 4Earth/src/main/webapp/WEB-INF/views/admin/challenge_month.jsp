@@ -93,7 +93,7 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th> 챌린지 번호</th>
+                                            <th>챌린지 번호</th>
                                             <th>챌린지 제목</th>
                                             <th>챌린지 포인트</th>
                                             <th>작성일</th>
@@ -101,20 +101,50 @@
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td><button class="btn btn-s gray">보기</td>
-                                            <td>
-                                                <button class="btn btn-s">실행</button>
-                                                <button class="btn btn-s gray">중지</button>
-                                            </td>
-                                        </tr>
-                                        
-                                    </tbody>
+                                    <c:if test="${ empty list }">
+	                                    <tbody>
+		                                    <tr>
+		                                    	<td colspan="6">
+												조회된 내용이 없습니다
+		                                    	</td>
+		                                    </tr>
+	                                    </tbody>
+									</c:if>
+									<c:if test="${ !empty list }">
+										<c:forEach var="month" items="${ list }" varStatus="vs">
+		                                    <tbody>
+		                                        <tr>
+		                                            <td>${ month.chalNo }</td>
+		                                            <td>${ month.chalTitle }</td>
+		                                            <td>${ month.chalPoint }</td>
+		                                            <td>${ month.chalDate }</td>
+		                                            <td>
+		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+					                                 <div class="layer-popup" id="popup${ vs.index }">
+						                                <div class="layer-inner">
+						                                    <div class="pop-head">
+						                                    	${ month.chalNo }
+						                                        <strong>${ month.chalTitle }</strong>
+						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+						                                    </div>
+						                                    <div class="pop-cont">
+						                                       ${ month.chalContent }
+						                                    </div>
+						                                    <div class="btn-wrap">
+						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button class="btn">저장</button>
+						                                    </div>
+						                                </div>
+						                            </div>
+                            						</td>
+		                                            <td>
+		                                                <button class="btn btn-s">등록</button>
+		                                                <button id="delete" name="no" value=${ month.chalNo } class="btn btn-s gray">정지</button>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+										</c:forEach>
+									</c:if>
                                 </table>
                             </div>
                             <div class="btn-wrap">

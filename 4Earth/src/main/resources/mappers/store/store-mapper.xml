@@ -84,6 +84,17 @@
 		<result property="inqContent" column="I_INQ_CONTENT"/>
 		<result property="inqStat" column="I_INQ_STAT"/>
 	</resultMap>
+	
+	<resultMap type="OrderDetail" id="OrderDetailListResultMap">
+		<id property="orderNo" column="ORDER_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="detailProNo" column="DETAIL_PRO_NO"/>
+		<result property="detailProName" column="DETAIL_PRO_NAME"/>
+		<result property="detailOpt" column="DETAIL_OPT"/>
+		<result property="detailOptName" column="DETAIL_OPT_NAME"/>
+		<result property="detailQty" column="DETAIL_QTY"/>
+		<result property="detailPrice" column="DETAIL_PRICE"/>
+	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
@@ -255,7 +266,7 @@
 			CART_STAT, 
 			CART_DATE
 		) VALUES (
-			3,
+			${memberNo},
 			#{proNo},
 			#{proOptNo},
 			#{cartQty},
@@ -263,6 +274,14 @@
 			DEFAULT
 		)
 	</insert>
+	
+	<delete id="deleteCart" parameterType="Cart">
+		DELETE FROM CART
+		WHERE 
+			PRO_NO = #{proNo}
+			AND PRO_OPT = #{proOptNo} 
+			AND MEMBER_NO = #{memberNo}
+	</delete>
 	
 	<select id="getCartList" parameterType="_int" resultMap="CartListResultMap">
 		SELECT DISTINCT C.MEMBER_NO AS C_MEMBER_NO,
@@ -386,5 +405,60 @@
 		JOIN MEMBER M ON(I.MEMBER_NO = M.NO)
 		WHERE PRO_NO = #{no}
 	</select>
+	
+	<insert id="createOrderSum" parameterType="OrderSum">
+		<selectKey keyProperty="orderNo" resultType="_int" order="BEFORE">
+			SELECT SEQ_ORDERNO.NEXTVAL FROM DUAL
+		</selectKey>		
+		INSERT INTO ORDER_SUM (
+		    ORDER_NO,
+		    MEMBER_NO
+		)
+		VALUES (
+		    #{orderNo},
+		    #{memberNo}
+		)		
+	</insert>
+	
+	<insert id="addOrderDetail" parameterType="OrderDetail">
+		INSERT INTO ORDER_DETAIL(
+		    ORDER_NO,
+		    MEMBER_NO,
+		    DETAIL_PRO_NO,
+		    DETAIL_PRO_NAME,
+		    DETAIL_OPT,
+		    DETAIL_OPT_NAME,
+		    DETAIL_QTY,
+		    DETAIL_PRICE
+		)
+		VALUES (
+		    #{orderNo},
+		    #{memberNo},
+		    #{detailProNo},
+		    #{detailProName},
+		    #{detailOpt},
+		    #{detailOptName},
+		    #{detailQty},
+		    #{detailPrice}
+		)
+	</insert>
+	
+	<update id="updateOrderSum" parameterType="OrderSum">
+		UPDATE ORDER_SUM
+		SET ORDER_PRICE = #{orderPrice}
+		WHERE ORDER_NO = #{orderNo}
+	</update>
 
+	<select id="getOrderDetailList" parameterType="_int" resultMap="OrderDetailListResultMap">
+		SELECT ORDER_NO, 
+			   MEMBER_NO, 
+			   DETAIL_PRO_NO, 
+			   DETAIL_PRO_NAME,
+			   DETAIL_OPT, 
+			   DETAIL_QTY, 
+			   DETAIL_PRICE, 
+			   DETAIL_OPT_NAME
+		FROM ORDER_DETAIL
+		WHERE ORDER_NO = #{orderNo}
+	</select>
 </mapper>
