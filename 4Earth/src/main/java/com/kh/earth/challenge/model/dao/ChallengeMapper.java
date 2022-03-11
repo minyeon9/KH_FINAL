@@ -10,6 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Point;
+import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.member.model.vo.Member;
@@ -57,6 +58,21 @@ public interface ChallengeMapper {
 
 	// 이달의 챌린지 참여 횟수 조회
 	List<MonthMember> getMonthGuage(Map<String, Object> completeCount);
+
+	// 댓글 작성
+	int insertReply(Reply reply);
+	
+	// 댓글 수정
+	int updateReply(Reply reply);
+	
+	// 댓글 번호 조회(삭제)
+	List<Reply> findReplyByNo(int no);
+
+	// 댓글 삭제
+	int updateReplyStatus(@Param("replyNo") int replyNo, @Param("replyStatus") String replyStatus);
+	
+	// 댓글 조회
+	// List<Reply> findReplyListByNo(Map<String, Object> replyMap);
 
 	
 

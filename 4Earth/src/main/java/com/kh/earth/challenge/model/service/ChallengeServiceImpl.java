@@ -13,6 +13,7 @@ import com.kh.earth.challenge.model.dao.ChallengeMapper;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Point;
+import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
@@ -136,6 +137,40 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public List<MonthMember> getMonthGuage(Map<String, Object> completeCount) {
 		return mapper.getMonthGuage(completeCount);
 	}
+
+	// 댓글 작성
+	@Override
+	@Transactional
+	public int saveReply(Reply reply) {
+		int result = 0;
+		
+		if( reply.getReplyNo() != 0 ) {
+			result = mapper.updateReply(reply);
+		} else {
+			result = mapper.insertReply(reply);
+		}
+		
+		return result;
+	}
+
+	// 댓글 번호 조회(삭제)
+	@Override
+	public List<Reply> findReplyByNo(int no) {
+		return mapper.findReplyByNo(no);
+	}
+	
+	// 댓글 삭제
+	@Override
+	@Transactional
+	public int deleteReply(int replyNo) {
+		return mapper.updateReplyStatus(replyNo, "N");
+	}
+
+	// 댓글 조회
+//	@Override
+//	public List<Reply> findReplyListByNo(Map<String, Object> replyMap) {
+//		return mapper.findReplyListByNo(replyMap);
+//	}
 	
 
 	

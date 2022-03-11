@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Point;
+import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
@@ -62,6 +63,20 @@ public interface ChallengeService {
 
 	// 이달의 챌린지 참여 횟수 조회
 	List<MonthMember> getMonthGuage(Map<String, Object> completeCount);
+
+	// 댓글 작성
+	int saveReply(Reply reply);
+
+	// 댓글 번호 조회(삭제)
+	// Reply findReplyByNo(int replyNo);
+	List<Reply> findReplyByNo(int no);
+
+	// 댓글 삭제
+	int deleteReply(int replyNo);
+
+
+	// 댓글 조회 
+	// List<Reply> findReplyListByNo(int chalNo);
 
 	
 

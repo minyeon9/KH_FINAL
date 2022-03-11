@@ -39,8 +39,7 @@
 				<div class="thumb-list vertical challenge">
 					<ul>
 						<c:if test="${ !empty todayList }">
-							<c:forEach var="todayList" items="${ todayList }"
-								varStatus="listStatus">
+							<c:forEach var="todayList" items="${ todayList }" varStatus="listStatus">
 								<c:set var="myListNumberSet" value="${ myListNumber }" />
 								<c:choose>
 									<c:when test="${fn:contains(myListNumberSet, todayList.chalNo)}">

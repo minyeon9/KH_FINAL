@@ -1,6 +1,7 @@
 package com.kh.earth.challenge.model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,19 +10,24 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Point {
-	private int no;
+public class Reply {
 	
-	private int pointNo;
+	private int replyNo;
 	
 	private int memNo;
 	
-	private Date saveDate;
+	private int chalNo;
 	
 	private String content;	
 	
-	private int point;
+	private Date replyDate;
 	
-	private Date disapearDate;
+	private Date modifyDate;
+	
+	private char replyStatus;
+	
+	private String modifyImgName;
+	
+	private String id;
 	
 }
