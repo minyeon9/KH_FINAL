@@ -20,7 +20,7 @@ public class OrderSum {
 	
 	private Date orderDate;
 	
-	private int orderMethod;
+	private String orderMethod;
 	
 	private String orderPm;
 	

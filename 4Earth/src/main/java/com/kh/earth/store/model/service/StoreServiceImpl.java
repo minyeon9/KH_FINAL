@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.dao.StoreMapper;
 import com.kh.earth.store.model.vo.Cart;
+import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
@@ -258,6 +259,34 @@ public class StoreServiceImpl implements StoreService {
 	public List<OrderDetail> getOrderDetailList(int orderNo) {
 		
 		return mapper.getOrderDetailList(orderNo);
+	}
+
+	// 주문 번호로 주문 조회
+	@Override
+	public OrderSum findOrderSumByNo(int orderNo) {
+		
+		return mapper.findOrderSumByNo(orderNo);
+	}
+
+	// 주문 내역 UPDATE - 결제 완료
+	@Override
+	public int completeOrderSum(OrderSum orderSum) {
+		
+		return mapper.completeOrderSum(orderSum);
+	}
+
+	// 회원 번호로 '주문 생성' 상태인 주문들 DELETE
+	@Override
+	public int deleteOrderSum(int memberNo) {
+		
+		return mapper.deleteOrderSum(memberNo);
+	}
+
+	// 배송 정보 INSERT
+	@Override
+	public int addDelivery(Delivery delivery) {
+		
+		return mapper.addDelivery(delivery);
 	}
 
 	
