@@ -60,7 +60,8 @@
 		<result property="chalContent" column="CHAL_CONTENT"/>
 		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
-		<result property="chalDate" column="CHAL_DATE"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
 	</resultMap>
 	
 	<resultMap type="Month" id="MonthListResultMap">
@@ -70,7 +71,8 @@
 		<result property="chalContent" column="CHAL_CONTENT"/>
 		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
-		<result property="chalDate" column="CHAL_DATE"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
 	</resultMap>
 	
 	<resultMap type="MonthMember" id="MonthMemListResultMap">
@@ -78,8 +80,8 @@
 		<result property="memNo" column="MEM_NO"/>
 		<result property="chalNo" column="CHAL_NO"/>
 		<result property="chalDate" column="CHAL_DATE"/>
-		<result property="originalFilename" column="CHAL_CONTENT"/>
-		<result property="renamedFilename" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalStatus" column="CHAL_STATUS"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS"/>
@@ -90,8 +92,8 @@
 		<result property="memNo" column="MEM_NO"/>
 		<result property="chalNo" column="CHAL_NO"/>
 		<result property="chalDate" column="CHAL_DATE"/>
-		<result property="originalFilename" column="CHAL_CONTENT"/>
-		<result property="renamedFilename" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalStatus" column="CHAL_STATUS"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS"/>
@@ -211,35 +213,33 @@
 	<select id="getMemberCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 	    FROM MEMBER
-	    WHERE STATUS = 'Y'
-		<choose>
-		   	<when test="no != null">
-		   		AND NAME LIKE '%' || #{no} || '%'
-		   	</when>
-		   	<when test="id != null">
-		   		AND NAME LIKE '%' || #{id} || '%'
-		   	</when>
-		   	<when test="name != null">
-		   		AND NAME LIKE '%' || #{name} || '%'
-		   	</when>
-		</choose>
+	    <where>
+			<if test="name != null">
+		   		NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="id != null">
+		   		ID LIKE '%' || #{id} || '%'
+			</if>
+			<if test="no != null">
+		   		NO LIKE '%' || #{no} || '%'
+			</if>
+		</where>
 	</select>
 	
 	<select id="findMember" parameterType="map" resultMap="memberResultMap">
 		<include refid="selectMemberSql" />
 		FROM MEMBER
-		WHERE STATUS = 'Y'
-		<choose>
-		   	<when test="name != null">
-		   		AND NAME LIKE '%' || #{name} || '%'
-		   	</when>
-		   	<when test="id != null">
-		   		AND ID LIKE '%' || #{id} || '%'
-		   	</when>
-		   	<when test="no != null">
-		   		AND NO LIKE '%' || #{no} || '%'
-		   	</when>
-		</choose>
+		<where>
+			<if test="name != null">
+		   		NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="id != null">
+		   		ID LIKE '%' || #{id} || '%'
+			</if>
+			<if test="no != null">
+		   		NO LIKE '%' || #{no} || '%'
+			</if>
+		</where>
 		ORDER BY NO DESC
 	</select>
 	
@@ -250,7 +250,7 @@
 				CHAL_CONTENT,
 				CHAL_IMG_PATH,
 				CHAL_POINT,
-				CHAL_DATE
+				START_DATE
 		FROM CHAL_TODAY
 	</select>
 	
@@ -261,7 +261,7 @@
 				CHAL_CONTENT,
 				CHAL_IMG_PATH,
 				CHAL_POINT,
-				CHAL_DATE
+				START_DATE
 		FROM CHAL_MONTH
 	</select>
 	
@@ -269,26 +269,28 @@
 		SELECT  NO,
 				MEM_NO,
 				CHAL_NO,
-				CHAL_DATE,
 				CHAL_STATUS,
 				ORIGINAL_FILENAME,
 				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_POINT_STATUS
+				CHAL_POINT_STATUS,
+				CHAL_DATE
 		FROM CHAL_MONTH_MEM
+		ORDER BY NO DESC
 	</select>
 	
 	<select id="getTodayMemList" parameterType="map" resultMap="TodayMemListResultMap">
 		SELECT  NO,
 				MEM_NO,
 				CHAL_NO,
-				CHAL_DATE,
 				CHAL_STATUS,
 				ORIGINAL_FILENAME,
 				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_POINT_STATUS
+				CHAL_POINT_STATUS,
+				CHAL_DATE
 		FROM CHAL_TODAY_MEM
+		ORDER BY NO DESC
 	</select>
 	
 	<select id="getProductCount" resultType="_int">
@@ -326,7 +328,7 @@
 	<select id="getProductList" resultMap="ProductListResultMap">
 		<include refid="selectProductSql"/>
 		FROM PRODUCT
-		ORDER BY PRO_NO
+		ORDER BY PRO_NO DESC
 	</select>
 	
 	<select id="getReportedList" parameterType="map" resultMap="ReportedListResultMap">

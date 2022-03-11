@@ -50,11 +50,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>오늘의 챌린지 목록</h3>
+                        <h3>이달의 챌린지 목록</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">챌린지</a>
-                            <span>오늘의 챌린지 목록</span>
+                            <span>이달의 챌린지 목록</span>
                         </div>
                     </div>
 
@@ -117,7 +117,7 @@
 		                                            <td>${ month.chalNo }</td>
 		                                            <td>${ month.chalTitle }</td>
 		                                            <td>${ month.chalPoint }</td>
-		                                            <td>${ month.chalDate }</td>
+		                                            <td>${ month.startDate }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                 <div class="layer-popup" id="popup${ vs.index }">
