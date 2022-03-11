@@ -6,10 +6,18 @@
 
 <c:set var="path" value="${ pageContext.request.contextPath }"/> 
 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>main</title>
+</head>
+
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
        <div class="container">
         <div class="contents">
+        <%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
+
           <section class="content-wrap">
             <div class="page-tit">
               <h3>공지사항</h3>
@@ -27,25 +35,53 @@
                 <tr>
                   <th>번호</th>
                   <th>제목</th>
-                  <th>조회수</th>
+                  <th>작성자</th>
                   <th>날짜</th>
+                  <th>파일</th>
+                  <th>조회수</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th>1</th>
-                  <td>
-                    <a href="${ path }/notice_view">에코샵 현대 백화점 입점!!</a>
-                  </td>
-                  <td>99128</td>
-                  <td>2022-01-11</td>
-                </tr>
+                	<c:if test="${ empty list }">			
+			<tr>
+				<td colspan="6">
+					조회된 게시글이 없습니다.
+				</td>
+			</tr>	
+		</c:if>
+		<c:if test="${ !empty list }">
+			<c:forEach var="notice" items="${ list }">
+				<tr>
+					<td>${ notice.no }</td>
+					<td>
+						<a href="${ path }/notice/view?no=${ notice.no }">
+							${ notice.title }
+						</a>
+					</td>
+					<td>${ notice.writerId }</td>
+					<td><fmt:formatDate type="date" value="${ notice.createDate }"/></td>
+					<td>
+						<c:if test="${ empty notice.originalFileName }">
+							<span> - </span>
+						</c:if>
+						<c:if test="${ !empty notice.originalFileName }">
+							<img src="${ path }/resources/images/file.png" width="20" height="20"/>
+						</c:if>
+					</td>
+					<td>${ notice.readCount }</td>
+				</tr>
+			</c:forEach>
+
+		</c:if>			
               </tbody>
             </table>
             <div class="table_bottom">
-              <a class="btn" href="${ path }/notice_write" role="button">
+              <a class="btn" href="${ path }/notice/write" role="button">
                 글쓰기
               </a>
+
+         
+              
             </div>
             <form action="#" method="GET" class="form-search">
               <div class="input-with-icon search-input">
@@ -57,14 +93,14 @@
               <!-- 맨 처음으로 -->
               <a
                 class="first"
-                onclick="location.href='${ path }/notice?page=1'"
+                onclick="location.href='${ path }/notice/list?page=1'"
               >
               </a>
 
               <!-- 이전 페이지로 -->
               <a
                 class="prev"
-                onclick="location.href='${ path }/notice?page=${ pageInfo.prevPage }'"
+                onclick="location.href='${ path }/notice/list?page=${ pageInfo.prevPage }'"
               >
               </a>
 
@@ -80,7 +116,7 @@
 
                 <c:if test="${ status.current != pageInfo.currentPage }">
                   <button
-                    onclick="location.href='${ path }/notice?page=${ status.current }'"
+                    onclick="location.href='${ path }/notice/list?page=${ status.current }&count=${ pageInfo.listLimit }'"
                   >
                     ${ status.current }
                   </button>
@@ -90,14 +126,14 @@
               <!-- 다음 페이지로 -->
               <a
                 class="next"
-                onclick="location.href='${ path }/notice?page=${ pageInfo.nextPage }'"
+                onclick="location.href='${ path }/notice/list?page=${ pageInfo.nextPage }'"
               >
               </a>
 
               <!-- 맨 끝으로 -->
               <a
                 class="last"
-                onclick="location.href='${ path }/notice?page=${ pageInfo.maxPage }'"
+                onclick="location.href='${ path }/notice/list?page=${ pageInfo.maxPage }'"
               >
               </a>
             </div>
@@ -106,3 +142,4 @@
       </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
+    <script src="../resources/js/notice.js"></script>
