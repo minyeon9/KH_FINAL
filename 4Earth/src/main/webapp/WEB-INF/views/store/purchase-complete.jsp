@@ -37,7 +37,7 @@
 	          			<fmt:formatDate value="${ orderSum.orderDate }" pattern="yyyyMMdd"/>${ orderSum.orderNo }
 	          		</strong>
 	          		<p>
-	          			주문내역 및 배송 조회는 <a href="">마이페이지</a> > <a href="">주문&dot;배송</a>에서 확인하실 수 있습니다.
+	          			주문내역 및 배송 조회는 <a href="">마이페이지</a> > <a href="${ path }/order">주문&dot;배송</a>에서 확인하실 수 있습니다.
 	          		</p>
 	          	</div>
 	          	
