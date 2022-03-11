@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.vo.Cart;
+import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
@@ -66,6 +67,14 @@ public interface StoreService {
 	int updateOrderSum(OrderSum orderSum);
 
 	List<OrderDetail> getOrderDetailList(int orderNo);
+
+	OrderSum findOrderSumByNo(int orderNo);
+
+	int completeOrderSum(OrderSum orderSum);
+
+	int deleteOrderSum(int memberNo);
+
+	int addDelivery(Delivery delivery);
 
 
 

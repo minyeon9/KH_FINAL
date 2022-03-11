@@ -310,17 +310,6 @@
     });
     
     // 옵션 선택
-//    $(document).ready(() => {
-//    	$("#product-option").on("change", () => {
-//    		var option = $("#product-option option:selected").val();
-//        	var price = '<c:out value="${ product.proPrice }"/>';
-//        	
-//        	$(".selected-wrap").append("<li class='selectedProduct'><div id='selectedOption'>" +option+ "</div><div class='quantity'><input type='number' min='1' max='99' step='1' value='1'><div class='quantity-nav'><div class='quantity-button quantity-up'>+</div><div class='quantity-button quantity-down'>-</div></div></div><p class='selected-price'>" +toCommas(price)+ "<a href='' class='cart-delete'><i class='material-icons md-24' style='font-size: 16px;'>close</i></a></p></li> ");	
-//    	
-//    	});
-//    });
-    
-    // 옵션 선택
     $(document).on("change", "#product-option", function(e) {
     	console.log($("#product-option option:selected").text());	
     
