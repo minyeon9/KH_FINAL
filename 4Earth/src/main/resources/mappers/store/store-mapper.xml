@@ -95,6 +95,17 @@
 		<result property="detailQty" column="DETAIL_QTY"/>
 		<result property="detailPrice" column="DETAIL_PRICE"/>
 	</resultMap>
+	
+	<resultMap type="OrderSum" id="OrderSumResultMap">
+		<id property="orderNo" column="ORDER_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="orderPrice" column="ORDER_PRICE"/>
+		<result property="orderStat" column="ORDER_STAT"/>
+		<result property="orderDate" column="ORDER_DATE"/>
+		<result property="orderMethod" column="ORDER_METHOD"/>
+		<result property="orderPm" column="ORDER_PM"/>
+		<result property="orderPoint" column="ORDER_POINT"/>
+	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
@@ -461,4 +472,60 @@
 		FROM ORDER_DETAIL
 		WHERE ORDER_NO = #{orderNo}
 	</select>
+	
+	<select id="findOrderSumByNo" parameterType="_int" resultMap="OrderSumResultMap">
+		SELECT ORDER_NO, 
+			   MEMBER_NO, 
+			   ORDER_PRICE, 
+			   ORDER_STAT, 
+			   ORDER_DATE, 
+			   ORDER_METHOD, 
+			   ORDER_PM, 
+			   ORDER_POINT
+		FROM ORDER_SUM 
+		WHERE ORDER_NO = #{no}
+	</select>
+	
+	<update id="completeOrderSum" parameterType="OrderSum">
+		UPDATE ORDER_SUM
+		SET ORDER_PRICE = #{orderPrice},
+		    ORDER_POINT = #{orderPoint},
+		    ORDER_STAT = #{orderStat},
+		    ORDER_METHOD = #{orderMethod}
+		WHERE ORDER_NO = #{orderNo}
+	</update>
+	
+	<delete id="deleteOrderSum" parameterType="_int">
+		DELETE FROM ORDER_SUM
+		WHERE 
+		    MEMBER_NO = 3
+		    AND ORDER_STAT = '주문생성'
+	</delete>
+	
+	<insert id="addDelivery" parameterType="Delivery">
+		INSERT INTO DELIVERY (
+			ORDER_NO,
+			MEMBER_NO,
+			DEL_STAT,
+			DEL_NAME,
+			DEL_POSTCODE,
+			DEL_ADD,
+			DEL_EXTRA_ADD,
+			DEL_DETAIL_ADD,
+			DEL_PHONE,
+			DEL_MSG
+		) 
+		VALUES (
+			#{orderNo},
+			#{memberNo},
+			DEFAULT,
+			#{delName},
+			#{delPostcode},
+			#{delAdd},
+			#{delExtraAdd},
+			#{delDetailAdd},
+			#{delPhone},
+			#{delMsg}
+		)
+	</insert>
 </mapper>
