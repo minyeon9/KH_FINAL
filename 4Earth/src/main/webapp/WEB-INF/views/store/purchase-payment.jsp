@@ -18,6 +18,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 	
 	<div class="container">
+	<div class="contents">
 		<section class="content-wrap">
 			<div class="purchase-wrap">
 		
@@ -34,7 +35,7 @@
 	
 	              
 	              <section>
-	                  <strong>주문리스트</strong>    
+	                  <strong>주문리스트</strong>            
                           <!-- List -->                        
                           <table class="cart-table">
                               <thead>
@@ -57,7 +58,9 @@
 	                                          <p>${ orderDetail.detailOptName }</p>
 	                                      </td>
 	                                      <td style="text-align: center;">${ orderDetail.detailQty }</td>
-	                                      <td style="text-align: center;">${ orderDetail.detailPrice }</td>
+	                                      <td style="text-align: center;">
+	                                      	<fmt:formatNumber value="${ orderDetail.detailPrice }" pattern="##,###,###"/> 원	                                      	
+	                                      </td>
 	                                  </tr>
                               	  </c:forEach>                                                                 
                               </tbody>
@@ -122,34 +125,34 @@
                                   <tr>
                                       <td class="del-item" style="height: 50px;">수령인</td>
                                       <td colspan="2">
-                                          <input type="text" value="${ loginMember.name }" readonly="readonly">
+                                          <input type="text" name="del-name" value="${ loginMember.name }" readonly="readonly">
                                       </td>
                                   </tr>
                                   <tr style="border-bottom: none; height: 17%;">
                                       <td rowspan="2" class="del-item" style="height: 95px;">주소</td>
                                       <td colspan="2">
-                                          <input type="text" readonly="readonly">
+                                          <input type="text" name="del-postcode" readonly="readonly">
                                       </td>
                                   </tr>
                                   <tr style="height: 17%;">
                                       <td>
-                                          <input type="text" size="40px" readonly="readonly" value="${ loginMember.address }">
+                                          <input type="text" size="40px" name="del-address" readonly="readonly" value="${ loginMember.address }">
                                       </td>
                                       <td>
-                                          <input type="text" size="30px" readonly="readonly" value="">
-                                          <input type="text" readonly="readonly" value="">
+                                          <input type="text" size="30px" name="del-extraAddress" readonly="readonly" value="">
+                                          <input type="text" name="del-detailAddress" readonly="readonly" value="">
                                       </td>
                                   </tr>
                                   <tr>
                                       <td class="del-item" style="height: 50px;">전화번호</td>
                                       <td colspan="2">
-                                          <input type="text" placeholder="'-' 생략" value="${ loginMember.phone }" readonly="readonly">
+                                          <input type="text" name="del-phone" value="${ loginMember.phone }" readonly="readonly">
                                       </td>
                                   </tr>
                                   <tr>
                                       <td class="del-item" style="height: 50px;">배송 요청사항</td>
                                       <td colspan="2">
-                                          <input type="text" size="90px" list="del-msg" placeholder="(직접 입력)">
+                                          <input type="text" size="90px" name="del-msg" list="del-msg" placeholder="(직접 입력)">
                                           <datalist id="del-msg">
                                               <option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
                                               <option value="문 앞에 놔주세요.">문 앞에 놔주세요.</option>
@@ -179,7 +182,7 @@
                                           <input type="text" size="40px" name="del-address" id="sample6_address" placeholder="주소">
                                       </td>
                                       <td>
-                                          <input type="text" size="30px" id="sample6_extraAddress" placeholder="참고항목">
+                                          <input type="text" size="30px" name="del-extraAddress" id="sample6_extraAddress" placeholder="참고항목">
                                           <input type="text" name="del-detailAddress" id="sample6_detailAddress" placeholder="상세주소 (동ㆍ호수)">
                                       </td>
                                   </tr>
@@ -192,7 +195,7 @@
                                   <tr>
                                       <td class="del-item" style="height: 50px;">배송 요청사항</td>
                                       <td colspan="2">
-                                          <input type="text" size="90px" list="del-msg" placeholder="(직접 입력)">
+                                          <input type="text" size="90px" name="del-msg" list="del-msg" placeholder="(직접 입력)">
                                           <datalist id="del-msg">
                                               <option value="부재 시 경비실에 맡겨주세요.">부재 시 경비실에 맡겨주세요.</option>
                                               <option value="문 앞에 놔주세요.">문 앞에 놔주세요.</option>
@@ -214,7 +217,7 @@
                                   <tr>
                                       <td colspan="5">
                                           <b>포인트 사용</b>                                                 
-                                          <input type="text" style="margin-left: 15%;">
+                                          <input type="text" name="point-usage" class="point-usage" onkeyup="this.value = this.value.replace(/[^0-9]/g,'');" pattern="[0-9]+" style="margin-left: 15%;">
                                           point
                                       </td>
                                       <td>
@@ -237,16 +240,14 @@
                                       <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
                                           최종 결제 금액
                                       </th>
-                                      <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
-                                          5,000 원
+                                      <th rowspan="2" id="sum-result2-final" style="vertical-align: middle; font-size: 18px;">
                                       </th>
                                   </tr>
                                   <tr id="sum-result2">
-                                      <th style="vertical-align: top;">
-                                          7,500 원
+                                      <th style="vertical-align: top;" id="sum-result2-product">
                                       </th>                                        
-                                      <th style="vertical-align: top;">
-                                          2,000 원
+                                      <th style="vertical-align: top;" id="sum-result2-point">
+                                          0 원
                                       </th>                                        
                                   </tr> 
                               </table>
@@ -261,13 +262,13 @@
                               <table class="mtd-table">
                                   <tr>
                                       <td>
-                                          <input type="radio" class="btn-check" name="options-outlined" id="raio1">
+                                          <input type="radio" class="btn-check" name="options-outlined" value="일반결제" id="raio1">
                                           <label class="btn btn-radio" for="raio1">일반 결제</label>
-                                          <input type="radio" class="btn-check" name="options-outlined" id="radio2">
+                                          <input type="radio" class="btn-check" name="options-outlined" value="radio2" id="radio2">
                                           <label class="btn btn-radio" for="radio2">네이버 페이</label>
-                                          <input type="radio" class="btn-check" name="options-outlined" id="radio3">
+                                          <input type="radio" class="btn-check" name="options-outlined" value="radio3" id="radio3">
                                           <label class="btn btn-radio" for="radio3">카카오 페이</label>
-                                          <input type="radio" class="btn-check" name="options-outlined" id="radio4">
+                                          <input type="radio" class="btn-check" name="options-outlined" value="radio4" id="radio4">
                                           <label class="btn btn-radio" for="radio4">휴대폰 결제</label>
                                       </td>
                                   </tr>
@@ -277,16 +278,42 @@
                           
                           <br><br>
                           <hr style="border: 1px solid #669948;">
-
+							
 
                           <table style="width: 100%; height: 40px;">
                               <tr>
                                   <th class="check-box">
-                                      <input type="checkbox" id="checkbox3"> 
+                                      <input type="checkbox" class="agreement" id="checkbox3" required="required"> 
                                       <label for="checkbox3">모든 내용을 확인하였으며, 결제를 진행합니다.</label>
                                   </th>
                               </tr>
+                              <tr>
+                              	<th>
+                              		<button id="purchase" class="purchase-btn">결제하기</button>
+                              	</th>
+                              </tr>
                           </table>
+                          
+                          <!-- 결제하기 form -->
+                          <form class="order-form" action="${ path }/purchase_complete" method="post">
+                          	<!-- 회원 번호 -->
+                          	<input type="hidden" name="memberNo" value="${ loginMember.no }">
+                          	<!-- 주문 번호 -->
+                          	<input type="hidden" name="orderNo" value="${ orderSum.orderNo }">                          	
+                          	<!-- 배송 정보 -->
+                          	<input type="hidden" name="delName">                          
+                          	<input type="hidden" name="delPostcode">                          
+                          	<input type="hidden" name="delAddress">                          
+                          	<input type="hidden" name="delExtraAddress">                          
+                          	<input type="hidden" name="delDetailAddress">                          
+                          	<input type="hidden" name="delPhone">                          
+                          	<input type="hidden" name="delMsg">     
+                          	<!-- 포인트 사용 & 결제 금액 -->    
+                          	<input type="hidden" name="pointUsage"> 
+                          	<input type="hidden" name="priceFinal">                           	
+                          	<!-- 결제 수단 -->
+                          	<input type="hidden" name="orderMethod"> 
+                          </form>
 	              </section>
 	              <!-- // Cart -->
 	
@@ -295,7 +322,8 @@
            </section>
            
            <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
-         </div>    
+         </div> 
+         </div>   
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
@@ -387,5 +415,185 @@
 	        }
 	    }).open();  
 	}
+	
+	// 결제 예정 금액
+	$(document).ready(() => {	
+		var orderPrice = parseInt(${ orderSum.orderPrice });
+
+		if (orderPrice < 30000) {
+			orderPrice += 2500;
+		}
+		
+		$("#sum-result2-product").text(toCommas(orderPrice));
+		$("#sum-result2-final").text(toCommas(orderPrice));
+	});
+	
+	// 포인트 사용란 숫자만 입력
+	$("input[name=point-usage]").on("change", () => {
+		$("#sum-result2-final").empty();
+		var point = $(event.target).val();
+		var orderPrice = parseInt(${ orderSum.orderPrice });
+		
+		if (orderPrice < 30000) {
+			orderPrice += 2500;
+		}
+		
+		console.log(orderPrice);
+		
+		$("#sum-result2-point").text(toCommas(point));
+		$("#sum-result2-final").text(toCommas(orderPrice-point));
+	});
+		
+	// 숫자 3자리마다 ',' 찍기
+    function toCommas(value) {
+	    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원";
+	}
+	
+	// 구매 동의 체크박스 미선택 시 결제하기 버튼 비활성화
+	$(document).ready(() => {
+		$("#purchase").attr("disabled", true);
+		
+		$(".agreement").on("change", () => {
+			$("#purchase").attr("disabled", $(".agreement:checked").length == 0);
+		});
+	});
+	
+	// 결제하기
+	$("#purchase").on("click", () => {
+		// 주문 정보
+		let orderNo = `${ orderSum.orderNo }`;
+		
+		// 주문 번호 생성
+		let today = new Date();
+		
+		let year = today.getFullYear();
+		let month = today.getMonth() + 1;
+		let date = today.getDate();
+		
+		let clientOrderNo = String(year) + String(month) + String(date) + String(orderNo);
+		
+		console.log(clientOrderNo);		
+		
+		// 배송 정보
+		if($("#checkbox1").is(":checked")){
+			var del = $(".address1").find(".del-table");
+		} else if($("#checkbox2").is(":checked")) {
+			var del = $(".address2").find(".del-table");
+		}
+		
+		console.log(del);
+		
+		let delName = del.find("input[name=del-name]").val();
+		let delPostcode = del.find("input[name=del-postcode]").val();
+		let delAddress = del.find("input[name=del-address]").val();
+		let delExtraAddress = del.find("input[name=del-extraAddress]").val();
+		let delDetailAddress= del.find("input[name=del-detailAddress]").val();
+		let delPhone = del.find("input[name=del-phone]").val();
+		let delMsg = del.find("input[name=del-msg]").val();
+		
+		$("input[name=delName]").val(delName);
+		$("input[name=delPostcode]").val(delPostcode);
+		$("input[name=delAddress]").val(delAddress);
+		$("input[name=delExtraAddress]").val(delExtraAddress);
+		$("input[name=delDetailAddress]").val(delDetailAddress);
+		$("input[name=delPhone]").val(delPhone);
+		$("input[name=delMsg]").val(delMsg);
+		
+		// 포인트 사용
+		$("input[name=pointUsage]").val($(".point-usage").val());
+		
+		// 결제 금액
+		let orderPrice = parseInt(${ orderSum.orderPrice });
+		
+		if (orderPrice < 30000) {
+			orderPrice += 2500;
+		}
+		
+		let price = orderPrice - $("input[name=point-usage]").val();
+		
+		$("input[name=priceFinal]").val(price);		 
+		
+		// 결제 정보
+		let method = $("input[type=radio]:checked").val();
+		
+		console.log("method : " + method);
+		
+		$("input[name=orderMethod]").val(method);		
+		
+		// 아임포트 설정
+		var pg = "";
+		var pm = "";
+		
+		if(method === "일반결제"){
+			pg = "html5_inicis";
+			pm = "card";
+		}
+		/*
+			네이버페이
+		else if(method == "radio2"){
+			pg = "naverpay";
+			pm = "";
+		}
+		*/
+		else if(method == "radio3"){
+			pg = "kakao";
+			pm = "kakaopay";
+		}
+		else if(method == "radio4"){
+			pg = "danal";
+			pm = "phone";
+		}
+		
+		// 아임포트 결제
+		var IMP = window.IMP; // 생략 가능
+	    IMP.init("imp95685445");
+		
+		// IMP.request_pay(param, callback) 결제창 호출
+	      IMP.request_pay({ // param
+	          pg: pg,
+	          /*
+	          'kakao':카카오페이,
+	          html5_inicis':이니시스(웹표준결제)
+	          'nice':나이스페이
+	          'jtnet':제이티넷
+	          'uplus':LG유플러스
+	          'danal':다날
+	          'payco':페이코
+	          'syrup':시럽페이
+	          'paypal':페이팔
+	          */
+	          pay_method: pm,
+	          /*
+	          'samsung':삼성페이,
+	          'card':신용카드,
+	          'trans':실시간계좌이체,
+	          'vbank':가상계좌,
+	          'phone':휴대폰소액결제
+	          */
+	          merchant_uid: orderNo,
+	          name: "주문번호 " + clientOrderNo,
+	          amount: price,
+	          buyer_name: delName,
+	          buyer_tel: delPhone,
+	          buyer_addr: delAddress + delDetailAddress,
+	          buyer_postcode: delPostcode
+	      }, function (rsp) { // callback
+	          console.log(rsp);
+	          if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우		      
+	        	  	var msg = '결제가 완료되었습니다';
+	        	  	msg += '고유ID : ' + rsp.imp_uid;
+	        	  	msg += '상점 거래ID : ' + rsp.merchant_uid;
+	        	  	msg += '결제 금액 : ' + rsp.paid_amount;
+	        	  	msg += '카드 승인번호 : ' + rsp.apply_num;		        	
+	    			
+	        	  	$(".order-form").submit();
+	          } else {
+	        	  var msg = '결제에 실패하였습니다. ';
+	        	  msg += '에러내용 : ' + rsp.error_msg;
+	          }
+	          alert(msg);
+	      });
+		
+	});
 </script>
 </html>

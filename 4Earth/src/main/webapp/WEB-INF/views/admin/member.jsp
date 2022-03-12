@@ -87,8 +87,8 @@
                                             <th>회원 번호</th>
                                             <th>회원 아이디</th>
                                             <th>회원명</th>
-                                            <th>가입일</th>
                                             <th>회원등급</th>
+                                            <th>상태</th>
                                             <th>세부내용</th>
                                             <th>관리</th>
                                         </tr>
@@ -109,8 +109,8 @@
 		                                            <td>${ member.no }</td>
 		                                            <td>${ member.id }</td>
 		                                            <td>${ member.name }</td>
-		                                            <td>${ member.enrollDate }</td>
 		                                            <td>${ member.member_type }</td>
+		                                            <td>${ member.status }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
@@ -144,8 +144,16 @@
 													        		<tr>
 													        			<th>주소</th>
 													        			<td>${ member.address }</td>
-													        			<th>빈칸</th>
-													        			<td>빈칸</td>
+													        			<th>가입일</th>
+													        			<td>${ member.enrollDate }</td>
+													        		</tr>
+													        		<tr>
+													        			<th colspan="2">사진</th>
+													        			<th colspan="2">빈칸</th>
+													        		</tr>
+													        		<tr>
+													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/member/${member.modify_img_name}" /></td>
+													        			<td colspan="2">빈칸</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>
@@ -159,7 +167,7 @@
                             						</td>
 		                                            <td>
 		                                                <button class="btn btn-s">등록</button>
-		                                                <button id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
+		                                                <button type="button" id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>

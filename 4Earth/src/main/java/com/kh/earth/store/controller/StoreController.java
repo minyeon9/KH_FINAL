@@ -1,6 +1,5 @@
 package com.kh.earth.store.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import com.kh.earth.store.model.service.StoreService;
 import com.kh.earth.store.model.service.StoreServiceImpl;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.CartList;
+import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
@@ -495,6 +495,81 @@ public class StoreController {
 			model.addObject("location", "/login");			
 			model.setViewName("common/msg");
 		}
+		
+		return model;
+	}
+	
+	// 결제
+	@PostMapping("/purchase_complete")
+	public ModelAndView purchaseComplete(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam(value = "memberNo") int memberNo,
+			@RequestParam(value = "orderNo") int orderNo,
+			@RequestParam(value = "delName") String delName,
+			@RequestParam(value = "delPostcode") String delPostcode,
+			@RequestParam(value = "delAddress") String delAddress,
+			@RequestParam(value = "delExtraAddress") String delExtraAddress,
+			@RequestParam(value = "delDetailAddress") String delDetailAddress,
+			@RequestParam(value = "delPhone") String delPhone,			
+			@RequestParam(value = "delMsg") String delMsg,		
+			@RequestParam(value = "pointUsage") int pointUsage,			
+			@RequestParam(value = "priceFinal") int priceFinal,		
+			@RequestParam(value = "orderMethod") String orderMethod
+			) {
+		log.info("purchaseComplete() - 호출");
+		
+		// 로그인 체크 + 본인 체크
+		if(loginMember != null && loginMember.getNo() == memberNo) {
+			// OrderSum - 포인트사용, 결제금액, 주문상태, 결제수단 update
+			OrderSum orderSum = service.findOrderSumByNo(orderNo);
+			
+			log.info("orderSum 수정 전 : " + orderSum.toString());
+			
+			orderSum.setOrderPoint(pointUsage);
+			orderSum.setOrderPrice(priceFinal);
+			orderSum.setOrderStat("결제완료");
+			orderSum.setOrderMethod(orderMethod);
+			
+			int orderSumUpdateResult = service.completeOrderSum(orderSum);
+			
+			if(orderSumUpdateResult > 0) {
+				// 해당 회원의 OrderSum 중 주문상태가 '주문 생성' 인 행들 delete 
+				int orderSumDeleteResult = service.deleteOrderSum(memberNo);
+				
+				if(orderSumDeleteResult <= 0) {
+					log.info("deleteOrderSum 실패");
+				}
+				
+				// Delivery - 배송정보 insert
+				Delivery delivery = new Delivery();
+				
+				delivery.setOrderNo(orderNo);
+				delivery.setMemberNo(memberNo);			
+				delivery.setDelName(delName);
+				delivery.setDelPostcode(delPostcode);
+				delivery.setDelAdd(delAddress);
+				delivery.setDelExtraAdd(delExtraAddress);
+				delivery.setDelDetailAdd(delDetailAddress);
+				delivery.setDelPhone(delPhone);
+				delivery.setDelMsg(delMsg);
+				
+				int deliveryResult = service.addDelivery(delivery);
+				
+				if(deliveryResult <= 0) {
+					log.info("addDelivery 실패");
+				}
+			}
+			
+			model.addObject("orderSum", orderSum);			
+			
+			model.setViewName("store/purchase-complete");
+
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/");			
+			model.setViewName("common/msg");
+		}	
 		
 		return model;
 	}

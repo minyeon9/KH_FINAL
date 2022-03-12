@@ -62,7 +62,7 @@
         		</tr>
         		<tr>
         			<th colspan="2">사진</th>
-        			<td colspan="2"><input name="proMfg" type="text" value="4Earth 식품"></td>
+        			<td colspan="2"><input name="proMfg" type="text" value="제조사"></td>
         		</tr>           
                 <tr>
                     <th colspan="3">

@@ -299,7 +299,7 @@ public class AdminController {
 		return model;
 	}
 	
-	@PostMapping("/member_delete")
+	@GetMapping("/member_delete")
 	public ModelAndView admin_member_delete(ModelAndView model,
 			@RequestParam("no")int no) {
 		

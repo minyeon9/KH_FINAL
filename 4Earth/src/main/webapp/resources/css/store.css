@@ -527,6 +527,39 @@ input[type=number]
 .address2 {
 	display: none;
 }
+/* 주문/결제 */
+.purchase-btn {
+    font-size: 18px;
+    height: 50px;
+    width: 170px;
+    min-height: 50px;
+    color: #669948;
+    font-weight: bolder;
+    line-height: 16px;
+    background: #fff;
+    padding: 9px 25px 9px;
+    margin: 70px;
+    margin-top: 30px;
+    border: 2px solid #669948;
+    box-sizing: border-box;
+    transition: all 0.2s ease-out;
+    vertical-align: top;
+}
+.purchase-btn:hover {
+    color: #fff;
+    background: #669948;
+    border: 2px solid #669948;
+}
+.purchase-btn:disabled, .purchase-btn[disabled=disabled] {
+    color: #a5a5a5;
+    border: 2px solid #a5a5a5;
+}
+.purchase-btn[disabled]:hover {
+	color: #a5a5a5;
+	background: #fff;
+    border: 2px solid #a5a5a5;
+    cursor: default;
+}
 
 /* Sum */
 .sum {
@@ -595,6 +628,29 @@ input[type=number]
 .btn-radio:disabled, .btn-radio.disabled {
     color: #669948;
     background-color: transparent;
+}
+
+/* 주문완료 */
+.purchase-completed {
+	width: 60%;
+	height: 200px;
+	padding: 100px 150px;
+	text-align: center;
+	background-color: #f9f9f9;
+}
+.purchase-completed span {
+	font-size: 30px;
+	font-weight: 500;
+	display: block;
+	margin-bottom: 50px;
+}
+.purchase-completed strong {
+	font-size: 18px;
+}
+.purchase-completed a {
+	font-weight: 500;
+	color: #76b779;
+	text-decoration: underline;
 }
 
 /* ---------------
@@ -705,6 +761,7 @@ input[type=number]
 .store-guide a {
 	font-weight: 500;
 	color: #76b779;
+	text-decoration: underline;
 }
 .store-editor {
 	margin-top: 10px;
