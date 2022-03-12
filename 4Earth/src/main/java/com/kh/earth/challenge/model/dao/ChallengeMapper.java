@@ -66,11 +66,9 @@ public interface ChallengeMapper {
 	
 	// 댓글 수정
 	int updateReply(Reply reply);
-	
-	// 댓글 번호 조회(삭제)
-	List<Reply> findReplyByNo(int no);
 
 	// 댓글 삭제
+	Reply findReplyByNo(int replyNo);
 	int updateReplyStatus(@Param("replyNo") int replyNo, @Param("replyStatus") String replyStatus);
 
 	
@@ -95,6 +93,8 @@ public interface ChallengeMapper {
 	List<Month> findMonthBestList();
 	// 메인 - 상품 목록
 	List<Product> findProductBestList();
+
+
 
 
 

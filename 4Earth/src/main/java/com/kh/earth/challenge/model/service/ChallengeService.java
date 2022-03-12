@@ -70,9 +70,11 @@ public interface ChallengeService {
 
 	// 댓글 번호 조회(삭제)
 	// Reply findReplyByNo(int replyNo);
-	List<Reply> findReplyByNo(int no);
+	// List<Reply> findReplyByNo(int no);
 
 	// 댓글 삭제
+	// int deleteReply(int replyNo);
+	Reply findReplyByNo(int replyNo);
 	int deleteReply(int replyNo);
 
 
@@ -92,6 +94,8 @@ public interface ChallengeService {
 	List<Month> findMonthBestList();
 	// 메인 - 상품 목록
 	List<Product> findProductList();
+
+
 
 
 	

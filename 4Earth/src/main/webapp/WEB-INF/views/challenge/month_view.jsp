@@ -84,9 +84,9 @@
 						<h4>나의 챌린지 참여 현황</h4>
 						<div class="gauge">
 							<c:set var="remainCount" value="${ requiredCount - fn:length(count) }" />
-							필요 횟수: ${ requiredCount }번<br>
+							<%-- 필요 횟수: ${ requiredCount }번<br>
 							완료 횟수: ${ fn:length(count) }번<br>
-							남은 횟수: ${ requiredCount - fn:length(count) }번
+							남은 횟수: ${ requiredCount - fn:length(count) }번 --%>
 							<ul>
 								<!-- 달성 완료 횟수 -->
 								<c:forEach var="count" items="${ count }" varStatus="status">
@@ -108,7 +108,7 @@
 					</section>
 				</c:if>
 
-				<section class="section">
+				<section class="section" id="sectionReply">
 					<h4>챌린지 참여 리뷰</h4>
 					<div class="reply">
 						<c:if test="${ !empty count }">
@@ -182,9 +182,8 @@
 										</li>
 									</c:forEach>
 								</ul>
-							
 
-								<div class="paging">
+								<!-- <div class="paging">
 									<a href="#" class="prev"><span>이전</span></a>
 									<strong>1</strong>
 									<a href="#">2</a>
@@ -192,7 +191,7 @@
 									<a href="#">4</a>
 									<a href="#">5</a>
 									<a href="#" class="next"><span>다음</span></a>
-								</div>
+								</div> -->
 							</c:if>
 						</div>
 

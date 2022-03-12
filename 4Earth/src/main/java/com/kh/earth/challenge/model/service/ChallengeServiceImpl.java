@@ -156,17 +156,13 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	// 댓글 번호 조회(삭제)
 	@Override
-	public List<Reply> findReplyByNo(int no) {
-		return mapper.findReplyByNo(no);
+	public Reply findReplyByNo(int replyNo) {
+		return mapper.findReplyByNo(replyNo);
 	}
-	
-	// 댓글 삭제
 	@Override
-	@Transactional
 	public int deleteReply(int replyNo) {
 		return mapper.updateReplyStatus(replyNo, "N");
 	}
-
 
 	
 	
@@ -204,16 +200,20 @@ public class ChallengeServiceImpl implements ChallengeService {
 	
 	
 
-	// 메인
+	// 메인 - 챌린지 목록
 	@Override
 	public List<Month> findMonthBestList() {
 		return mapper.findMonthBestList();
 	}
 
+	// 메인 - 상품 목록
 	@Override
 	public List<Product> findProductList() {
 		return mapper.findProductBestList();
 	}
+
+	
+
 
 	
 

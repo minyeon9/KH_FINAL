@@ -605,6 +605,9 @@
     right: 10px;
     margin-top: 0;
 }
+.reply-list > ul > li .btn-wrap form {
+	display: inline-block;
+}
 .reply-list > ul > li .btn-wrap button {
     color: #bbb;
 }

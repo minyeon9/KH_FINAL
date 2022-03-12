@@ -335,8 +335,6 @@ public class ChallengeController {
 		model.addObject("count", count);
 		model.addObject("remainCountList", remainCountList);
 		
-		System.out.println("상세: " + month);
-		
 		model.setViewName("challenge/month_view");
 		
 		return model;
@@ -454,8 +452,6 @@ public class ChallengeController {
 		
 		point.setMemNo(loginMember.getNo());
 		point.setPoint(chalPoint);
-		
-		System.out.println("sdfljsdflkd: " + chalPoint);
 		
 		// 최종 완료 체크(포인트 지급)
 		Map<String, Object> completeCount = new HashMap<>();
@@ -577,24 +573,27 @@ public class ChallengeController {
 	@PostMapping("delete_reply")
 	public ModelAndView deleteReply (
 			ModelAndView model,
-			@SessionAttribute(name = "loginMember") Member loginMember) {
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo,
+			@RequestParam("replyNo") int replyNo) {
+		
+		System.out.println("댓글 삭제 호출");
 		
 		int result = 0;
-		List<Reply> reply = service.findReplyByNo(loginMember.getNo());
+		Reply reply = service.findReplyByNo(replyNo);
 		
 		System.out.println("reply: " + reply);
 		
-//		result = service.deleteReply(reply.getReplyNo());
-//		
-//		if (result > 0) {
-//			model.addObject("msg", "댓글이 삭제되었습니다.");
-//			model.addObject("location", "/month_list");
-//		} else {
-//			model.addObject("msg", "댓글 삭제를 실패했습니다.\n다시 시도해 주세요.");
-//			model.addObject("location", "/month_list");
-////			model.addObject("location", "/month_view?no=" + chalNo);
-//		}
-//		
+		result = service.deleteReply(replyNo);
+		
+		if (result > 0) {
+			model.addObject("msg", "댓글이 삭제되었습니다.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		} else {
+			model.addObject("msg", "댓글 삭제를 실패했습니다.\n다시 시도해 주세요.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		}
+		
 		model.setViewName("common/msg");
 		
 		return model;

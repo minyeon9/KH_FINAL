@@ -234,7 +234,7 @@
 		FROM CHAL_MONTH M
 		LEFT OUTER JOIN CHAL_REPLY R ON (M.CHAL_NO = R.CHAL_NO)
 		LEFT OUTER JOIN MEMBER MEMBER ON (R.MEM_NO = MEMBER.NO)
-		WHERE M.CHAL_NO = #{ chalNo }
+		WHERE R.REPLY_STATUS = 'Y' AND M.CHAL_NO = #{ chalNo }
 		ORDER BY R.REPLY_NO DESC
 	</select>
 	
@@ -368,7 +368,7 @@
 	<select id="findReplyByNo" parameterType="map" resultMap="replyResultMap">
 		SELECT *
 		FROM CHAL_REPLY
-		WHERE MEM_NO = #{ no }
+		WHERE REPLY_NO = #{ replyNo }
 	</select>
 	
 	<!-- 댓글 삭제 -->
