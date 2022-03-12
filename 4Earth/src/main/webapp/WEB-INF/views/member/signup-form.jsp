@@ -99,11 +99,11 @@
                                 </div>
                                 <div class="form-group">
                                 <div id="name-area">
-                                    <label for="userPhone">전화번호</label>
+                                    <label for="userPhone">휴대폰</label>
                                     <p id="member-phone"></p>
                                     </div>
                                     <br>
-                                    <input type="text" name="phone" id="userPhone" placeholder="휴대전화" required/>
+                                    <input type="tel" name="phone" id="userPhone" placeholder="휴대폰 번호 입력('-'생략)" required/>
                                 </div>
                                 <div class="form-group">
                                     <label for="userAddress">주소</label>

@@ -194,7 +194,7 @@ $('#userEmail').keyup(function() {
 
 
 // 전화번호
-let phoneCheck = RegExp(/^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/);
+let phoneCheck = RegExp(/^01([0|1|6|7|8|9]?)([0-9]{3,4})([0-9]{4})$/);
 $('#userPhone').keyup(function() {
 	if (!phoneCheck.test($('#userPhone').val())) {
 		$('#member-phone').css('color', 'red').text("형식에 맞지 않음");
@@ -217,6 +217,12 @@ function check_All() {
 	}else if(!idCheck.test($('#userId').val())){
 		alert("형식에 맞지 않는 아이디입니다.");
 		return false;
+	}else if(!passwordCheck.test($('#userPwd').val())){
+		alert("형식에 맞지 않는 비밀번호입니다.");
+		return false;
+	}else if(passwd != passwdcheck){
+		alert("비밀번호 재확인 결과가 동일하지 않습니다.");
+		return false;
 	}else if(!nameCheck.test($('#userName').val())){
 		alert("형식에 맞지 않는 이름입니다.");
 		return false;
@@ -227,14 +233,6 @@ function check_All() {
 		alert("형식에 맞지 않는 전화번호입니다.");
 		return false;
 	}
-	/*
-	else if(!passwordCheck.test($('#userPwd').val())){
-		alert("형식에 맞지 않는 비밀번호입니다.");
-		return false;
-	}else if(passwd != passwdcheck){
-		alert("비밀번호 재확인 결과가 동일하지 않습니다.");
-		return false;
-	}*/
 	
 	return true;
 }
@@ -327,6 +325,12 @@ $(document).ready(()=>{
 	                left: winX + 'px',
 	                top: winY + 'px' 
 	            });
+	         
+	            // let memberNum = data.memberNum;
+	            // sessionStorage.setItem("memberNo", memberNum);
+				
+	            // alert(memberNum);
+	            // alert(sessionStorage.getItem("memberNo"));
 			}else{
 				alert(data.msg);
 			}
@@ -342,7 +346,83 @@ $(document).ready(()=>{
 });
 
 
+/* ----------------------------------
+      비밀번호 찾기 - 재설정
+---------------------------------- */
+function pw_reset_check() {
+  let newpasswd = $('#userPwd2').val();
+  let passwdcheck = $('#userPwCheck2').val();
+   console.log(newpasswd);
+   console.log(passwdcheck);
+  
+	if(!passwordCheck.test($('#userPwd2').val())){
+		alert("형식에 맞지 않는 비밀번호입니다.");
+		return false;
+	}else if(newpasswd != passwdcheck){
+		alert("비밀번호 재확인 결과가 동일하지 않습니다.");
+		return false;
+	}
+	
+	return true;
+}
 
+/* ----------------------------------
+      아이디 찾기
+---------------------------------- */
+$(document).ready(()=>{
+	$("#findId").on("click", ()=>{
+		let name = $("#userName").val().trim(); 
+        let phone = $("#userPhone").val().trim();
+//		 alert("버튼클릭 : "+phone+", "+name);
+		$.ajax({
+			type: "post",
+			url: "find_id", 
+			dataType: "json",
+			data: {
+				name, phone
+			},
+			success: (data)=>{
+			
+			console.log(data.result);
+			console.log(data.msg);
+
+			if(data.result == 'success'){
+			    let dimed = $('.dimed');
+				let popupWidth = $('.layer-popup').width();
+			    let popupHeight = $('.layer-popup').height();		
+			    let winX = ( $(window).width() - popupWidth) / 2;
+			    let winY = ( $(window).height() - popupHeight) / 2;
+	    
+	            $('.container').on('scroll touchmove mousewheel', function(event) { 
+	                event.preventDefault();
+	                event.stopPropagation();
+	                return false; 
+	            });
+				
+				dimed.css({display: 'block'}, 400);
+				
+	            $( '#popup02' ).addClass('is-open').css({
+	                left: winX + 'px',
+	                top: winY + 'px' 
+	            });
+	         
+	            // let memberNum = data.memberNum;
+	            // sessionStorage.setItem("memberNo", memberNum);
+				
+	            // alert(memberNum);
+	            // alert(sessionStorage.getItem("memberNo"));
+			}else{
+				alert(data.msg);
+			}
+
+
+			},
+			error: (error)=>{
+				console.log(error);
+			}
+		});
+	});
+});
 
 
 

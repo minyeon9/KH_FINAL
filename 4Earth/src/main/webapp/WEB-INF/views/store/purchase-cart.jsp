@@ -42,7 +42,7 @@
                 		 </div>
                       </c:if>   
                       <c:if test="${ !empty list }">  
-                      <form id="form" modelAttribute="cartList" onsubmit="return false;">     
+                      <form:form id="form" modelAttribute="cartList" onsubmit="return false;">     
                       <table class="cart-table">
                           <thead>
                               <tr style="border-bottom: 2px solid rgb(206, 206, 206);">
@@ -133,7 +133,7 @@
                               </th>
                           </tr>
                       </table>
-                      </form>   
+                      </form:form>   
                       </c:if>     
                       
                       <!-- 삭제 form -->

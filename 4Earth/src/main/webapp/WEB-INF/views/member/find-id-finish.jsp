@@ -27,7 +27,7 @@
                     </div>
 
 
-                <!-- login section -->
+                <!-- findId finish section -->
                     <div class="category">
                         <div class="login-wrap">
 
@@ -45,24 +45,17 @@
                                 <!-- <hr class="short-line"> -->
                                 <img id="result-img" src="${ path }/resources/images/member/find-id-result.png">
                                 <br>
-
-
-
                                 <br>
-
                                 <p id="find-text">회원님의 아이디는
-                                    <br> <span>potato1</span> 입니다.</p>
+                                    <br><span id="id">${ userId }</span> 입니다.</p>
                                 <br>
-
                                 <button class="btn btn-login">비밀번호 찾기</button>
                                 <br>
                                 <div id="find-area-box">
                                 <ul class="find-area2">
-                                    <li><a href="./login.html" class="sml-text2"><span>이전 화면으로</span></a></li>
+                                    <li><a href="${ path }/login" class="sml-text2"><span>로그인</span></a></li>
                                     <li id="bar">|</li>
-                                    <!-- <li><a href="#" class="sml-text2"><span>로그인</span></a></li> -->
-                                    <!-- <li id="bar">|</li> -->
-                                    <li><a href="${ path }/enroll" class="sml-text2"><span>회원가입</span></a></li>
+                                    <li><a href="${ path }/signup" class="sml-text2"><span>회원가입</span></a></li>
                                 </ul>
                                 </div>
                                 <hr class="short-line2">
@@ -72,18 +65,11 @@
 
                             </div>
                         </div>
-
-
-
                         </div>
-                        
                     </div>
-                    <!-- // login section -->
-
+                    <!-- // findId finish section -->
 
                     <div class="guide">
-
-
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>

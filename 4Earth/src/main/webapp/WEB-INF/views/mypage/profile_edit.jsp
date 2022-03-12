@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>회원정보</title>
+<title>내 정보 수정</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <div class="container">
@@ -17,10 +17,10 @@
 		<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 			<section class="content-wrap">
                     <div class="page-tit">
-                        <h3>회원정보수정</h3>
+                        <h3>내 정보 수정</h3>
                         <div class="bread-crumb">
                             <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                            <a href="${ path }profile_edit">회원정보수정</a>
+                            <a href="${ path }profile_edit">내 정보 수정</a>
                         </div>
                     </div>
 
@@ -30,7 +30,7 @@
                             <div id="edit-box">
                             <div id="edit-area">
                                 <br>
-                                <h2>회원정보수정</h2>
+                                <h2>내 정보 수정</h2>
                                 <br>
                                 <hr class="long-line">
                                 <br>
