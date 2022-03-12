@@ -38,10 +38,11 @@
 			<mapping path="/profile_edit"/>
 	 		<mapping path="/today_list"/>
 	 		<mapping path="/today_view"/>
-      <mapping path="/today_complete"/>
+      		<mapping path="/today_complete"/>
 	 		<mapping path="/month_view"/>
 	 		<mapping path="/month_write"/>
 	 		<mapping path="/month_complete"/>
+	 		<mapping path="/ongoing_list"/>
 	 		<mapping path="/wishlist"/>
 	 		<mapping path="/purchase_cart"/>
 	 		

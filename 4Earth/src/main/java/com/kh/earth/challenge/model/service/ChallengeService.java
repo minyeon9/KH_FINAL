@@ -13,6 +13,7 @@ import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.store.model.vo.Product;
 
 @Transactional
 public interface ChallengeService {
@@ -75,11 +76,22 @@ public interface ChallengeService {
 	int deleteReply(int replyNo);
 
 
-	// 댓글 조회 
-	// List<Reply> findReplyListByNo(int chalNo);
 
 	
 
+	// 참여 중인 챌린지 목록 조회
+	List<MonthMember> findOngoingListByMemNo(int no, PageInfo pageInfo);
+	// 참여 중인 챌린지 목록 갯수 조회
+	int getOngoingListCount(int no);
+	
+	
+	
+	
+
+	// 메인 - 챌린지 목록
+	List<Month> findMonthBestList();
+	// 메인 - 상품 목록
+	List<Product> findProductList();
 
 
 	

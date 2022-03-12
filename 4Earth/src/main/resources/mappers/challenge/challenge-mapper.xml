@@ -82,11 +82,13 @@
 		<result property="id" column="MEMBER_ID" />
 		<result property="chalNo" column="CHAL_NO" />
 		<result property="chalTitle" column="T_CHAL_TITLE" />
+		<result property="chalContent" column="CHAL_CONTENT" />
 		<result property="chalDate" column="CHAL_DATE" />
 		<result property="originalFilename" column="ORIGINAL_FILENAME" />
 		<result property="renamedFilename" column="M_RENAMED_FILENAME" />
 		<result property="modifyImgName" column="MEMBER_MODIFY_IMG_NAME" />
-		<result property="chalPoint" column="CHAL_COUNT" />
+		<result property="chalCount" column="CHAL_COUNT" />
+		<result property="myCount" column="M_MY_COUNT" />
 		<result property="chalStatus" column="CHAL_STATUS" />
 		<result property="chalPoint" column="T_CHAL_POINT" />
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS" />
@@ -290,7 +292,7 @@
 		    CHAL_DATE,
 		    ORIGINAL_FILENAME,
 		    RENAMED_FILENAME,
-		    CHAL_COUNT,
+		    MY_COUNT,
 		    CHAL_STATUS,
 		    CHAL_POINT,
 		    CHAL_POINT_STATUS
@@ -328,7 +330,7 @@
 	
 	<!-- 이달의 챌린지 참여 횟수 조회 -->
 	<select id="getMonthGuage" parameterType="arraylist" resultMap="MonthMemberResultMap">
-		SELECT CHAL_COUNT
+		SELECT MY_COUNT AS M_MY_COUNT
 		FROM CHAL_MONTH_MEM
 		WHERE MEM_NO = #{ no } AND CHAL_NO = #{ chalNo }
 	</select>
@@ -375,4 +377,84 @@
 		SET REPLY_STATUS = #{ replyStatus } 
 		WHERE REPLY_NO = #{ replyNo }
 	</update>
+	
+	
+	<!-- 참여 중인 챌린지 목록 조회 -->
+	<select id="findOngoingListByMemNo" parameterType="map" resultMap="MonthMemberResultMap">
+		SELECT
+			M.MEM_NO AS T_MEM_NO,
+		    C.CHAL_NO,
+		    C.CHAL_TITLE AS T_CHAL_TITLE,
+		    C.CHAL_CONTENT,
+		    C.CHAL_POINT,
+		    C.CHAL_COUNT,
+		    COUNT (M.MY_COUNT) AS M_MY_COUNT,
+		    M.MEM_NO
+		FROM CHAL_MONTH C
+		JOIN CHAL_MONTH_MEM M ON (C.CHAL_NO = M.CHAL_NO)
+		WHERE M.MEM_NO = ${ no }
+		GROUP BY M.MEM_NO, C.CHAL_NO, C.CHAL_TITLE, C.CHAL_CONTENT, C.CHAL_POINT, C.CHAL_COUNT, M.MY_COUNT, M.MEM_NO
+		ORDER BY C.CHAL_NO DESC
+  	</select>
+	
+	<!-- 참여 중인 챌린지 목록 갯수 조회 -->
+	<select id="getOngoingListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT (*)
+		FROM CHAL_MONTH_MEM
+		WHERE MEM_NO = #{ no }
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<resultMap type="Product" id="ProductListResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="proName" column="PRO_NAME"/>
+		<result property="proPrice" column="PRO_PRICE"/>
+		<result property="proDate" column="PRO_DATE"/>
+		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
+		<result property="proVol" column="PRO_VOL"/>
+		<result property="proImg" column="PRO_IMG"/>
+		<result property="proInfo" column="PRO_INFO"/>
+		<result property="proStat" column="PRO_STAT"/>
+		<result property="proCat" column="PRO_CAT"/>
+		<result property="proSold" column="PRO_SOLD"/>
+		<result property="proMfg" column="PRO_MFG"/>
+		<result property="proRating" column="PRO_RATING"/>
+	</resultMap>
+	
+	<!-- 메인: 챌린지 목록 조회 -->
+	<select id="findMonthBestList" parameterType="arraylist" resultMap="MonthListResultMap">
+		SELECT
+		    COUNT (M.CHAL_NO),
+		    C.CHAL_NO,
+		    C.CHAL_TITLE,
+		    C.CHAL_CONTENT,
+		    C.CHAL_IMG_PATH
+		FROM CHAL_MONTH_MEM M
+		JOIN CHAL_MONTH C ON (M.CHAL_NO = C.CHAL_NO)
+		GROUP BY M.CHAL_NO, C.CHAL_NO, C.CHAL_TITLE, C.CHAL_CONTENT, C.CHAL_IMG_PATH
+		ORDER BY C.CHAL_NO DESC
+	</select>
+	
+	<!-- 메인: 상품 목록 조회 -->
+	<select id="findProductBestList" parameterType="arraylist" resultMap="ProductListResultMap">
+		SELECT PRO_NO,
+		       PRO_NAME, 
+		       PRO_IMG,
+		       PRO_INFO,
+		       PRO_STAT,
+		       PRO_SOLD
+		FROM PRODUCT
+		WHERE PRO_STAT = 3
+		ORDER BY PRO_SOLD DESC
+	</select>
+	
+	
+	
 </mapper>

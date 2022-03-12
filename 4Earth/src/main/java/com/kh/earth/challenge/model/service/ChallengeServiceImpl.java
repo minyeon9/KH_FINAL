@@ -18,6 +18,7 @@ import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.store.model.vo.Product;
 
 
 @Service
@@ -166,19 +167,53 @@ public class ChallengeServiceImpl implements ChallengeService {
 		return mapper.updateReplyStatus(replyNo, "N");
 	}
 
-	// 댓글 조회
+
+	
+	
+	
+	
 //	@Override
-//	public List<Reply> findReplyListByNo(Map<String, Object> replyMap) {
-//		return mapper.findReplyListByNo(replyMap);
+//	public List<Month> getMonthList(PageInfo pageInfo) {
+//		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+//		int limit = pageInfo.getListLimit();
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+//		
+//		return mapper.findAllMonth(rowBounds);
 //	}
 	
-
+	
+	
+	// 참여 중인 챌린지 목록 조회
+	@Override
+	public List<MonthMember> findOngoingListByMemNo(int no, PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.findOngoingListByMemNo(no, rowBounds);
+	}
+	
+	// 참여 중인 챌린지 목록 갯수 조회
+	@Override
+	public int getOngoingListCount(int no) {
+		return mapper.getOngoingListCount(no);
+	}
+	
+	
+	
+	
 	
 
+	// 메인
+	@Override
+	public List<Month> findMonthBestList() {
+		return mapper.findMonthBestList();
+	}
 
-	
-
-	
+	@Override
+	public List<Product> findProductList() {
+		return mapper.findProductBestList();
+	}
 
 	
 

@@ -1,62 +1,92 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<c:set var="path" value="${ pageContext.request.contextPath }"/> 
+<c:set var="path" value="${ pageContext.request.contextPath }" />
 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>챌린지</title>
+<title>챌린지</title>
 </head>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
-        <div class="container">
-            <div class="contents">
-                <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
-                
-                <section class="content-wrap">
-                    <div class="page-tit">
-                        <h3>참여 중인 챌린지</h3>
-                        <div class="bread-crumb">
-                            <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                            <a href="${ path }/today_main">에코 챌린지</a>
-                            <span>참여 중인 챌린지</span>
-                        </div>
-                    </div>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<div class="container">
+	<div class="contents">
+		<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 
-                    <div class="challenge">
+		<section class="content-wrap">
+			<div class="page-tit">
+				<h3>참여 중인 챌린지</h3>
+				<div class="bread-crumb">
+					<a href="${ path }"><i class="material-icons md-16">home</i></a>
+					<a href="${ path }/today_main">에코 챌린지</a> <span>참여 중인 챌린지</span>
+				</div>
+			</div>
 
-                        <div class="thumb-list ongoing">
-                            <ul>
-                            	<c:if test="${ !empty monthList }">
-									<c:forEach var="monthList" items="${ monthList }">
-		                                <li class="complete">
-		                                    <a href="ongoing_write.html">
-		                                        <div class="img-thumb">
-		                                            <img src="${ path }/resources/images/challenge/challenge_today04.jpg" alt="">
-		                                        </div>
-		                                        <div class="item-cont">
-		                                            <strong>${ monthList.chalTitle }</strong>
-		                                            <p>${ monthList.chalContent}</p>
-		                                            <span class="my-count"><em>{ monthList.chalCount}</em>/{ monthList.chalCount}</span>
-		                                        </div>
-		                                    </a>
-		                                </li>
-									</c:forEach>
+			<div class="challenge">
+				<div class="thumb-list ongoing">
+					<c:if test="${ empty ongoingList }">
+						<div class="empty-content">
+							<i class="material-icons">info</i>
+							<p>참여 중인 챌린지가 없습니다.</p>
+						</div>
+					</c:if>
+					
+					<c:if test="${ !empty ongoingList }">
+						<ul>
+							<c:forEach var="ongoingList" items="${ ongoingList }">
+								<li class="complete">
+									<c:set var="myCount" value="${ fn:length(count) }" />
+									<a href="${ path }/month_view?chalNo=${ ongoingList.chalNo }">
+										<div class="img-thumb">
+											<img src="${ path }/resources/images/challenge/challenge_today04.jpg" alt="">
+										</div>
+										<div class="item-cont">
+											<strong>${ ongoingList.chalTitle }</strong>
+											<p>${ ongoingList.chalContent }</p>
+											<div class="my-count">
+												<span>참여 현황</span>
+												<em>${ ongoingList.myCount }</em>/${ ongoingList.chalCount }
+											</div>
+										</div>
+									</a>
+								</li>
+							</c:forEach>
+						</ul>
+						
+						<div class="paging">
+							<a href="${ path }/ongoing_list?page=1" class="first"><span>맨 앞으로</span></a>
+							<a href="${ path }/ongoing_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">
+									<strong>${ status.current }</strong>
 								</c:if>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+	
+								<c:if test="${ status.current != pageInfo.currentPage }">
+									<a href="${ path }/ongoing_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+							<a href="${ path }/ongoing_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+							<a href="${ path }/ongoing_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+						</div>
+					</c:if>
+					
+				</div>
+			</div>
+		</section>
 
-                <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
-            </div>
-        </div>
+		<button class="btn scroll-top">
+			<i class="material-icons md-24">vertical_align_top</i>
+		</button>
+	</div>
+</div>
 
 <script type="text/javascript">
-let idxNum=2;
-</script>          
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	let idxNum= 2;
+</script>
+
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
 <script src="resources/js/challenge.js"></script>

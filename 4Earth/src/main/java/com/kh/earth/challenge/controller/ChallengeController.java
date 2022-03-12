@@ -605,23 +605,41 @@ public class ChallengeController {
 	
 	
 	
+	
+	
 	// -------------------------------------------------------------------------------------------------------------
-//	@GetMapping("/ongoing_list")
-//	public ModelAndView ongoingList(
-//			ModelAndView model,
-//			// @RequestParam("chalNo") int chalNo,
-//			@SessionAttribute(name = "loginMember") Member loginMember,
-//			@ModelAttribute TodayMember todayMember) {
-//
-//		Month month = service.findMonthListByMemNo(loginMember.getNo());
-//		
-//		model.addObject("month", month);
-//		model.setViewName("challenge/ongoing_list");
-//		
-//		System.out.println("회원 번호 " + loginMember.getNo());
-//		
-//		return model;
-//	}
+	
+	
+	
+	
+	
+	
+	// 참여 중인 챌린지 목록 조회
+	@GetMapping("/ongoing_list")
+	public ModelAndView ongoingList(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam(defaultValue = "1") int page) {
+		
+		// 참여 중인 챌린지 목록
+		int listCount = service.getOngoingListCount(loginMember.getNo());
+		PageInfo pageInfo = new PageInfo(page, 10, listCount, 8);
+		List<MonthMember> ongoingList = service.findOngoingListByMemNo(loginMember.getNo(), pageInfo);
+		
+		log.info("현재 페이지 번호 : {}", page);
+		log.info("전체 게시글 개수 : {}", listCount);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("ongoingList", ongoingList);
+		
+		model.setViewName("challenge/ongoing_list");
+		
+		return model;
+	}
+	
+	
+	
+	
 	
 	
 }

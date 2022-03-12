@@ -22,6 +22,8 @@ public class MonthMember {
 	
 	private String chalTitle;
 	
+	private String chalContent;
+	
 	private Date chalDate;
 	
 	private String originalFilename;
@@ -31,6 +33,8 @@ public class MonthMember {
 	private String modifyImgName;
 	
 	private int chalCount;
+	
+	private int myCount;
 	
 	private char chalStatus;
 	

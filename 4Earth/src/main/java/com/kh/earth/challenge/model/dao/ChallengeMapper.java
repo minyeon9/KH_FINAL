@@ -13,7 +13,9 @@ import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
+import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.store.model.vo.Product;
 
 
 @Mapper
@@ -70,11 +72,32 @@ public interface ChallengeMapper {
 
 	// 댓글 삭제
 	int updateReplyStatus(@Param("replyNo") int replyNo, @Param("replyStatus") String replyStatus);
-	
-	// 댓글 조회
-	// List<Reply> findReplyListByNo(Map<String, Object> replyMap);
 
 	
+	
+
+	
+	
+	
+	// 참여 중인 챌린지 목록 조회
+	List<MonthMember> findOngoingListByMemNo(int no, RowBounds rowBounds);
+
+	// 참여 중인 챌린지 목록 갯수 조회
+	int getOngoingListCount(int no);
+	
+	
+	
+	
+	
+	
+	
+	// 메인 - 챌린지 목록
+	List<Month> findMonthBestList();
+	// 메인 - 상품 목록
+	List<Product> findProductBestList();
+
+
+
 
 	
 
