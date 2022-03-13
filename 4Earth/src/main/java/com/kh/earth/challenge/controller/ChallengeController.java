@@ -356,7 +356,7 @@ public class ChallengeController {
 		model.addObject("count", count);
 		model.addObject("remainCountList", remainCountList);
 		
-		System.out.println("이달의 상세" + month);
+		System.out.println("댓글 테스트 중" + month);
 		
 		model.setViewName("challenge/month_view");
 		
@@ -372,8 +372,24 @@ public class ChallengeController {
 		
 		Month month = service.findMonthListByNo(chalNo);
 		
+		// 사용자의 해당 챌린지 완료 횟수 조회
+		Map<String, Object> completeCount = new HashMap<>();
+		completeCount.put("chalNo", chalNo);
+		completeCount.put("no", loginMember.getNo());
+		List<MonthMember> count = service.getMonthGuage(completeCount);
+		
+		// 전체 필요 횟수
+		int requiredCount = month.getChalCount();
+		
+		// 남은 횟수
+		int remainCount = requiredCount - count.size();
+		
 		model.addObject("month", month);
+		model.addObject("remainCount", remainCount);
+		
 		model.setViewName("challenge/month_write");
+		
+		System.out.println("remainCount : " + remainCount);
 
 		return model;
 	}
@@ -385,6 +401,8 @@ public class ChallengeController {
 			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo) {
 		
+		Month month = service.findMonthListByNo(chalNo);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("chalNo", chalNo);
 		map.put("no", loginMember.getNo());
@@ -392,7 +410,7 @@ public class ChallengeController {
 		
 		int mapLength = list.size();
 		
-		int requiredCount = 10;
+		int requiredCount = month.getChalCount();
 		
 		model.addObject("list", list.get(0));
 		model.addObject("requiredCount", requiredCount);

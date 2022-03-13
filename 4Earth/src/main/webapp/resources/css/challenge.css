@@ -228,7 +228,7 @@
 }
 .thumb-list.col-2 ul li strong {
     font-size: 16px;
-    margin: 0 0 10px;
+    margin: 0 0 5px;
 }
 .thumb-list.col-2 ul li p {
     overflow: hidden;
@@ -242,6 +242,17 @@
 .thumb-list.col-2 ul li .item-cont > span {
     color: #5CB65A;
     left: 20px;
+}
+.thumb-list.col-2 ul li .item-cont .tag {
+	display: inline-block;
+	position: relative;
+	left: auto;
+	bottom: auto;
+	color: orange;
+	margin-bottom: 10px;
+}
+.thumb-list.col-2 ul li .item-cont .tag em {
+	font-size: 10px;
 }
 .challenge-sort {
     text-align: right;
@@ -274,11 +285,21 @@
     position: relative;
     width: calc(60% - 20px);
 }
-.month-challenge-detail .item-cont .icon-point {
-    display: block;
-    margin-top: 48px;
+.month-challenge-detail .item-cont .month-count-point {
+	color: #333;
 }
-.month-challenge-detail .item-cont .icon-point + .btn {
+.month-challenge-detail .item-cont .month-count-point em {
+	color: #76b779;
+	font-size: 16px;
+	font-weight: 500;
+	font-style: normal;
+}
+.month-challenge-detail .item-cont .month-count-point .icon-point {
+	display: block;
+	background: url(../images/common/icon_point.png) 0 50% no-repeat;
+	margin-top: 5px;
+}
+.month-challenge-detail .item-cont .month-count-point + .btn {
     position: absolute;
     right: 0;
     bottom: 25px;
@@ -519,7 +540,6 @@
 
 
 /* 댓글 */
-.reply {}
 .reply form {
     display: flex;
     flex-wrap: wrap;
@@ -608,7 +628,8 @@
 .reply-list > ul > li .btn-wrap form {
 	display: inline-block;
 }
-.reply-list > ul > li .btn-wrap button {
+.reply-list > ul > li .btn-wrap button,
+.reply-list > ul > li .btn-wrap a {
     color: #bbb;
 }
 .reply-list > ul > li .btn-wrap button + button {
@@ -686,6 +707,13 @@
 	color: #67b16b;
 	font-weight: bold;
 	background: none;
+}
+.reply .btn-nested-reply {
+	color: #999;
+	margin-top: 10px;
+}
+.reply .btn-nested:hover {
+	border-bottom: 1px solid #999;
 }
 
 

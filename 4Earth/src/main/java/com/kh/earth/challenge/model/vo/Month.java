@@ -33,8 +33,9 @@ public class Month {
 	
 	private char chalStatus;
 	
-	// reply
 	private List<Reply> replies;
+	
+	private List<NestedReply> nestedReplies;
 	
 	private int memNo;
 }

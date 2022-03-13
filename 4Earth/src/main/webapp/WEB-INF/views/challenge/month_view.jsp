@@ -35,9 +35,12 @@
 						<span>이달의 챌린지</span>
 						<strong>${ month.chalTitle }</strong>
 						<p>${ month.chalContent }</p>
-						<span class="icon-point">
-							<fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" />
-						</span>
+						<div class="month-count-point">
+							<em>${ month.chalCount }</em>회 참여 완료 시,
+							<span class="icon-point">
+								<fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" />
+							</span>
+						</div>
 						<c:set var="complete" value="${ fn:length(count) }" />
 						<c:if test="${ requiredCount != complete }">
 							<button class="btn" onclick="location.href='${ path }/month_write?chalNo=${ month.chalNo }'">참여하기</button>
@@ -163,7 +166,10 @@
 												</div>
 												<div class="reply-cont">
 													<p>${ reply.content }</p>
-													<div class="modify-reply-cont">
+													<button type="button" class="btn-nested-reply">답글</button>
+													
+													<!-- 수정 -->
+													<div class="modify-wrap modify-reply-cont">
 														<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
 														<!-- <form action="" method=""> -->
 															<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
@@ -175,6 +181,7 @@
 															</div>
 														</form>
 													</div>
+													<!-- // 수정 -->
 												</div>
 												<div class="btn-wrap">
 													<c:if test="${ loginMember.no == reply.memNo }">
@@ -185,10 +192,47 @@
 														</form>
 													</c:if>
 													<c:if test="${ loginMember.no != reply.memNo }">
-														<button class="material-icons md-18 btn-report-reply" title="신고">report_problem</button>
+														<a href="#popup01" class="material-icons md-18 btn-report-reply btn-open-pop" title="신고">report_problem</a>
 													</c:if>
 												</div>
 											</div>
+										
+											<!-- 답글 -->
+											<c:if test="${ !empty month.replies }">
+												<c:forEach var="nestedReply" items="${ month.nestedReplies }">
+													<ul>
+		                                                <li>
+		                                                    <div class="user-info">
+		                                                        <div class="img-thumb">
+		                                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                                        </div>
+		                                                        <span>${ nestedReply.id }</span>
+		                                                        <span class="date">${ nestedReply.replyDate }</span>
+		                                                    </div>
+		                                                    <div class="reply-cont">
+		                                                        <p>${ nestedReply.content }</p>
+		                                                    </div>
+		                                                    <div class="btn-wrap">
+		                                                        <button class="material-icons md-18">create</button>
+		                                                        <button class="material-icons md-18">delete_outline</button>
+		                                                    </div>
+		                                                </li>
+		                                                <%-- <li>
+		                                                	<div class="nested-wrap modify-reply-cont">
+																<form action="nested_reply?chalNo=${ month.chalNo }" method="post">
+																	<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+																	<textarea name="content" required></textarea>
+																	<div class="btn-wrap">
+																		<button type="button" class="btn btn-cancel-reply">취소</button>
+																		<button type="submit" class="btn">등록</button>
+																	</div>
+																</form>
+															</div>
+		                                                </li> --%>
+													</ul>
+												</c:forEach>
+											</c:if>
+											<!-- // 답글 -->
 										</li>
 									</c:forEach>
 								</c:if>
@@ -214,6 +258,26 @@
 		<button class="btn scroll-top">
 			<i class="material-icons md-24">vertical_align_top</i>
 		</button>
+		
+		<!-- layer popup -->
+        <div class="layer-popup" id="popup01">
+            <div class="layer-inner">
+                <div class="pop-head">
+                    <strong>신고하기</strong>
+                    <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+                </div>
+                <div class="pop-cont">
+                    <div>신고 내용</div>
+                </div>
+                <div class="btn-wrap">
+                    <button class="btn gray btn-close-pop">취소</button>
+                    <button class="btn">신고</button>
+                </div>
+            </div>
+        </div>
+        <div class="dimed"></div>
+        <!-- // layer popup -->
+        
 	</div>
 </div>
 
@@ -224,13 +288,15 @@
 		let btnModify = $('.btn-modify-reply');
 		let btnCancel = $('.btn-cancel-reply');
 		let btnDelete = $('.btn-delete-reply');
+		let btnNested = $('.btn-nested-reply');
 		
 		btnModify.each(function(idx, el) {
 			$(el).on('click', (e) => {
 				$(e.currentTarget).parents('.btn-wrap').hide();
 				$(e.currentTarget).parents('.btn-wrap').prev().find('p').hide();
+				$(e.currentTarget).parents('.btn-wrap').prev().find('.btn-nested-reply').hide();
 				$(e.currentTarget).closest('li').css('background', '#f9f9f9');
-				$(e.currentTarget).parents('.btn-wrap').prev().find('.modify-reply-cont').show();
+				$(e.currentTarget).parents('.btn-wrap').prev().find('.modify-wrap').show();
 			});
 		});
 		
@@ -238,9 +304,10 @@
 			$(el).on('click', (e) => {
 				$(e.currentTarget).parents('.reply-cont').next('.btn-wrap').show();
 				$(e.currentTarget).parents('.reply-cont').find('p').show();
+				$(e.currentTarget).parents('.reply-cont').find('.btn-nested-reply').show();
 				$(e.currentTarget).closest('li').css('background', '#fff');
-				$(e.currentTarget).parents('.reply-cont').find('.modify-reply-cont').find('textarea').val("");
-				$(e.currentTarget).parents('.reply-cont').find('.modify-reply-cont').hide();
+				$(e.currentTarget).parents('.reply-cont').find('.modify-wrap').find('textarea').val("");
+				$(e.currentTarget).parents('.reply-cont').find('.modify-wrap').hide();
 			});
 		});
 		
@@ -249,6 +316,12 @@
 				location.replace("${ path }/delete_reply?no=${ month.chalNo }");
 			}
 		})
+		
+		btnNested.each(function(idx, el) {
+			$(el).on('click', (e) => {
+				$(e.currentTarget).siblings('ul').find('.nested-wrap').show();
+			});
+		});
 	}
 </script>
 

@@ -82,6 +82,9 @@
 											<img src="${ path }/resources/upload/challenge/${ monthList.renamedFilename }" alt="">
 										</div>
 										<div class="item-cont">
+											<span class="tag tag-orange">
+												<b>${ monthList.chalCount }</b>회 인증 필요
+											</span>
 											<strong>${ monthList.chalTitle }</strong>
 											<p>${ monthList.chalContent }</p>
 											<span class="icon-point">

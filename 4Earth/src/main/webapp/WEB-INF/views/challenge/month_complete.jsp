@@ -47,7 +47,7 @@
 						<img src="${ path }/resources/upload/challengeUser/${ list.renamedFilename }" alt="">
 					</div>
 					
-					<a href="${ path }/month_list" class="btn">이달의 챌린지 목록</a>
+					<a href="${ path }/month_view?chalNo=${ list.chalNo }" class="btn">${ list.chalTitle }</a>
 				</div>
 			</div>
 		</section>

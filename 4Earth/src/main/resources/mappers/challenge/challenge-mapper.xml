@@ -120,6 +120,19 @@
 		<result property="id" column="ID" />
 	</resultMap>
 	
+	<!-- 대댓글 -->
+	<resultMap type="NestedReply" id="nestedReplyResultMap">
+		<id property="nestedReplyNo" column="NESTED_REPLY_NO" />
+		<result property="replyNo" column="REPLY_NO" />
+		<result property="memNo" column="MEM_NO" />
+		<result property="chalNo" column="CHAL_NO" />
+		<result property="content" column="CONTENT" />
+		<result property="replyDate" column="REPLY_DATE" />
+		<result property="modifyDate" column="MODIFY_DATE" />
+		<result property="modifyImgName" column="MODIFY_IMG_NAME" />
+		<result property="id" column="ID" />
+	</resultMap>
+	
 	<!-- 상품 -->
 	<resultMap type="Product" id="ProductListResultMap">
 		<id property="proNo" column="PRO_NO"/>
@@ -238,10 +251,11 @@
 	
 	<resultMap type="Month" extends="MonthListResultMap" id="monthDetailResultMap">
 		<collection property="replies" javaType="arraylist" columnPrefix="R_" resultMap="replyResultMap" />
+		<collection property="nestedReplies" javaType="arraylist" columnPrefix="N_" resultMap="nestedReplyResultMap" />
 	</resultMap>
 	
 	<select id="selectMonthListByNo" parameterType="_int" resultMap="monthDetailResultMap">
-		SELECT 
+		<!-- SELECT 
 		    M.CATEGORY,
 		    M.CHAL_NO,
 		    M.CHAL_TITLE,
@@ -265,7 +279,40 @@
         LEFT OUTER JOIN CHAL_REPLY R ON (M.CHAL_NO = R.CHAL_NO)
         LEFT OUTER JOIN MEMBER MEMBER ON (R.MEM_NO = MEMBER.NO)
         WHERE M.CHAL_NO = #{ chalNo }
-		<!-- WHERE R.REPLY_STATUS = 'Y' AND M.CHAL_NO = #{ chalNo } -->
+        ORDER BY R.REPLY_NO DESC -->
+        
+        SELECT 
+		    M.CATEGORY,
+		    M.CHAL_NO,
+		    M.CHAL_TITLE,
+		    M.CHAL_CONTENT,
+		    M.ORIGINAL_FILENAME,
+		    M.RENAMED_FILENAME,
+		    M.CHAL_POINT,
+		    M.CHAL_COUNT,
+		    M.START_DATE,
+		    M.END_DATE,
+		    M.CHAL_STATUS,
+            R.REPLY_NO AS R_REPLY_NO,
+            R.MEM_NO AS R_MEM_NO,
+            R.CHAL_NO AS R_CHAL_NO,
+            R.CONTENT AS R_CONTENT,
+            R.REPLY_DATE AS R_REPLY_DATE,
+            R.MODIFY_DATE AS R_MODIFY_DATE,
+            N.NESTED_REPLY_NO AS N_NESTED_REPLY_NO,
+            N.MEM_NO AS N_MEM_NO,
+            N.CONTENT AS N_CONTENT,
+            N.MODIFY_DATE N_MODIFY_DATE,
+            MEMBER.MODIFY_IMG_NAME AS R_MODIFY_IMG_NAME,
+            MEMBER.ID AS R_ID,
+            MEMBER2.MODIFY_IMG_NAME AS N_MODIFY_IMG_NAME,
+            MEMBER2.ID AS N_ID
+        FROM CHAL_MONTH M
+        LEFT OUTER JOIN CHAL_REPLY R ON (M.CHAL_NO = R.CHAL_NO)
+        LEFT OUTER JOIN CHAL_NESTED_REPLY N ON (N.REPLY_NO = R.REPLY_NO)
+        LEFT OUTER JOIN MEMBER MEMBER ON (R.MEM_NO = MEMBER.NO)
+        LEFT OUTER JOIN MEMBER MEMBER2 ON (N.MEM_NO = MEMBER2.NO)
+        WHERE M.CHAL_NO = #{ chalNo }
         ORDER BY R.REPLY_NO DESC
 	</select>
 	
@@ -307,6 +354,7 @@
 		SELECT
 		    T.CHAL_TITLE AS T_CHAL_TITLE,
 		    T.CHAL_POINT AS T_CHAL_POINT,
+		    T.CHAL_NO,
 		    M.RENAMED_FILENAME AS M_RENAMED_FILENAME
 		FROM CHAL_MONTH_MEM M
 		JOIN CHAL_MONTH T ON (M.CHAL_NO = T.CHAL_NO)
@@ -431,9 +479,11 @@
 	
 	<!-- 참여 중인 챌린지 목록 갯수 조회 -->
 	<select id="getOngoingListCount" parameterType="_int" resultType="_int">
-		SELECT COUNT (*)
+		<!-- SELECT COUNT (*)
 		FROM CHAL_MONTH_MEM
-		WHERE MEM_NO = #{ no }
+		WHERE MEM_NO = #{ no } -->
+		SELECT COUNT (*)
+		FROM (SELECT DISTINCT CHAL_NO FROM CHAL_MONTH_MEM WHERE MEM_NO = #{ no })
 	</select>
 	
 	
