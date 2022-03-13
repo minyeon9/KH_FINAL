@@ -135,9 +135,6 @@ public class ChallengeController {
 		model.addObject("today", today);
 		model.addObject("completeList", completeList);
 		model.addObject("myListNumber", myListNumber);
-		System.out.println("오늘" + formatedNow);
-
-		System.out.println("인증 완료 : " + completeList);
 		
 		model.setViewName("challenge/today_view");
 		
@@ -342,7 +339,7 @@ public class ChallengeController {
 		List<MonthMember> count = service.getMonthGuage(completeCount);
 		
 		// 전체 필요 횟수
-		int requiredCount = 10;
+		int requiredCount = month.getChalCount();
 		
 		// 남은 횟수
 		int remainCount = requiredCount - count.size();
