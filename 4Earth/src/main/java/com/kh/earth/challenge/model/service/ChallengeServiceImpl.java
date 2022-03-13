@@ -1,6 +1,5 @@
 package com.kh.earth.challenge.model.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,6 @@ import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
-import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.vo.Product;
 
 
@@ -29,8 +27,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	// 오늘의 챌린지 목록 조회
 	@Override
-	public List<Today> getTodayList() {
-		return mapper.findAllToday();
+	public List<Today> getTodayList(String formatedNow) {
+		return mapper.findAllToday(formatedNow);
 	}
 	
 	// 오늘의 챌린지 상세 및 작성
@@ -161,7 +159,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 	@Override
 	public int deleteReply(int replyNo) {
-		return mapper.updateReplyStatus(replyNo, "N");
+		return mapper.deleteReply(replyNo);
 	}
 
 	
@@ -210,6 +208,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public List<Product> findProductList() {
 		return mapper.findProductBestList();
+	}
+
+	@Override
+	public List<TodayMember> findTodayCompleteList(int no) {
+		return mapper.findTodayCompleteList(no);
 	}
 
 	

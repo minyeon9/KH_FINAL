@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -9,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>챌린지</title>
+    <title>오늘의 챌린지</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
     <div class="container">
@@ -76,7 +75,7 @@
 	                              <li>
 	                                  <i class="num">${ todayMain.chalNo }</i>
 	                                  <div class="img-thumb">
-	                                      <img src="${ path }${todayMain.chalImgPath}/challenge_today0${todayMain.chalNo}.jpg" alt="">
+	                                      <img src="${ path }/resources/images/challenge/${ todayMain.renamedFilename }" alt="">
 	                                  </div>
 	                                  <strong>${ todayMain.chalTitle }</strong>
 	                                  <p>${ todayMain.chalContent }</p>

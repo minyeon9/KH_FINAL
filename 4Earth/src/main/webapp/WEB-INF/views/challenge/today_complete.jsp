@@ -44,7 +44,7 @@
 						</c:if>
 					</div>
 					<div class="img-thumb">
-						<img src="${ path }/resources/upload/challenge/${ list.renamedFilename }" alt="">
+						<img src="${ path }/resources/upload/challengeUser/${ list.renamedFilename }" alt="">
 					</div>
 					<a href="${ path }/today_list" class="btn">오늘의 챌린지 목록</a>
 				</div>

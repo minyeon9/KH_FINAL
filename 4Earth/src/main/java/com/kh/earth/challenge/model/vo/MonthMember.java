@@ -16,6 +16,7 @@ public class MonthMember {
 
 	private int memNo;
 	
+	// Member
 	private String id;
 	
 	private int chalNo;

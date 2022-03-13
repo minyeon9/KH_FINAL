@@ -1,9 +1,10 @@
 package com.kh.earth.challenge.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
@@ -50,7 +50,15 @@ public class ChallengeController {
 	@GetMapping("/today_main")
 	public ModelAndView todayMain(
 			ModelAndView model) {
-		List<Today> todayMain = service.getTodayList();
+		
+		// 오늘 날짜
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd"); // 날짜 포멧 정의
+		String formatedNow = now.format(formatter); // 포맷 적용
+		System.out.println(formatedNow);
+			
+		List<Today> todayMain = service.getTodayList(formatedNow);
+		
 		
 		model.addObject("todayMain", todayMain);
 		model.setViewName("challenge/today_main");
@@ -64,10 +72,17 @@ public class ChallengeController {
 			ModelAndView model,
 			@SessionAttribute(name = "loginMember") Member loginMember) {
 		
-		// System.out.println("list 호출");
+		// 오늘 날짜
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd"); // 날짜 포멧 정의
+		String formatedNow = now.format(formatter); // 포맷 적용
+		System.out.println(formatedNow);
 		
-		List<Today> todayList = service.getTodayList(); // 오늘의 챌린지 목록 조회
-		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo()); // 로그인한 사용자의 참여 목록 조회
+		// 오늘 날짜 챌린지 목록 조회
+		List<Today> todayList = service.getTodayList(formatedNow);
+		
+		 // 로그인한 사용자 참여 완료 목록 조회
+		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo());
 		List<Integer> myListNumber = new ArrayList<>(); // 참여 완료한 챌린지 번호 저장
 		
 		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯수
@@ -76,7 +91,7 @@ public class ChallengeController {
 			myListNumber.add(todayMemberList.get(i).getChalNo());
 		}
 		
-		// 챌린지 날짜
+		// 오늘의 챌린지 달성일
 		Date todayDate = new Date();
 		if( mapLength != 0 ) {
 			todayDate = todayMemberList.get(0).getChalDate();
@@ -100,18 +115,35 @@ public class ChallengeController {
 			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo) {
 		
+		// 오늘의 챌린지 목록 조회
 		Today today = service.findTodayListByNo(chalNo);
 		
-		model.addObject("today", today);
-		model.setViewName("challenge/today_view");
+		// 인증 완료 챌린지 상세 접근 제한
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd"); // 날짜 포멧 정의
+		String formatedNow = now.format(formatter); // 포맷 적용
 		
-//		System.out.println("챌린지 번호 : " + chalNo);
-//		System.out.println("회원 번호 : " + loginMember.getNo());
+		List<TodayMember> completeList = service.findTodayCompleteList(loginMember.getNo());
+		List<Integer> myListNumber = new ArrayList<>();
+		
+		int mapLength = completeList.size(); // 참여 완료한 챌린지 갯수
+		
+		for( int i = 0; i < mapLength; i++ ) {  // 참여 완료한 챌린지 번호 저장
+			myListNumber.add(completeList.get(i).getChalNo());
+		}
+		
+		model.addObject("today", today);
+		model.addObject("completeList", completeList);
+		model.addObject("myListNumber", myListNumber);
+		System.out.println("오늘" + formatedNow);
+
+		System.out.println("인증 완료 : " + completeList);
+		
+		model.setViewName("challenge/today_view");
 		
 		return model;
 	}
-	
-	
+		
 	// 오늘의 챌린지 작성 및 완료
 	@GetMapping("/today_complete")
 	public ModelAndView todayComplete(
@@ -120,11 +152,10 @@ public class ChallengeController {
 			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo) {
 		
+		// 완료한 해당 챌린지 제목 / 업로드 파일명 포인트 조회
 		Map<String, Object> map = new HashMap<>();
 		map.put("chalNo", chalNo);
 		map.put("no", loginMember.getNo());
-		
-		// 완료한 해당 챌린지 제목 / 업로드 파일명 포인트 조회
 		List<TodayMember> list = service.findChalTitle(map);
 		
 		// 최종 완료 체크(confetti)
@@ -163,7 +194,7 @@ public class ChallengeController {
 			String location = null;
 			
 			try {
-				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				location = resourceLoader.getResource("resources/upload/challengeUser").getFile().getPath();
 				renamedFileName = FileProcess.save(upfile, location);
 				
 				System.out.println("이미지 저장 경로: " + location);
@@ -247,18 +278,14 @@ public class ChallengeController {
 			@RequestParam(defaultValue = "1") int page) {
 		
 		int listCount = 0;
-		PageInfo pageInfo = null;
-		List<Month> monthList = null;
 		
 		listCount = service.getBoardCount();
-		pageInfo = new PageInfo(page, 10, listCount, 8);
-		monthList = service.getMonthList(pageInfo);
-		
-		// log.info("현재 페이지 번호 : {}", page);
-		// log.info("전체 게시글 개수 : {}", listCount);
+		PageInfo pageInfo = new PageInfo(page, 10, listCount, 8);
+		List<Month> monthList = service.getMonthList(pageInfo);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("monthList", monthList);
+		
 		model.setViewName("challenge/month_list");
 		
 		return model;
@@ -270,15 +297,12 @@ public class ChallengeController {
 			ModelAndView model,
 			@RequestParam(defaultValue="1") int page,
 			@RequestParam(value = "arrange", defaultValue="최신순") String arrange) {
-		// log.info("challengeArrange() - 호출");
 		
 		int listCount = 0;
-		PageInfo pageInfo = null;
-		List<Month> monthList = null;
 		
 		listCount = service.getBoardCount();
-		pageInfo = new PageInfo(page, 10, listCount, 8);
-		monthList = service.getMonthList(pageInfo, arrange);
+		PageInfo pageInfo = new PageInfo(page, 10, listCount, 8);
+		List<Month> monthList = service.getMonthList(pageInfo, arrange);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("monthList", monthList);
@@ -311,7 +335,7 @@ public class ChallengeController {
 		mapCount.put("no", loginMember.getNo());
 		int countUser = service.findOngoingUserCount(mapCount);
 		
-		// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
+		// 사용자의 해당 챌린지 완료 횟수 조회
 		Map<String, Object> completeCount = new HashMap<>();
 		completeCount.put("chalNo", chalNo);
 		completeCount.put("no", loginMember.getNo());
@@ -334,6 +358,8 @@ public class ChallengeController {
 		model.addObject("remainCount", remainCount);
 		model.addObject("count", count);
 		model.addObject("remainCountList", remainCountList);
+		
+		System.out.println("이달의 상세" + month);
 		
 		model.setViewName("challenge/month_view");
 		
@@ -404,7 +430,7 @@ public class ChallengeController {
 			String location = null;
 			
 			try {
-				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				location = resourceLoader.getResource("resources/upload/challengeUser").getFile().getPath();
 				renamedFileName = FileProcess.save(upfile, location);
 				
 				System.out.println("이미지 저장 경로: " + location);
@@ -486,10 +512,10 @@ public class ChallengeController {
 		
 		if ( result > 0 ) {
 			model.addObject("msg", "댓글이 등록되었습니다.");
-			model.addObject("location", "/month_view?chalNo=" + chalNo);
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
 		} else {
 			model.addObject("msg", "댓글 등록을 실패했습니다.\n다시 시도해 주세요.");
-			model.addObject("location", "/month_view?chalNo=\" + chalNo");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
 		}
 		
 		// 상세 내용 유지 ------------------------------------
@@ -554,10 +580,10 @@ public class ChallengeController {
 		if ( reply.getMemNo() == loginMember.getNo() ) {
 			if ( result > 0 ) {
 				model.addObject("msg", "댓글이 수정되었습니다.");
-				model.addObject("location", "/month_view?chalNo=" + chalNo);
+				model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
 			} else {
 				model.addObject("msg", "댓글 수정을 실패했습니다.\n다시 시도해 주세요.");
-				model.addObject("location", "/month_view?chalNo=" + chalNo);
+				model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
 			}
 		} else {
 			model.addObject("msg", "잘못된 접근입니다.");

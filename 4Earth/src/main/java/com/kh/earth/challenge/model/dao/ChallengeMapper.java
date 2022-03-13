@@ -21,7 +21,7 @@ import com.kh.earth.store.model.vo.Product;
 @Mapper
 public interface ChallengeMapper {
 	// 오늘의 챌린지 전체 목록 조회
-	List<Today> findAllToday();
+	List<Today> findAllToday(String formatedNow);
 	
 	// 오늘의 챌린지 상세 조회
 	Today selectTodayListByNo(@Param("chalNo") int chalNo);
@@ -69,7 +69,7 @@ public interface ChallengeMapper {
 
 	// 댓글 삭제
 	Reply findReplyByNo(int replyNo);
-	int updateReplyStatus(@Param("replyNo") int replyNo, @Param("replyStatus") String replyStatus);
+	int deleteReply(@Param("replyNo") int replyNo);
 
 	
 	
@@ -93,6 +93,8 @@ public interface ChallengeMapper {
 	List<Month> findMonthBestList();
 	// 메인 - 상품 목록
 	List<Product> findProductBestList();
+
+	List<TodayMember> findTodayCompleteList(int no);
 
 
 

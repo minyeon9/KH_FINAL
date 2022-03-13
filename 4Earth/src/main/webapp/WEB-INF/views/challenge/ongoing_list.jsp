@@ -41,7 +41,7 @@
 									<c:set var="myCount" value="${ fn:length(count) }" />
 									<a href="${ path }/month_view?chalNo=${ ongoingList.chalNo }">
 										<div class="img-thumb">
-											<img src="${ path }/resources/images/challenge/challenge_today04.jpg" alt="">
+											<img src="${ path }/resources/upload/challenge/${ ongoingList.renamedFilename }" alt="">
 										</div>
 										<div class="item-cont">
 											<strong>${ ongoingList.chalTitle }</strong>

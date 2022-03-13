@@ -19,7 +19,9 @@ public class Month {
 	
 	private String chalContent;
 	
-	private String chalImgPath;
+	private String originalFilename;
+	
+	private String renamedFilename;
 	
 	private int chalPoint;
 	
@@ -31,6 +33,7 @@ public class Month {
 	
 	private char chalStatus;
 	
+	// reply
 	private List<Reply> replies;
 	
 	private int memNo;

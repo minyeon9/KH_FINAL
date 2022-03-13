@@ -12,13 +12,12 @@ import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
-import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.vo.Product;
 
 @Transactional
 public interface ChallengeService {
 	// 오늘의 챌린지 목록 조회
-	List<Today> getTodayList();
+	List<Today> getTodayList(String formatedNow);
 
 	// 오늘의 챌린지 상세 조회
 	Today findTodayListByNo(int chalNo);
@@ -94,6 +93,10 @@ public interface ChallengeService {
 	List<Month> findMonthBestList();
 	// 메인 - 상품 목록
 	List<Product> findProductList();
+
+	
+	// 오늘의 챌린지 - 인증 완료 챌린지 상세 접근 제한
+	List<TodayMember> findTodayCompleteList(int no);
 
 
 

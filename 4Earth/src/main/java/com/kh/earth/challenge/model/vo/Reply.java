@@ -24,8 +24,6 @@ public class Reply {
 	
 	private Date modifyDate;
 	
-	private char replyStatus;
-	
 	private String modifyImgName;
 	
 	private String id;

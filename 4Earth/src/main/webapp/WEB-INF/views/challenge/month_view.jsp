@@ -29,7 +29,7 @@
 				<%-- <p>${ loginMember.no }</p> --%>
 				<div class="month-challenge-detail">
 					<div class="img-thumb">
-						<img src="${ path }/resources/images/challenge/challenge_today01.jpg" alt="">
+						<img src="${ path }/resources/upload/challenge/${ month.renamedFilename }" alt="">
 					</div>
 					<div class="item-cont">
 						<span>이달의 챌린지</span>
@@ -123,12 +123,22 @@
 							<form action="" method="">
 								<textarea name="content" id="" placeholder="챌린지 참여 후 작성 가능합니다." disabled></textarea>
 								<button class="btn gray" disabled>등록</button>
+								<span class="count-reply"><em>0</em> / 3000</span>
 							</form>
 						</c:if>
 
 						<div class="reply-list">
-							<c:if test="${ !empty month.replies }">
-								<ul>
+							<ul>
+								<c:if test="${ empty month.replies }">
+									<li>
+										<div class="empty-content">
+											<i class="material-icons">info</i>
+											<p>조회된 댓글이 없습니다.</p>
+										</div>
+									</li>
+								</c:if>
+						
+								<c:if test="${ !empty month.replies }">
 									<c:forEach var="reply" items="${ month.replies }">
 										<li>
 											<div class="reply-wrap">
@@ -181,18 +191,18 @@
 											</div>
 										</li>
 									</c:forEach>
-								</ul>
+								</c:if>
+							</ul>
 
-								<!-- <div class="paging">
-									<a href="#" class="prev"><span>이전</span></a>
-									<strong>1</strong>
-									<a href="#">2</a>
-									<a href="#">3</a>
-									<a href="#">4</a>
-									<a href="#">5</a>
-									<a href="#" class="next"><span>다음</span></a>
-								</div> -->
-							</c:if>
+							<!-- <div class="paging">
+								<a href="#" class="prev"><span>이전</span></a>
+								<strong>1</strong>
+								<a href="#">2</a>
+								<a href="#">3</a>
+								<a href="#">4</a>
+								<a href="#">5</a>
+								<a href="#" class="next"><span>다음</span></a>
+							</div> -->
 						</div>
 
 					</div>
@@ -200,7 +210,6 @@
 				
 			</div>
 		</section>
-
 
 		<button class="btn scroll-top">
 			<i class="material-icons md-24">vertical_align_top</i>

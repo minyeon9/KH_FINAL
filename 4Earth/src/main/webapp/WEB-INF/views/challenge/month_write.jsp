@@ -59,7 +59,7 @@
 							
 							<div class="thumb-img">
 								<strong>예시 이미지</strong>
-								<img src="${ path }${ month.chalImgPath }/challenge_today0${ month.chalNo }.jpg" alt="">
+								<img src="${ path }/resources/upload/challengeUser/${ month.renamedFilename }" alt="">
 							</div>
 							
 							<div class="upload-wrap">
