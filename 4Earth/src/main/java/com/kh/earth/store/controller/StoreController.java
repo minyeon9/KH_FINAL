@@ -1,10 +1,15 @@
 package com.kh.earth.store.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.earth.common.util.FileProcess;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.service.StoreService;
@@ -27,6 +34,7 @@ import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
+import com.kh.earth.store.model.vo.Review;
 import com.kh.earth.store.model.vo.Wish;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +44,9 @@ import lombok.extern.slf4j.Slf4j;
 public class StoreController {
 	@Autowired
 	private StoreService service;
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
 	
 	// 소분샵 - 상품 목록
 	@GetMapping("/product_list")
@@ -269,6 +280,7 @@ public class StoreController {
 			ModelAndView model,
 			@RequestParam("no") int no,
 			@RequestParam(defaultValue="1") int inqPage,
+			@RequestParam(defaultValue="1") int revPage,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember
 			) {
 		log.info("productDetail() - 호출");
@@ -284,12 +296,23 @@ public class StoreController {
 		int inqCount = service.getProductInqCount(no);
 		log.info("inqCount : " + inqCount);
 		
-		PageInfo inqPageInfo = new PageInfo(inqPage, 10, inqCount, 8);
+		PageInfo inqPageInfo = new PageInfo(inqPage, 10, inqCount, 5);
 		List<ProductInquiry> inqList = service.getProductInqList(inqPageInfo, no);
 		
 		log.info("inqList : " + inqList.toString());
 		
+		// 상품 리뷰 목록 가져오기
+		int revCount = service.getProductRevCount(no);
+		log.info("revCount : " + revCount);
+		
+		PageInfo revPageInfo = new PageInfo(revPage, 10, revCount, 5);
+		List<Review> revList = service.getProductRevList(revPageInfo, no);
+		
+		log.info("revList : " + revList.toString());
+		
 		model.addObject("inqPageInfo", inqPageInfo);
+		model.addObject("revPageInfo", revPageInfo);
+		model.addObject("revList", revList);
 		model.addObject("inqList", inqList);
 		model.addObject("product", product);
 		model.addObject("option", option);
@@ -574,11 +597,154 @@ public class StoreController {
 		return model;
 	}
 	
+	// 소분샵 & 마이페이지 - 리뷰
 	@GetMapping("/write_review")
-	public String writeReview() {
+	public ModelAndView writeReview(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("no") int proNo,
+			@RequestParam(value = "optName", required = false) String optName,
+			@RequestParam(value = "optNo", required = false) String optNo
+			) {
 		log.info("writeReview() - 호출");
 		
-		return "store/write-review";
+		int memberNo = loginMember.getNo();
+		
+		// 상품 리뷰 : 로그인 회원 && 해당 상품을 주문한 회원 && 이미 리뷰를 작성하지 않은 회원
+		// ORDER_DETAIL에서 회원 번호 + 상품 번호로 상품에 대한 주문 이력 조회 (+ ORDER_SUM에서 주문상태가 '주문생성'이 아니어야 함)
+		int purchaseCount = service.findOrderDetail(memberNo, proNo);
+		
+		log.info("purchaseCount : " + purchaseCount);
+		
+		if(purchaseCount > 0) {
+			List<ProductOption> option = service.findProductOption(proNo);
+			
+			model.addObject("option", option);
+			model.addObject("proNo", proNo);
+			model.addObject("optName", optName);
+			model.addObject("optNo", optNo);
+			
+			log.info("optName : " + optName);
+			log.info("optNo : " + optNo);
+			
+			model.setViewName("store/write-review");
+
+		} else {
+			model.addObject("msg", "구매하지 않은 상품에 대한 리뷰는 작성할 수 없습니다.");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");		
+			model.setViewName("common/msg");
+		}
+		
+		return model;	
+	}
+	
+	// 소분샵 & 마이페이지 - 리뷰 작성
+	@PostMapping("/write_review")
+	public ModelAndView writeReview(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("no") int proNo,
+			@RequestParam(value = "proOptName", required = false) String optName,
+			@ModelAttribute Review review,
+			@RequestParam("upfile") MultipartFile upfile
+			) {
+		log.info("writeReview() - 호출");
+		
+		log.info("review : " + review);
+		
+		int memberNo = loginMember.getNo();
+		
+		int purchaseCount = service.findOrderDetail(memberNo, proNo, optName);
+		
+		System.out.println("purchaseCount " + purchaseCount);
+		System.out.println("memberNo " + memberNo);
+		System.out.println("proNo " + proNo);
+		System.out.println("optName " + optName);
+		System.out.println("proOpt" + review.getProOpt());
+
+		if(purchaseCount > 0) {
+			log.info("시작");
+			
+			// 해당 주문 중 가장 오래된 주문의 주문 번호부터 리뷰 등록 시도
+			for(int i = 1; i <= purchaseCount; i++) {
+				log.info("i = " + i);
+				
+				int orderNo = service.getOrderNoForReview(memberNo, proNo, optName, i);
+				
+				log.info("orderNo : " + orderNo);
+
+				// 가져온 orderNo + proNo + optName 으로 등록된 리뷰가 있는지 확인
+				int hasWritten = service.getReviewCount(orderNo, proNo, optName);
+				
+				if(hasWritten == 0) {
+					// 리뷰 작성 가능
+					log.info("Upfile Name : {}", upfile.getOriginalFilename()); // 파일이 업로드되지 않았으면 빈 문자열 "", 되었으면 "파일명" 출력됨
+					log.info("Upfile isEmpty : {}", upfile.isEmpty()); 
+					
+					if(upfile != null && !upfile.isEmpty()) {
+						// 파일 저장
+						String renamedFileName = null;
+						String location = null;
+						
+						try {
+							location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} 
+						
+						renamedFileName = FileProcess.save(upfile, location);
+						
+						if(renamedFileName != null) {
+							review.setOriginalFileName(upfile.getOriginalFilename());
+							review.setRenamedFileName(renamedFileName);
+						}			
+					}
+					
+					review.setOrderNo(orderNo);
+					review.setMemberNo(memberNo);
+					review.setProNo(proNo);
+					review.setProOpt(review.getProOpt());
+					
+					log.info("review : " + review);
+					
+					int result = service.writeReview(review);
+					
+					if(result > 0) {
+						log.info("리뷰 등록 성공");
+						
+						model.addObject("msg", "상품 리뷰가 등록되었습니다.");
+						model.addObject("script", "window.opener.document.location.reload(); window.close();");		
+						model.setViewName("common/msg");
+						
+						// PRODUCT 테이블에서 PRO_RATING(평점) 컬럼 업데이트
+						double rating = service.getProductRating(proNo);
+						
+						log.info("rating : " + rating);
+						
+						int updateRating = service.updateProductRating(proNo, rating);
+						
+						return model;
+					} else {
+						log.info("리뷰 등록 실패");
+					}
+				} else {
+					// 이미 작성된 리뷰가 있음
+					continue;
+				}
+					
+			}
+			
+			model.addObject("msg", "리뷰 수가 구매 건수를 초과하여 작성할 수 없습니다.");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");			
+			model.setViewName("common/msg");
+			
+		} else {
+			model.addObject("msg", "구매하신 옵션에 대하여 리뷰를 작성할 수 있습니다.");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");			
+			model.setViewName("common/msg");
+		}
+		
+		return model;
 	}
 	
 	// 소분샵 - 상품 문의
@@ -614,7 +780,7 @@ public class StoreController {
 		if(loginMember != null) {
 			productInquiry.setMemberNo(loginMember.getNo());
 			
-			log.info(productInquiry.toString());
+			log.info("productInquiry : " + productInquiry.toString());
 			
 			result = service.writeQna(productInquiry);
 			
@@ -690,4 +856,57 @@ public class StoreController {
 		return model;
 	}
 	
+	// 마이페이지 - 주문/배송
+	@GetMapping("/order")
+	public ModelAndView order(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam(defaultValue="1") int page
+			) {
+		log.info("order() - 호출");
+		
+		// 주문 조회 : 회원번호 + ORDER_STAT != '주문생성'
+		
+		int count = service.getOrderCount(loginMember.getNo());
+		
+		PageInfo pageInfo = new PageInfo(page, 10, count, 10);
+		
+		List<OrderSum> orderSum = service.getOrderList(pageInfo, loginMember.getNo());
+		
+		log.info("orderSum : " + orderSum.toString());
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("orderSum", orderSum);
+		
+		model.setViewName("mypage/order");
+		
+		return model;		
+	}
+	
+	// 마이페이지 - 주문 상세
+	@GetMapping("/order_detail")
+	public ModelAndView orderDetail(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam int orderNo
+			) {
+		log.info("orderDetail() - 호출");
+		
+		OrderSum orderSum = service.findOrderSumByNo(orderNo);
+		
+		// 주문 상세 조회 : 주문번호
+		List<OrderDetail> orderDetailList = service.getOrderDetailList(orderNo);
+		
+		log.info("orderDetailList : " + orderDetailList);
+		
+		model.addObject("orderSum", orderSum);
+		model.addObject("orderDetailList", orderDetailList);		
+		
+		model.setViewName("mypage/order-detail");
+		
+		return model;	
+	}
+	
+	
+
 }

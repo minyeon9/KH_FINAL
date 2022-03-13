@@ -245,15 +245,6 @@ ul.imgs li img{
 .tbody1 tr td.board-tit {
     text-align: left;
 }
-.tbody1 tr td .prd-option {
-    color: #999;
-    font-size: 12px;
-}
-.tbody1 tr td .prd-option b {
-    color: #666;
-    font-weight: 300;
-}
-
 .pro-table tbody tr th{
     width: 100%;
 }
@@ -399,6 +390,12 @@ input[type=number]
 	font-size: 16px;
 	font-weight: 600;
 }
+.prd-option {
+	width: 250px;
+}
+.prd-option small {
+	
+}
 
 /* 장바구니 */
 .purchase-wrap {
@@ -421,7 +418,7 @@ input[type=number]
     border-collapse: collapse;
 }
 .cart-table thead tr {
-    border-top: 2px solid #467443;
+    border-top: 2px solid #467443;    
 }
 .cart-table thead tr th {
     font-size: 15px;
@@ -434,6 +431,7 @@ input[type=number]
 
 .cart-table tbody tr td:first-of-type {
     table-layout: auto;
+    padding-left: 10px;
 }
 
 .cart-table tbody tr td {
@@ -731,7 +729,7 @@ input[type=number]
 .map-list ul{
     border-bottom: 2px solid rgb(170, 170, 170);
     padding-bottom: 7px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 .map-list ul li:first-child {
     font-size: 16px;
