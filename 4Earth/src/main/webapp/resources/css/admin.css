@@ -109,7 +109,22 @@ nav .logo {
   margin-top: 30px;
   margin-bottom: 17px;
 }
-
+.admin {
+    margin-top: 20px;
+}
+.admin section {
+    padding: 20px 0 30px;
+}
+.admin section + section {
+    padding-top: 80px;
+    border-top: 1px solid #ddd;
+}
+.admin section > strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
 
 
 

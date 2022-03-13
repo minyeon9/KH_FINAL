@@ -19,7 +19,7 @@ import com.kh.earth.store.model.vo.Product;
 @Mapper
 public interface AdminMapper {
 
-	int getProductCount();
+	int getProductCount(Map<String, String> name);
 
 	List<Report> getReportList(RowBounds rowBounds, Map<String, String> name);
 
@@ -29,7 +29,7 @@ public interface AdminMapper {
 
 	int getMemberCount(Map<String, String> name);
 
-	List<Product> getProductList(RowBounds rowBounds);
+	List<Product> getProductList(RowBounds rowBounds, Map<String, String> name);
 
 	List<Member> findMember(RowBounds rowBounds, Map<String, String> name);
 
@@ -58,4 +58,8 @@ public interface AdminMapper {
 	List<TodayMember> getTodayMemList(RowBounds rowBounds, Map<String, String> name);
 
 	int insertProduct(Product product);
+
+	Product findProductByNo(int no);
+
+	int updateProduct(Product product);
 }

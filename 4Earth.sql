@@ -508,7 +508,7 @@ END;
 BEGIN
     FOR N IN 1..5
     LOOP
-        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 10000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 5, DEFAULT, '4Earth 식품', 3);
+        INSERT INTO PRODUCT VALUES(SEQ_PRONO.NEXTVAL, '상품명' || SEQ_PRONO.CURRVAL, 10000, DEFAULT, '500g', '썸네일사진', '상품설명', 3, 0101, 5, 0, DEFAULT, '4Earth 식품', 3);
     END LOOP;
     
     COMMIT;
