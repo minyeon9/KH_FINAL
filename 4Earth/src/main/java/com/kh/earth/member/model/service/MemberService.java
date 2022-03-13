@@ -8,6 +8,8 @@ public interface MemberService {
 	Member findMemberById(String id);
 	
 	Member findMemberById_forSNS(String id);
+	
+	Member findMemberByPhone(String phone);
 
 	Member login(String id, String password);
 
@@ -20,5 +22,7 @@ public interface MemberService {
 	int reSignup(String id);
 
 	int updatePassword(int no, String password);
+
+
 
 }

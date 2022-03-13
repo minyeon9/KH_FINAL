@@ -415,7 +415,7 @@
   /* background-color: red; */
 }
 
-.find-form {
+.find-form:not(#pw_reset_section) {
   /* position: absolute; */
   margin: auto;
   text-align: center;
@@ -483,7 +483,7 @@
 /* ----------------------------------
     find-pw css
 ---------------------------------- */
-.find-form p {
+.find-form p:not(#pw_reset_section p) {
   font-size: 0.85em;
   color: #999;
 }
@@ -866,7 +866,7 @@ text-align: center;
   height: 150px;
   /* background-color: lemonchiffon; */
   border-collapse: collapse;
-  border: 1px solid #c4c4c4;
+  /* border: 1px solid #c4c4c4; */
   border-top: 2px solid #c4c4c4;
   margin: auto;
   border-left: none;
@@ -874,20 +874,86 @@ text-align: center;
 }
 
 #pw-reset-table th{
+  /* display: grid; */
+  /* grid-template-columns: 30% 70%; */
   /* width: 40%; */
   height: 40px;
   text-align: left;
   padding-left: 15px;
-  background-color: rgb(245, 245, 245);
+  /* background-color: rgb(245, 245, 245); */
+  padding-bottom: -6px;
 }
 
-#pw-reset-table tr{
-  /* border-bottom: 1px solid #c4c4c4; */
+#pw-reset-table span{
+  /* text-align: right; */
+  /* font-weight: 400; */
+  /* margin-bottom: 15px; */
+  /* background-color: #03c75a; */
 }
 
 #pw-reset-table td{
   border: none;
-  height: 60px;
-  /* background-color: white; */
+  height: 0px;
+  /* background-color: wheat; */
   /* padding-left: 15px; */
+}
+
+#down-area {
+  margin-bottom: 20px;
+}
+
+#pw_reset_section{
+  /* background-color: yellow; */
+  border-top: 2px solid #ccc;
+  width: 90%;
+  margin: auto;
+}
+
+#pw_reset_section p{
+  font-size: 15px;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 25px;
+  /* padding-top: 10px; */
+  padding-bottom: 10px;
+}
+
+#pw_reswe_title1{
+  /* background-color: magenta; */
+  padding-top: 15px;
+  /* border-top: 2px solid #ccc; */
+  width: 200px;
+  margin: auto;
+}
+
+#pw_reswe_title2{
+  width: 200px;
+  margin: auto;
+  padding-top: 8px;
+  background-color: #ccc;
+}
+
+
+.pw_reset_Tarea{
+	display: flex;
+}
+
+.alert1{
+	background-color: yellow;
+	width: 130px;
+  text-align: right;
+  padding-top: 15px;
+  margin-right: 20px;
+  /* line-height: 50px; */
+}
+
+.pw_reset_Tarea span{
+  height: 10px;
+	margin-bottom: 20px;
+}
+
+#test1{
+  width: 700px;
+  height: 250px;
+  background-color: yellow;
 }
