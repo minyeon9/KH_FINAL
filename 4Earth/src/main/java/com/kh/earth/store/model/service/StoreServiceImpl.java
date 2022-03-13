@@ -17,6 +17,7 @@ import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
+import com.kh.earth.store.model.vo.Review;
 import com.kh.earth.store.model.vo.Wish;
 
 @Service
@@ -254,7 +255,7 @@ public class StoreServiceImpl implements StoreService {
 		return mapper.updateOrderSum(orderSum);
 	}
 
-	// 주문 상품 리스트 조회
+	// 주문 번호로 주문 상세 리스트 조회
 	@Override
 	public List<OrderDetail> getOrderDetailList(int orderNo) {
 		
@@ -288,6 +289,115 @@ public class StoreServiceImpl implements StoreService {
 		
 		return mapper.addDelivery(delivery);
 	}
+
+	// 회원번호로 주문(OrderSum) 개수 조회
+	@Override
+	public int getOrderCount(int memberNo) {
+		
+		return mapper.getOrderCount(memberNo);
+	}
+
+	// 회원번호로 주문(OrderSum) 목록 조회
+	@Override
+	public List<OrderSum> getOrderList(PageInfo pageInfo, int memberNo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getOrderList(rowBounds, memberNo);
+	}
+
+	// 회원 번호 + 상품 번호로 상품에 대한 주문 이력 조회
+	@Override
+	public int findOrderDetail(int memberNo, int proNo) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("memberNo", memberNo);
+		map.put("proNo", proNo);
+		
+		return mapper.findOrderDetail(map);
+	}
+
+	// ORDER_DETAIL에서 회원 번호 + 상품 번호로 상품에 대한 주문 횟수 조회
+	@Override
+	public int findOrderDetail(int memberNo, int proNo, String optName) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("memberNo", memberNo);
+		map.put("proNo", proNo);
+		map.put("optName", optName);
+		
+		return mapper.findOrderDetail(map);
+	}
+
+	@Override
+	public int getOrderNoForReview(int memberNo, int proNo, String optName, int i) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("memberNo", memberNo);
+		map.put("proNo", proNo);
+		map.put("optName", optName);
+		map.put("i", i);
+		
+		return mapper.getOrderNoForReview(map);
+	}
+
+	// 리뷰 작성
+	@Override
+	public int writeReview(Review review) {
+		
+		return mapper.writeReview(review);
+	}
+
+	// orderNo + proNo + optName 으로 등록된 리뷰 개수 조회
+	@Override
+	public int getReviewCount(int orderNo, int proNo, String optName) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("orderNo", orderNo);
+		map.put("proNo", proNo);
+		map.put("optName", optName);
+		
+		return mapper.getReviewCount(map);
+	}
+
+	// 상품 번호로 상품 리뷰 개수 조회
+	@Override
+	public int getProductRevCount(int no) {
+		
+		return mapper.getProductRevCount(no);
+	}
+
+	// 상품 번호로 상품 리뷰 목록 조회
+	@Override
+	public List<Review> getProductRevList(PageInfo revPageInfo, int no) {
+		int offset = (revPageInfo.getCurrentPage() - 1) * revPageInfo.getListLimit();
+		int limit = revPageInfo.getListLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);	
+		
+		return mapper.getProductRevList(rowBounds, no);
+	}
+
+	// 리뷰 평점 평균 구하기
+	@Override
+	public int getProductRating(int proNo) {
+		
+		return mapper.getProductRating(proNo);
+	}
+	
+	// 리뷰 등록 시 상품 평점 업데이트
+	@Override
+	public int updateProductRating(int proNo, double rating) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("proNo", proNo);
+		map.put("rating", rating);		
+		
+		return mapper.updateProductRating(map);
+	}
+
 
 	
 

@@ -50,12 +50,16 @@
 	                              	  <tr>
 	                                      <td>
 	                                          <div class="cart-img">
+	                                          <a href="${ path }/product_detail?no=${ product.proNo }">
 	                                              <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                                          </a>
 	                                          </div>
 	                                      </td>
 	                                      <td colspan="3" style="text-align: left;">
-	                                          <strong>${ orderDetail.detailProName }</strong>
-	                                          <p>${ orderDetail.detailOptName }</p>
+		                                      <a href="${ path }/product_detail?no=${ product.proNo }">
+		                                          <strong>${ orderDetail.detailProName }</strong>
+		                                          <p>${ orderDetail.detailOptName }</p>
+		                                      </a>
 	                                      </td>
 	                                      <td style="text-align: center;">${ orderDetail.detailQty }</td>
 	                                      <td style="text-align: center;">
@@ -368,6 +372,7 @@
 	})
 	
 	// 우편번호 찾기 (Daum Postcode Sevice)
+	// https://postcode.map.daum.net/guide
 	function execution_daum_address(){ 
 	    new daum.Postcode({
 	        oncomplete: function(data) {
@@ -463,7 +468,7 @@
 		// 주문 정보
 		let orderNo = `${ orderSum.orderNo }`;
 		
-		// 주문 번호 생성
+		// 회원에게 보여줄 주문 번호(주문날짜 + 주문번호) 생성
 		let today = new Date();
 		
 		let year = today.getFullYear();
@@ -545,12 +550,13 @@
 		}
 		
 		// 아임포트 결제
+		// https://docs.iamport.kr/implementation/payment
 		var IMP = window.IMP; // 생략 가능
-	    IMP.init("imp95685445");
+	    IMP.init("imp95685445"); // 아임포트 가입하여 발급받은 가맹점 식별코드
 		
 		// IMP.request_pay(param, callback) 결제창 호출
-	      IMP.request_pay({ // param
-	          pg: pg,
+	      IMP.request_pay({ 	    	  
+	          pg: pg, // 결제창 정보
 	          /*
 	          'kakao':카카오페이,
 	          html5_inicis':이니시스(웹표준결제)
@@ -561,8 +567,8 @@
 	          'payco':페이코
 	          'syrup':시럽페이
 	          'paypal':페이팔
-	          */
-	          pay_method: pm,
+	          */	        	          
+	          pay_method: pm, // 결제 수단
 	          /*
 	          'samsung':삼성페이,
 	          'card':신용카드,
@@ -579,7 +585,8 @@
 	          buyer_postcode: delPostcode
 	      }, function (rsp) { // callback
 	          console.log(rsp);
-	          if (rsp.success) { // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우		      
+	          if (rsp.success) { 
+	        	    // 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우		      
 	        	  	var msg = '결제가 완료되었습니다';
 	        	  	msg += '고유ID : ' + rsp.imp_uid;
 	        	  	msg += '상점 거래ID : ' + rsp.merchant_uid;
