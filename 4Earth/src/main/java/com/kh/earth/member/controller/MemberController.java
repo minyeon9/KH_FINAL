@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.earth.common.util.FileProcess;
+import com.kh.earth.common.util.MailUtil;
+import com.kh.earth.common.util.SendSMSTwilio;
 import com.kh.earth.member.model.service.MemberService;
 import com.kh.earth.member.model.vo.Member;
 
@@ -49,8 +52,6 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(HttpSession session, Model model, 
 			@RequestParam("id") String id, @RequestParam String password) {
-		
-		log.info("{}, {}", id, password);
 		
 		Member member = service.login(id, password);
 		
@@ -353,6 +354,49 @@ public class MemberController {
 		return "member/find-id";
 	}
 	
+	@PostMapping("/find_id")
+	@ResponseBody
+	public Object find_if(ModelAndView model, HttpSession session,
+			String name, String phone) {
+		Map<String, String> map = new HashMap<>();
+	
+		System.out.println(name+phone);
+		
+		Member resultM = service.findMemberByPhone(phone);
+		System.out.println(resultM);
+		if(resultM != null ) {
+			
+			if(resultM.getName().equals(name)) {
+				// 정보가 일치하는 회원일 경우
+				session.setAttribute("s_location", "/find_id_finish");
+				session.setAttribute("f_location", "/find_id");
+				session.setAttribute("userId", resultM.getId());
+				
+				String userPhone = resultM.getPhone();
+				
+				String random_code = Integer.toString(SendSMSTwilio.sendSMS("82", userPhone));
+				session.setAttribute("random_code", random_code);
+				
+				map.put("result", "success");
+				map.put("msg", "해당 회원이 존재합니다.");
+				
+			}else {
+				map.put("result", "fail");
+				map.put("msg", "이름이 일치하지 않습니다.");
+			}
+//			return map;
+		}else {
+			map.put("result", "fail");
+			map.put("msg", "해당 번호로 가입한 회원이 존재하지 않습니다.");
+		}
+		
+		return map;
+	}
+	
+	
+	
+	
+	
 	@GetMapping("/find_pw")
 	public String find_pw() {
 		log.info("find_pw() - 호출");
@@ -365,7 +409,7 @@ public class MemberController {
 	@PostMapping("/find_pw")
 	@ResponseBody
 	public Object find_pw(ModelAndView model,
-			@ModelAttribute Member member) {
+			@ModelAttribute Member member, HttpSession session) {
 		Map<String, String> map = new HashMap<>();
 
 		log.info("{}, {}", member.getName(), member.getId());
@@ -385,6 +429,46 @@ public class MemberController {
 				map.put("result", "fail");
 				map.put("msg", "이메일이 일치하지 않습니다.");
 			}else if(resultName && resultEmail) {
+				// [모두 일치하는 회원일 시 인증메일 발송]
+				// 1. 인증문자열 랜덤으로 생성
+				StringBuffer temp = new StringBuffer();
+				Random rnd = new Random();
+				for (int i = 0; i < 6; i++) {
+				    int rIndex = rnd.nextInt(3);
+				    switch (rIndex) {
+				    case 0:
+				        // a-z
+				        temp.append((char) ((int) (rnd.nextInt(26)) + 97));
+				        break;
+				    case 1:
+				        // A-Z
+				        temp.append((char) ((int) (rnd.nextInt(26)) + 65));
+				        break;
+				    case 2:
+				        // 0-9
+				        temp.append((rnd.nextInt(10)));
+				        break;
+				    }
+				};
+				
+				String random_code = temp.toString();
+				session.setAttribute("random_code", random_code);
+				session.setAttribute("s_location", "/pw_reset");
+				session.setAttribute("f_location", "/find_pw");
+				
+				// 2. 메일 발송을 위한 설정
+				String title ="[4Earth] 인증번호입니다.";
+				String from = "4earthkh@gmail.com"; // mail.properties의 id의 메일주소
+				String text = "<img src="+"https://postfiles.pstatic.net/MjAyMjAzMTJfMTEg/MDAxNjQ3MDIwODI5NDEx.3lbEdbJm3HQ_nm9jtq2Sn4sFzo887D3hgIq-Q-aRP8og.rDlYNdD5V3dk4tUmaRz9mI2uepnGbaQK4sIzQbHG9Akg.PNG.rei1212/4Earth_(1).png?type=w966"+"><br>"
+						+ "<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4Earth] 인증번호는 <span style=\"color: green;\">"+ random_code + "</span> 입니다.</h1><br>";
+				String to = resultM.getEmail(); // 유저 메일주소 resultM.getEmail() 붙이자.
+				String cc = "";
+				
+				// 3. 메일 발송
+				MailUtil.mailSend(title, from, text, to, cc);
+
+				// 4. 비밀번호 변경을 위해 no값은 session에 저장, map은 ajax로 전달
+				session.setAttribute("memberNo", resultM.getNo());
 				map.put("result", "success");
 				map.put("msg", "해당 회원이 존재합니다.");
 			}
@@ -398,27 +482,72 @@ public class MemberController {
 	}
 	
 	@PostMapping("/verification")
-	public ModelAndView verification(ModelAndView model, String vf_code) {
+	public ModelAndView verification(ModelAndView model, 
+			HttpSession session, String vf_code) {
+
+		// 1. session에 저장한 random_code와 location 불러오기
+		String random_code = (String)session.getAttribute("random_code");
+		String slocation = (String)session.getAttribute("s_location");
+		String flocation = (String)session.getAttribute("f_location");
+		// System.out.println(slocation+"  :  "+flocation);
 		
-		String str = "1111";
-		
-		if(str.equals(vf_code)) {
+		if(random_code.equals(vf_code)) {
+			// 2. 랜덤코드가 사용자가 입력한 vf_code와 일치하는 경우 비번 재설정으로
 			System.out.println("인증성공!");	
 			model.addObject("msg", "인증에 성공하셨습니다.");
-			model.addObject("location", "/");
+			model.addObject("location", slocation);
 			
 		}else {
+			// 3. 랜덤코드가 사용자가 입력한 vf_code와 일치하지 않을 경우 메인으로
 			System.out.println("인증실패!");	
 			model.addObject("msg", "인증에 실패하셨습니다.");
-			model.addObject("location", "/");
+			model.addObject("location", flocation);
 		}
 		
 		model.setViewName("common/msg");
 		return model;
 	}
 	
+	@GetMapping("/pw_reset")
+	public String pw_reset(HttpSession session) {
+		
+		return "member/find-pw-reset";
+	}
 	
-	
+	@PostMapping("/pw_reset")
+	public ModelAndView pw_reset(ModelAndView model, SessionStatus status,
+			String userPwd2, String userPwCheck, HttpSession session) {
+		int result = 0;
+		System.out.println("첫번째 : "+userPwd2+"  두번째 : "+userPwCheck);
+		
+		// 1. 세션에 저장된 no가져옴
+		int no = (Integer)session.getAttribute("memberNo");
+		System.out.println(session.getAttribute("memberNo"));
+		
+		// 2. 가져온 no과 새로 바뀐 비밀번호로 updatePassword()메소드 실행
+		result = service.updatePassword(no, userPwd2);
+		
+		if( result > 0 ) {
+			// 3. 결과가 1이면 세션 지우고 alert로 로그인하라고 한 뒤, 로그인창으로(msg쓰기)
+			status.setComplete();
+			log.info("status.isComplete() : {}", status.isComplete());
+			session.invalidate();
+			
+			model.addObject("msg", "비밀번호가 재설정 되었습니다. 새 비밀번호로 로그인해주세요.");
+			model.addObject("location", "/login");
+			
+		}else {
+			// 4. 결과가 0이면 세션 지우고 비밀번호 변경에 실패하였습니다. 창 띄우기
+			session.invalidate();
+			model.addObject("msg", "비밀번호 재설정에 실패하였습니다. 다시 인증해주세요.");
+			model.addObject("location", "/find_pw");
+		}
+		
+		// 5. msg를 통해 메세지와 location 전달
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	@GetMapping("/find_pw_finish")
 	public String find_pw_finish() {

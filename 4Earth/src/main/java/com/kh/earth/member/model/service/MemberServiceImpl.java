@@ -33,6 +33,12 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Member findMemberByPhone(String phone) {
+		return mapper.findMemberByPhone(phone);
+	}
+	
+	
+	@Override
 	public Member login(String id, String password) {
 		Member member = null;
 
@@ -94,6 +100,8 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mapper.updatePassword(map);
 	}
+
+
 
 
 

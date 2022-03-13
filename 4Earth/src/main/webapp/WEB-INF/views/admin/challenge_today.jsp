@@ -117,7 +117,7 @@
 		                                            <td>${ today.chalNo }</td>
 		                                            <td>${ today.chalTitle }</td>
 		                                            <td>${ today.chalPoint }</td>
-		                                            <td>${ today.chalDate }</td>
+		                                            <td>${ today.startDate }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                 <div class="layer-popup" id="popup${ vs.index }">

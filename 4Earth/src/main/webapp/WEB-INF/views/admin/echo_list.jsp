@@ -58,23 +58,26 @@
                         </div>
                     </div>
 
-                    <div class="guide">
+                    <div class="admin">
                         <!-- Category -->
                         <section>
                             <div style="margin-bottom: 5px;">
                                 <div class="board-head">
                                     <div class="select-wrap">
-                                        <select name="" id="" class="selectbox">
-                                            <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
+                                        <select name="" id="member-select" class="selectbox">
+                                            <option value="1" selected>번호순</option>
+                                            <option value="2">이름순</option>
+                                            <option value="3">재고순</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="1">n개씩 보기</option>
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요.">
-                                            <button><i class="material-icons">search</i></button>
+                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                            <button id="search"><i class="material-icons">search</i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -83,21 +86,22 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th>물품 번호</th>
                                             <th>물품 이름</th>
-                                            <th>분류</th>
+                                            <th>상태</th>
                                             <th>등록일</th>
                                             <th>재고 수</th>
+                                            <th>보기</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -105,22 +109,90 @@
 	                                    <tbody>
 		                                    <tr>
 		                                    	<td colspan="6">
-												조회된 멤버가 없습니다
+												조회된 물품이 없습니다
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="product" items="${ list }">
+										<c:forEach var="product" items="${ list }" varStatus="vs">
 		                                    <tbody>
 		                                        <tr>
 		                                            <td>${ product.proNo }</td>
 		                                            <td>${ product.proName }</td>
-		                                            <td>${ product.proCat }</td>
-		                                            <td>${ product.proDate }</td>
-		                                            <td>${ product.proVol }</td>
+		                                            <td>${ product.proStat }</td>
+		                                            <td>${ product.proModifyDate }</td>
+		                                            <td>${ product.proStock }</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
+		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+					                                <div class="layer-popup" id="popup${ vs.index }">
+						                                <div class="layer-inner">
+						                                    <div class="pop-head">
+						                                    	${ product.proNo }
+						                                        <strong>${ product.proName }</strong>
+						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+						                                    </div>
+						                                    <div class="pop-cont">
+						                                       <table id="view-table">
+													           <colgroup>
+													           		<col style="10%">
+													           		<col style="40%">
+													           		<col style="15%">
+													           		<col style="35%">
+													    		</colgroup>
+													        	<tbody>
+													        		<tr>
+													        			<th>가격</th>
+													        			<td>${ product.proPrice }</td>
+													        			<th>용량</th>
+													        			<td>${ product.proVol }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>제조사</th>
+													        			<td>${ product.proMfg }</td>
+													        			<th>별점</th>
+													        			<td>${ product.proRating }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>등록일</th>
+													        			<td>${ product.proDate }</td>
+													        			<th>수정일</th>
+													        			<td>${ product.proModifyDate }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>상품상태번호</th>
+													        			<td>${ product.proStat }</td>
+													        			<th>상품카테고리번호</th>
+													        			<td>${ product.proCat }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>재고</th>
+													        			<td>${ product.proStock }</td>
+													        			<th>팔린수</th>
+													        			<td>${ product.proSold }</td>
+													        		</tr>
+													        		<tr>
+													        			<th colspan="2">사진</th>
+													        			<th colspan="2">내용</th>
+													        		</tr>
+													        		<tr>
+													        			<td colspan="2" style="height: 300px">
+													        				<img id="member-img" src="${ path }/resources/upload/store/${ product.proModifyImg }" />
+													        			</td>
+													        			<td colspan="2">${ product.proInfo }</td>
+													        		</tr>
+												        		</tbody>
+													       		</table>
+						                                    </div>
+						                                    <div class="btn-wrap">
+						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button class="btn">저장</button>
+						                                    </div>
+						                                </div>
+						                            </div>
+                            						</td>
+		                                            <td>
+		                                                <button class="btn btn-s" id="echo_update" value="${ product.proNo }">수정</button>
 		                                                <button id="delete" name="no" value=${ product.proNo } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
@@ -165,7 +237,7 @@
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['${ path }/admin/echo_list','${ path }/admin/echo_order','${ path }/admin/echo_delivery','${ path }/admin/echo_order_cancel','${ path }/admin/echo_bidding'];
+	    let menuPath = ['${ path }/admin/echo_list','${ path }/admin/echo_order','${ path }/admin/echo_delivery','${ path }/admin/echo_cancel','${ path }/admin/echo_bidding'];
 	    let menuName = ['에코샵 물품 목록', '주문 접수 목록', '발송 완료 목록', '주문 취소 목록', '물품 접수 목록'];
 	    let menuIcon = ['home', 'home', 'home', 'home', 'home']
 	
@@ -182,6 +254,10 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	    
+	    $('#count-select').on('change',  (e) => {
+			location.replace("${ path }/admin/member?count=" + e.target.value);
+		})
 	});
 	
 	$(document).on("click","#echo_write", (e) => {
@@ -189,13 +265,35 @@
         var popupY= (window.screen.height / 2) - (800 / 2);
         const url = "${ path }/admin/echo_write";
         
-        open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+        open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+    });
+	
+	$(document).on("click","#echo_update", (e) => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "${ path }/admin/echo_update?no="+ e.target.value;
+        
+        open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
 	
 	$(document).ready(() => {
 		$("#delete").on("click", (e) => {
 			if(confirm("정말로 이 물품 판매를 정지시키겠습니까??")) {
 				location.replace("${ path }/admin/echo_pro_delete?no=" + e.target.value);
+			}
+		})
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click', '#search', () => {
+			if($("#member-select option:selected").val() == 1) {
+				location.replace("${ path }/admin/echo_list?proNo=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 2) {
+				location.replace("${ path }/admin/echo_list?proName=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 3) {
+				location.replace("${ path }/admin/echo_list?proStock=" + $("#search-val").val());
 			}
 		})
 	});

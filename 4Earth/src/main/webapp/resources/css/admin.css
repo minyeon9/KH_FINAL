@@ -101,8 +101,30 @@ nav .logo {
     border-collapse: separate;
     border-spacing: 0 10px;
 }
-
-
+#member-img {
+  height: 250px;
+  width: 250px;
+  border: 1px solid var(--color-white);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-bottom: 17px;
+}
+.admin {
+    margin-top: 20px;
+}
+.admin section {
+    padding: 20px 0 30px;
+}
+.admin section + section {
+    padding-top: 80px;
+    border-top: 1px solid #ddd;
+}
+.admin section > strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
 
 
 
