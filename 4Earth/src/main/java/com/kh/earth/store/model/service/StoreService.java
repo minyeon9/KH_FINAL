@@ -8,8 +8,10 @@ import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
+import com.kh.earth.store.model.vo.Review;
 import com.kh.earth.store.model.vo.Wish;
 
 public interface StoreService {
@@ -76,8 +78,29 @@ public interface StoreService {
 
 	int addDelivery(Delivery delivery);
 
+	int getOrderCount(int memberNo);
 
+	List<OrderSum> getOrderList(PageInfo pageInfo, int memberNo);
 
+	int findOrderDetail(int memberNo, int proNo);
+
+	int findOrderDetail(int memberNo, int proNo, String optName);
+
+	int getOrderNoForReview(int memberNo, int proNo, String optName, int i);
+
+	int writeReview(Review review);
+
+	int getReviewCount(int orderNo, int proNo, String optName);
+
+	int getProductRevCount(int no);
+
+	List<Review> getProductRevList(PageInfo revPageInfo, int no);
+
+	int getProductRating(int proNo);
+	
+	int updateProductRating(int proNo, double rating);
+
+	List<ProductImgs> getProductImgs(int no);
 
 
 

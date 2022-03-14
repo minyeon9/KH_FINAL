@@ -30,4 +30,5 @@ public class Today {
 	private Date endDate;
 	
 	private char chalStatus;
+	
 }

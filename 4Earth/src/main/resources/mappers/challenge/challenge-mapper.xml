@@ -11,7 +11,8 @@
 		    CHAL_NO,
 		    CHAL_TITLE,
 		    CHAL_CONTENT,
-		    CHAL_IMG_PATH,
+		    ORIGINAL_FILENAME,
+		    RENAMED_FILENAME,
 		    CHAL_POINT,
 		    START_DATE,
 		    END_DATE,
@@ -25,7 +26,8 @@
 		    CHAL_NO,
 		    CHAL_TITLE,
 		    CHAL_CONTENT,
-		    CHAL_IMG_PATH,
+		    ORIGINAL_FILENAME,
+		    RENAMED_FILENAME,
 		    CHAL_POINT,
 		    CHAL_COUNT,
 		    START_DATE,
@@ -40,10 +42,11 @@
 		<result property="category" column="CATEGORY" />
 		<result property="chalTitle" column="CHAL_TITLE" />
 		<result property="chalContent" column="CHAL_CONTENT" />
-		<result property="chalImgPath" column="CHAL_IMG_PATH" />
+		<result property="originalFilename" column="ORIGINAL_FILENAME" />
+		<result property="renamedFilename" column="RENAMED_FILENAME" />
 		<result property="chalPoint" column="CHAL_POINT" />
 		<result property="startDate" column="START_DATE" />
-		<result property="endtDate" column="END_DATE" />
+		<result property="endDate" column="END_DATE" />
 		<result property="charStatus" column="CHAL_STAUTS" />
 	</resultMap>
 	
@@ -57,7 +60,7 @@
 		<result property="chalStatus" column="CHAL_STATUS" />
 		<result property="originalFilename" column="ORIGINAL_FILENAME" />
 		<result property="renamedFilename" column="M_RENAMED_FILENAME" />
-		<result property="chalPoint" column="CHAL_POINT" />
+		<result property="chalPoint" column="T_CHAL_POINT" />
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS" />
 	</resultMap>
 	
@@ -67,7 +70,8 @@
 		<result property="category" column="CATEGORY" />
 		<result property="chalTitle" column="CHAL_TITLE" />
 		<result property="chalContent" column="CHAL_CONTENT" />
-		<result property="chalImgPath" column="CHAL_IMG_PATH" />
+		<result property="originalFilename" column="ORIGINAL_FILENAME" />
+		<result property="renamedFilename" column="RENAMED_FILENAME" />
 		<result property="chalPoint" column="CHAL_POINT" />
 		<result property="chalCount" column="CHAL_COUNT" />
 		<result property="startDate" column="START_DATE" />
@@ -82,14 +86,68 @@
 		<result property="id" column="MEMBER_ID" />
 		<result property="chalNo" column="CHAL_NO" />
 		<result property="chalTitle" column="T_CHAL_TITLE" />
+		<result property="chalContent" column="CHAL_CONTENT" />
 		<result property="chalDate" column="CHAL_DATE" />
 		<result property="originalFilename" column="ORIGINAL_FILENAME" />
 		<result property="renamedFilename" column="M_RENAMED_FILENAME" />
 		<result property="modifyImgName" column="MEMBER_MODIFY_IMG_NAME" />
-		<result property="chalPoint" column="CHAL_COUNT" />
+		<result property="chalCount" column="CHAL_COUNT" />
+		<result property="myCount" column="M_MY_COUNT" />
 		<result property="chalStatus" column="CHAL_STATUS" />
-		<result property="chalPoint" column="CHAL_POINT" />
+		<result property="chalPoint" column="T_CHAL_POINT" />
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS" />
+	</resultMap>
+	
+	<!-- 포인트 -->
+	<resultMap type="Point" id="pointListResultMap">
+		<id property="pointNo" column="POINT_NO" />
+		<result property="memNo" column="MEM_NO" />
+		<result property="saveDate" column="SAVE_DATE" />
+		<result property="content" column="CONTENT" />
+		<result property="point" column="POINT" />
+		<result property="disapearDate" column="DISAPEAR_DATE" />
+	</resultMap>
+	
+	<!-- 댓글 -->
+	<resultMap type="Reply" id="replyResultMap">
+		<id property="replyNo" column="REPLY_NO" />
+		<result property="memNo" column="MEM_NO" />
+		<result property="chalNo" column="CHAL_NO" />
+		<result property="content" column="CONTENT" />
+		<result property="replyDate" column="REPLY_DATE" />
+		<result property="modifyDate" column="MODIFY_DATE" />
+		<result property="modifyImgName" column="MODIFY_IMG_NAME" />
+		<result property="id" column="ID" />
+	</resultMap>
+	
+	<!-- 대댓글 -->
+	<resultMap type="NestedReply" id="nestedReplyResultMap">
+		<id property="nestedReplyNo" column="NESTED_REPLY_NO" />
+		<result property="replyNo" column="REPLY_NO" />
+		<result property="memNo" column="MEM_NO" />
+		<result property="chalNo" column="CHAL_NO" />
+		<result property="content" column="CONTENT" />
+		<result property="replyDate" column="REPLY_DATE" />
+		<result property="modifyDate" column="MODIFY_DATE" />
+		<result property="modifyImgName" column="MODIFY_IMG_NAME" />
+		<result property="id" column="ID" />
+	</resultMap>
+	
+	<!-- 상품 -->
+	<resultMap type="Product" id="ProductListResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="proName" column="PRO_NAME"/>
+		<result property="proPrice" column="PRO_PRICE"/>
+		<result property="proDate" column="PRO_DATE"/>
+		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
+		<result property="proVol" column="PRO_VOL"/>
+		<result property="proImg" column="PRO_IMG"/>
+		<result property="proInfo" column="PRO_INFO"/>
+		<result property="proStat" column="PRO_STAT"/>
+		<result property="proCat" column="PRO_CAT"/>
+		<result property="proSold" column="PRO_SOLD"/>
+		<result property="proMfg" column="PRO_MFG"/>
+		<result property="proRating" column="PRO_RATING"/>
 	</resultMap>
 	
 	
@@ -98,7 +156,9 @@
   	
   	<!-- 오늘의 챌린지 목록 조회 -->
   	<select id="findAllToday" parameterType="map" resultMap="todayListResultMap">
-		<include refid="todayListSql" />
+  		<include refid="todayListSql" />
+		<!-- WHERE TO_CHAR(START_DATE, 'YYYY/MM/DD') = #{ formatedNow } AND TO_CHAR(END_DATE, 'YYYY/MM/DD') = #{ formatedNow } -->
+		WHERE TO_CHAR(START_DATE, 'yyyy/MM/dd') = #{ formatedNow } AND TO_CHAR(END_DATE, 'yyyy/MM/dd') = #{ formatedNow }
   	</select>
   	
   	<!-- 오늘의 챌린지 상세 조회 -->
@@ -107,10 +167,20 @@
 		WHERE CHAL_NO = #{ chalNo }
 	</select>
 	
+	<!-- 오늘의 챌린지 상세 조회(인증 완료 챌린지) -->
+	<select id="findTodayCompleteList" parameterType="_int" resultMap="todayMemberResultMap">
+		SELECT 
+			CHAL_NO,
+			CHAL_DATE
+		FROM CHAL_TODAY_MEM
+		WHERE MEM_NO = #{ no } AND TO_CHAR(CHAL_DATE, 'YYYY/MM/DD') = TO_CHAR(SYSDATE, 'YYYY/MM/DD')
+	</select>
+	
 	<!-- 오늘의 챌린지 인증 완료 시, 완료 챌린지명 / 파일명 조회 -->
 	<select id="findChalTitle" parameterType="map" resultMap="todayMemberResultMap">
 		SELECT
 		    T.CHAL_TITLE AS T_CHAL_TITLE,
+		    T.CHAL_POINT AS T_CHAL_POINT,
 		    M.RENAMED_FILENAME AS M_RENAMED_FILENAME
 		FROM CHAL_TODAY_MEM M
 		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
@@ -130,7 +200,7 @@
 			CHAL_POINT,
 			CHAL_POINT_STATUS
 		) VALUES (
-			SEQ_CHLG_TODAY_MEM.NEXTVAL,
+			SEQ_CHAL_TODAY_MEM.NEXTVAL,
 			#{ no },
 			#{ chalNo },
 			DEFAULT,
@@ -144,20 +214,6 @@
 	
 	<!-- 오늘의 챌린지 참여 회원 목록 조회 -->
 	<select id="selectTodayMemberListByNo" parameterType="arraylist" resultMap="todayMemberResultMap">
-		<!-- SELECT 
-			M.NO,
-			M.MEM_NO,
-			M.CHAL_NO,
-			T.CHAL_TITLE,
-			M.CHAL_DATE,
-			M.CHAL_STATUS,
-			M.ORIGINAL_FILENAME,
-			M.RENAMED_FILENAME,
-			M.CHAL_POINT,
-			M.CHAL_POINT_STATUS
-		FROM CHAL_TODAY_MEM M
-		JOIN CHAL_TODAY T ON (M.CHAL_NO = T.CHAL_NO)
-		WHERE M.MEM_NO = #{ no } -->
 		SELECT 
 			CHAL_NO,
 			CHAL_DATE
@@ -166,6 +222,24 @@
 		ORDER BY NO
 	</select>
 	
+	<!-- 챌린지 달성 시 포인트 업데이트 -->
+	<insert id="insertPoint" parameterType="map" useGeneratedKeys="true" keyColumn="POINT_NO" keyProperty="pointNo">
+		INSERT INTO POINT (
+			POINT_NO,
+			MEM_NO,
+			SAVE_DATE,
+			CONTENT,
+			POINT,
+			DISAPEAR_DATE
+		) VALUES (
+			SEQ_POINT.NEXTVAL,
+			#{ memNo },
+			DEFAULT,
+			'챌린지 달성',
+			#{ point },
+			#{ disapearDate }
+		)
+	</insert>
 	
 	
 	
@@ -175,15 +249,78 @@
 	
 	
 	
+	<resultMap type="Month" extends="MonthListResultMap" id="monthDetailResultMap">
+		<collection property="replies" javaType="arraylist" columnPrefix="R_" resultMap="replyResultMap" />
+		<collection property="nestedReplies" javaType="arraylist" columnPrefix="N_" resultMap="nestedReplyResultMap" />
+	</resultMap>
 	
-	
-	
-	
+	<select id="selectMonthListByNo" parameterType="_int" resultMap="monthDetailResultMap">
+		<!-- SELECT 
+		    M.CATEGORY,
+		    M.CHAL_NO,
+		    M.CHAL_TITLE,
+		    M.CHAL_CONTENT,
+		    M.ORIGINAL_FILENAME,
+		    M.RENAMED_FILENAME,
+		    M.CHAL_POINT,
+		    M.CHAL_COUNT,
+		    M.START_DATE,
+		    M.END_DATE,
+		    M.CHAL_STATUS,
+            R.REPLY_NO AS R_REPLY_NO,
+            R.MEM_NO AS R_MEM_NO,
+            R.CHAL_NO AS R_CHAL_NO,
+            R.CONTENT AS R_CONTENT,
+            R.REPLY_DATE AS R_REPLY_DATE,
+            R.MODIFY_DATE AS R_MODIFY_DATE,
+            MEMBER.MODIFY_IMG_NAME AS R_MODIFY_IMG_NAME,
+            MEMBER.ID AS R_ID
+        FROM CHAL_MONTH M
+        LEFT OUTER JOIN CHAL_REPLY R ON (M.CHAL_NO = R.CHAL_NO)
+        LEFT OUTER JOIN MEMBER MEMBER ON (R.MEM_NO = MEMBER.NO)
+        WHERE M.CHAL_NO = #{ chalNo }
+        ORDER BY R.REPLY_NO DESC -->
+        
+        SELECT 
+		    M.CATEGORY,
+		    M.CHAL_NO,
+		    M.CHAL_TITLE,
+		    M.CHAL_CONTENT,
+		    M.ORIGINAL_FILENAME,
+		    M.RENAMED_FILENAME,
+		    M.CHAL_POINT,
+		    M.CHAL_COUNT,
+		    M.START_DATE,
+		    M.END_DATE,
+		    M.CHAL_STATUS,
+            R.REPLY_NO AS R_REPLY_NO,
+            R.MEM_NO AS R_MEM_NO,
+            R.CHAL_NO AS R_CHAL_NO,
+            R.CONTENT AS R_CONTENT,
+            R.REPLY_DATE AS R_REPLY_DATE,
+            R.MODIFY_DATE AS R_MODIFY_DATE,
+            N.NESTED_REPLY_NO AS N_NESTED_REPLY_NO,
+            N.MEM_NO AS N_MEM_NO,
+            N.CONTENT AS N_CONTENT,
+            N.MODIFY_DATE N_MODIFY_DATE,
+            MEMBER.MODIFY_IMG_NAME AS R_MODIFY_IMG_NAME,
+            MEMBER.ID AS R_ID,
+            MEMBER2.MODIFY_IMG_NAME AS N_MODIFY_IMG_NAME,
+            MEMBER2.ID AS N_ID
+        FROM CHAL_MONTH M
+        LEFT OUTER JOIN CHAL_REPLY R ON (M.CHAL_NO = R.CHAL_NO)
+        LEFT OUTER JOIN CHAL_NESTED_REPLY N ON (N.REPLY_NO = R.REPLY_NO)
+        LEFT OUTER JOIN MEMBER MEMBER ON (R.MEM_NO = MEMBER.NO)
+        LEFT OUTER JOIN MEMBER MEMBER2 ON (N.MEM_NO = MEMBER2.NO)
+        WHERE M.CHAL_NO = #{ chalNo }
+        ORDER BY R.REPLY_NO DESC
+	</select>
 	
 	<!-- 이달의 챌린지 전체 목록 개수 조회 -->
   	<select id="getBoardCount" parameterType="map" resultType="_int">
   		SELECT COUNT (*)
   		FROM CHAL_MONTH
+  		WHERE CHAL_STATUS = 'Y'
   	</select>
   	
 	<!-- 이달의 챌린지 목록 조회 -->
@@ -207,15 +344,17 @@
   	</select>
   	
   	<!-- 이달의 챌린지 상세 조회 -->
-  	<select id="selectMonthListByNo" parameterType="_int" resultMap="MonthListResultMap">
+  	<!-- <select id="selectMonthListByNo" parameterType="_int" resultMap="MonthListResultMap">
 		<include refid="monthListSql" />
 		WHERE CHAL_NO = #{ chalNo }
-	</select>
+	</select> -->
 	
 	<!-- 이달의 챌린지 인증 완료 시, 완료 챌린지명 / 파일명 조회 -->
 	<select id="findMonthCompleteList" parameterType="map" resultMap="MonthMemberResultMap">
 		SELECT
 		    T.CHAL_TITLE AS T_CHAL_TITLE,
+		    T.CHAL_POINT AS T_CHAL_POINT,
+		    T.CHAL_NO,
 		    M.RENAMED_FILENAME AS M_RENAMED_FILENAME
 		FROM CHAL_MONTH_MEM M
 		JOIN CHAL_MONTH T ON (M.CHAL_NO = T.CHAL_NO)
@@ -232,12 +371,12 @@
 		    CHAL_DATE,
 		    ORIGINAL_FILENAME,
 		    RENAMED_FILENAME,
-		    CHAL_COUNT,
+		    MY_COUNT,
 		    CHAL_STATUS,
 		    CHAL_POINT,
 		    CHAL_POINT_STATUS
 		) VALUES (
-		    SEQ_CHLG_MONTH_MEM.NEXTVAL,
+		    SEQ_CHAL_MONTH_MEM.NEXTVAL,
 		    #{ no },
 		    #{ chalNo },
 		    SYSDATE,
@@ -270,8 +409,119 @@
 	
 	<!-- 이달의 챌린지 참여 횟수 조회 -->
 	<select id="getMonthGuage" parameterType="arraylist" resultMap="MonthMemberResultMap">
-		SELECT CHAL_COUNT
+		SELECT MY_COUNT AS M_MY_COUNT
 		FROM CHAL_MONTH_MEM
 		WHERE MEM_NO = #{ no } AND CHAL_NO = #{ chalNo }
 	</select>
+	
+	<!-- 댓글 작성 -->
+	<insert id="insertReply" parameterType="map" useGeneratedKeys="true" keyColumn="REPLY_NO" keyProperty="replyNo">
+		INSERT INTO CHAL_REPLY (
+			REPLY_NO,
+			MEM_NO,
+			CHAL_NO,
+			CONTENT,
+			REPLY_DATE,
+			MODIFY_DATE
+		)
+    	VALUES (
+    		SEQ_CHAL_REPLY.NEXTVAL,
+    		#{ memNo },
+    		#{ chalNo },
+    		#{ content },
+    		DEFAULT,
+    		NULL
+    	)
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateReply" parameterType="Reply">
+		UPDATE CHAL_REPLY
+		SET CONTENT = #{ content }
+		WHERE REPLY_NO = #{ replyNo }
+	</update>
+	
+	<!-- 댓글 목록 조회 -->
+	<select id="findReplyByNo" parameterType="map" resultMap="replyResultMap">
+		SELECT *
+		FROM CHAL_REPLY
+		WHERE REPLY_NO = #{ replyNo }
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<update id="deleteReply" parameterType="map">
+		DELETE FROM CHAL_REPLY
+		WHERE REPLY_NO = #{ replyNo }
+		<!-- UPDATE CHAL_REPLY 
+		SET REPLY_STATUS = #{ replyStatus } 
+		WHERE REPLY_NO = #{ replyNo } -->
+	</update>
+	
+	
+	<!-- 참여 중인 챌린지 목록 조회 -->
+	<select id="findOngoingListByMemNo" parameterType="map" resultMap="MonthMemberResultMap">
+		SELECT
+			M.MEM_NO AS T_MEM_NO,
+		    C.CHAL_NO,
+		    C.CHAL_TITLE AS T_CHAL_TITLE,
+		    C.CHAL_CONTENT,
+		    C.RENAMED_FILENAME AS M_RENAMED_FILENAME,
+		    C.CHAL_POINT,
+		    C.CHAL_COUNT,
+		    COUNT (M.MY_COUNT) AS M_MY_COUNT,
+		    M.MEM_NO
+		FROM CHAL_MONTH C
+		JOIN CHAL_MONTH_MEM M ON (C.CHAL_NO = M.CHAL_NO)
+		WHERE M.MEM_NO = ${ no }
+		GROUP BY M.MEM_NO, C.CHAL_NO, C.CHAL_TITLE, C.CHAL_CONTENT, C.RENAMED_FILENAME, C.CHAL_POINT, C.CHAL_COUNT, M.MY_COUNT, M.MEM_NO
+		ORDER BY C.CHAL_NO DESC
+  	</select>
+	
+	<!-- 참여 중인 챌린지 목록 갯수 조회 -->
+	<select id="getOngoingListCount" parameterType="_int" resultType="_int">
+		<!-- SELECT COUNT (*)
+		FROM CHAL_MONTH_MEM
+		WHERE MEM_NO = #{ no } -->
+		SELECT COUNT (*)
+		FROM (SELECT DISTINCT CHAL_NO FROM CHAL_MONTH_MEM WHERE MEM_NO = #{ no })
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 메인: 챌린지 목록 조회 -->
+	<select id="findMonthBestList" parameterType="arraylist" resultMap="MonthListResultMap">
+		SELECT
+		    COUNT (M.CHAL_NO),
+		    C.CHAL_NO,
+		    C.CHAL_TITLE,
+		    C.CHAL_CONTENT,
+		    C.RENAMED_FILENAME
+		FROM CHAL_MONTH_MEM M
+		JOIN CHAL_MONTH C ON (M.CHAL_NO = C.CHAL_NO)
+		GROUP BY M.CHAL_NO, C.CHAL_NO, C.CHAL_TITLE, C.CHAL_CONTENT, C.RENAMED_FILENAME
+		ORDER BY C.CHAL_NO DESC
+	</select>
+	
+	<!-- 메인: 상품 목록 조회 -->
+	<select id="findProductBestList" parameterType="arraylist" resultMap="ProductListResultMap">
+		SELECT PRO_NO,
+		       PRO_NAME, 
+		       PRO_IMG,
+		       PRO_INFO,
+		       PRO_STAT,
+		       PRO_SOLD
+		FROM PRODUCT
+		WHERE PRO_STAT = 3
+		ORDER BY PRO_SOLD DESC
+	</select>
+	
+	
+	
 </mapper>

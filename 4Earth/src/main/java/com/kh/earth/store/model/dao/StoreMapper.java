@@ -13,8 +13,10 @@ import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
+import com.kh.earth.store.model.vo.Review;
 import com.kh.earth.store.model.vo.Wish;
 
 @Mapper
@@ -79,6 +81,28 @@ public interface StoreMapper {
 	int deleteOrderSum(int memberNo);
 
 	int addDelivery(Delivery delivery);
+
+	int getOrderCount(int memberNo);
+
+	List<OrderSum> getOrderList(RowBounds rowBounds, int memberNo);
+
+	int findOrderDetail(Map<String, Object> map);
+
+	int getOrderNoForReview(Map<String, Object> map);
+
+	int writeReview(Review review);
+
+	int getReviewCount(Map<String, Object> map);
+
+	int getProductRevCount(int no);
+
+	List<Review> getProductRevList(RowBounds rowBounds, int no);
+
+	int getProductRating(int proNo);
+
+	int updateProductRating(Map<String, Object> map);
+
+	List<ProductImgs> getProductImgs(int no);
 
 
 

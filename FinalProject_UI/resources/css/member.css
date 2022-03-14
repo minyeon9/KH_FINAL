@@ -317,7 +317,7 @@
 }
 
 #userId {
-  margin-left: 80px;
+  margin-left: 78px;
   /* padding: 50px; */
 }
 
@@ -956,4 +956,15 @@ text-align: center;
   width: 700px;
   height: 250px;
   background-color: yellow;
+}
+
+#find_post_btn{
+  width: 70px;
+  height: 38px;
+}
+
+#sample6_postcode{
+  margin-left: 78px;
+  /* width: 190px; */
+  /* margin-bottom: 5px; */
 }

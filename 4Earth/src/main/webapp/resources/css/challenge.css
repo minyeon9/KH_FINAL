@@ -228,7 +228,7 @@
 }
 .thumb-list.col-2 ul li strong {
     font-size: 16px;
-    margin: 0 0 10px;
+    margin: 0 0 5px;
 }
 .thumb-list.col-2 ul li p {
     overflow: hidden;
@@ -242,6 +242,17 @@
 .thumb-list.col-2 ul li .item-cont > span {
     color: #5CB65A;
     left: 20px;
+}
+.thumb-list.col-2 ul li .item-cont .tag {
+	display: inline-block;
+	position: relative;
+	left: auto;
+	bottom: auto;
+	color: orange;
+	margin-bottom: 10px;
+}
+.thumb-list.col-2 ul li .item-cont .tag em {
+	font-size: 10px;
 }
 .challenge-sort {
     text-align: right;
@@ -274,11 +285,21 @@
     position: relative;
     width: calc(60% - 20px);
 }
-.month-challenge-detail .item-cont .icon-point {
-    display: block;
-    margin-top: 48px;
+.month-challenge-detail .item-cont .month-count-point {
+	color: #333;
 }
-.month-challenge-detail .item-cont .icon-point + .btn {
+.month-challenge-detail .item-cont .month-count-point em {
+	color: #76b779;
+	font-size: 16px;
+	font-weight: 500;
+	font-style: normal;
+}
+.month-challenge-detail .item-cont .month-count-point .icon-point {
+	display: block;
+	background: url(../images/common/icon_point.png) 0 50% no-repeat;
+	margin-top: 5px;
+}
+.month-challenge-detail .item-cont .month-count-point + .btn {
     position: absolute;
     right: 0;
     bottom: 25px;
@@ -498,7 +519,11 @@
     top: 50%;
     left: 50%;
     width: 100%;
+    height: 100%;
     transform: translate(-50%, -50%);
+}
+.using-user .user-list ul li .img-thumb img[src=""] {
+	display: none;
 }
 .using-user .user-list ul li span {
     color: #888;
@@ -507,14 +532,14 @@
 	color: #666;
 	text-align: center;
 }
-.using-user .user-list p strong {
-	color: #67b16b;
-	line-height: 1.8;
+.using-user .user-list p i {
+	color: #999;
+	display: block;
+	margin-bottom: 10px;
 }
 
 
 /* 댓글 */
-.reply {}
 .reply form {
     display: flex;
     flex-wrap: wrap;
@@ -523,6 +548,7 @@
 .reply form textarea {
     width: calc(100% - 115px);
     height: 80px;
+    border-radius: 10px 0 0 10px;
 }
 .reply form .btn {
     width: 105px;
@@ -543,54 +569,71 @@
 .reply-list {
     margin-top: 10px;
 }
+.reply-list > ul {
+	border-top: 1px solid #ccc;
+}
 .reply-list > ul > li {
     position: relative;
     border-bottom: 1px solid #ccc;
-    padding: 10px;
+    padding: 15px 10px;
 }
 .reply-list > ul > li .user-info {
     position: relative;
-    padding-left: 50px;
+    padding-left: 60px;
 }
 .reply-list > ul > li .user-info .img-thumb {
     overflow: hidden;
     position: absolute;
     top: 50%;
     left: 0;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border: 1px solid #ccc;
     border-radius: 50%;
     transform: translateY(-50%);
 }
-.reply-list > ul > li .user-info span:first-of-type {
-    display: block;
+.reply-list > ul > li .user-info .user-id {
+    color: #67b16b;
+}
+.reply-list > ul > li .user-info .user-id .tag {
+	display: inline-block;
+	margin-left: 10px;
 }
 .reply-list .user-info .date {
+    display: block;
     color: #999;
     font-size: 13px;
 }
 .reply-list > ul > li .user-info .img-thumb img {
     width: 100%;
+    height: 100%;
+}
+.reply-list > ul > li .user-info .img-thumb img[src=""] {
+	display: none;
 }
 .reply-list > ul > li .reply-cont {
-    color: #5a5a5a;
+    color: #666;
+    font-size: 16px;
     width: 90%;
     margin-top: 10px;
-    padding-left: 50px;
+    padding-left: 60px;
     box-sizing: border-box;
 }
 .reply-list > ul > li .btn-wrap {
     position: absolute;
-    top: 25px;
+    top: 15px;
     right: 10px;
-    margin-top: 5px;
+    margin-top: 0;
 }
-.reply-list > ul > li .btn-wrap button {
+.reply-list > ul > li .btn-wrap form {
+	display: inline-block;
+}
+.reply-list > ul > li .btn-wrap button,
+.reply-list > ul > li .btn-wrap a {
     color: #bbb;
 }
 .reply-list > ul > li .btn-wrap button + button {
-    margin-left: 8px;
+    margin-left: 6px;
 }
 .reply-list > ul > li .btn-wrap button:hover {
     color: #5CB65A;
@@ -623,6 +666,56 @@
     right: 0;
 }
 
+.reply-list .modify-reply-cont {
+	display: none;
+}
+.reply-list .modify-reply-cont form {
+	display: block;
+	background: #fff;
+}
+.reply-list .modify-reply-cont form textarea {
+	width: 100%;
+	border-radius: 0;
+}
+.reply-list .modify-reply-cont form textarea:focus {
+    border: 1px solid #76b779;
+}
+.reply-list .modify-reply-cont form .btn-wrap {
+	position: relative;
+	top: auto;
+	right: auto;
+	height: 36px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	margin-top: -5px;
+}
+.reply-list .modify-reply-cont form .btn {
+	display: inline-block;
+	width: auto;
+	height: 36px;
+	min-height: 36px;
+	border-left: 1px solid #ccc;
+	border-top: 0;
+	border-right: 0;
+	border-bottom: 0;
+	border-radius: 0;
+	padding: 8px 20px;
+	margin-left: auto;
+}
+.reply-list .modify-reply-cont form .btn:hover {
+	color: #67b16b;
+	font-weight: bold;
+	background: none;
+}
+.reply .btn-nested-reply {
+	color: #999;
+	margin-top: 10px;
+}
+.reply .btn-nested:hover {
+	border-bottom: 1px solid #999;
+}
+
 
 
 /* 진행 중인 챌린지 */
@@ -632,8 +725,9 @@
 .challenge .thumb-list .my-count {
     display: block;
     color: #999;
-    padding: 0 10px;
     text-align: right;
+    border-top: 1px dashed #ccc;
+    padding: 10px 10px 0 0;
     margin-bottom: 10px;
 }
 .challenge .thumb-list .my-count em {
@@ -775,9 +869,10 @@
     flex-direction: column;
     align-items: center;
 }
-.challenge .complete-page .deco {
-	width: 100px;
-	margin-bottom: 40px;
+.challenge .complete-page > i {
+	display: block;
+	color: #67b16b;
+	margin-bottom: 20px;
 }
 .challenge .complete-page .img-thumb {
 	overflow: hidden;
@@ -813,6 +908,13 @@
     color: #5CB65A;
     font-size: 20px;
     font-weight: 400;
+}
+.challenge .complete-page .point {
+	color: #666;
+	margin-top: 20px;
+}
+.challenge .complete-page .icon-point {
+	background: url(../images/common/icon_point.png) 0 3px no-repeat;
 }
 .challenge .complete-page .btn {
 	position: relative;

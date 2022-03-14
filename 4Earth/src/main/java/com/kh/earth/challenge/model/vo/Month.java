@@ -1,6 +1,7 @@
 package com.kh.earth.challenge.model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,4 +32,10 @@ public class Month {
 	private Date endDate;
 	
 	private char chalStatus;
+	
+	private List<Reply> replies;
+	
+	private List<NestedReply> nestedReplies;
+	
+	private int memNo;
 }

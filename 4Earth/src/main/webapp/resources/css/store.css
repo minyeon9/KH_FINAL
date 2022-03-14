@@ -133,9 +133,10 @@ ul.imgs li{
     margin: 0;
 }
 ul.imgs li img{
-    width: 500px;
+    width: 450px;
     height: 400px;
     object-fit: scale-down;
+    overflow: hidden;
 }
 
 
@@ -245,15 +246,6 @@ ul.imgs li img{
 .tbody1 tr td.board-tit {
     text-align: left;
 }
-.tbody1 tr td .prd-option {
-    color: #999;
-    font-size: 12px;
-}
-.tbody1 tr td .prd-option b {
-    color: #666;
-    font-weight: 300;
-}
-
 .pro-table tbody tr th{
     width: 100%;
 }
@@ -399,6 +391,12 @@ input[type=number]
 	font-size: 16px;
 	font-weight: 600;
 }
+.prd-option {
+	width: 250px;
+}
+.prd-option small {
+	
+}
 
 /* 장바구니 */
 .purchase-wrap {
@@ -421,7 +419,7 @@ input[type=number]
     border-collapse: collapse;
 }
 .cart-table thead tr {
-    border-top: 2px solid #467443;
+    border-top: 2px solid #467443;    
 }
 .cart-table thead tr th {
     font-size: 15px;
@@ -434,6 +432,7 @@ input[type=number]
 
 .cart-table tbody tr td:first-of-type {
     table-layout: auto;
+    padding-left: 10px;
 }
 
 .cart-table tbody tr td {
@@ -728,14 +727,17 @@ input[type=number]
 /* -----------------
     오프라인 매장안내
 ------------------ */
-.map-list ul{
-    border-bottom: 2px solid rgb(170, 170, 170);
-    padding-bottom: 7px;
-    margin-bottom: 10px;
+.map-list ul li{
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 18px;
+	margin-bottom: 18px;
+	line-height: 25px;
 }
-.map-list ul li:first-child {
-    font-size: 16px;
-    margin-bottom: 10px;
+.map-list ul li strong{
+	font-size: 18px;
+}
+.map-list ul li i{
+	font-size: 16px;
 }
 
 /*--------

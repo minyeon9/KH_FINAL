@@ -10,26 +10,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TodayMember {
+public class Reply {
 	
-	private int no;
-
+	private int replyNo;
+	
 	private int memNo;
 	
 	private int chalNo;
 	
-	private String chalTitle;
+	private String content;	
 	
-	private Date chalDate;
+	private Date replyDate;
 	
-	private char chalStatus;
+	private Date modifyDate;
 	
-	private String originalFilename;
+	private String modifyImgName;
 	
-	private String renamedFilename;
-	
-	private int chalPoint;
-	
-	private char chalPointStatus;
+	private String id;
 	
 }

@@ -15,35 +15,11 @@
 
         <div class="container">
             <div class="contents">
-                <div class="side-bar is-open">
-                    <button class="btn toggle-nav">
-                        <i class="material-icons md-24">last_page</i>
-                    </button>
-                    <ul>
-                        <li class="current">
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3></h3>
+                        <h3>찜한 상품</h3>
                         <div class="bread-crumb">
                             <a href="${ path }"><i class="material-icons md-16">home</i></a>
                             <a href="#">마이페이지</a>
@@ -51,10 +27,8 @@
                         </div>
                     </div>
 
-                    <div class="guide">
-
                         <section>
-                            <strong>찜한 상품</strong>     
+                            <strong></strong>     
                             <hr style="border: 1px solid #669948;">
                             <br>                
                             <div class="thumb-list">
@@ -97,6 +71,7 @@
                         </section>
 
                         <div class="paging">
+                        	<a href="${ path }/wish_list?page=1" class="first"><span>맨 앞으로</span></a> 
                             <a href="${ path }/wish_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
                             <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
 								<c:if test="${ status.current == pageInfo.currentPage }">				
@@ -108,11 +83,9 @@
 								</c:if>
 							</c:forEach>
                             <a href="${ path }/wish_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+                            <a href="${ path }/wish_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
                         </div>
 
-
-                        
-                    </div> <!-- // guide -->
                 </section>
 
 
@@ -126,20 +99,20 @@
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
-    $(() => {
-        let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['notice.html', 'faq.html','#'];
-        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
-        let menuIcon = ['home', 'home', 'home' ]
-
-        for( let i = 0; i < menuName.length; i++ ) {
-            let menuIdx = sideBarMenu.eq(i);
-
-            menuIdx.find('a').attr('href', menuPath[i]);
-            menuIdx.find('a > i').text(menuIcon[i]);
-            menuIdx.find('a > span').text(menuName[i]);
-        }
-    });
+	$(() => {
+	    let sideBarMenu = $('.side-bar ul li');
+	    let menuPath = ['#', '#','#', '#', '#', '#'];
+	    let menuName = ['포인트 내역', '주문/배송 내역', '찜한 상품', '1:1문의 내역', '참여 중인 챌린지', '내정보'];
+	    let menuIcon = ['savings', 'local_shipping', 'favorite', 'headset_mic', 'bookmark_border', 'person']
+	
+	    for( let i = 0; i < menuName.length; i++ ) {
+	        let menuIdx = sideBarMenu.eq(i);
+	
+	        menuIdx.find('a').attr('href', menuPath[i]);
+	        menuIdx.find('a > i').text(menuIcon[i]);
+	        menuIdx.find('a > span').text(menuName[i]);
+	    }
+	});
 
  // 찜
     $(".heart.fa").click(function() {

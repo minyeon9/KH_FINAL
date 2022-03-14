@@ -217,7 +217,7 @@ public class MemberController {
     	Member loginMember = service.login(id, member.getPassword());	
        	// System.out.println("sns회원가입으로 정보가 있는 사람 로긴 : "+loginMember);
        	
-    	if(loginMember!=null) {
+    	if( loginMember != null ) {
     		// 로그인 성공
     		session.setAttribute("loginMember", loginMember); 
     		map.put("result", "login");
@@ -247,6 +247,30 @@ public class MemberController {
 		log.info("{}", userId);
 
 		map.put("duplicate", service.isDuplicateID(userId));
+		
+		return map;
+	}
+	
+	@PostMapping(value = "/emailCheck")
+	@ResponseBody
+	public Object emailCheck(@RequestParam("userEmail") String userEmail) {
+		Map<String, Boolean> map = new HashMap<>();
+
+		map.put("duplicate", service.isDuplicateEmail(userEmail));
+		
+		return map;
+	}
+	
+	@PostMapping(value = "/phoneCheck")
+	@ResponseBody
+	public Object phoneCheck(@RequestParam("userPhone") String userPhone) {
+		Map<String, Boolean> map = new HashMap<>();
+
+		Member resultM = service.findMemberByPhone(userPhone);
+		
+		if(resultM != null) {			
+			map.put("duplicate", true);
+		}
 		
 		return map;
 	}
@@ -360,14 +384,15 @@ public class MemberController {
 			String name, String phone) {
 		Map<String, String> map = new HashMap<>();
 	
-		System.out.println(name+phone);
+		// System.out.println(name+phone);
 		
 		Member resultM = service.findMemberByPhone(phone);
-		System.out.println(resultM);
+		// System.out.println(resultM);
 		if(resultM != null ) {
+			boolean resultPlatform = resultM.getPlatform_type().equals("HOMEPAGE");
 			
-			if(resultM.getName().equals(name)) {
-				// 정보가 일치하는 회원일 경우
+			if(resultM.getName().equals(name) && resultPlatform ) {
+				// 일반회원+정보가 일치하는 회원일 경우
 				session.setAttribute("s_location", "/find_id_finish");
 				session.setAttribute("f_location", "/find_id");
 				session.setAttribute("userId", resultM.getId());
@@ -380,6 +405,10 @@ public class MemberController {
 				map.put("result", "success");
 				map.put("msg", "해당 회원이 존재합니다.");
 				
+			}else if(!resultPlatform) {
+				map.put("result", "fail");
+				map.put("msg", "SNS회원의 경우 아이디찾기를 이용하실 수 없습니다.");
+			
 			}else {
 				map.put("result", "fail");
 				map.put("msg", "이름이 일치하지 않습니다.");
@@ -421,6 +450,7 @@ public class MemberController {
 			
 			boolean resultName = resultM.getName().equals(member.getName());
 			boolean resultEmail = resultM.getEmail().equals(member.getEmail());
+			boolean resultPlatform = resultM.getPlatform_type().equals("HOMEPAGE");
 			
 			if(!resultName){
 				map.put("result", "fail");
@@ -428,7 +458,10 @@ public class MemberController {
 			}else if(!resultEmail) {
 				map.put("result", "fail");
 				map.put("msg", "이메일이 일치하지 않습니다.");
-			}else if(resultName && resultEmail) {
+			}else if(!resultPlatform) {
+				map.put("result", "fail");
+				map.put("msg", "SNS 회원의 경우 비밀번호 찾기를 이용하실 수 없습니다.");
+			}else if(resultName && resultEmail && resultPlatform) {
 				// [모두 일치하는 회원일 시 인증메일 발송]
 				// 1. 인증문자열 랜덤으로 생성
 				StringBuffer temp = new StringBuffer();
@@ -459,7 +492,7 @@ public class MemberController {
 				// 2. 메일 발송을 위한 설정
 				String title ="[4Earth] 인증번호입니다.";
 				String from = "4earthkh@gmail.com"; // mail.properties의 id의 메일주소
-				String text = "<img src="+"https://postfiles.pstatic.net/MjAyMjAzMTJfMTEg/MDAxNjQ3MDIwODI5NDEx.3lbEdbJm3HQ_nm9jtq2Sn4sFzo887D3hgIq-Q-aRP8og.rDlYNdD5V3dk4tUmaRz9mI2uepnGbaQK4sIzQbHG9Akg.PNG.rei1212/4Earth_(1).png?type=w966"+"><br>"
+				String text = "<img src="+"https://postfiles.pstatic.net/MjAyMjAzMTNfNDUg/MDAxNjQ3MTA0MTU2MzMx.gL_wGdRN6urgT5uzPdSWYe5mRB3Kh03Cj5cdr-C-FFkg.0lZBTl0OSe-X52WEQwr9I5bzKna06vmdNsm69bfyCFcg.PNG.rei1212/4Earth_(1).png?type=w966"+"><br>"
 						+ "<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4Earth] 인증번호는 <span style=\"color: green;\">"+ random_code + "</span> 입니다.</h1><br>";
 				String to = resultM.getEmail(); // 유저 메일주소 resultM.getEmail() 붙이자.
 				String cc = "";

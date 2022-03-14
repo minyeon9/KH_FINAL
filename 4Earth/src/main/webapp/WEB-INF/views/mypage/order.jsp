@@ -15,35 +15,11 @@
 
         <div class="container">
             <div class="contents">
-                <div class="side-bar is-open">
-                    <button class="btn toggle-nav">
-                        <i class="material-icons md-24">last_page</i>
-                    </button>
-                    <ul>
-                        <li class="current">
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3></h3>
+                        <h3>주문/배송 조회</h3>
                         <div class="bread-crumb">
                             <a href="${ path }"><i class="material-icons md-16">home</i></a>
                             <a href="#">마이페이지</a>
@@ -51,32 +27,38 @@
                         </div>
                     </div>
 
-                    <div class="guide">
 
-                        <section>
-                            <strong>주문/배송 조회</strong>                            
+
+                        <section> 
+                            <br>                         
                                 <table class="cart-table order-table">
                                     <thead>
                                         <tr>
-                                            <th>주문번호</th>
+                                            <th style="width: 32%;">주문번호</th>
                                             <th>주문일자</th>
                                             <th>총 구매금액</th>
+                                            <th>결제방법</th>
                                             <th>주문상태</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><a href="order-detail.html" style="text-decoration: underline;">1122334455</a></td>
-                                            <td>2022-02-21</td>
-                                            <td>15,000 원</td>
-                                            <td>배송 완료</td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="" style="text-decoration: underline;">1122334455</a></td>
-                                            <td>2022-02-21</td>
-                                            <td>15,000 원</td>
-                                            <td>배송 완료</td>
-                                        </tr>
+                                    	<c:if test="${ !empty orderSum }">
+                                    		<c:forEach var="orderSum" items="${ orderSum }">
+                                    			<tr>
+		                                            <td>
+		                                            	<a href="${ path }/order_detail?orderNo=${ orderSum.orderNo }" style="text-decoration: underline;">
+		                                            		<fmt:formatDate value="${ orderSum.orderDate }" pattern="yyyyMMdd"/>${ orderSum.orderNo }
+		                                            	</a>
+		                                            </td>
+		                                            <td>
+		                                            	<fmt:formatDate value="${ orderSum.orderDate }" pattern="yyyy-MM-dd"/>
+		                                            </td>
+		                                            <td><fmt:formatNumber value="${ orderSum.orderPrice }" pattern="##,###,###"/> 원</td>
+		                                            <td>${ orderSum.orderMethod }</td>
+		                                            <td>${ orderSum.orderStat }</td>
+		                                        </tr>
+                                    		</c:forEach>
+                                    	</c:if>
                                     </tbody>
                                 </table>
                             <div>
@@ -86,22 +68,24 @@
                         </section>
 
 						<div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
-                            <a href="#">8</a>
-                            <a href="#">9</a>
-                            <a href="#">10</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>
+						<a href="${ path }/order?page=1" class="first"><span>맨 앞으로</span></a> 
+						<a href="${ path }/order?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+						<c:forEach begin="${ pageInfo.startPage }"
+							end="${ pageInfo.endPage }" varStatus="status">
+							<c:if test="${ status.current == pageInfo.currentPage }">
+								<strong>${ status.current }</strong>
+							</c:if>
+
+							<c:if test="${ status.current != pageInfo.currentPage }">
+								<a href="${ path }/order?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+							</c:if>
+						</c:forEach>
+						<a href="${ path }/order?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a> 
+						<a href="${ path }/order?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+					</div>
 
                         
-                    </div> <!-- // guide -->
+
                 </section>
 
 
@@ -117,9 +101,9 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['notice.html', 'faq.html','#'];
-        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
-        let menuIcon = ['home', 'home', 'home' ]
+        let menuPath = ['#', '#','#', '#', '#', '#'];
+        let menuName = ['포인트 내역', '주문/배송 내역', '찜한 상품', '1:1문의 내역', '참여 중인 챌린지', '내정보'];
+        let menuIcon = ['savings', 'local_shipping', 'favorite', 'headset_mic', 'bookmark_border', 'person']
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);

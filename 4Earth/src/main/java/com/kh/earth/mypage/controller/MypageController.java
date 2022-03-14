@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes("loginMember")
 public class MypageController {
 	@Autowired
-	private MemberService service;	
+	private MemberService service;
 	
 	@Autowired
 	private ResourceLoader resourceLoader;
@@ -37,12 +37,12 @@ public class MypageController {
 		return "mypage/point";
 	}
 
-	@GetMapping("/order")
-	public String order() {
-		log.info("order() - 호출");
-		
-		return "mypage/order";
-	}
+//	@GetMapping("/order")
+//	public String order() {
+//		log.info("order() - 호출");
+//		
+//		return "mypage/order";
+//	}
 	
 //	@GetMapping("/wishlist")
 //	public ModelAndView wishlist(
