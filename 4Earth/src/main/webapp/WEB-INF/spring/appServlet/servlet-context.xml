@@ -44,6 +44,8 @@
 	 		<mapping path="/ongoing_list"/>
 	 		<mapping path="/wishlist"/>
 	 		<mapping path="/purchase_cart"/>
+	 		<mapping path="/order"/>
+			<mapping path="/order_detail"/>
 	 		
 			<exclude-mapping path="/today_main"/>
 			
