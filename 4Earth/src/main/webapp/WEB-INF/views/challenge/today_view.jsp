@@ -29,7 +29,7 @@
 				<c:set var="myListNumberSet" value="${ myListNumber }" />
 				<c:choose>
 					<c:when test="${fn:contains(myListNumberSet, today.chalNo)}">
-						<div class="empty-content">
+						<div class="empty-content full">
 							<i class="material-icons">info</i>
 							<p>오늘은 이미 참여한 챌린지 입니다.</p>
 						</div>

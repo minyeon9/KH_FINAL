@@ -42,216 +42,231 @@
 							</span>
 						</div>
 						<c:set var="complete" value="${ fn:length(count) }" />
-						<c:if test="${ requiredCount != complete }">
+						<c:if test="${ requiredCount != complete && !empty loginMember }">
 							<button class="btn" onclick="location.href='${ path }/month_write?chalNo=${ month.chalNo }'">참여하기</button>
 						</c:if>
-						<c:if test="${ requiredCount == complete }">
+						<c:if test="${ requiredCount == complete && !empty loginMember }">
 							<button class="btn gray" disabled>참여완료</button>
+						</c:if>
+						<c:if test="${ empty loginMember }">
+							<button class="btn gray" disabled>참여하기</button>
 						</c:if>
 					</div>
 				</div>
-
-				<section class="section">
-					<div class="using-user">
-						<h4>참여중인 사용자</h4>
-						<c:if test="${ !empty ongoingMember }">
-							<span class="count"><em>${ countUser }</em>명의 사용자가 참여 중입니다</span>
-						</c:if>
-						<div class="user-list">
+				
+				<c:if test="${ !empty loginMember }">
+					<section class="section">
+						<div class="using-user">
+							<h4>참여중인 사용자</h4>
 							<c:if test="${ !empty ongoingMember }">
+								<span class="count"><em>${ countUser }</em>명의 사용자가 참여 중입니다</span>
+							</c:if>
+							<div class="user-list">
+								<c:if test="${ !empty ongoingMember }">
+									<ul>
+										<c:forEach var="ongoingMember" items="${ ongoingMember }">
+											<li>
+												<div class="img-thumb">
+													<c:if test="${ ongoingMember.modifyImgName != null }">
+														<img src="${ path }/resources/upload/member/${ ongoingMember.modifyImgName }" alt="">
+													</c:if>
+													<c:if test="${ ongoingMember.modifyImgName == null }">
+														<img src="" alt="">
+													</c:if>
+												</div>
+												<span>${ ongoingMember.id }</span>
+											</li>
+										</c:forEach>
+									</ul>
+								</c:if>
+								<c:if test="${ empty ongoingMember && !empty loginMember }">
+									<p><i class="material-icons md-24">info</i>아직 참여 중인 사용자가 없습니다.</p>
+								</c:if>
+							</div>
+						</div>
+					</section>
+				
+				
+					<c:if test="${ !empty count }">
+						<section class="section">
+							<h4>나의 챌린지 참여 현황</h4>
+							<div class="gauge">
+								<c:set var="remainCount" value="${ requiredCount - fn:length(count) }" />
+								<%-- 필요 횟수: ${ requiredCount }번<br>
+								완료 횟수: ${ fn:length(count) }번<br>
+								남은 횟수: ${ requiredCount - fn:length(count) }번 --%>
 								<ul>
-									<c:forEach var="ongoingMember" items="${ ongoingMember }">
+									<!-- 달성 완료 횟수 -->
+									<c:forEach var="count" items="${ count }" varStatus="status">
+										<li class="complete">
+											<span></span>
+											<p>${ status.count }회 달성 완료</p>
+										</li>
+									</c:forEach>
+									
+									<c:forEach var="remainCountList" items="${ remainCountList }" varStatus="remainStatus">
+										<c:set var="completeCount" value="${ fn:length(count) }" />
 										<li>
-											<div class="img-thumb">
-												<c:if test="${ ongoingMember.modifyImgName != null }">
-													<img src="${ path }/resources/upload/member/${ ongoingMember.modifyImgName }" alt="">
-												</c:if>
-												<c:if test="${ ongoingMember.modifyImgName == null }">
-													<img src="" alt="">
-												</c:if>
-											</div>
-											<span>${ ongoingMember.id }</span>
+											<span></span>
+											<p>${ completeCount + remainStatus.count }회</p>
 										</li>
 									</c:forEach>
 								</ul>
+							</div>
+						</section>
+					</c:if>
+	
+					<section class="section" id="sectionReply">
+						<h4>챌린지 참여 리뷰</h4>
+						<div class="reply">
+							<c:if test="${ !empty count }">
+								<form action="${ path }/write_reply?chalNo=${ month.chalNo }" method="post">
+									<textarea name="content" id="" placeholder="간단한 참여 후기를 작성해주세요." required></textarea>
+									<button class="btn">등록</button>
+									<span class="count-reply"><em>0</em> / 3000</span>
+								</form>
 							</c:if>
-							<c:if test="${ empty ongoingMember }">
-								<p><i class="material-icons md-24">info</i>아직 참여 중인 사용자가 없습니다.</p>
+							
+							<c:if test="${ empty count }">
+								<form action="" method="">
+									<textarea name="content" id="" placeholder="챌린지 참여 후 작성 가능합니다." disabled></textarea>
+									<button class="btn gray" disabled>등록</button>
+									<span class="count-reply"><em>0</em> / 3000</span>
+								</form>
 							</c:if>
-						</div>
-					</div>
-				</section>
-				
-				<c:if test="${ !empty count }">
-					<section class="section">
-						<h4>나의 챌린지 참여 현황</h4>
-						<div class="gauge">
-							<c:set var="remainCount" value="${ requiredCount - fn:length(count) }" />
-							<%-- 필요 횟수: ${ requiredCount }번<br>
-							완료 횟수: ${ fn:length(count) }번<br>
-							남은 횟수: ${ requiredCount - fn:length(count) }번 --%>
-							<ul>
-								<!-- 달성 완료 횟수 -->
-								<c:forEach var="count" items="${ count }" varStatus="status">
-									<li class="complete">
-										<span></span>
-										<p>${ status.count }회 달성 완료</p>
-									</li>
-								</c:forEach>
-								
-								<c:forEach var="remainCountList" items="${ remainCountList }" varStatus="remainStatus">
-									<c:set var="completeCount" value="${ fn:length(count) }" />
-									<li>
-										<span></span>
-										<p>${ completeCount + remainStatus.count }회</p>
-									</li>
-								</c:forEach>
-							</ul>
+	
+							<div class="reply-list">
+								<ul>
+									<c:if test="${ empty month.replies }">
+										<li>
+											<div class="empty-content">
+												<i class="material-icons">info</i>
+												<p>조회된 댓글이 없습니다.</p>
+											</div>
+										</li>
+									</c:if>
+							
+									<c:if test="${ !empty month.replies }">
+										<c:forEach var="reply" items="${ month.replies }">
+											<li>
+												<div class="reply-wrap">
+													<div class="user-info">
+														<div class="img-thumb">
+															<c:if test="${ reply.modifyImgName != null }">
+																<img src="${ path }/resources/upload/member/${ reply.modifyImgName }" alt="">
+															</c:if>
+															<c:if test="${ reply.modifyImgName == null }">
+																<img src="" alt="">
+															</c:if>
+														</div>
+														<span class="user-id">
+															${ reply.id }
+															<c:if test="${ loginMember.no == reply.memNo }">
+																<span class="tag tag-orange">내가 쓴 댓글</span>
+															</c:if>
+														</span>
+														<span class="date">
+															<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${ reply.replyDate }" />
+														</span>
+													</div>
+													<div class="reply-cont">
+														<p>${ reply.content }</p>
+														<button type="button" class="btn-nested-reply">답글</button>
+														
+														<!-- 수정 -->
+														<div class="modify-wrap modify-reply-cont">
+															<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
+															<!-- <form action="" method=""> -->
+																<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+																<textarea name="content" required></textarea>
+																<div class="btn-wrap">
+																	<button type="button" class="btn btn-cancel-reply">취소</button>
+																	<button type="submit" class="btn">수정</button>
+																	<%-- <button type="submit" class="btn" onclick="location.href='${ path }/modify_reply?no=${ month.chalNo }'">수정</button> --%>
+																</div>
+															</form>
+														</div>
+														<!-- // 수정 -->
+													</div>
+													<div class="btn-wrap">
+														<c:if test="${ loginMember.no == reply.memNo }">
+															<button class="material-icons md-18 btn-modify-reply" title="수정">create</button>
+															<form action="delete_reply?chalNo=${ month.chalNo }" method="post">
+																<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+																<button type="submit" class="material-icons md-18 btn-delete-reply" title="삭제">delete_outline</button>
+															</form>
+														</c:if>
+														<c:if test="${ loginMember.no != reply.memNo }">
+															<a href="#popup01" class="material-icons md-18 btn-report-reply btn-open-pop" title="신고">report_problem</a>
+														</c:if>
+													</div>
+												</div>
+											
+												<!-- 답글 -->
+												<c:if test="${ !empty month.replies }">
+													<c:forEach var="nestedReply" items="${ month.nestedReplies }">
+														<ul>
+			                                                <li>
+			                                                    <div class="user-info">
+			                                                        <div class="img-thumb">
+			                                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+			                                                        </div>
+			                                                        <span>${ nestedReply.id }</span>
+			                                                        <span class="date">${ nestedReply.replyDate }</span>
+			                                                    </div>
+			                                                    <div class="reply-cont">
+			                                                        <p>${ nestedReply.content }</p>
+			                                                    </div>
+			                                                    <div class="btn-wrap">
+			                                                        <button class="material-icons md-18">create</button>
+			                                                        <button class="material-icons md-18">delete_outline</button>
+			                                                    </div>
+			                                                </li>
+			                                                <%-- <li>
+			                                                	<div class="nested-wrap modify-reply-cont">
+																	<form action="nested_reply?chalNo=${ month.chalNo }" method="post">
+																		<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+																		<textarea name="content" required></textarea>
+																		<div class="btn-wrap">
+																			<button type="button" class="btn btn-cancel-reply">취소</button>
+																			<button type="submit" class="btn">등록</button>
+																		</div>
+																	</form>
+																</div>
+			                                                </li> --%>
+														</ul>
+													</c:forEach>
+												</c:if>
+												<!-- // 답글 -->
+											</li>
+										</c:forEach>
+									</c:if>
+								</ul>
+	
+								<!-- <div class="paging">
+									<a href="#" class="prev"><span>이전</span></a>
+									<strong>1</strong>
+									<a href="#">2</a>
+									<a href="#">3</a>
+									<a href="#">4</a>
+									<a href="#">5</a>
+									<a href="#" class="next"><span>다음</span></a>
+								</div> -->
+							</div>
+	
 						</div>
 					</section>
 				</c:if>
-
-				<section class="section" id="sectionReply">
-					<h4>챌린지 참여 리뷰</h4>
-					<div class="reply">
-						<c:if test="${ !empty count }">
-							<form action="${ path }/write_reply?chalNo=${ month.chalNo }" method="post">
-								<textarea name="content" id="" placeholder="간단한 참여 후기를 작성해주세요." required></textarea>
-								<button class="btn">등록</button>
-								<span class="count-reply"><em>0</em> / 3000</span>
-							</form>
-						</c:if>
-						
-						<c:if test="${ empty count }">
-							<form action="" method="">
-								<textarea name="content" id="" placeholder="챌린지 참여 후 작성 가능합니다." disabled></textarea>
-								<button class="btn gray" disabled>등록</button>
-								<span class="count-reply"><em>0</em> / 3000</span>
-							</form>
-						</c:if>
-
-						<div class="reply-list">
-							<ul>
-								<c:if test="${ empty month.replies }">
-									<li>
-										<div class="empty-content">
-											<i class="material-icons">info</i>
-											<p>조회된 댓글이 없습니다.</p>
-										</div>
-									</li>
-								</c:if>
-						
-								<c:if test="${ !empty month.replies }">
-									<c:forEach var="reply" items="${ month.replies }">
-										<li>
-											<div class="reply-wrap">
-												<div class="user-info">
-													<div class="img-thumb">
-														<c:if test="${ reply.modifyImgName != null }">
-															<img src="${ path }/resources/upload/member/${ reply.modifyImgName }" alt="">
-														</c:if>
-														<c:if test="${ reply.modifyImgName == null }">
-															<img src="" alt="">
-														</c:if>
-													</div>
-													<span class="user-id">
-														${ reply.id }
-														<c:if test="${ loginMember.no == reply.memNo }">
-															<span class="tag tag-orange">내가 쓴 댓글</span>
-														</c:if>
-													</span>
-													<span class="date">
-														<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${ reply.replyDate }" />
-													</span>
-												</div>
-												<div class="reply-cont">
-													<p>${ reply.content }</p>
-													<button type="button" class="btn-nested-reply">답글</button>
-													
-													<!-- 수정 -->
-													<div class="modify-wrap modify-reply-cont">
-														<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
-														<!-- <form action="" method=""> -->
-															<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
-															<textarea name="content" required></textarea>
-															<div class="btn-wrap">
-																<button type="button" class="btn btn-cancel-reply">취소</button>
-																<button type="submit" class="btn">수정</button>
-																<%-- <button type="submit" class="btn" onclick="location.href='${ path }/modify_reply?no=${ month.chalNo }'">수정</button> --%>
-															</div>
-														</form>
-													</div>
-													<!-- // 수정 -->
-												</div>
-												<div class="btn-wrap">
-													<c:if test="${ loginMember.no == reply.memNo }">
-														<button class="material-icons md-18 btn-modify-reply" title="수정">create</button>
-														<form action="delete_reply?chalNo=${ month.chalNo }" method="post">
-															<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
-															<button type="submit" class="material-icons md-18 btn-delete-reply" title="삭제">delete_outline</button>
-														</form>
-													</c:if>
-													<c:if test="${ loginMember.no != reply.memNo }">
-														<a href="#popup01" class="material-icons md-18 btn-report-reply btn-open-pop" title="신고">report_problem</a>
-													</c:if>
-												</div>
-											</div>
-										
-											<!-- 답글 -->
-											<c:if test="${ !empty month.replies }">
-												<c:forEach var="nestedReply" items="${ month.nestedReplies }">
-													<ul>
-		                                                <li>
-		                                                    <div class="user-info">
-		                                                        <div class="img-thumb">
-		                                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-		                                                        </div>
-		                                                        <span>${ nestedReply.id }</span>
-		                                                        <span class="date">${ nestedReply.replyDate }</span>
-		                                                    </div>
-		                                                    <div class="reply-cont">
-		                                                        <p>${ nestedReply.content }</p>
-		                                                    </div>
-		                                                    <div class="btn-wrap">
-		                                                        <button class="material-icons md-18">create</button>
-		                                                        <button class="material-icons md-18">delete_outline</button>
-		                                                    </div>
-		                                                </li>
-		                                                <%-- <li>
-		                                                	<div class="nested-wrap modify-reply-cont">
-																<form action="nested_reply?chalNo=${ month.chalNo }" method="post">
-																	<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
-																	<textarea name="content" required></textarea>
-																	<div class="btn-wrap">
-																		<button type="button" class="btn btn-cancel-reply">취소</button>
-																		<button type="submit" class="btn">등록</button>
-																	</div>
-																</form>
-															</div>
-		                                                </li> --%>
-													</ul>
-												</c:forEach>
-											</c:if>
-											<!-- // 답글 -->
-										</li>
-									</c:forEach>
-								</c:if>
-							</ul>
-
-							<!-- <div class="paging">
-								<a href="#" class="prev"><span>이전</span></a>
-								<strong>1</strong>
-								<a href="#">2</a>
-								<a href="#">3</a>
-								<a href="#">4</a>
-								<a href="#">5</a>
-								<a href="#" class="next"><span>다음</span></a>
-							</div> -->
-						</div>
-
-					</div>
-				</section>
 				
+				<c:if test="${ empty loginMember }">
+					<div class="empty-content">
+						<i class="material-icons">info</i>
+						<p>로그인 후 참여 가능합니다.</p>
+						<a href="${ path }/login" class="btn-link">
+							로그인 <i class="material-icons md-20">arrow_right</i>
+						</a>
+					</div>
+				</c:if>
 			</div>
 		</section>
 

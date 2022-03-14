@@ -83,7 +83,7 @@
 										</div>
 										<div class="item-cont">
 											<span class="tag tag-orange">
-												<b>${ monthList.chalCount }</b>회 인증 필요
+												<b>${ monthList.chalCount }</b>회
 											</span>
 											<strong>${ monthList.chalTitle }</strong>
 											<p>${ monthList.chalContent }</p>

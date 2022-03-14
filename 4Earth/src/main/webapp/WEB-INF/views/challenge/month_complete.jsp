@@ -38,7 +38,7 @@
 						<p><span class="chal-title">${ list.chalTitle }</span> 챌린지 인증이 완료되었습니다.</p>
 						<c:if test="${ mapLength == requiredCount }">
 							<div class="point"><strong class="icon-point">${ list.chalPoint } Point</strong> 지급 되었습니다.</div>
-							<a href="${ path }/point" class="link">
+							<a href="${ path }/point" class="btn-link">
 								포인트 내역 <i class="material-icons md-20">arrow_right</i>
 							</a>
 						</c:if>

@@ -406,6 +406,13 @@ a.btn {
 input + .btn {
     margin-left: 5px;
 }
+.btn-link {
+	display: inline-block;
+	color: #666;
+	font-size: 14px;
+	border-bottom: 1px solid #ccc;
+	margin-top: 10px;
+}
 
 
 
@@ -836,6 +843,9 @@ input + .btn {
 .empty-content {
     text-align: center;
     padding: 50px 0;
+}
+.empty-content.full {
+   padding: 150px 0;	
 }
 .empty-content i {
     color: #ddd;
