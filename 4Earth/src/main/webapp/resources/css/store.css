@@ -133,9 +133,10 @@ ul.imgs li{
     margin: 0;
 }
 ul.imgs li img{
-    width: 500px;
+    width: 450px;
     height: 400px;
     object-fit: scale-down;
+    overflow: hidden;
 }
 
 
@@ -726,14 +727,17 @@ input[type=number]
 /* -----------------
     오프라인 매장안내
 ------------------ */
-.map-list ul{
-    border-bottom: 2px solid rgb(170, 170, 170);
-    padding-bottom: 7px;
-    margin-bottom: 20px;
+.map-list ul li{
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 18px;
+	margin-bottom: 18px;
+	line-height: 25px;
 }
-.map-list ul li:first-child {
-    font-size: 16px;
-    margin-bottom: 10px;
+.map-list ul li strong{
+	font-size: 18px;
+}
+.map-list ul li i{
+	font-size: 16px;
 }
 
 /*--------
