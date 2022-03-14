@@ -158,12 +158,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public Reply findReplyByNo(int replyNo) {
 		return mapper.findReplyByNo(replyNo);
 	}
+	// 댓글 삭제
 	@Override
 	public int deleteReply(int replyNo) {
 		return mapper.deleteReply(replyNo);
 	}
-
-	
 	
 	
 	
@@ -223,14 +222,29 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public int saveNestedReply(NestedReply nestedReply) {
 		int result = 0;
 		
-		if( nestedReply.getReplyNo() != 0 ) {
-			// result = mapper.updateNestedReply(nestedReply);
+		if( nestedReply.getNestedReplyNo() != 0 ) {
+			result = mapper.updateNestedReply(nestedReply);
 		} else {
 			result = mapper.insertNestedReply(nestedReply);
 		}
 		
 		return result;
 	}
+	
+	// 대댓글 삭제
+	@Override
+	public NestedReply findNestedReplyByNo(int nestedReplyNo) {
+		return mapper.findNestedReplyByNo(nestedReplyNo);
+	}
+
+	@Override
+	public int deleteNestedReply(int nestedReplyNo) {
+		return mapper.deleteNestedReply(nestedReplyNo);
+	}
+
+	
+
+	
 
 
 	

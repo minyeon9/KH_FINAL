@@ -574,8 +574,11 @@
 }
 .reply-list > ul > li {
     position: relative;
-    border-bottom: 1px solid #ccc;
-    padding: 15px 10px;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 10px 0 10px;
+}
+.reply-list > ul > li .reply-wrap {
+	padding-bottom: 15px;
 }
 .reply-list > ul > li .user-info {
     position: relative;
@@ -607,6 +610,18 @@
     color: #999;
     font-size: 13px;
 }
+.reply-list > ul > li .user-info .img-thumb:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 20px;
+	height: 20px;
+	transform: translate(-50%, -50%);
+	background: url(../images/common/icon_user.png) 0 0 no-repeat;
+	background-size: 20px;
+	opacity: .3;
+}
 .reply-list > ul > li .user-info .img-thumb img {
     width: 100%;
     height: 100%;
@@ -621,6 +636,10 @@
     margin-top: 10px;
     padding-left: 60px;
     box-sizing: border-box;
+}
+.reply-list > ul > li .reply-cont p {
+	line-height: 1.2;
+	word-break: break-all;
 }
 .reply-list > ul > li .btn-wrap {
     position: absolute;
@@ -644,7 +663,6 @@
 /* 대댓글 목록 */
 .reply-list > ul > li > ul {
     border-top: 1px solid #eee;
-    margin-top: 15px;
 }
 .reply-list > ul > li > ul > li {
     position: relative;
@@ -662,9 +680,9 @@
     height: 24px;
     background: url(../images/common/icon_reply.png) 0 0 no-repeat;
 }
-.reply-list > ul > li > ul > li:last-child {
+/* .reply-list > ul > li > ul > li:last-child {
     padding-bottom: 5px;
-}
+} */
 .reply-list > ul > li > ul > li .btn-wrap {
     right: 0;
 }
@@ -715,8 +733,9 @@
 	color: #999;
 	margin-top: 10px;
 }
-.reply .btn-nested:hover {
-	border-bottom: 1px solid #999;
+.reply .btn-nested-reply:hover {
+	color: #67b16b;
+	border-bottom: 1px solid #67b16b;
 }
 
 /* 대댓글 작성 */

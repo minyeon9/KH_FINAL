@@ -123,7 +123,7 @@
 								<form action="${ path }/write_reply?chalNo=${ month.chalNo }" method="post">
 									<textarea name="content" id="" placeholder="간단한 참여 후기를 작성해주세요." required></textarea>
 									<button class="btn">등록</button>
-									<span class="count-reply"><em>0</em> / 3000</span>
+									<span class="count-reply"><em>0</em> / 200</span>
 								</form>
 							</c:if>
 							
@@ -149,76 +149,73 @@
 									<c:if test="${ !empty month.replies }">
 										<c:forEach var="reply" items="${ month.replies }">
 											<li>
-												댓글 번호: ${ reply.replyNo }
-												<div class="reply-wrap">
-													<div class="user-info">
-														<div class="img-thumb">
-															<c:if test="${ reply.modifyImgName != null }">
-																<img src="${ path }/resources/upload/member/${ reply.modifyImgName }" alt="">
-															</c:if>
-															<c:if test="${ reply.modifyImgName == null }">
-																<img src="" alt="">
-															</c:if>
+												<%-- 댓글 번호 : ${ reply.replyNo } --%>
+												<c:choose>
+													<c:when test="${ reply.content eq '삭제' }">
+														<div class="reply-wrap">
+															<div class="reply-cont">
+																<p>삭제 된 댓글입니다.</p>
+															</div>
 														</div>
-														<span class="user-id">
-															${ reply.id }
-															<c:if test="${ loginMember.no == reply.memNo }">
-																<span class="tag tag-orange">내가 쓴 댓글</span>
-															</c:if>
-														</span>
-														<span class="date">
-															<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${ reply.modifyDate }" />
-														</span>
-													</div>
-													<div class="reply-cont">
-														<p>${ reply.content }</p>
-														<button type="button" class="btn-nested-reply">답글</button>
-														
-														<!-- 수정 -->
-														<div class="modify-wrap modify-reply-cont">
-															<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
-															<!-- <form action="" method=""> -->
-																<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
-																<textarea name="content" required></textarea>
-																<div class="btn-wrap">
-																	<button type="button" class="btn btn-cancel-reply">취소</button>
-																	<button type="submit" class="btn">수정</button>
-																	<%-- <button type="submit" class="btn" onclick="location.href='${ path }/modify_reply?no=${ month.chalNo }'">수정</button> --%>
+													</c:when>
+													
+													<c:otherwise>
+														<div class="reply-wrap">
+															<div class="user-info">
+																<div class="img-thumb">
+																	<c:if test="${ reply.modifyImgName != null }">
+																		<img src="${ path }/resources/upload/member/${ reply.modifyImgName }" alt="">
+																	</c:if>
+																	<c:if test="${ reply.modifyImgName == null }">
+																		<img src="" alt="">
+																	</c:if>
 																</div>
-															</form>
+																<span class="user-id">
+																	${ reply.id }
+																	<c:if test="${ loginMember.no == reply.memNo }">
+																		<span class="tag tag-orange">내가 쓴 댓글</span>
+																	</c:if>
+																</span>
+																<span class="date">
+																	<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${ reply.modifyDate }" />
+																</span>
+															</div>
+															<div class="reply-cont">
+																<p>${ reply.content }</p>
+																<button type="button" class="btn-nested-reply">답글</button>
+																
+																<!-- 수정 -->
+																<div class="modify-wrap modify-reply-cont">
+																	<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
+																	<!-- <form action="" method=""> -->
+																		<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+																		<textarea name="content" required></textarea>
+																		<div class="btn-wrap">
+																			<button type="button" class="btn btn-cancel-reply">취소</button>
+																			<button type="submit" class="btn">수정</button>
+																			<%-- <button type="submit" class="btn" onclick="location.href='${ path }/modify_reply?no=${ month.chalNo }'">수정</button> --%>
+																		</div>
+																	</form>
+																</div>
+																<!-- // 수정 -->
+															</div>
+															<div class="btn-wrap">
+																<c:if test="${ loginMember.no == reply.memNo }">
+																	<button class="material-icons md-18 btn-modify-reply" title="수정">create</button>
+																	<form action="delete_reply?chalNo=${ month.chalNo }" method="post">
+																		<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+																		<button type="submit" class="material-icons md-18 btn-delete-reply" title="삭제">delete_outline</button>
+																	</form>
+																</c:if>
+																<c:if test="${ loginMember.no != reply.memNo }">
+																	<a href="#popup01" class="material-icons md-18 btn-report-reply btn-open-pop" title="신고">report_problem</a>
+																</c:if>
+															</div>
 														</div>
-														<!-- // 수정 -->
-													</div>
-													<div class="btn-wrap">
-														<c:if test="${ loginMember.no == reply.memNo }">
-															<button class="material-icons md-18 btn-modify-reply" title="수정">create</button>
-															<form action="delete_reply?chalNo=${ month.chalNo }" method="post">
-																<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
-																<button type="submit" class="material-icons md-18 btn-delete-reply" title="삭제">delete_outline</button>
-															</form>
-														</c:if>
-														<c:if test="${ loginMember.no != reply.memNo }">
-															<a href="#popup01" class="material-icons md-18 btn-report-reply btn-open-pop" title="신고">report_problem</a>
-														</c:if>
-													</div>
-												</div>
+													</c:otherwise>
+												</c:choose>
 												
 												<!-- 대댓글 작성 -->
-												<!-- 수정 -->
-												<%-- <div class="modify-wrap modify-reply-cont">
-													<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
-													<!-- <form action="" method=""> -->
-														<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
-														<textarea name="content" required></textarea>
-														<div class="btn-wrap">
-															<button type="button" class="btn btn-cancel-reply">취소</button>
-															<button type="submit" class="btn">수정</button>
-															<button type="submit" class="btn" onclick="location.href='${ path }/modify_reply?no=${ month.chalNo }'">수정</button>
-														</div>
-													</form>
-												</div> --%>
-												<!-- // 수정 -->
-												
 												<ul class="nested-wrap">
 													<li>
 	                                                	<div class="modify-reply-cont">
@@ -241,7 +238,7 @@
 														<c:if test="${ reply.replyNo == nestedReply.replyNo }">
 															<ul>
 				                                                <li>
-				                                                	대댓글 번호: ${ nestedReply.replyNo }
+				                                                	<%-- 대댓글 번호: ${ nestedReply.nestedReplyNo } --%>
 				                                                    <div class="user-info">
 				                                                        <div class="img-thumb">
 				                                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
@@ -256,14 +253,14 @@
 																			<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${ nestedReply.modifyDate }" />
 																		</span>
 				                                                    </div>
+				                                                    
 				                                                    <div class="reply-cont">
 				                                                        <p>${ nestedReply.content }</p>
-				                                                        
-				                                                        <!-- 수정 -->
+				                                                        <!-- 대댓글 수정 -->
 																		<div class="modify-wrap modify-reply-cont">
-																			<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
-																			<!-- <form action="" method=""> -->
+																			<form action="modify_nested_reply?chalNo=${ month.chalNo }" method="post">
 																				<input type="text" name="replyNo" value="${ nestedReply.replyNo }" class="blind">
+																				<input type="text" name="nestedReplyNo" value="${ nestedReply.nestedReplyNo }" class="blind">
 																				<textarea name="content" required></textarea>
 																				<div class="btn-wrap">
 																					<button type="button" class="btn btn-cancel-reply">취소</button>
@@ -272,13 +269,15 @@
 																				</div>
 																			</form>
 																		</div>
-																		<!-- // 수정 -->
+																		<!-- // 대댓글 수정 -->
 				                                                    </div>
+				                                                    
 				                                                    <div class="btn-wrap">
 																		<c:if test="${ loginMember.no == nestedReply.memNo }">
 																			<button class="material-icons md-18 btn-modify-reply" title="수정">create</button>
-																			<form action="delete_reply?chalNo=${ month.chalNo }" method="post">
-																				<input type="text" name="replyNo" value="${ nestedReply.replyNo }" class="blind">
+																			<form action="delete_nested_reply?chalNo=${ month.chalNo }" method="post">
+																				<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+																				<input type="text" name="nestedReplyNo" value="${ nestedReply.nestedReplyNo }" class="blind">
 																				<button type="submit" class="material-icons md-18 btn-delete-reply" title="삭제">delete_outline</button>
 																			</form>
 																		</c:if>
@@ -334,7 +333,7 @@
             <div class="layer-inner">
                 <div class="pop-head">
                     <strong>신고하기</strong>
-                    <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+                    <a href="javascript:void(0);" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
                 </div>
                 <div class="pop-cont">
                     <div>신고 내용</div>
@@ -360,17 +359,26 @@
 		let btnDelete = $('.btn-delete-reply');
 		let btnNested = $('.btn-nested-reply');
 		
-		btnModify.each(function(idx, el) {
+		btnModify.each(function(idx, el) { /* 댓글 수정 */
 			$(el).on('click', (e) => {
-				$(e.currentTarget).parents('.btn-wrap').hide();
-				$(e.currentTarget).parents('.btn-wrap').prev().find('p').hide();
-				$(e.currentTarget).parents('.btn-wrap').prev().find('.btn-nested-reply').hide();
-				$(e.currentTarget).closest('li').css('background', '#f9f9f9');
-				$(e.currentTarget).parents('.btn-wrap').prev().find('.modify-wrap').show();
+				let btnWrap = $(e.currentTarget).parents('.btn-wrap');
+				let originalReplyTag = btnWrap.prev().find('p');
+				let originalReplyTxt = btnWrap.prev().find('p').text();
+				let btnNested = btnWrap.prev().find('.btn-nested-reply');
+				let $li = $(e.currentTarget).closest('li');
+				let modifyBox = btnWrap.prev().find('.modify-wrap');
+				
+				btnWrap.hide();
+				originalReplyTag.hide();
+				btnNested.hide();
+				$li.css('background', '#f9f9f9');
+				modifyBox.show();
+				modifyBox.find('textarea').val(originalReplyTxt);
+				
 			});
 		});
 		
-		btnCancel.each(function(idx, el) {
+		btnCancel.each(function(idx, el) { /* 댓글 수정 취소 */
 			$(el).on('click', (e) => {
 				$(e.currentTarget).parents('.reply-cont').next('.btn-wrap').show();
 				$(e.currentTarget).parents('.reply-cont').find('p').show();
@@ -381,17 +389,38 @@
 			});
 		});
 		
-		btnDelete.on('click', () => {
+		btnDelete.on('click', () => { /* 댓글 삭제 */
 			if(confirm("댓글을 삭제하시겠습니까?")) {
 				location.replace("${ path }/delete_reply?no=${ month.chalNo }");
 			}
 		})
 		
-		btnNested.each(function(idx, el) {
+		btnNested.each(function(idx, el) { /* 답글 작성 */
 			$(el).on('click', (e) => {
-				$(e.currentTarget).parents('.reply-wrap').siblings('.nested-wrap').show();
+				let nestedWrap = $(e.currentTarget).parents('.reply-wrap').siblings('.nested-wrap');
+				
+				nestedWrap.show();
+				nestedWrap.find('textarea').focus();
 			});
 		});
+		
+		$('textarea').keyup(function (e) {
+			let content = $(this).val(); // 글자수 세기 
+			
+			if (content.length == 0 || content == '') { 
+				$('.count-reply em').text('0'); 
+			} else { 
+				$('.count-reply em').text(content.length); 
+			} 
+			
+			// 글자수 제한 
+			if (content.length > 200) { 
+				$(this).val($(this).val().substring(0, 200));
+				alert('글자수가 초과되었습니다.'); 
+			}; 
+		});
+		
+		
 	}
 </script>
 

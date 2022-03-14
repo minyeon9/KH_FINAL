@@ -68,8 +68,9 @@ public interface ChallengeMapper {
 	// 댓글 수정
 	int updateReply(Reply reply);
 
-	// 댓글 삭제
+	// 댓글 목록 조회
 	Reply findReplyByNo(int replyNo);
+	// 댓글 삭제
 	int deleteReply(@Param("replyNo") int replyNo);
 
 	
@@ -101,7 +102,16 @@ public interface ChallengeMapper {
 	
 	// 대댓글 작성
 	int insertNestedReply(NestedReply nestedReply);
+	
+	// 대댓글 수정
+	int updateNestedReply(NestedReply nestedReply);
+	
+	// 대댓글 삭제
+	NestedReply findNestedReplyByNo(int nestedReplyNo);
+	int deleteNestedReply(int nestedReplyNo);
 
+
+	
 
 
 

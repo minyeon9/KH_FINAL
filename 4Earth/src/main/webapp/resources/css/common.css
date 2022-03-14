@@ -211,6 +211,7 @@ input[type="checkbox"] label {
     transform: translateY(0);
 }
 textarea {
+	color: #333;
 	font-family: "Noto Sans KR", sans-serif;
     border: 1px solid #ccc;
     border-radius: 10px;

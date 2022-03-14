@@ -356,12 +356,13 @@ public class ChallengeController {
 			model.addObject("remainCount", remainCount);
 			model.addObject("count", count);
 			model.addObject("remainCountList", remainCountList);
+			
+			System.out.println(month);
 		}
-		
 		
 		model.addObject("month", month);
 		
-		System.out.println("댓글 테스트 중" + month);
+		System.out.println(month);
 		
 		model.setViewName("challenge/month_view");
 		
@@ -621,14 +622,11 @@ public class ChallengeController {
 			@RequestParam("chalNo") int chalNo,
 			@RequestParam("replyNo") int replyNo) {
 		
-		System.out.println("댓글 삭제 호출");
-		
 		int result = 0;
 		Reply reply = service.findReplyByNo(replyNo);
 		
-		System.out.println("reply: " + reply);
-		
 		result = service.deleteReply(replyNo);
+		
 		
 		if (result > 0) {
 			model.addObject("msg", "댓글이 삭제되었습니다.");
@@ -643,7 +641,6 @@ public class ChallengeController {
 		return model;
 	}
 	
-	
 	// 대댓글 작성
 	@PostMapping("/write_nested_reply")
 	public ModelAndView writeNestedReply (
@@ -652,7 +649,7 @@ public class ChallengeController {
 			@SessionAttribute(name = "loginMember") Member loginMember,
 			@RequestParam("chalNo") int chalNo) {
 		
-		// 댓글 작성
+		// 대댓글 작성
 		nestedReply.setMemNo(loginMember.getNo());
 		nestedReply.setChalNo(chalNo);
 		int result = service.saveNestedReply(nestedReply);
@@ -664,52 +661,72 @@ public class ChallengeController {
 			model.addObject("msg", "답글 등록을 실패했습니다.\n다시 시도해 주세요.");
 			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
 		}
-		
-		// 상세 내용 유지 ------------------------------------
-		// 이달의 챌린지 조회
-//			Month month = service.findMonthListByNo(chalNo);
-//			
-//			// 참여 중인 사용자 목록 조회
-//			Map<String, Object> map = new HashMap<>();
-//			map.put("chalNo", chalNo);
-//			map.put("no", loginMember.getNo());
-//			List<MonthMember> ongoingMember = service.findOngoingUser(map);
-//			
-//			// 참여 중인 사용자 목록 갯수 조회
-//			Map<String, Object> mapCount = new HashMap<>();
-//			mapCount.put("chalNo", chalNo);
-//			mapCount.put("no", loginMember.getNo());
-//			int countUser = service.findOngoingUserCount(mapCount);
-//			
-//			// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
-//			Map<String, Object> completeCount = new HashMap<>();
-//			completeCount.put("chalNo", chalNo);
-//			completeCount.put("no", loginMember.getNo());
-//			List<MonthMember> count = service.getMonthGuage(completeCount);
-//			
-//			// 전체 필요 횟수
-//			int requiredCount = 10;
-//			
-//			// 남은 횟수
-//			int remainCount = requiredCount - count.size();
-//			ArrayList<Integer> remainCountList = new ArrayList<>();
-//			for( int i = 0; i < remainCount; i++ ) {
-//				remainCountList.add(i);
-//			}
-		
-//			model.addObject("month", month);
-//			model.addObject("ongoingMember", ongoingMember);
-//			model.addObject("countUser", countUser);
-//			model.addObject("requiredCount", requiredCount);
-//			model.addObject("remainCount", remainCount);
-//			model.addObject("count", count);
-//			model.addObject("remainCountList", remainCountList);
 
 		model.setViewName("common/msg");
 		
 		return model;
 	}
 	
+	// 대댓글 수정
+	@PostMapping("/modify_nested_reply")
+	public ModelAndView modifyNestedReply (
+			ModelAndView model,
+			@ModelAttribute NestedReply nestedReplyreply,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo,
+			@RequestParam("replyNo") int replyNo) {
+		
+		nestedReplyreply.setMemNo(loginMember.getNo());
+		nestedReplyreply.setChalNo(chalNo);
+		nestedReplyreply.setReplyNo(replyNo);
+		int result = service.saveNestedReply(nestedReplyreply);
+		
+		if ( nestedReplyreply.getMemNo() == loginMember.getNo() ) {
+			if ( result > 0 ) {
+				model.addObject("msg", "답글이 수정되었습니다.");
+				model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+			} else {
+				model.addObject("msg", "답글 수정을 실패했습니다.\n다시 시도해 주세요.");
+				model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/month_list");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	// 대댓글 삭제
+	@PostMapping("delete_nested_reply")
+	public ModelAndView deleteNestedReply (
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo,
+			@RequestParam("replyNo") int replyNo,
+			@RequestParam("nestedReplyNo") int nestedReplyNo) {
+		
+		int result = 0;
+		NestedReply nestedReply = service.findNestedReplyByNo(nestedReplyNo);
+		
+		System.out.println("대댓글 조회: " + nestedReply);
+		
+		result = service.deleteNestedReply(nestedReplyNo);
+		
+		if (result > 0) {
+			model.addObject("msg", "답글이 삭제되었습니다.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		} else {
+			model.addObject("msg", "답글 삭제를 실패했습니다.\n다시 시도해 주세요.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	
 	
