@@ -62,12 +62,16 @@
 	                                  </td>
 	                                  <td>
 	                                      <div class="cart-img">
+	                                      	<a href="${ path }/product_detail?no=${ product.proNo }">
 	                                          <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                                      	</a>
 	                                      </div>
 	                                  </td>
 	                                  <td colspan="2" class="selectedProduct">
-	                                      <strong>${ product.proName }</strong>
-	                                      <p>${ product.proOpt }</p>
+	                                  	  <a href="${ path }/product_detail?no=${ product.proNo }">
+		                                      <strong>${ product.proName }</strong>
+		                                      <p>${ product.proOpt }</p>
+	                                      </a>
 	                                      <input type="hidden" id="proName" value="${ product.proName }" disabled="disabled">
 	                                      <input type="hidden" id="proNo" value="${ product.proNo }" disabled="disabled">
 	                                      <input type="hidden" id="proOptNo" value="${ product.proOptNo }" disabled="disabled">

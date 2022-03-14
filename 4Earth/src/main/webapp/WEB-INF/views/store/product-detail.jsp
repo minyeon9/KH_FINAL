@@ -161,59 +161,52 @@
 	                        </p>
                             <button class="btn" id="writeReview" style="float: right;">작성하기</button>
 	                    </div>
-                        <div class="board">
-                            <table class="table">
-                                <colgroup>
-                                    <col width="15%">
-                                    <col width="*">
-                                    <col width="10%">
-                                    <col width="10%">
-                                </colgroup>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <span class="icon-star">
-                                                <i class="unfill"></i>
-                                                <i class="fill" style="width: 50%"></i>
-                                            </span>
-                                        </td>
-                                        <td class="board-tit">
-                                            <span class="prd-option">구매 옵션 : <b>화이트</b></span>
-                                            <p>맛있어요 어쩌구 저쩌구</p>
-                                        </td>
-                                        <td>2021.00.00</td>
-                                        <td>홍길동</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="icon-star">
-                                                <i class="unfill"></i>
-                                                <i class="fill" style="width: 30%"></i>
-                                            </span>
-                                        </td>
-                                        <td class="board-tit">
-                                            <span class="prd-option">구매 옵션 : <b>화이트</b></span>
-                                            <p>맛있어요 어쩌구 저쩌구</p>
-                                        </td>
-                                        <td>2021.00.00</td>
-                                        <td>홍길동</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="accordian inquiry">
+                            <ul>
+                            	<c:if test="${ !empty revList }">
+	                            	<c:forEach var="rev" items="${ revList }">
+		                            	<li class="inquiry-li">
+		                                    <a href="javascript:void(0);">
+		                                   		<span class="icon-star">
+		                                            <i class="unfill"></i>
+		                                            <i class="fill" style="width: ${ rev.revRating * 20 }%"></i>
+		                                        </span>
+		                                       	<span class="prd-option">
+		                                       		<small>구매 옵션 : ${ rev.proOptName } </small>
+		                                       		<br>
+		                                       		<p style="width: 300px;">${ rev.revTitle }</p>
+		                                   		</span>
+		                                        <span class="prd-date">
+		                                        	<fmt:formatDate value="${ rev.revDate }" pattern="yyy-MM-dd"/>
+		                                        </span>
+		                                        <span class="inquiry-writerId">
+		                                        	${ rev.memberId }
+		                                        </span>
+		                                    </a>
+		                                    <c:if test="${ rev.renamedFileName }"></c:if>
+		                                    <div>
+		                                        <div class="inqContent-wrap" style="padding: 10px 5px;">
+			                                    	${ rev.revContent }
+		                                    	</div>
+		                                    </div>
+		                                </li> 
+	                            	</c:forEach>
+                            	</c:if>                  
+                            </ul>
                         </div>
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
-                            <a href="#">8</a>
-                            <a href="#">9</a>
-                            <a href="#">10</a>
-                            <a href="#" class="next"><span>다음</span></a>
+                            <a href="${ path }/product_detail?no=${ product.proNo }revPage=${ revPageInfo.prevPage }" class="prev"><span>이전</span></a>
+                            <c:forEach begin="${ revPageInfo.startPage }" end="${ revPageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == revPageInfo.currentPage }">				
+									<strong>${ status.current }</strong>
+								</c:if>
+								
+								<c:if test="${ status.current != revPageInfo.currentPage }">				
+									<a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ status.current }&count=${ revPageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+                            <a href="${ path }/product_detail?no=${ product.proNo }revPage=${ revPageInfo.nextPage }" class="next"><span>다음</span></a>
+                        	<input type="hidden" name="no" value="${ product.proNo }">
                         </div>
                     </section>
                     <!-- // Board -->
@@ -233,10 +226,17 @@
                             	<c:if test="${ !empty inqList }">
 	                            	<c:forEach var="inq" items="${ inqList }">
 		                            	<li class="inquiry-li">
-		                                    <a href="javascript:void(0);">
-		                                        <p>답변완료</p>
+		                                    <a href="javascript:void(0);">		                                        
+		                                        <c:if test="${ inq.inqStat eq 'N' }">
+		                                        	<p></p>
+		                                        </c:if>
+		                                        <c:if test="${ inq.inqStat eq 'Y' }">
+		                                        	<p>답변완료</p>
+		                                        </c:if>		                                        
 		                                        <p>
-		                                            <i class="material-icons md-16">lock</i>
+		                                        	<c:if test="${ inq.inqSecret eq 'Y' }">
+		                                        		<i class="material-icons md-16">lock</i>
+		                                        	</c:if>		                                            
 		                                            ${ inq.inqTitle }
 		                                        </p>
 		                                        <p>
@@ -260,17 +260,17 @@
                             </ul>
                         </div>
                         <div class="paging">
-                            <a href="${ path }/product_detail?inqPage=${ inqPageInfo.prevPage }" class="prev"><span>이전</span></a>
+                            <a href="${ path }/product_detail?no=${ product.proNo }inqPage=${ inqPageInfo.prevPage }" class="prev"><span>이전</span></a>
                             <c:forEach begin="${ inqPageInfo.startPage }" end="${ inqPageInfo.endPage }" varStatus="status">
 								<c:if test="${ status.current == inqPageInfo.currentPage }">				
 									<strong>${ status.current }</strong>
 								</c:if>
 								
 								<c:if test="${ status.current != inqPageInfo.currentPage }">				
-									<a href="${ path }/product_detail?inqPage=${ status.current }&count=${ inqPageInfo.listLimit }">${ status.current }</a>
+									<a href="${ path }/product_detail?no=${ product.proNo }inqPage=${ status.current }&count=${ inqPageInfo.listLimit }">${ status.current }</a>
 								</c:if>
 							</c:forEach>
-                            <a href="${ path }/product_detail?inqPage=${ inqPageInfo.nextPage }" class="next"><span>다음</span></a>
+                            <a href="${ path }/product_detail?no=${ product.proNo }inqPage=${ inqPageInfo.nextPage }" class="next"><span>다음</span></a>
                         	<input type="hidden" name="no" value="${ product.proNo }">
                         </div>
                     </section>
@@ -571,11 +571,12 @@
     // 문의 - 비밀글 조회
     $(".inquiry-li a").on("click", function(e){
     	var loginMemberId = `${ memberId }`;
-		var inquiryMemberId = $(this).find(".inquiry-writerId").text();
-    	
-		if(loginMemberId != inquiryMemberId && loginMemberId != "admin1"){
+		var inquiryMemberId = $(this).find(".inquiry-writerId").text();		
+		
+		if(loginMemberId != inquiryMemberId && loginMemberId != "admin1" && $(this).find(".material-icons").length == 1){
 			alert("비밀글입니다.");
 			
+			// .accordian is not a function 에러가 나는데, 원하는대로 동작됨..
 			$(".inquiry-li").accordian({
 				active: false, collapsible: true, active: true
 			});

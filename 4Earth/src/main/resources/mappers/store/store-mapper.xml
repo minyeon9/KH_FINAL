@@ -83,6 +83,7 @@
 		<result property="inqTitle" column="I_INQ_TITLE"/>
 		<result property="inqContent" column="I_INQ_CONTENT"/>
 		<result property="inqStat" column="I_INQ_STAT"/>
+		<result property="inqSecret" column="I_INQ_SECRET"/>
 	</resultMap>
 	
 	<resultMap type="OrderDetail" id="OrderDetailListResultMap">
@@ -105,6 +106,32 @@
 		<result property="orderMethod" column="ORDER_METHOD"/>
 		<result property="orderPm" column="ORDER_PM"/>
 		<result property="orderPoint" column="ORDER_POINT"/>
+	</resultMap>
+	
+	<resultMap type="OrderDetail" id="OrderDetailListForReviewResultMap">
+		<id property="orderNo" column="D_ORDER_NO"/>
+		<result property="memberNo" column="D_MEMBER_NO"/>
+		<result property="detailProNo" column="D_DETAIL_PRO_NO"/>
+		<result property="detailProName" column="D_DETAIL_PRO_NAME"/>
+		<result property="detailOpt" column="D_DETAIL_OPT"/>
+		<result property="detailOptName" column="D_DETAIL_OPT_NAME"/>
+		<result property="detailQty" column="D_DETAIL_QTY"/>
+		<result property="detailPrice" column="D_DETAIL_PRICE"/>
+		<result property="orderStat" column="S_ORDER_STAT"/>
+		<result property="orderDate" column="S_ORDER_DATE"/>
+	</resultMap>
+	
+	<resultMap type="Review" id="ProductReviewListResultMap">
+		<id property="orderNo" column="R_ORDER_NO"/>
+		<result property="memberNo" column="R_MEMBER_NO"/>
+		<result property="memberId" column="M_ID"/>
+		<result property="proNo" column="R_PRO_NO"/>
+		<result property="proOpt" column="R_PRO_OPT"/>
+		<result property="proOptName" column="R_PRO_OPT_NAME"/>
+		<result property="revDate" column="R_REV_DATE"/>
+		<result property="revTitle" column="R_REV_TITLE"/>
+		<result property="revContent" column="R_REV_CONTENT"/>
+		<result property="revRating" column="R_REV_RATING"/>
 	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
@@ -382,7 +409,8 @@
 			INQ_MOD_DATE, 
 			INQ_TITLE, 
 			INQ_CONTENT, 
-			INQ_STAT
+			INQ_STAT,
+			INQ_SECRET
 		)
 		VALUES (
 			#{proNo}, 
@@ -392,7 +420,8 @@
 			DEFAULT, 
 			#{inqTitle}, 
 			#{inqContent}, 
-			'N'
+			'N',
+			#{inqSecret}
 		)
 	</insert>
 	
@@ -411,7 +440,8 @@
 			I.INQ_MOD_DATE AS I_INQ_MOD_DATE, 
 			I.INQ_TITLE AS I_INQ_TITLE, 
 			I.INQ_CONTENT AS I_INQ_CONTENT, 
-			I.INQ_STAT AS I_INQ_STAT
+			I.INQ_STAT AS I_INQ_STAT,
+			I.INQ_SECRET AS I_INQ_SECRET
 		FROM PRODUCT_INQUIRY I
 		JOIN MEMBER M ON(I.MEMBER_NO = M.NO)
 		WHERE PRO_NO = #{no}
@@ -528,4 +558,124 @@
 			#{delMsg}
 		)
 	</insert>
+	
+	<select id="getOrderCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		WHERE MEMBER_NO = #{memberNo} 
+			  AND ORDER_STAT != '주문생성'
+	</select>
+	
+	<select id="getOrderList" parameterType="_int" resultMap="OrderSumResultMap">
+		SELECT 
+			ORDER_NO, 
+			ORDER_PRICE, 
+			ORDER_STAT, 
+			ORDER_DATE, 
+			ORDER_METHOD, 
+			ORDER_POINT
+		FROM ORDER_SUM
+		WHERE MEMBER_NO = #{memberNo} 
+			  AND ORDER_STAT != '주문생성'
+	</select>
+	
+	<select id="findOrderDetail" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_DETAIL D
+		JOIN ORDER_SUM S ON(D.ORDER_NO = S.ORDER_NO)
+		WHERE D.MEMBER_NO = #{memberNo} 
+			  AND D.DETAIL_PRO_NO = #{proNo} 
+			  AND S.ORDER_STAT != '주문생성'
+			  <if test="optName != null">
+			  	AND D.DETAIL_OPT_NAME = #{optName}
+			  </if>
+	</select>
+	
+	<select id="getOrderNoForReview" parameterType="map" resultType="_int">
+		SELECT D_ORDER_NO
+		FROM (
+			SELECT ROWNUM AS RNUM, D_ORDER_NO
+			FROM (
+			    SELECT D.ORDER_NO AS D_ORDER_NO
+			    FROM ORDER_DETAIL D
+			    JOIN ORDER_SUM S ON(D.ORDER_NO = S.ORDER_NO)
+			    WHERE D.MEMBER_NO = #{memberNo} 
+				  	  AND D.DETAIL_PRO_NO = #{proNo} 
+				  	  AND D.DETAIL_OPT_NAME = #{optName} 
+				  	  AND S.ORDER_STAT != '주문생성'
+			    ORDER BY S.ORDER_DATE
+			)
+		)
+		WHERE RNUM = #{i}
+	</select>
+	
+	<select id="getReviewCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM REVIEW
+		WHERE ORDER_NO = #{orderNo} 
+			  AND PRO_NO = #{proNo} 
+			  AND PRO_OPT_NAME = #{optName}
+	</select>
+	
+	<insert id="writeReview" parameterType="Review">
+		INSERT INTO REVIEW (
+		    ORDER_NO,
+		    MEMBER_NO,
+		    PRO_NO,
+		    PRO_OPT,
+		    PRO_OPT_NAME,
+		    REV_DATE,
+		    REV_TITLE,
+		    REV_CONTENT,
+		    REV_RATING,
+		    ORIGINAL_FILENAME,
+			RENAMED_FILENAME
+		) VALUES (
+		    #{orderNo},
+		    #{memberNo},
+		    #{proNo},
+		    #{proOpt},
+		    #{proOptName},
+		    DEFAULT,
+		    #{revTitle},
+		    #{revContent},
+		    #{revRating},
+		    #{originalFileName},
+			#{renamedFileName}
+		)
+	</insert>
+	
+	<select id="getProductRevCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM REVIEW
+		WHERE PRO_NO = #{no}
+	</select>
+	
+	<select id="getProductRevList" parameterType="_int" resultMap="ProductReviewListResultMap">
+		SELECT R.ORDER_NO AS R_ORDER_NO,
+		       R.MEMBER_NO AS R_MEMBER_NO,
+		       M.ID AS M_ID,
+		       R.PRO_NO AS R_PRO_NO,
+		       R.PRO_OPT AS R_PRO_OPT,
+		       R.REV_DATE AS R_REV_DATE,
+		       R.REV_TITLE AS R_REV_TITLE,
+		       R.REV_CONTENT AS R_REV_CONTENT,
+		       R.REV_RATING AS R_REV_RATING,
+		       R.PRO_OPT_NAME AS R_PRO_OPT_NAME     
+		FROM REVIEW R
+		JOIN MEMBER M ON(R.MEMBER_NO = M.NO)
+		WHERE PRO_NO = #{no}
+	</select>
+	
+	<select id="getProductRating" parameterType="_int" resultType="_int">
+		SELECT ROUND(AVG(NVL(REV_RATING, 0)), 1)
+		FROM REVIEW
+		WHERE PRO_NO = #{proNo}
+	</select>
+	
+	<update id="updateProductRating">
+		UPDATE PRODUCT
+		SET PRO_RATING = #{rating}
+		WHERE PRO_NO = #{proNo}
+	</update>
 </mapper>

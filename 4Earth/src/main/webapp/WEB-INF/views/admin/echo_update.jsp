@@ -22,14 +22,14 @@
 </head>
 <body>
 	<div class="admin-report">
-        <h2 style="text-align: center">물품 등록하기</h2> <br>
-           	<form action="${ path }/admin/echo_write" name="product" method="post" enctype="multipart/form-data">
+        <h2 style="text-align: center">물품 수정하기</h2> <br>
+           	<form action="${ path }/admin/echo_update?no=${ product.proNo }" name="product" method="post" enctype="multipart/form-data">
            	<table class="echo-write">
            		<tr>
         		<th>번호: </th>
-        		<td>..</td>
+        		<td><input name="proNo" type="text" value="${ product.proNo }" readonly="readonly"></td>
            		<th>이름: </th>
-        		<td><input name="proName" type="text"></td>
+        		<td><input name="proName" type="text" value="${ product.proName }"></td>
            		</tr>
            		<tr>
                     <th>
@@ -61,20 +61,20 @@
                     </td>
                     <th colspan="1">제조사 :</th>
                     <td colspan="1">
-	        			<input name="proMfg" type="text">
+	        			<input name="proMfg" type="text" value="${ product.proMfg }">
 	        		</td>
                 </tr>
                 <tr>
         			<th>이름: </th>
         			<td></td>
         			<th>가격: </th>
-        			<td><input name="proPrice" type="text"></td>
+        			<td><input name="proPrice" type="text" value="${ product.proPrice }"></td>
         		</tr>
         		<tr>
         			<th>용량: </th>
-        			<td><input name="proVol" type="text"></td>
+        			<td><input name="proVol" type="text" value="${ product.proVol }"></td>
         			<th>수량</th>
-        			<td><input name="proStock" type="text"></td>
+        			<td><input name="proStock" type="text" value="${ product.proStock }"></td>
         		</tr>
         		<tr style="text-align: center;">
         			<th colspan="2">상품 설명</th>
@@ -82,11 +82,12 @@
         		</tr>   
         		<tr style="text-align: center;">
         			<td colspan="2">
-        				<input name="proInfo" type="text" style="width: 100%; height: 300px;">
+        				<input name="proInfo" type="text" style="width: 100%; height: 300px;" value="${ product.proInfo }">
         			</td>
         			<th colspan="2">
+        				<img id="member-img" src="${ path }/resources/upload/store/${ product.proModifyImg }" />
         				<input type="file" name="imgname" id="echoImg" title="뮬품사진"
-                                        value="profile1.png" />
+                                        value="${ product.proModifyImg }" />
         			</th>
         		</tr>   
                 <tr>
@@ -94,10 +95,12 @@
                         <p><input class="btn" type="submit" value="등록"></p>
                     </th>
                 </tr>
-            </table>                                 
+            </table>                                   
         	</form>
 		</div>
     <script>
+    $('#stat option[value=${ product.proStat }]').prop('selected', 'selected').change();
+    $('#category option[value=${ product.proCat }]').prop('selected', 'selected').change();
     </script>
 </body>
 </html>

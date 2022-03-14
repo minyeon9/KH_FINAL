@@ -18,6 +18,9 @@
     <script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
     <script src="resources/ckeditor5/build/ckeditor.js"></script>
     <title>상품문의작성</title>
+    <style>
+    	.ck-editor__editable {min-height: 400px;}
+    </style>
 </head>
 <body>
 	<div class="store-popup">
@@ -41,13 +44,13 @@
             	상품과 관련없는 문의는 강제 삭제 될 수 있습니다.
             </p>
 		</div>
-        <form action="${ path }/write_qna" method="post">
+        <form action="${ path }/write_qna" method="post" id="ckeditorForm">
         	<input type="hidden" name="proNo" value="${ product.proNo }">
             <table class="store-editor">
                 <tr>
                     <td style="width: 50%;">
                         <label for="title">
-                            제목 : <input type="text" name="inqTitle" id="" size="38" maxlength="38" list="qnaType">
+                            제목 : <input type="text" name="inqTitle" id="" size="38" maxlength="38" list="qnaType" required="required">
                             <datalist id="qnaType">
                                 <option value="상품 관련 문의입니다.">상품 관련 문의입니다.</option>
                                 <option value="배송 관련 문의입니다.">배송 관련 문의입니다.</option>
@@ -65,9 +68,9 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <textarea name="inqContent" id="editor">
-                        </textarea> 
-                    </td>
+                        <textarea name="inqContent" id="editor" class="ck_editor_txt">
+                        </textarea>
+						</td>
                 </tr>                
                 <tr>
                     <th colspan="2">
@@ -110,6 +113,16 @@
         	} else {
         		$("#inqSecret").val("N");  
         	}
-    	});    	
-    </script>
+    	});        
+	
+    	// 내용 입력 필수	
+        $("#ckeditorForm").submit(function(e) {
+            var content = $('.ck_editor_txt').val();
+            html = $(content).text();
+            if ($.trim(html) == '') {
+                alert("내용을 작성해주세요.");
+                e.preventDefault();
+            } 
+        });
+</script>
 </html>

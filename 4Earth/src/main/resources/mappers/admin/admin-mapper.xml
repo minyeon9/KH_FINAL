@@ -45,10 +45,12 @@
 		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
 		<result property="proVol" column="PRO_VOL"/>
 		<result property="proImg" column="PRO_IMG"/>
+		<result property="proModifyImg" column="PRO_MODIFY_IMG"/>
 		<result property="proInfo" column="PRO_INFO"/>
 		<result property="proStat" column="PRO_STAT"/>
 		<result property="proCat" column="PRO_CAT"/>
 		<result property="proSold" column="PRO_SOLD"/>
+		<result property="proStock" column="PRO_STOCK"/>
 		<result property="proMfg" column="PRO_MFG"/>
 		<result property="proRating" column="PRO_RATING"/>
 	</resultMap>
@@ -139,9 +141,11 @@
 			   PRO_MODIFY_DATE, 
 			   PRO_VOL, 
 			   PRO_IMG, 
+			   PRO_MODIFY_IMG, 
 			   PRO_INFO, 
 			   PRO_STAT,
 			   PRO_CAT, 
+			   PRO_STOCK, 
 			   PRO_SOLD, 
 			   PRO_MFG, 
 			   PRO_RATING
@@ -295,6 +299,17 @@
 	
 	<select id="getProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+			<if test="proName != null">
+		   		PRO_NAME LIKE '%' || #{proName} || '%'
+			</if>
+			<if test="proStock != null">
+		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
+			</if>
+		</where>
 	</select>
 	
 	<select id="getTodayCount" resultType="_int">
@@ -328,8 +343,63 @@
 	<select id="getProductList" resultMap="ProductListResultMap">
 		<include refid="selectProductSql"/>
 		FROM PRODUCT
-		ORDER BY PRO_NO DESC
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+			<if test="proName != null">
+		   		PRO_NAME LIKE '%' || #{proName} || '%'
+			</if>
+			<if test="proStock != null">
+		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
+			</if>
+		</where>
+		<if test="proStock == null">
+			ORDER BY PRO_NO DESC
+		</if>
+		<if test="proStock != null">
+			ORDER BY PRO_STOCK
+		</if>
 	</select>
+	
+	<update id="updateProduct" parameterType="Product">
+	UPDATE PRODUCT
+	<trim prefix="SET" suffixOverrides=",">
+	 	<if test="proName != null">
+	 		PRO_NAME = #{proName},
+	 	</if>
+	 	<if test="proPrice != null">
+	 		PRO_PRICE = #{proPrice},
+		</if>
+		<if test="proVol != null">
+	 		PRO_VOL = #{proVol},
+		</if>
+	 	<if test="proModifyImg != null">
+	 		PRO_MODIFY_IMG = #{proModifyImg},
+		</if>
+		<if test="proInfo != null">
+	 		PRO_INFO = #{proInfo},
+		</if>
+	 	<if test="proStat != null">
+	 		PRO_STAT = #{proStat},
+	 	</if>
+	 	<if test="proCat != null">
+	 		PRO_CAT = #{proCat},
+		</if>
+		<if test="proStock != null">
+	 		PRO_STOCK = #{proStock},
+		</if>
+	 	<if test="proSold != null">
+	 		PRO_SOLD = #{proSold},
+	 	</if>
+	 	<if test="proMfg != null">
+	 		PRO_MFG = #{proMfg},
+		</if>
+	 		PRO_MODIFY_DATE=SYSDATE
+	</trim>
+	 	WHERE
+	 		PRO_NO = #{proNo}
+	 </update>
 	
 	<select id="getReportedList" parameterType="map" resultMap="ReportedListResultMap">
 		SELECT NO, 
@@ -354,6 +424,12 @@
 		<include refid="selectReportSql"/>
 			FROM REPORT
 			WHERE REPORT_NO = #{ no }
+	</select>
+	
+	<select id="findProductByNo" parameterType="Product" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			FROM PRODUCT
+			WHERE PRO_NO = #{ proNo }
 	</select>
 	
 	<insert id="insertProduct" parameterType="Product"
