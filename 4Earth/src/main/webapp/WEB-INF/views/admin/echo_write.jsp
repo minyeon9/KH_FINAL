@@ -87,6 +87,7 @@
         			<th colspan="2">
         				<input type="file" name="imgname" id="echoImg" title="뮬품사진"
                                         value="profile1.png" />
+                        상세 사진: <input multiple="multiple" type="file" name="upfile" title="상세사진">
         			</th>
         		</tr>   
                 <tr>

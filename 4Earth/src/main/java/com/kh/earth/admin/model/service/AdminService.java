@@ -13,7 +13,9 @@ import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.notice.model.vo.Notice;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 
 public interface AdminService {
 
@@ -60,5 +62,19 @@ public interface AdminService {
 	Product findProductByNo(int no);
 
 	int productUpdate(Product product);
+
+	int getNoticeCount(Map<String, String> name);
+
+	List<Notice> getNoticeList(PageInfo pageInfo, Map<String, String> name);
+
+	int todaySave(Today today);
+
+	int productImgsSave(ProductImgs productImgs);
+
+	int monthSave(Month month);
+
+	Today findTodayByNo(int no);
+
+	int updateToday(Today today);
 
 }

@@ -25,6 +25,8 @@ public class Product {
 	
 	private String proImg;
 	
+	private String proModifyImg;
+	
 	private String proInfo;
 	
 	private int proStat;
@@ -32,6 +34,8 @@ public class Product {
 	private int proCat;
 	
 	private int proSold;
+	
+	private int proStock;
 	
 	private String proMfg;
 	

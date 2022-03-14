@@ -1,6 +1,8 @@
 package com.kh.earth.admin.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +27,9 @@ import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.FileProcess;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.notice.model.vo.Notice;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -94,10 +98,25 @@ public class AdminController {
 	}
 	
 	@GetMapping("/notice")
-	public String admin_notice() {
+	public ModelAndView admin_notice(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Notice> list = null;
+		
 		log.info("admin_notice() - 호출");
 		
-		return "admin/notice";
+		
+		pageInfo = new PageInfo(page, 10, service.getNoticeCount(name), count);
+		list = service.getNoticeList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		
+		
+		model.setViewName("/admin/notice");
+		return model;
 	}
 	
 	@GetMapping("/member")
@@ -218,47 +237,86 @@ public class AdminController {
 	}
 	
 	@PostMapping("/echo_write")
-	public ModelAndView admin_echo_write(ModelAndView model,
-			@ModelAttribute("product")Product product,
-			@RequestParam("imgname") MultipartFile imgname) {
-		int result = 0;
-		
-		log.info("admin_echo_write() - post 호출");
-		
-		
-		if(imgname != null && !imgname.isEmpty()) {
-			String location = null;
-			String renamedFileName = null;
-			try {
-				location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
-				renamedFileName = FileProcess.save(imgname, location);
-				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
-				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			 
-			 if(renamedFileName != null) {
-				 product.setProImg(imgname.getOriginalFilename());
-				 product.setProModifyImg(renamedFileName);
-			 }
-		 }
-		
-		result = service.productSave(product);
-		
-		if (result > 0) {
-			model.addObject("msg", "에코샵 등록 성공");
-			model.addObject("location", "/admin/echo_write");
-		}else {
-			model.addObject("msg", "에코샵 등록 실패");
-			model.addObject("location", "/admin/echo_write");
-		}
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
+    public ModelAndView admin_echo_write(ModelAndView model,
+            @ModelAttribute("product")Product product,
+            @RequestParam("imgname") MultipartFile imgname, // 썸네일 사진
+            @RequestParam("upfile") MultipartFile[] upfile // 상세 사진
+            ) {
+        int result = 0;
+        
+        log.info("admin_echo_write() - post 호출");
+        
+        
+        if(imgname != null && !imgname.isEmpty()) {
+            String location = null;
+            String renamedFileName = null;
+            try {
+                location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+                renamedFileName = FileProcess.save(imgname, location);
+                System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+                System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+             
+             if(renamedFileName != null) {
+                 product.setProImg(imgname.getOriginalFilename());
+                 product.setProModifyImg(renamedFileName);
+             }
+         }        
+        
+        result = service.productSave(product);
+        
+        // 상세 사진(4장) 받기
+        if(upfile != null && upfile.length != 0) {
+            
+            for (int i = 0; i < upfile.length; i++) {
+                log.info("upfile [" + i + "] originalFileName : " + upfile[i].getOriginalFilename());
+                
+                String location = null;
+                String renamedFileName = null;
+                
+                try {
+                    location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                
+                renamedFileName = FileProcess.save(upfile[i], location);
+                
+                log.info("upfile [" + i + "] renamedFileName : " + renamedFileName);
+                
+                if(renamedFileName != null) {
+                    ProductImgs productImgs = new ProductImgs();
+                    
+                    productImgs.setProNo(product.getProNo());
+                    productImgs.setOriginalFileName(upfile[i].getOriginalFilename());
+                    productImgs.setRenamedFileName(renamedFileName);
+                    
+                    int resultImgs = service.productImgsSave(productImgs);
+                    
+                    if(resultImgs > 0) {
+                        log.info("upfile [" + i + "] 등록 성공");
+                    } else {
+                        log.info("upfile [" + i + "] 등록 실패");
+                    }
+                }
+            }
+        }
+        
+        if (result > 0) {
+            model.addObject("msg", "에코샵 등록 성공");
+            model.addObject("location", "/admin/echo_write");
+        }else {
+            model.addObject("msg", "에코샵 등록 실패");
+            model.addObject("location", "/admin/echo_write");
+        }
+        
+        model.setViewName("common/msg");
+        
+        return model;
+    }
 	
 	@PostMapping("/echo_update")
 	public ModelAndView admin_echo_update(ModelAndView model,
@@ -325,7 +383,164 @@ public class AdminController {
 		
 		return model;
 	}
+	
+	@GetMapping("/today_write")
+	public String admin_today_write(ModelAndView model) {
+		log.info("admin_today_write() - 호출");
+		
+		return "admin/today_write";
+	}
+	
+	@GetMapping("/today_update")
+	public ModelAndView admin_today_update(ModelAndView model,
+			@RequestParam("no")int no) {
+		log.info("admin_echo_update() - 호출");
+		Today today = service.findTodayByNo(no);
+		
+		System.out.println(today);
+		
+		model.addObject("today", today);
+		model.setViewName("admin/today_update");
+		
+		return model;
+	}
+	
+	@PostMapping("/today_update")
+	public ModelAndView admin_today_update(ModelAndView model,
+			@RequestParam("no")int no,
+			@ModelAttribute("today")Today today,
+			@RequestParam("imgname") MultipartFile imgname) {
+		int result;
+		
+		log.info("admin_today_update() - post 호출");
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				renamedFileName = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			 
+			 if(renamedFileName != null) {
+				 today.setOriginalFilename(imgname.getOriginalFilename());
+				 today.setRenamedFilename(renamedFileName);
+			 }
+		 }
+		
+		result = service.updateToday(today);
+		System.out.println(result);
+		System.out.println(today);
+		
+		if (result > 0) {
+			model.addObject("msg", "오늘의 챌린지 업데이트 성공");
+			model.addObject("location", "/admin/today_update?no=" + today.getChalNo());
+		}else {
+			model.addObject("msg", "오늘의 챌린지 업데이트 실패");
+			model.addObject("location", "/admin/today_update?no=" + today.getChalNo());
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@GetMapping("/month_write")
+	public String admin_month_write(ModelAndView model) {
+		log.info("admin_month_write() - 호출");
+		
+		return "admin/month_write";
+	}
+	
+	@PostMapping("/today_write")
+	public ModelAndView admin_today_write(ModelAndView model,
+			@ModelAttribute("today")Today today,
+			@RequestParam("imgname") MultipartFile imgname) {
+		int result = 0;
+		
+		log.info("admin_echo_write() - post 호출");
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				renamedFileName = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			 
+			 if(renamedFileName != null) {
+				 today.setOriginalFilename(imgname.getOriginalFilename());
+				 today.setRenamedFilename(renamedFileName);
+			 }
+		 }
+		
+		result = service.todaySave(today);
+		
+		if (result > 0) {
+			model.addObject("msg", "에코샵 등록 성공");
+			model.addObject("location", "/admin/today_write");
+		}else {
+			model.addObject("msg", "에코샵 등록 실패");
+			model.addObject("location", "/admin/today_write");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 
+	@PostMapping("/month_write")
+	public ModelAndView admin_month_write(ModelAndView model,
+			@ModelAttribute("month")Month month,
+			@RequestParam("imgname") MultipartFile imgname) {
+		int result = 0;
+		
+		log.info("admin_month_write() - post 호출");
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				renamedFileName = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if(renamedFileName != null) {
+				month.setOriginalFilename(imgname.getOriginalFilename());
+				month.setRenamedFilename(renamedFileName);
+			}
+		}
+		
+		result = service.monthSave(month);
+		
+		if (result > 0) {
+			model.addObject("msg", "에코샵 등록 성공");
+			model.addObject("location", "/admin/today_write");
+		}else {
+			model.addObject("msg", "에코샵 등록 실패");
+			model.addObject("location", "/admin/today_write");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
 	@GetMapping("/challenge_month")
 	public ModelAndView admin_challenge_month(ModelAndView model,
 			@RequestParam Map<String, String> name,
