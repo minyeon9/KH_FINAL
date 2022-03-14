@@ -44,6 +44,8 @@
 	 		<mapping path="/ongoing_list"/>
 	 		<mapping path="/wishlist"/>
 	 		<mapping path="/purchase_cart"/>
+	 		<mapping path="/order"/>
+			<mapping path="/order_detail"/>
 	 		
 			<exclude-mapping path="/today_main"/>
 			
@@ -55,5 +57,10 @@
 	 		
 	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
 	 	</interceptor> -->
-	 </interceptors>	
+	 	<interceptor>
+	 		<mapping path="/pw_reset"/>
+	 		<beans:bean id="VericifationCheckInterceptor" class="com.kh.earth.common.interceptor.VerificationCheckInterceptor" />
+	 	</interceptor>
+	 </interceptors>
+	 
 </beans:beans>

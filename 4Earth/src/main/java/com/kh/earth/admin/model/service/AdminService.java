@@ -29,9 +29,9 @@ public interface AdminService {
 	
 	int deleteMember(int no);
 	
-	int getProductCount();
+	int getProductCount(Map<String, String> name);
 
-	List<Product> getProductList(PageInfo pageInfo);
+	List<Product> getProductList(PageInfo pageInfo, Map<String, String> name);
 
 	List<Reported> getReportedList(PageInfo pageInfo, Map<String, String> name);
 
@@ -55,6 +55,10 @@ public interface AdminService {
 
 	List<TodayMember> getTodayMemList(PageInfo pageInfo, Map<String, String> name);
 
-	int save(Product product);
+	int productSave(Product product);
+
+	Product findProductByNo(int no);
+
+	int productUpdate(Product product);
 
 }

@@ -19,7 +19,10 @@
 		    IMG_NAME, 
 		    MODIFY_IMG_NAME, 
 		    ENROLL_DATE, 
-		    MODIFY_DATE
+		    MODIFY_DATE,
+		    POSTCODE,
+            EXTRA_ADDRESS,
+            DETAIL_ADDRESS
 		FROM MEMBER
 	</sql>
 
@@ -31,7 +34,10 @@
 		<result property="name" column="NAME"/>
 		<result property="phone" column="PHONE"/>
 		<result property="email" column="EMAIL"/>
+		<result property="postcode" column="POSTCODE"/>
 		<result property="address" column="ADDRESS"/>
+		<result property="extra_address" column="EXTRA_ADDRESS"/>
+		<result property="detail_address" column="DETAIL_ADDRESS"/>
 		<result property="platform_type" column="PLATFORM_TYPE"/>
 		<result property="status" column="STATUS"/>
 		<result property="img_name" column="IMG_NAME"/>	
@@ -59,6 +65,16 @@
 		WHERE ID=#{id}
   	</select>
   	
+  	<select id="findMemberByPhone" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql" />
+		WHERE PHONE=#{phone} AND STATUS = 'Y'
+  	</select>
+  	
+  	<select id="findMemberByEmail" parameterType="string" resultMap="memberResultMap">
+		<include refid="selectMemberSql" />
+		WHERE EMAIL=#{email} AND STATUS = 'Y' AND PLATFORM_TYPE = 'HOMEPAGE'
+  	</select>
+  	
   	<insert id="insertMember" parameterType="Member" 
   			useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
 		INSERT INTO MEMBER (
@@ -75,7 +91,10 @@
 		    IMG_NAME, 
 		    MODIFY_IMG_NAME, 
 		    ENROLL_DATE, 
-		    MODIFY_DATE
+		    MODIFY_DATE,
+		    POSTCODE,
+            EXTRA_ADDRESS,
+            DETAIL_ADDRESS   
 		) VALUES(
 		    SEQ_UNO.NEXTVAL, 
 		    #{id}, 
@@ -97,7 +116,10 @@
 		    #{img_name}, 
 		    #{modify_img_name}, 
 		    DEFAULT,
-		    DEFAULT
+		    DEFAULT,
+		    #{postcode},
+		    #{extra_address},
+		    #{detail_address}
   		)
   	</insert> 
   	<update id="updateMember" parameterType="Member">
@@ -106,7 +128,10 @@
   			NAME = #{name},
   			PHONE = #{phone},
   			EMAIL = #{email},
+  			POSTCODE = #{postcode},
   			ADDRESS = #{address},
+  			EXTRA_ADDRESS = #{extra_address},
+  			DETAIL_ADDRESS = #{detail_address},
   			IMG_NAME = #{img_name},
             MODIFY_IMG_NAME = #{modify_img_name},
   			MODIFY_DATE = SYSDATE 
@@ -127,6 +152,14 @@
   			STATUS = 'Y'
   		WHERE 
   			ID = #{id}
+  	</update>
+  	
+  	<update id="updatePassword" parameterType="map">
+  		UPDATE MEMBER
+  		SET
+  			PASSWORD = #{password}
+  		WHERE 
+  			NO = #{no}
   	</update>
 	
 </mapper>

@@ -37,12 +37,12 @@ public class MypageController {
 		return "mypage/point";
 	}
 
-	@GetMapping("/order")
-	public String order() {
-		log.info("order() - 호출");
-		
-		return "mypage/order";
-	}
+//	@GetMapping("/order")
+//	public String order() {
+//		log.info("order() - 호출");
+//		
+//		return "mypage/order";
+//	}
 	
 //	@GetMapping("/wishlist")
 //	public ModelAndView wishlist(

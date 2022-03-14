@@ -34,6 +34,7 @@
 	
 	              <!-- Cart -->
 	              <section>
+	              	<!--  -->
                   	<c:set var="col_sum" value="0"/> 
                		  <c:if test="${ empty list }">
                 		 <div class="cart-empty">
@@ -41,8 +42,7 @@
                         	<a href="${ path }/product_list">쇼핑하러 가기</a>
                 		 </div>
                       </c:if>   
-                      <c:if test="${ !empty list }">  
-                      <form id="form" modelAttribute="cartList" onsubmit="return false;">     
+                      <c:if test="${ !empty list }">
                       <table class="cart-table">
                           <thead>
                               <tr style="border-bottom: 2px solid rgb(206, 206, 206);">
@@ -62,25 +62,30 @@
 	                                  </td>
 	                                  <td>
 	                                      <div class="cart-img">
+	                                      	<a href="${ path }/product_detail?no=${ product.proNo }">
 	                                          <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                                      	</a>
 	                                      </div>
 	                                  </td>
 	                                  <td colspan="2" class="selectedProduct">
-	                                      <strong>${ product.proName }</strong>
-	                                      <p>${ product.proOpt }</p>
-	                                      <input type="hidden" name="cartList[${ count.count -1 }].proName" value="${ product.proName }" disabled="disabled">
-	                                      <input type="hidden" id="proNo" name="cartList[${ count.count -1 }].proNo" value="${ product.proNo }" disabled="disabled">
-	                                      <input type="hidden" id="proOptNo" name="cartList[${ count.count -1 }].proOptNo" value="${ product.proOptNo }" disabled="disabled">
-	                                      <input type="hidden" id="proOpt" name="cartList[${ count.count -1 }].proOpt" value="${ product.proOpt }" disabled="disabled">
+	                                  	  <a href="${ path }/product_detail?no=${ product.proNo }">
+		                                      <strong>${ product.proName }</strong>
+		                                      <p>${ product.proOpt }</p>
+	                                      </a>
+	                                      <input type="hidden" id="proName" value="${ product.proName }" disabled="disabled">
+	                                      <input type="hidden" id="proNo" value="${ product.proNo }" disabled="disabled">
+	                                      <input type="hidden" id="proOptNo" value="${ product.proOptNo }" disabled="disabled">
+	                                      <input type="hidden" id="proOpt" value="${ product.proOpt }" disabled="disabled">
+			                              <input type="hidden" id="proPrice" value="${ product.proPrice }" disabled="disabled">
+	                                  	  <input type="hidden" id="cartQty" value="${ product.cartQty }" disabled="disabled">
 	                                  </td>
 	                                  <td style="text-align: center;" id="qty">
 	                                  	${ product.cartQty }
-	                                  	<input type="hidden" name="cartList[${ count.count -1 }].cartQty" value="${ product.cartQty }" disabled="disabled">
 	                                  </td>
 	                                  <td style="text-align: center;">
 		                                  <span id="priceForcheckbox${ count.count }" class="cart-price">
 			                                  <fmt:formatNumber value="${ product.proPrice * product.cartQty }" pattern="##,###,###"/> 원
-			                                  <input type="hidden" id="cartQty" name="cartList[${ count.count -1 }].proPrice" value="${ product.proPrice * product.cartQty }" disabled="disabled">
+		                                  	  <input type="hidden" value="${ product.proPrice * product.cartQty }" disabled="disabled">
 		                                  </span>
 		                                  <a href="" class="cart-delete"><i class="material-icons md-24" style="font-size: 16px;">close</i></a>
 	                                  	  <c:set var="col_sum" value="${ col_sum + product.proPrice * product.cartQty }"/>
@@ -105,25 +110,15 @@
                                   총 금액
                               </th>
                               <th rowspan="2" id="sum-final" style="vertical-align: middle; font-size: 18px;">	                                  
-                                  <c:if test="${ col_sum ge 30000 }">
-                                  	<fmt:formatNumber value="${ col_sum }" pattern="##,###,###"/> 원
-                                  </c:if>
-                                  <c:if test="${ col_sum lt 30000 }">
-                                  	<fmt:formatNumber value="${ col_sum + 2500 }" pattern="##,###,###"/> 원
-                                  </c:if>	                                  		                                  	
+                                                                    		                                  	
                               </th>
                           </tr>
                           <tr id="cart-result2">
                               <th id="sum-product" style="vertical-align: top;">
-                                  <fmt:formatNumber value="${ col_sum }" pattern="##,###,###"/> 원
+    
                               </th>                                        
                               <th id="sum-delivery" style="vertical-align: top;">
-                                  <c:if test="${ col_sum ge 30000 }">
-	                                  0 원		                                 
-                                  </c:if>
-                                  <c:if test="${ col_sum lt 30000 }">
-                                  	  2,500 원
-                                  </c:if>
+                                
                               </th>                                        
                           </tr> 
                           <tr>
@@ -133,14 +128,13 @@
                               </th>
                           </tr>
                       </table>
-                      </form>   
-                      </c:if>     
+                         
+                      </c:if>   
                       
-                      <!-- 삭제 form -->
-					  <form action="/cart_delete" method="post" class="quantity_delete_form">
-						  <input type="hidden" name="cartId" class="delete_cartId">
-						  <input type="hidden" name="memberId" value="${ loginMember.no }">
-					  </form>             
+                      <!-- 주문하기 form -->
+                      <form:form id="form" modelAttribute="cartList" onsubmit="return false;"> 
+                     
+                      </form:form>
 	              </section>
 	              <!-- // Cart -->
 	
@@ -154,23 +148,45 @@
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
-	// 체크박스에 따라 금액 계산
+	// 금액 계산
 	$(document).ready(() => {
-		$("input[type='checkbox']").prop("checked", true);		
+		$("input[type='checkbox']").prop("checked", true);	
 		
 		var sum = ${ col_sum };
 
 		console.log("sum : " + sum);
 		
+		var productPrice = $("#sum-product");
+		var deliveryPrice = $("#sum-delivery");
+		var sumFinal = $("#sum-final");
+		
+		productPrice.text(toCommas(sum));
+		deliveryPrice.text(toCommas(2500));
+		
+		if(sum >= 30000){
+			deliveryPrice.text(toCommas(0));
+			sumFinal.text(toCommas(sum));
+		} else {
+			
+			sumFinal.text(toCommas(sum + 2500));
+		}		
+		
+		// 체크박스 변경 시 금액 재계산
 		$(".check-box input[type='checkbox']").on("change", (e) => {
 			var item = e.target;
 			var productSum = $(item).parents(".cart-table").find("#sum-product");
 			var deliverySum = $(item).parents(".cart-table").find("#sum-delivery");
 			var finalSum = $(item).parents(".cart-table").find("#sum-final");
 			
+			console.log("item : " + item);
+			console.log("productSum : " + productSum.text());
+			
 			var price = parseInt($("#priceFor"+ item.id).find("input[type='hidden']").val());
 			
 			var delivery = 2500;
+			
+			console.log("sum = " + sum);
+			console.log("price = " + price);
 			
 			if(item.checked){
 				console.log("check");
@@ -195,6 +211,7 @@
 				}
 			} else {
 				console.log("uncheck");
+				$(item).parents(".cart-list").find("input[type='hidden']").attr("disabled", true);
 				
 				console.log(price);
 				
@@ -230,6 +247,11 @@
 		var proOptNo = $(this).closest('.cart-list').find("#proOptNo").val();
 		var memberNo = `${ loginMember.no }`;
 		
+		console.log($(this));
+		console.log(proNo);
+		console.log(proOptNo);
+		console.log(memberNo);
+		
 		let product = {
 				"proNo" : proNo,
 				"proOptNo" : proOptNo,
@@ -249,6 +271,8 @@
 		    success : function(data) {
 				console.log("ajax success");
 				console.log("data : " + data);
+				
+				window.location = "${ path }/purchase_cart";
 		    }
 		});
 	});
@@ -273,19 +297,38 @@
 			alert("상품을 선택해주세요.");
 		}  else {
 			let itemArr = new Array();
+			let form_content = '';
+			let index = 0;
 			
-			$("tbody").find("input[type='checkbox']:checked").each(function() {				
-				var checked = $(this);
+			
+			$("tbody").find("input[type='checkbox']:checked").each(function(i, element) {				
+				var checked = $(element);
 				
-				console.log($(checked));
+				console.log("$(checked) : " + $(element));
 				
-				checked.parents(".cart-list").find("input[type='hidden']").removeAttr("disabled");				
+				let proName = checked.parents(".cart-list").find("#proName").val();
+				let proNo = checked.parents(".cart-list").find("#proNo").val();
+				let proOptNo = checked.parents(".cart-list").find("#proOptNo").val();
+				let proOpt = checked.parents(".cart-list").find("#proOpt").val();
+				let proPrice = checked.parents(".cart-list").find("#proPrice").val();
+				let cartQty = checked.parents(".cart-list").find("#cartQty").val();
 				
+				let input = "<input name='cartList[" + index + "].proName' type='hidden' value='" + proName + "'>"
+						    + "<input name='cartList[" + index + "].proNo' type='hidden' value='" + proNo + "'>"
+							+ "<input name='cartList[" + index + "].proOptNo' type='hidden' value='" + proOptNo + "'>"
+							+ "<input name='cartList[" + index + "].proOpt' type='hidden' value='" + proOpt + "'>"
+							+ "<input name='cartList[" + index + "].proPrice' type='hidden' value='" + proPrice + "'>"
+							+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>";
+
+				form_content += input;
+				
+				index += 1;				
 			});	
+			$("#form").html(form_content);
 			
 			form.action = "${ path }/purchase_payment"
 			form.method = "POST";
-			form.submit();			
+			form.submit();
 		}
 	});
 </script>

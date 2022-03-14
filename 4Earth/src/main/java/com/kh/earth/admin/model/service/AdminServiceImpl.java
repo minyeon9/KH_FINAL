@@ -68,19 +68,19 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public int getProductCount() {
+	public int getProductCount(Map<String, String> name) {
 		
-		return mapper.getProductCount();
+		return mapper.getProductCount(name);
 	}
 
 	@Override
-	public List<Product> getProductList(PageInfo pageInfo) {
+	public List<Product> getProductList(PageInfo pageInfo, Map<String, String> name) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		int limit = pageInfo.getListLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return mapper.getProductList(rowBounds);
+		return mapper.getProductList(rowBounds, name);
 	}
 
 	@Override
@@ -166,12 +166,28 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	@Transactional
-	public int save(Product product) {
+	public int productSave(Product product) {
 		int result = 0;
 		
 		result = mapper.insertProduct(product);
 		
 		return result;
+	}
+
+	@Override
+	@Transactional
+	public int productUpdate(Product product) {
+		int result = 0;
+		
+		result = mapper.updateProduct(product);
+		
+		return result;
+	}
+	
+	@Override
+	public Product findProductByNo(int no) {
+		
+		return mapper.findProductByNo(no);
 	}
 
 	

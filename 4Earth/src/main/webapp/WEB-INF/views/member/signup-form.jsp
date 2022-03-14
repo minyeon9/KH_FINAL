@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <title>회원가입</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -94,21 +95,32 @@
                                     <p id="member-email"></p>
                                     </div>
                                     <br>
-                                    <input type="mail" name="email" id="userEmail" placeholder="이메일" required />
+                                    <input type="mail" name="email" id="userEmail" placeholder="이메일" check_result="fail" required />
                                     
                                 </div>
                                 <div class="form-group">
                                 <div id="name-area">
-                                    <label for="userPhone">전화번호</label>
+                                    <label for="userPhone">휴대폰</label>
                                     <p id="member-phone"></p>
                                     </div>
                                     <br>
-                                    <input type="text" name="phone" id="userPhone" placeholder="휴대전화" required/>
+                                    <input type="tel" name="phone" id="userPhone" placeholder="휴대폰 번호 입력('-'생략)" required check_result="fail"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="userAddress">주소</label>
                                     <br>
+                                    <!-- 
                                     <input type="text" name="address" id="userAddress" placeholder="주소" required/>
+                                     -->
+                                    <br>
+                                    <input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" required>
+                                    <button class="btn" id="find_post_btn" onclick="execution_daum_address()">주소찾기</button>
+                                    <br>
+                                    <input type="text" name="address" id="sample6_address" placeholder="주소" required>
+                                	<br>
+                                	<input type="text" name="extra_address" id="sample6_extraAddress" placeholder="참고항목"><br>
+                                    <input type="text" name="detail_address" id="sample6_detailAddress" placeholder="상세주소 (동ㆍ호수)">
+                                	
                                 </div>
                                 <br>
                                 <div class="form-group">

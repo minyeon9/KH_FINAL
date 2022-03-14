@@ -173,7 +173,9 @@
                                 		<c:forEach var="product" items="${ list }">
                                 			<li>
 		                                        <div class="img-thumb">
+		                                        <a href="${ path }/product_detail?no=${ product.proNo }">
 		                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                        </a>
 		                                        </div>
 		                                        <div class="tag-wrap">
 		                                        	<c:if test="${ product.isNew lt 7 }">
@@ -188,13 +190,18 @@
 		                                        	<fmt:formatNumber value="${ product.proPrice }" pattern="##,###,###"/> 원
 		                                        </div>
 		                                        <div class="review">
-		                                        	<small>
-			                                        <span class="icon-star">
-		                                                <i class="unfill"></i>
-		                                                <i class="fill" style="width: ${ product.proRating * 20 }%"></i>
-		                                            </span>
-		                                        	${ product.proRating }
-		                                        	</small>
+		                                        	<c:if test="${ product.proRating ne 0.0 }">
+			                                        	<small>
+					                                        <span class="icon-star">
+				                                                <i class="unfill"></i>
+				                                                <i class="fill" style="width: ${ product.proRating * 20 }%"></i>
+				                                            </span>
+				                                        	${ product.proRating }
+			                                        	</small>
+		                                        	</c:if>
+		                                        	<c:if test="${ product.proRating eq 0.0 }">
+		                                        		<small>ㅡ</small>
+		                                        	</c:if>
 		                                        </div>
 		                                        <div class="btn-wrap">
 		                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
@@ -208,7 +215,8 @@
                         <!-- // Thumbnail List -->
 
                         <div class="paging">
-                            <a href="${ path }/product_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+                        	<a href="${ path }/product_arrange?category=${ category }&category-detail=${ detail }&page=1&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="first"><span>맨 앞으로</span></a> 
+                            <a href="${ path }/product_arrange?category=${ category }&category-detail=${ detail }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="prev"><span>이전</span></a>
                             <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
 								<c:if test="${ status.current == pageInfo.currentPage }">				
 									<strong>${ status.current }</strong>
@@ -218,7 +226,8 @@
 									<a href="${ path }/product_arrange?category=${ category }&category-detail=${ detail }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
 								</c:if>
 							</c:forEach>
-                            <a href="${ path }/product_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+                            <a href="${ path }/product_arrange?category=${ category }&category-detail=${ detail }&page=${ pageInfo.nextPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="next"><span>다음</span></a>
+                        	<a href="${ path }/product_arrange?category=${ category }&category-detail=${ detail }&page=${ pageInfo.maxPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="last"><span>맨 뒤로</span></a>
                         </div>
                     </div> <!-- // store-wrap -->
                 </section>

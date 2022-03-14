@@ -9,11 +9,13 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.vo.Cart;
+import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
+import com.kh.earth.store.model.vo.Review;
 import com.kh.earth.store.model.vo.Wish;
 
 @Mapper
@@ -70,6 +72,34 @@ public interface StoreMapper {
 	List<OrderDetail> getOrderDetailList(int orderNo);
 
 	int deleteCart(Cart cart);
+
+	OrderSum findOrderSumByNo(int orderNo);
+
+	int completeOrderSum(OrderSum orderSum);
+
+	int deleteOrderSum(int memberNo);
+
+	int addDelivery(Delivery delivery);
+
+	int getOrderCount(int memberNo);
+
+	List<OrderSum> getOrderList(RowBounds rowBounds, int memberNo);
+
+	int findOrderDetail(Map<String, Object> map);
+
+	int getOrderNoForReview(Map<String, Object> map);
+
+	int writeReview(Review review);
+
+	int getReviewCount(Map<String, Object> map);
+
+	int getProductRevCount(int no);
+
+	List<Review> getProductRevList(RowBounds rowBounds, int no);
+
+	int getProductRating(int proNo);
+
+	int updateProductRating(Map<String, Object> map);
 
 
 

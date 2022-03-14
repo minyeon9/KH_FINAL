@@ -1,15 +1,18 @@
 package com.kh.earth.admin.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.earth.admin.model.service.AdminService;
@@ -19,6 +22,7 @@ import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
+import com.kh.earth.common.util.FileProcess;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.vo.Product;
@@ -34,6 +38,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService service;
+	
+	@Autowired
+	private ResourceLoader resourceLoader;
 
 	@GetMapping("/main")
 	public String admin() {
@@ -139,18 +146,18 @@ public class AdminController {
 	}
 	
 	@GetMapping("/echo_list")
-	public ModelAndView admin_echo_list(
-			ModelAndView model,
+	public ModelAndView admin_echo_list(ModelAndView model,
+			@RequestParam Map<String, String> name,
 			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10")int count
-			) {
+			@RequestParam(defaultValue = "10")int count) {
 		PageInfo pageInfo = null;
 		List<Product> list = null;
 		
 		log.info("admin_echo_list() - 호출");
 		
-		pageInfo = new PageInfo(page, 10, service.getProductCount(), count);
-		list = service.getProductList(pageInfo);
+		
+		pageInfo = new PageInfo(page, 10, service.getProductCount(name), count);
+		list = service.getProductList(pageInfo, name);
 					
 		
 		model.addObject("pageInfo", pageInfo);
@@ -182,6 +189,13 @@ public class AdminController {
 		return "admin/echo_cancel";
 	}
 	
+	@GetMapping("/echo_bidding")
+	public String admin_echo_bidding() {
+		log.info("admin_echo_bidding() - 호출");
+		
+		return "admin/echo_bidding";
+	}
+	
 	@GetMapping("/echo_write")
 	public String admin_echo_write(ModelAndView model) {
 		log.info("admin_echo_write() - 호출");
@@ -189,14 +203,49 @@ public class AdminController {
 		return "admin/echo_write";
 	}
 	
+	@GetMapping("/echo_update")
+	public ModelAndView admin_echo_update(ModelAndView model,
+			@RequestParam("no")int no) {
+		log.info("admin_echo_update() - 호출");
+		Product product = service.findProductByNo(no);
+		
+		System.out.println(product);
+		
+		model.addObject("product", product);
+		model.setViewName("admin/echo_update");
+		
+		return model;
+	}
+	
 	@PostMapping("/echo_write")
 	public ModelAndView admin_echo_write(ModelAndView model,
-			@ModelAttribute("product")Product product) {
+			@ModelAttribute("product")Product product,
+			@RequestParam("imgname") MultipartFile imgname) {
 		int result = 0;
 		
 		log.info("admin_echo_write() - post 호출");
 		
-		result = service.save(product);
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+				renamedFileName = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			 
+			 if(renamedFileName != null) {
+				 product.setProImg(imgname.getOriginalFilename());
+				 product.setProModifyImg(renamedFileName);
+			 }
+		 }
+		
+		result = service.productSave(product);
 		
 		if (result > 0) {
 			model.addObject("msg", "에코샵 등록 성공");
@@ -204,6 +253,50 @@ public class AdminController {
 		}else {
 			model.addObject("msg", "에코샵 등록 실패");
 			model.addObject("location", "/admin/echo_write");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@PostMapping("/echo_update")
+	public ModelAndView admin_echo_update(ModelAndView model,
+			@RequestParam("no")int no,
+			@ModelAttribute("product")Product product,
+			@RequestParam("imgname") MultipartFile imgname) {
+		int result;
+		
+		log.info("admin_echo_update() - post 호출");
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+				renamedFileName = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			 
+			 if(renamedFileName != null) {
+				 product.setProImg(imgname.getOriginalFilename());
+				 product.setProModifyImg(renamedFileName);
+			 }
+		 }
+		
+		result = service.productUpdate(product);
+		System.out.println(result);
+		
+		if (result > 0) {
+			model.addObject("msg", "에코샵  업데이트 성공");
+			model.addObject("location", "/admin/echo_update?no=" + product.getProNo());
+		}else {
+			model.addObject("msg", "에코샵 업데이트 실패");
+			model.addObject("location", "/admin/echo_update?no=" + product.getProNo());
 		}
 		
 		model.setViewName("common/msg");
@@ -299,7 +392,7 @@ public class AdminController {
 		return model;
 	}
 	
-	@PostMapping("/member_delete")
+	@GetMapping("/member_delete")
 	public ModelAndView admin_member_delete(ModelAndView model,
 			@RequestParam("no")int no) {
 		

@@ -8,7 +8,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>회원정보</title>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<title>내 정보 수정</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <div class="container">
@@ -17,10 +18,10 @@
 		<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 			<section class="content-wrap">
                     <div class="page-tit">
-                        <h3>회원정보수정</h3>
+                        <h3>내 정보 수정</h3>
                         <div class="bread-crumb">
                             <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                            <a href="${ path }profile_edit">회원정보수정</a>
+                            <a href="${ path }profile_edit">내 정보 수정</a>
                         </div>
                     </div>
 
@@ -30,7 +31,7 @@
                             <div id="edit-box">
                             <div id="edit-area">
                                 <br>
-                                <h2>회원정보수정</h2>
+                                <h2>내 정보 수정</h2>
                                 <br>
                                 <hr class="long-line">
                                 <br>
@@ -76,15 +77,19 @@
                                     <!-- <label for="userPw">비밀번호</label> -->
                                     <!-- <br> -->
                                     <!-- <p id="member-id"><i class="material-icons md-16">check</i> OK</p> -->
-                                    <input type="password" name="password" id="userPwd" value="*****"
-                                        placeholder="비밀번호" class="readonly" disabled/>
-                                    <input type="button" id="edit-btn" class="btn" value="비밀번호 변경">
+                                    <!-- <input type="hidden" name="password3" id="userPwd3" value="${loginMember.password} }"/> -->
+                                    <!--  <input type="password" name="password" id="userPwd" value="*****"
+                                        placeholder="비밀번호" class="readonly" disabled/>  -->
+                                    <!--  <a href="#popup02" class="btn btn-open-pop" id="edit-btn1">비밀번호 변경</a> -->
                                 </div>
                                 </c:if>
                                 <div class="form-group2">
                                     <!-- <label for="userName">이름</label> -->
                                     <!-- <br> -->
                                     <input type="text" name="name" id="userName" placeholder="이름" value="${ loginMember.name }"/>
+                                    <c:if test="${ !empty loginMember.password }">
+                                    <a href="#popup02" class="btn btn-open-pop" id="edit-btn1">비밀번호 변경</a>
+                                    </c:if>
                                     <p id="member-name"></p>
                                 </div>
                                 <div class="form-group2">
@@ -102,10 +107,13 @@
                                 <div class="form-group2">
                                     <!-- <label for="userAddress">주소</label> -->
                                     <!-- <br> -->
-                                    <input type="text" name="address" id="userAddress" placeholder="주소" value="${ loginMember.address }" />
-                                    <!--<input type="button" id="edit-btn2" class="btn" value="주소찾기">
-                                     <br><br> 
-                                    <input type="text" name="userAddress" placeholder="나머지 주소" />-->
+                                    <input type="text" name="postcode" id="sample6_postcode1" placeholder="우편번호" value="${ loginMember.postcode }" required>
+                                    <button type="button" class="btn" id="find_post_btn" onclick="execution_daum_address_edit()">주소찾기</button>
+                                    <br>
+                                    <input type="text" name="address" id="sample6_address" placeholder="주소" value="${ loginMember.address }" />
+                                    <br>
+                                	<input type="text" name="extra_address" id="sample6_extraAddress" placeholder="참고항목" value="${ loginMember.extra_address }"><br>
+                                    <input type="text" name="detail_address" id="sample6_detailAddress" placeholder="상세주소 (동ㆍ호수)" value="${ loginMember.detail_address }">
                                 </div>
                                 <br>
                             </div>
@@ -194,6 +202,61 @@
                     </div>
             	</div>
             </div>
+            
+            
+            <div class="layer-popup" id="popup02">
+                <div class="layer-inner">
+                    <div class="pop-head">
+                        <strong>비밀번호 변경</strong>
+                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+                    </div>
+                    <div class="pop-cont">
+                        <form name="pw_change_form" action="${ path }/pw_change" method="post" onsubmit="return pw_change_check()">
+                        <br>
+                        <h2>비밀번호 변경</h2>
+                        <br>
+                            <table id="pw-change-table">
+                                <tr>
+                                    <th>기존 비밀번호</th>
+                                    <td>
+                                        <div class="input-group1">
+                                        <input type="password" name="userPwd1" id="userPwd1" placeholder="기존 비밀번호" required/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>새 비밀번호</th>
+                                    <td>
+                                        <div class="input-group1">
+                                            <input type="password" name="userPwd2" id="userPwd2" placeholder="문자, 숫자, 특수문자 포함 총 8~16자" required/>
+                                            <span id="member-password2"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>새 비밀번호 확인</th>
+                                    <td>
+                                        <div class="input-group1">
+                                            <input type="password" name="userPwCheck2" id="userPwCheck2" placeholder="새 비밀번호와 동일하게 입력" required/>
+                                            <span id="member-passwordcheck"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br>
+                            <div id="btn-area">
+                            <button class="btn btn-login" id="chg-btn" type="submit">비밀번호 변경</button>
+                            </div>
+                            <br><br>
+                        </form>
+                    </div>
+                    <!-- <div class="btn-wrap">
+                        <button class="btn gray btn-close-pop">취소</button>
+                        <button class="btn">저장</button>
+                    </div> -->
+                </div>
+            </div>
+            <div class="dimed"></div>
             
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">

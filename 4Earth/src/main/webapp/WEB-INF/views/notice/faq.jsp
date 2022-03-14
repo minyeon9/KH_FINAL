@@ -6,10 +6,17 @@
 
 <c:set var="path" value="${ pageContext.request.contextPath }" />
 
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>main</title>
+    <script src="../resources/js/notice.js"></script>
+</head>
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 <div class="container">
 	<div class="contents">
+	<%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
 		<section class="content-wrap">
 			<div class="page-tit">
 				<h3>FAQ</h3>

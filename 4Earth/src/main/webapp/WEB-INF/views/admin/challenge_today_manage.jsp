@@ -155,7 +155,9 @@
 													        			<th colspan="4">사진</th>
 													        		</tr>
 													        		<tr>
-													        			<td colspan="4" style="height: 300px">사진내용</td>
+													        			<td colspan="4" style="height: 300px">
+													        				<img id="member-img" src="${ path }/resources/upload/challenge/${ todayMember.renamedFilename }" />
+													        			</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>

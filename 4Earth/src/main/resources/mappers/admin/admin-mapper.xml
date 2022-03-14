@@ -45,10 +45,12 @@
 		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
 		<result property="proVol" column="PRO_VOL"/>
 		<result property="proImg" column="PRO_IMG"/>
+		<result property="proModifyImg" column="PRO_MODIFY_IMG"/>
 		<result property="proInfo" column="PRO_INFO"/>
 		<result property="proStat" column="PRO_STAT"/>
 		<result property="proCat" column="PRO_CAT"/>
 		<result property="proSold" column="PRO_SOLD"/>
+		<result property="proStock" column="PRO_STOCK"/>
 		<result property="proMfg" column="PRO_MFG"/>
 		<result property="proRating" column="PRO_RATING"/>
 	</resultMap>
@@ -60,7 +62,8 @@
 		<result property="chalContent" column="CHAL_CONTENT"/>
 		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
-		<result property="chalDate" column="CHAL_DATE"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
 	</resultMap>
 	
 	<resultMap type="Month" id="MonthListResultMap">
@@ -70,7 +73,8 @@
 		<result property="chalContent" column="CHAL_CONTENT"/>
 		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
-		<result property="chalDate" column="CHAL_DATE"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
 	</resultMap>
 	
 	<resultMap type="MonthMember" id="MonthMemListResultMap">
@@ -78,8 +82,8 @@
 		<result property="memNo" column="MEM_NO"/>
 		<result property="chalNo" column="CHAL_NO"/>
 		<result property="chalDate" column="CHAL_DATE"/>
-		<result property="originalFilename" column="CHAL_CONTENT"/>
-		<result property="renamedFilename" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalStatus" column="CHAL_STATUS"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS"/>
@@ -90,8 +94,8 @@
 		<result property="memNo" column="MEM_NO"/>
 		<result property="chalNo" column="CHAL_NO"/>
 		<result property="chalDate" column="CHAL_DATE"/>
-		<result property="originalFilename" column="CHAL_CONTENT"/>
-		<result property="renamedFilename" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalStatus" column="CHAL_STATUS"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS"/>
@@ -137,9 +141,11 @@
 			   PRO_MODIFY_DATE, 
 			   PRO_VOL, 
 			   PRO_IMG, 
+			   PRO_MODIFY_IMG, 
 			   PRO_INFO, 
 			   PRO_STAT,
 			   PRO_CAT, 
+			   PRO_STOCK, 
 			   PRO_SOLD, 
 			   PRO_MFG, 
 			   PRO_RATING
@@ -211,35 +217,33 @@
 	<select id="getMemberCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 	    FROM MEMBER
-	    WHERE STATUS = 'Y'
-		<choose>
-		   	<when test="no != null">
-		   		AND NAME LIKE '%' || #{no} || '%'
-		   	</when>
-		   	<when test="id != null">
-		   		AND NAME LIKE '%' || #{id} || '%'
-		   	</when>
-		   	<when test="name != null">
-		   		AND NAME LIKE '%' || #{name} || '%'
-		   	</when>
-		</choose>
+	    <where>
+			<if test="name != null">
+		   		NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="id != null">
+		   		ID LIKE '%' || #{id} || '%'
+			</if>
+			<if test="no != null">
+		   		NO LIKE '%' || #{no} || '%'
+			</if>
+		</where>
 	</select>
 	
 	<select id="findMember" parameterType="map" resultMap="memberResultMap">
 		<include refid="selectMemberSql" />
 		FROM MEMBER
-		WHERE STATUS = 'Y'
-		<choose>
-		   	<when test="name != null">
-		   		AND NAME LIKE '%' || #{name} || '%'
-		   	</when>
-		   	<when test="id != null">
-		   		AND ID LIKE '%' || #{id} || '%'
-		   	</when>
-		   	<when test="no != null">
-		   		AND NO LIKE '%' || #{no} || '%'
-		   	</when>
-		</choose>
+		<where>
+			<if test="name != null">
+		   		NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="id != null">
+		   		ID LIKE '%' || #{id} || '%'
+			</if>
+			<if test="no != null">
+		   		NO LIKE '%' || #{no} || '%'
+			</if>
+		</where>
 		ORDER BY NO DESC
 	</select>
 	
@@ -250,7 +254,7 @@
 				CHAL_CONTENT,
 				CHAL_IMG_PATH,
 				CHAL_POINT,
-				CHAL_DATE
+				START_DATE
 		FROM CHAL_TODAY
 	</select>
 	
@@ -261,7 +265,7 @@
 				CHAL_CONTENT,
 				CHAL_IMG_PATH,
 				CHAL_POINT,
-				CHAL_DATE
+				START_DATE
 		FROM CHAL_MONTH
 	</select>
 	
@@ -269,30 +273,43 @@
 		SELECT  NO,
 				MEM_NO,
 				CHAL_NO,
-				CHAL_DATE,
 				CHAL_STATUS,
 				ORIGINAL_FILENAME,
 				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_POINT_STATUS
+				CHAL_POINT_STATUS,
+				CHAL_DATE
 		FROM CHAL_MONTH_MEM
+		ORDER BY NO DESC
 	</select>
 	
 	<select id="getTodayMemList" parameterType="map" resultMap="TodayMemListResultMap">
 		SELECT  NO,
 				MEM_NO,
 				CHAL_NO,
-				CHAL_DATE,
 				CHAL_STATUS,
 				ORIGINAL_FILENAME,
 				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_POINT_STATUS
+				CHAL_POINT_STATUS,
+				CHAL_DATE
 		FROM CHAL_TODAY_MEM
+		ORDER BY NO DESC
 	</select>
 	
 	<select id="getProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+			<if test="proName != null">
+		   		PRO_NAME LIKE '%' || #{proName} || '%'
+			</if>
+			<if test="proStock != null">
+		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
+			</if>
+		</where>
 	</select>
 	
 	<select id="getTodayCount" resultType="_int">
@@ -326,8 +343,63 @@
 	<select id="getProductList" resultMap="ProductListResultMap">
 		<include refid="selectProductSql"/>
 		FROM PRODUCT
-		ORDER BY PRO_NO
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+			<if test="proName != null">
+		   		PRO_NAME LIKE '%' || #{proName} || '%'
+			</if>
+			<if test="proStock != null">
+		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
+			</if>
+		</where>
+		<if test="proStock == null">
+			ORDER BY PRO_NO DESC
+		</if>
+		<if test="proStock != null">
+			ORDER BY PRO_STOCK
+		</if>
 	</select>
+	
+	<update id="updateProduct" parameterType="Product">
+	UPDATE PRODUCT
+	<trim prefix="SET" suffixOverrides=",">
+	 	<if test="proName != null">
+	 		PRO_NAME = #{proName},
+	 	</if>
+	 	<if test="proPrice != null">
+	 		PRO_PRICE = #{proPrice},
+		</if>
+		<if test="proVol != null">
+	 		PRO_VOL = #{proVol},
+		</if>
+	 	<if test="proModifyImg != null">
+	 		PRO_MODIFY_IMG = #{proModifyImg},
+		</if>
+		<if test="proInfo != null">
+	 		PRO_INFO = #{proInfo},
+		</if>
+	 	<if test="proStat != null">
+	 		PRO_STAT = #{proStat},
+	 	</if>
+	 	<if test="proCat != null">
+	 		PRO_CAT = #{proCat},
+		</if>
+		<if test="proStock != null">
+	 		PRO_STOCK = #{proStock},
+		</if>
+	 	<if test="proSold != null">
+	 		PRO_SOLD = #{proSold},
+	 	</if>
+	 	<if test="proMfg != null">
+	 		PRO_MFG = #{proMfg},
+		</if>
+	 		PRO_MODIFY_DATE=SYSDATE
+	</trim>
+	 	WHERE
+	 		PRO_NO = #{proNo}
+	 </update>
 	
 	<select id="getReportedList" parameterType="map" resultMap="ReportedListResultMap">
 		SELECT NO, 
@@ -352,6 +424,12 @@
 		<include refid="selectReportSql"/>
 			FROM REPORT
 			WHERE REPORT_NO = #{ no }
+	</select>
+	
+	<select id="findProductByNo" parameterType="Product" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			FROM PRODUCT
+			WHERE PRO_NO = #{ proNo }
 	</select>
 	
 	<insert id="insertProduct" parameterType="Product"
