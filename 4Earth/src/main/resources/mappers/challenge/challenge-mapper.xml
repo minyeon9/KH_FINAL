@@ -297,9 +297,10 @@
             R.MEM_NO AS R_MEM_NO,
             R.CHAL_NO AS R_CHAL_NO,
             R.CONTENT AS R_CONTENT,
-            R.REPLY_DATE AS R_REPLY_DATE,
+            R.MODIFY_DATE AS R_REPLY_DATE,
             R.MODIFY_DATE AS R_MODIFY_DATE,
             N.NESTED_REPLY_NO AS N_NESTED_REPLY_NO,
+            N.REPLY_NO AS N_REPLY_NO,
             N.MEM_NO AS N_MEM_NO,
             N.CONTENT AS N_CONTENT,
             N.MODIFY_DATE N_MODIFY_DATE,
@@ -430,7 +431,7 @@
     		#{ chalNo },
     		#{ content },
     		DEFAULT,
-    		NULL
+    		SYSDATE
     	)
 	</insert>
 	
@@ -456,6 +457,36 @@
 		SET REPLY_STATUS = #{ replyStatus } 
 		WHERE REPLY_NO = #{ replyNo } -->
 	</update>
+	
+	<!-- 대댓글 작성 -->
+	<insert id="insertNestedReply" parameterType="map" useGeneratedKeys="true" keyColumn="NESTED_REPLY_NO" keyProperty="nestedReplyNo">
+		INSERT INTO CHAL_NESTED_REPLY (
+			NESTED_REPLY_NO,
+			REPLY_NO, MEM_NO,
+			CHAL_NO, CONTENT,
+			REPLY_DATE,
+			MODIFY_DATE,
+			NESTED_REPLY_STATUS
+		)
+    	VALUES (
+    		SEQ_CHAL_NESTED_REPLY.NEXTVAL,
+    		#{ replyNo },
+    		#{ memNo },
+    		#{ chalNo },
+    		#{ content }
+    		DEFAULT,
+    		SYSDATE,
+    		DEFAULT
+    	)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	<!-- 참여 중인 챌린지 목록 조회 -->

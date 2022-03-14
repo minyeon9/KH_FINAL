@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.earth.challenge.model.dao.ChallengeMapper;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.NestedReply;
 import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
@@ -216,10 +217,20 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 	
-
-
-	
-
+	// 대댓글 저장
+	@Override
+	@Transactional
+	public int saveNestedReply(NestedReply nestedReply) {
+		int result = 0;
+		
+		if( nestedReply.getReplyNo() != 0 ) {
+			// result = mapper.updateNestedReply(nestedReply);
+		} else {
+			result = mapper.insertNestedReply(nestedReply);
+		}
+		
+		return result;
+	}
 
 
 	

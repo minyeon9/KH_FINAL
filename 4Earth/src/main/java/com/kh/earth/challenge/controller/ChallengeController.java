@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.earth.challenge.model.service.ChallengeService;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.NestedReply;
 import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
@@ -392,8 +393,6 @@ public class ChallengeController {
 		model.addObject("remainCount", remainCount);
 		
 		model.setViewName("challenge/month_write");
-		
-		System.out.println("remainCount : " + remainCount);
 
 		return model;
 	}
@@ -539,43 +538,43 @@ public class ChallengeController {
 		
 		// 상세 내용 유지 ------------------------------------
 		// 이달의 챌린지 조회
-		Month month = service.findMonthListByNo(chalNo);
+//		Month month = service.findMonthListByNo(chalNo);
+//		
+//		// 참여 중인 사용자 목록 조회
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("chalNo", chalNo);
+//		map.put("no", loginMember.getNo());
+//		List<MonthMember> ongoingMember = service.findOngoingUser(map);
+//		
+//		// 참여 중인 사용자 목록 갯수 조회
+//		Map<String, Object> mapCount = new HashMap<>();
+//		mapCount.put("chalNo", chalNo);
+//		mapCount.put("no", loginMember.getNo());
+//		int countUser = service.findOngoingUserCount(mapCount);
+//		
+//		// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
+//		Map<String, Object> completeCount = new HashMap<>();
+//		completeCount.put("chalNo", chalNo);
+//		completeCount.put("no", loginMember.getNo());
+//		List<MonthMember> count = service.getMonthGuage(completeCount);
+//		
+//		// 전체 필요 횟수
+//		int requiredCount = 10;
+//		
+//		// 남은 횟수
+//		int remainCount = requiredCount - count.size();
+//		ArrayList<Integer> remainCountList = new ArrayList<>();
+//		for( int i = 0; i < remainCount; i++ ) {
+//			remainCountList.add(i);
+//		}
 		
-		// 참여 중인 사용자 목록 조회
-		Map<String, Object> map = new HashMap<>();
-		map.put("chalNo", chalNo);
-		map.put("no", loginMember.getNo());
-		List<MonthMember> ongoingMember = service.findOngoingUser(map);
-		
-		// 참여 중인 사용자 목록 갯수 조회
-		Map<String, Object> mapCount = new HashMap<>();
-		mapCount.put("chalNo", chalNo);
-		mapCount.put("no", loginMember.getNo());
-		int countUser = service.findOngoingUserCount(mapCount);
-		
-		// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
-		Map<String, Object> completeCount = new HashMap<>();
-		completeCount.put("chalNo", chalNo);
-		completeCount.put("no", loginMember.getNo());
-		List<MonthMember> count = service.getMonthGuage(completeCount);
-		
-		// 전체 필요 횟수
-		int requiredCount = 10;
-		
-		// 남은 횟수
-		int remainCount = requiredCount - count.size();
-		ArrayList<Integer> remainCountList = new ArrayList<>();
-		for( int i = 0; i < remainCount; i++ ) {
-			remainCountList.add(i);
-		}
-		
-		model.addObject("month", month);
-		model.addObject("ongoingMember", ongoingMember);
-		model.addObject("countUser", countUser);
-		model.addObject("requiredCount", requiredCount);
-		model.addObject("remainCount", remainCount);
-		model.addObject("count", count);
-		model.addObject("remainCountList", remainCountList);
+//		model.addObject("month", month);
+//		model.addObject("ongoingMember", ongoingMember);
+//		model.addObject("countUser", countUser);
+//		model.addObject("requiredCount", requiredCount);
+//		model.addObject("remainCount", remainCount);
+//		model.addObject("count", count);
+//		model.addObject("remainCountList", remainCountList);
 
 		model.setViewName("common/msg");
 		
@@ -639,6 +638,73 @@ public class ChallengeController {
 			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
 		}
 		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	
+	// 대댓글 작성
+	@PostMapping("/write_nested_reply")
+	public ModelAndView writeNestedReply (
+			ModelAndView model,
+			@ModelAttribute NestedReply nestedReply,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo) {
+		
+		// 댓글 작성
+		nestedReply.setMemNo(loginMember.getNo());
+		nestedReply.setChalNo(chalNo);
+		int result = service.saveNestedReply(nestedReply);
+		
+		if ( result > 0 ) {
+			model.addObject("msg", "답글이 등록되었습니다.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		} else {
+			model.addObject("msg", "답글 등록을 실패했습니다.\n다시 시도해 주세요.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		}
+		
+		// 상세 내용 유지 ------------------------------------
+		// 이달의 챌린지 조회
+//			Month month = service.findMonthListByNo(chalNo);
+//			
+//			// 참여 중인 사용자 목록 조회
+//			Map<String, Object> map = new HashMap<>();
+//			map.put("chalNo", chalNo);
+//			map.put("no", loginMember.getNo());
+//			List<MonthMember> ongoingMember = service.findOngoingUser(map);
+//			
+//			// 참여 중인 사용자 목록 갯수 조회
+//			Map<String, Object> mapCount = new HashMap<>();
+//			mapCount.put("chalNo", chalNo);
+//			mapCount.put("no", loginMember.getNo());
+//			int countUser = service.findOngoingUserCount(mapCount);
+//			
+//			// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
+//			Map<String, Object> completeCount = new HashMap<>();
+//			completeCount.put("chalNo", chalNo);
+//			completeCount.put("no", loginMember.getNo());
+//			List<MonthMember> count = service.getMonthGuage(completeCount);
+//			
+//			// 전체 필요 횟수
+//			int requiredCount = 10;
+//			
+//			// 남은 횟수
+//			int remainCount = requiredCount - count.size();
+//			ArrayList<Integer> remainCountList = new ArrayList<>();
+//			for( int i = 0; i < remainCount; i++ ) {
+//				remainCountList.add(i);
+//			}
+		
+//			model.addObject("month", month);
+//			model.addObject("ongoingMember", ongoingMember);
+//			model.addObject("countUser", countUser);
+//			model.addObject("requiredCount", requiredCount);
+//			model.addObject("remainCount", remainCount);
+//			model.addObject("count", count);
+//			model.addObject("remainCountList", remainCountList);
+
 		model.setViewName("common/msg");
 		
 		return model;

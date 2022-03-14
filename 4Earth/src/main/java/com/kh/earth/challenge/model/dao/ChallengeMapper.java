@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.NestedReply;
 import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
@@ -95,6 +96,11 @@ public interface ChallengeMapper {
 	List<Product> findProductBestList();
 
 	List<TodayMember> findTodayCompleteList(int no);
+
+	
+	
+	// 대댓글 작성
+	int insertNestedReply(NestedReply nestedReply);
 
 
 

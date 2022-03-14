@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.NestedReply;
 import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
@@ -97,6 +98,10 @@ public interface ChallengeService {
 	
 	// 오늘의 챌린지 - 인증 완료 챌린지 상세 접근 제한
 	List<TodayMember> findTodayCompleteList(int no);
+
+	
+	// 대댓글 저장
+	int saveNestedReply(NestedReply nestedReply);
 
 
 

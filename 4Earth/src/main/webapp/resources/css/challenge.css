@@ -593,11 +593,14 @@
     transform: translateY(-50%);
 }
 .reply-list > ul > li .user-info .user-id {
+	display: block;
     color: #67b16b;
+    margin-bottom: 2px;
 }
 .reply-list > ul > li .user-info .user-id .tag {
 	display: inline-block;
 	margin-left: 10px;
+	vertical-aling: 2px;
 }
 .reply-list .user-info .date {
     display: block;
@@ -638,7 +641,7 @@
 .reply-list > ul > li .btn-wrap button:hover {
     color: #5CB65A;
 }
-/* 대댓글 */
+/* 대댓글 목록 */
 .reply-list > ul > li > ul {
     border-top: 1px solid #eee;
     margin-top: 15px;
@@ -714,6 +717,18 @@
 }
 .reply .btn-nested:hover {
 	border-bottom: 1px solid #999;
+}
+
+/* 대댓글 작성 */
+.reply-list > ul > li > ul.nested-wrap {
+	display: none;
+}
+.reply-list > ul > li > ul.nested-wrap .modify-reply-cont {
+	display: block;
+	width: 90%;
+}
+.reply-list > ul > li > ul.nested-wrap .modify-reply-cont .btn-wrap {
+	margin-top: -4px;
 }
 
 

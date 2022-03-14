@@ -149,6 +149,7 @@
 									<c:if test="${ !empty month.replies }">
 										<c:forEach var="reply" items="${ month.replies }">
 											<li>
+												댓글 번호: ${ reply.replyNo }
 												<div class="reply-wrap">
 													<div class="user-info">
 														<div class="img-thumb">
@@ -166,7 +167,7 @@
 															</c:if>
 														</span>
 														<span class="date">
-															<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${ reply.replyDate }" />
+															<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${ reply.modifyDate }" />
 														</span>
 													</div>
 													<div class="reply-cont">
@@ -201,43 +202,97 @@
 														</c:if>
 													</div>
 												</div>
+												
+												<!-- 대댓글 작성 -->
+												<!-- 수정 -->
+												<%-- <div class="modify-wrap modify-reply-cont">
+													<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
+													<!-- <form action="" method=""> -->
+														<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+														<textarea name="content" required></textarea>
+														<div class="btn-wrap">
+															<button type="button" class="btn btn-cancel-reply">취소</button>
+															<button type="submit" class="btn">수정</button>
+															<button type="submit" class="btn" onclick="location.href='${ path }/modify_reply?no=${ month.chalNo }'">수정</button>
+														</div>
+													</form>
+												</div> --%>
+												<!-- // 수정 -->
+												
+												<ul class="nested-wrap">
+													<li>
+	                                                	<div class="modify-reply-cont">
+															<form action="write_nested_reply?chalNo=${ month.chalNo }" method="post">
+																<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
+																<textarea name="content" required></textarea>
+																<div class="btn-wrap">
+																	<button type="button" class="btn btn-cancel-reply">취소</button>
+																	<button type="submit" class="btn">등록</button>
+																</div>
+															</form>
+														</div>
+	                                                </li>
+												</ul>
+												<!-- // 대댓글 작성 -->
 											
-												<!-- 답글 -->
+												<!-- 대댓글 목록 -->
 												<c:if test="${ !empty month.replies }">
 													<c:forEach var="nestedReply" items="${ month.nestedReplies }">
-														<ul>
-			                                                <li>
-			                                                    <div class="user-info">
-			                                                        <div class="img-thumb">
-			                                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-			                                                        </div>
-			                                                        <span>${ nestedReply.id }</span>
-			                                                        <span class="date">${ nestedReply.replyDate }</span>
-			                                                    </div>
-			                                                    <div class="reply-cont">
-			                                                        <p>${ nestedReply.content }</p>
-			                                                    </div>
-			                                                    <div class="btn-wrap">
-			                                                        <button class="material-icons md-18">create</button>
-			                                                        <button class="material-icons md-18">delete_outline</button>
-			                                                    </div>
-			                                                </li>
-			                                                <%-- <li>
-			                                                	<div class="nested-wrap modify-reply-cont">
-																	<form action="nested_reply?chalNo=${ month.chalNo }" method="post">
-																		<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
-																		<textarea name="content" required></textarea>
-																		<div class="btn-wrap">
-																			<button type="button" class="btn btn-cancel-reply">취소</button>
-																			<button type="submit" class="btn">등록</button>
+														<c:if test="${ reply.replyNo == nestedReply.replyNo }">
+															<ul>
+				                                                <li>
+				                                                	대댓글 번호: ${ nestedReply.replyNo }
+				                                                    <div class="user-info">
+				                                                        <div class="img-thumb">
+				                                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+				                                                        </div>
+				                                                        <span class="user-id">
+																			${ nestedReply.id }
+																			<c:if test="${ loginMember.no == nestedReply.memNo }">
+																				<span class="tag tag-orange">내가 쓴 댓글</span>
+																			</c:if>
+																		</span>
+																		<span class="date">
+																			<fmt:formatDate	pattern="yyyy-MM-dd hh:mm" value="${ nestedReply.modifyDate }" />
+																		</span>
+				                                                    </div>
+				                                                    <div class="reply-cont">
+				                                                        <p>${ nestedReply.content }</p>
+				                                                        
+				                                                        <!-- 수정 -->
+																		<div class="modify-wrap modify-reply-cont">
+																			<form action="modify_reply?chalNo=${ month.chalNo }" method="post">
+																			<!-- <form action="" method=""> -->
+																				<input type="text" name="replyNo" value="${ nestedReply.replyNo }" class="blind">
+																				<textarea name="content" required></textarea>
+																				<div class="btn-wrap">
+																					<button type="button" class="btn btn-cancel-reply">취소</button>
+																					<button type="submit" class="btn">수정</button>
+																					<%-- <button type="submit" class="btn" onclick="location.href='${ path }/modify_reply?no=${ month.chalNo }'">수정</button> --%>
+																				</div>
+																			</form>
 																		</div>
-																	</form>
-																</div>
-			                                                </li> --%>
-														</ul>
+																		<!-- // 수정 -->
+				                                                    </div>
+				                                                    <div class="btn-wrap">
+																		<c:if test="${ loginMember.no == nestedReply.memNo }">
+																			<button class="material-icons md-18 btn-modify-reply" title="수정">create</button>
+																			<form action="delete_reply?chalNo=${ month.chalNo }" method="post">
+																				<input type="text" name="replyNo" value="${ nestedReply.replyNo }" class="blind">
+																				<button type="submit" class="material-icons md-18 btn-delete-reply" title="삭제">delete_outline</button>
+																			</form>
+																		</c:if>
+																		<c:if test="${ loginMember.no != nestedReply.memNo }">
+																			<a href="#popup01" class="material-icons md-18 btn-report-reply btn-open-pop" title="신고">report_problem</a>
+																		</c:if>
+																	</div>
+				                                                </li>
+															</ul>
+														</c:if>
 													</c:forEach>
 												</c:if>
-												<!-- // 답글 -->
+												<!-- // 대댓글 목록 -->
+												
 											</li>
 										</c:forEach>
 									</c:if>
@@ -334,7 +389,7 @@
 		
 		btnNested.each(function(idx, el) {
 			$(el).on('click', (e) => {
-				$(e.currentTarget).siblings('ul').find('.nested-wrap').show();
+				$(e.currentTarget).parents('.reply-wrap').siblings('.nested-wrap').show();
 			});
 		});
 	}

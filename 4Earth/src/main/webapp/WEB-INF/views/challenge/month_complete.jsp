@@ -31,24 +31,34 @@
 			</div>
 
 			<div class="challenge">
-				<div class="complete-page">
-					<i class="material-icons md-36">task_alt</i>
-					<div class="txt">
-						<span class="user-name">${ loginMember.name }</span>님,
-						<p><span class="chal-title">${ list.chalTitle }</span> 챌린지 인증이 완료되었습니다.</p>
-						<c:if test="${ mapLength == requiredCount }">
-							<div class="point"><strong class="icon-point">${ list.chalPoint } Point</strong> 지급 되었습니다.</div>
-							<a href="${ path }/point" class="btn-link">
-								포인트 내역 <i class="material-icons md-20">arrow_right</i>
-							</a>
-						</c:if>
-					</div>
-					<div class="img-thumb">
-						<img src="${ path }/resources/upload/challengeUser/${ list.renamedFilename }" alt="">
-					</div>
-					
-					<a href="${ path }/month_view?chalNo=${ list.chalNo }" class="btn">${ list.chalTitle }</a>
-				</div>
+				<c:choose>
+					<c:when test="${ remainCount == 0 }">
+						<div class="empty-content full">
+							<i class="material-icons">info</i>
+							<p>참여 완료된 챌린지 입니다.</p>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="complete-page">
+							<i class="material-icons md-36">task_alt</i>
+							<div class="txt">
+								<span class="user-name">${ loginMember.name }</span>님,
+								<p><span class="chal-title">${ list.chalTitle }</span> 챌린지 인증이 완료되었습니다.</p>
+								<c:if test="${ mapLength == requiredCount }">
+									<div class="point"><strong class="icon-point">${ list.chalPoint } Point</strong> 지급 되었습니다.</div>
+									<a href="${ path }/point" class="btn-link">
+										포인트 내역 <i class="material-icons md-20">arrow_right</i>
+									</a>
+								</c:if>
+							</div>
+							<div class="img-thumb">
+								<img src="${ path }/resources/upload/challengeUser/${ list.renamedFilename }" alt="">
+							</div>
+							
+							<a href="${ path }/month_view?chalNo=${ list.chalNo }" class="btn">${ list.chalTitle }</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</section>
 	</div>
