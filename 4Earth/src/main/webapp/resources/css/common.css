@@ -42,6 +42,15 @@ h1, h2, h3, h4, h5, h6 {
 /* ----------------------------------
     form
 ---------------------------------- */
+input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+	transition: background-color 5000s ease-in-out 0s;
+	-webkit-transition: background-color 9999s ease-out;
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: #333 !important;
+}
 input[type="text"],
 input[type="password"],
 input[type="tel"],
@@ -202,6 +211,7 @@ input[type="checkbox"] label {
     transform: translateY(0);
 }
 textarea {
+	font-family: "Noto Sans KR", sans-serif;
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 10px;
@@ -395,6 +405,13 @@ a.btn {
 }
 input + .btn {
     margin-left: 5px;
+}
+.btn-link {
+	display: inline-block;
+	color: #666;
+	font-size: 14px;
+	border-bottom: 1px solid #ccc;
+	margin-top: 10px;
 }
 
 
@@ -826,6 +843,9 @@ input + .btn {
 .empty-content {
     text-align: center;
     padding: 50px 0;
+}
+.empty-content.full {
+   padding: 150px 0;	
 }
 .empty-content i {
     color: #ddd;

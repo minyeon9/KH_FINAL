@@ -17,11 +17,15 @@ public interface MemberService {
 
 	Boolean isDuplicateID(String userId);
 	
+	Boolean isDuplicateEmail(String userEmail);
+	
 	int delete(int no);
 
 	int reSignup(String id);
 
 	int updatePassword(int no, String password);
+
+
 
 
 

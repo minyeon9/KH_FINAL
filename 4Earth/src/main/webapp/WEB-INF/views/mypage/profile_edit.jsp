@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <title>내 정보 수정</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -106,10 +107,13 @@
                                 <div class="form-group2">
                                     <!-- <label for="userAddress">주소</label> -->
                                     <!-- <br> -->
-                                    <input type="text" name="address" id="userAddress" placeholder="주소" value="${ loginMember.address }" />
-                                    <!--<input type="button" id="edit-btn2" class="btn" value="주소찾기">
-                                     <br><br> 
-                                    <input type="text" name="userAddress" placeholder="나머지 주소" />-->
+                                    <input type="text" name="postcode" id="sample6_postcode1" placeholder="우편번호" value="${ loginMember.postcode }" required>
+                                    <button type="button" class="btn" id="find_post_btn" onclick="execution_daum_address_edit()">주소찾기</button>
+                                    <br>
+                                    <input type="text" name="address" id="sample6_address" placeholder="주소" value="${ loginMember.address }" />
+                                    <br>
+                                	<input type="text" name="extra_address" id="sample6_extraAddress" placeholder="참고항목" value="${ loginMember.extra_address }"><br>
+                                    <input type="text" name="detail_address" id="sample6_detailAddress" placeholder="상세주소 (동ㆍ호수)" value="${ loginMember.detail_address }">
                                 </div>
                                 <br>
                             </div>

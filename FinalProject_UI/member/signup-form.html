@@ -197,7 +197,18 @@
                                 <div class="form-group">
                                     <label for="userAddress">주소</label>
                                     <br>
-                                    <input type="text" name="userAddress" id="userAddress" placeholder="주소" />
+                                    <input type="text" name="del-postcode" id="sample6_postcode" placeholder="우편번호" required>
+                                    <button class="btn" id="find_post_btn" onclick="execution_daum_address()">주소찾기</button>
+                                    
+                                    <!-- <input type="text" name="del-postcode" id="sample6_postcode" placeholder="우편번호" required> -->
+                                    <!-- <button class="btn" id="find_post_btn" onclick="execution_daum_address()">우편번호 찾기</button> -->
+                                    <br>
+                                    <input type="text" name="del-address" id="sample6_address" placeholder="주소" required>
+                                	<br>
+                                	<input type="text" name="del-extraAddress" id="sample6_extraAddress" placeholder="참고항목"><br>
+                                          <input type="text" name="del-detailAddress" id="sample6_detailAddress" placeholder="상세주소 (동ㆍ호수)">
+                                	
+                                    <!-- <input type="text" name="userAddress" id="userAddress" placeholder="주소" /> -->
                                 </div>
                                 <br>
                                 <!-- <a href="#popup01" class="btn btn-open-pop">게시판 관리</a> -->
