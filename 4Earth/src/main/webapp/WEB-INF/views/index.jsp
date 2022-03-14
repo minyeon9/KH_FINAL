@@ -64,7 +64,7 @@
 							<img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
 						</div>
 						<div class="cont">
-							<span><i class="material-icons md-36">military_tech</i> 많은 사용자가<br>구매하고 있어요!</span>
+							<span><i class="material-icons md-36">military_tech</i> 새로 들어온<br>상품을 확인해보세요!</span>
 							<strong>${ productList.proName }</strong>
 							<p>${ productList.proInfo }</p>
 							<a href="${ path }/product_detail?no=${ productList.proNo }" class="btn">구매하기</a>

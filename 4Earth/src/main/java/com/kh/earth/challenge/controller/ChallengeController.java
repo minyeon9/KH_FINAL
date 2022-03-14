@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.challenge.model.service.ChallengeService;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
@@ -728,6 +729,39 @@ public class ChallengeController {
 		return model;
 	}
 	
+	// 댓글 신고
+	@PostMapping("/report_reply")
+	public ModelAndView reportReply (
+			ModelAndView model,
+			@ModelAttribute Report report,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo,
+			// @RequestParam("memNo") int memNo,
+			@RequestParam(value = "report-detail") char reportCategory) {
+		
+		log.info("reportReply - 호출");
+		
+		// 대댓글 작성
+		report.setReportMemberNo(loginMember.getNo()); // 신고한 회원
+		// report.setReportedMemberNo(memNo); // 신고 받은 회원
+		report.setReportCategory(reportCategory); // 신고 분류
+		
+		int result = service.saveReport(report);
+		
+		if ( result > 0 ) {
+			model.addObject("msg", "댓글 신고가 접수되었습니다.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		} else {
+			model.addObject("msg", "댓글 신고를 실패했습니다.\n다시 시도해 주세요.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		}
+		
+		System.out.println("신고 : " + result);
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	
 	
@@ -741,7 +775,7 @@ public class ChallengeController {
 	
 	
 	
-	// 참여 중인 챌린지 목록 조회
+	// 참여 중인 챌린지 목록 조회 - 에코 챌린지
 	@GetMapping("/ongoing_list")
 	public ModelAndView ongoingList(
 			ModelAndView model,
@@ -760,6 +794,26 @@ public class ChallengeController {
 		model.addObject("ongoingList", ongoingList);
 		
 		model.setViewName("challenge/ongoing_list");
+		
+		return model;
+	}
+	
+	// 참여 중인 챌린지
+	@GetMapping("/my_ongoing_list")
+	public ModelAndView myOngoingList(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam(defaultValue = "1") int page) {
+		
+		// 참여 중인 챌린지 목록
+		int listCount = service.getOngoingListCount(loginMember.getNo());
+		PageInfo pageInfo = new PageInfo(page, 10, listCount, 8);
+		List<MonthMember> ongoingList = service.findOngoingListByMemNo(loginMember.getNo(), pageInfo);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("ongoingList", ongoingList);
+		
+		model.setViewName("mypage/my_ongoing_list");
 		
 		return model;
 	}

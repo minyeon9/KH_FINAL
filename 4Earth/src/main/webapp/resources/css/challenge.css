@@ -550,7 +550,7 @@
     height: 80px;
     border-radius: 10px 0 0 10px;
 }
-.reply form .btn {
+.reply form .btn-write-reply {
     width: 105px;
     height: 80px;
 }
@@ -1051,5 +1051,83 @@
 
 
 
-
-
+/* 신고하기 */
+.report-cont {
+}
+.report-cont .notice {
+	color: #333;
+	font-size: 14px;
+	font-weight: 400;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	
+}
+.report-cont .report-info {
+	padding: 0 20px 20px;
+}
+.report-cont .report-info li {
+	display: flex;
+}
+.report-cont .report-info li + li {
+	margin-top: 10px;
+}
+.report-cont .report-info strong {
+	position: relative;
+	color: #333;
+	min-width: 100px;
+	font-weight: 400;
+	padding-left: 14px;
+}
+.report-cont .report-info strong:before {
+	content: '';
+	position: absolute;
+	top: 8px;
+	left: 0;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: #67b16b;
+}
+.report-cont .report-info p {
+	color: #67b16b;
+}
+.report-cont .report-category {
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	background: #fff;
+	padding: 20px;
+}
+.report-cont .report-category strong {
+	display: block;
+	color: #333;
+	font-size: 16px;
+	font-weight: 500;
+	margin-bottom: 10px;
+}
+.report-cont .report-category strong span {
+	display: block;
+	color: #666;
+	font-size: 14px;
+	font-weight: 400;
+	margin-top: 5px;
+}
+.report-cont .report-category .radio-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 05px;
+}
+.report-cont .report-category .radio-wrap .radio-group {
+	width: 50%;
+    box-sizing: border-box;
+}
+.report-cont .report-detail textarea {
+	width: 100%;
+	height: 80px;
+	border-radius: 10px;
+}
+.reply-list > ul > li .layer-popup .btn-wrap {
+	position: relative;
+	top: auto;
+	right: auto;
+}

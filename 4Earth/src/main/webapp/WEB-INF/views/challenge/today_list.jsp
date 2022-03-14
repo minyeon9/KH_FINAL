@@ -43,7 +43,8 @@
 								<c:set var="myListNumberSet" value="${ myListNumber }" />
 								<c:choose>
 									<c:when test="${fn:contains(myListNumberSet, todayList.chalNo)}">
-										<li class="complete"><i class="num">${ listStatus.count }</i>
+										<li class="complete">
+											<i class="num">${ listStatus.count }</i>
 											<div class="item">
 												<div class="img-thumb">
 													<img src="${ path }/resources/images/challenge/${ todayList.renamedFilename }" alt="">
@@ -65,7 +66,7 @@
 									</c:when>
 									<c:otherwise>
 										<li>
-											<i class="num">${ todayList.chalNo }</i>
+											<i class="num">${ listStatus.count }</i>
 											<div class="item">
 												<div class="img-thumb">
 													<img src="${ path }/resources/images/challenge/${ todayList.renamedFilename }" alt="">

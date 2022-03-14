@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.challenge.model.vo.NestedReply;
@@ -100,6 +101,9 @@ public interface ChallengeService {
 	// 대댓글 삭제
 	NestedReply findNestedReplyByNo(int nestedReplyNo);
 	int deleteNestedReply(int nestedReplyNo);
+	
+	// 댓글 신고
+	int saveReport(Report report);
 
 
 

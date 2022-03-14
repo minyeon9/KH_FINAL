@@ -273,6 +273,50 @@ textarea:focus {
 .check-group .check-box:last-child {
     padding-right: 0;
 }
+.radio-group {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+.radio-group input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.radio-group .checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.radio-group:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.radio-group input:checked ~ .checkmark {
+    background-color: #67b16b;
+}
+.radio-group input:checked ~ .checkmark:after {
+    display: block;
+}
+.radio-group .checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+ 	top: 5px;
+	left: 5px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #fff;
+}
+
 select {
     color: #666;
     min-width: 100px;
