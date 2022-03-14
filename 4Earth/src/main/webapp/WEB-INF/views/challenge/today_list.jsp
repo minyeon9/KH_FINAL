@@ -39,15 +39,14 @@
 				<div class="thumb-list vertical challenge">
 					<ul>
 						<c:if test="${ !empty todayList }">
-							<c:forEach var="todayList" items="${ todayList }"
-								varStatus="listStatus">
+							<c:forEach var="todayList" items="${ todayList }" varStatus="listStatus">
 								<c:set var="myListNumberSet" value="${ myListNumber }" />
 								<c:choose>
 									<c:when test="${fn:contains(myListNumberSet, todayList.chalNo)}">
 										<li class="complete"><i class="num">${ todayList.chalNo }</i>
 											<div class="item">
 												<div class="img-thumb">
-													<img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
+													<img src="${ path }/resources/images/challenge/${ todayList.renamedFilename }" alt="">
 												</div>
 												<div class="item-cont">
 													<strong>${ todayList.chalTitle }</strong>
@@ -69,7 +68,7 @@
 											<i class="num">${ todayList.chalNo }</i>
 											<div class="item">
 												<div class="img-thumb">
-													<img src="${ path }${ todayList.chalImgPath }/challenge_today0${ todayList.chalNo }.jpg" alt="">
+													<img src="${ path }/resources/images/challenge/${ todayList.renamedFilename }" alt="">
 												</div>
 												<div class="item-cont">
 													<strong>${ todayList.chalTitle }</strong>

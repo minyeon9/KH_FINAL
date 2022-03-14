@@ -1,6 +1,5 @@
 package com.kh.earth.challenge.model.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.earth.challenge.model.dao.ChallengeMapper;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.Point;
+import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
-import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.store.model.vo.Product;
 
 
 @Service
@@ -26,8 +27,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	// 오늘의 챌린지 목록 조회
 	@Override
-	public List<Today> getTodayList() {
-		return mapper.findAllToday();
+	public List<Today> getTodayList(String formatedNow) {
+		return mapper.findAllToday(formatedNow);
 	}
 	
 	// 오늘의 챌린지 상세 및 작성
@@ -40,6 +41,20 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public int saveTodayMemberList(Map<String, Object> map) {
 		return mapper.insertTodayMember(map);
+	}
+	
+	// 오늘의 챌린지 달성 시 포인트 저장
+	@Override
+	public int savePoint(Point point) {
+		int result = 0;
+		
+		if( point.getNo() != 0 ) {
+			// result = mapper.updateBoard(board);
+		} else {
+			result = mapper.insertPoint(point);
+		}
+		
+		return result;
 	}
 	
 	// 오늘의 챌린지 인증 완료
@@ -118,11 +133,93 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	// 이달의 챌린지 참여 횟수 조회
 	@Override
-	public List<MonthMember> getMonthGuage(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return mapper.getMonthGuage(map);
+	public List<MonthMember> getMonthGuage(Map<String, Object> completeCount) {
+		return mapper.getMonthGuage(completeCount);
+	}
+
+	// 댓글 작성
+	@Override
+	@Transactional
+	public int saveReply(Reply reply) {
+		int result = 0;
+		
+		if( reply.getReplyNo() != 0 ) {
+			result = mapper.updateReply(reply);
+		} else {
+			result = mapper.insertReply(reply);
+		}
+		
+		return result;
+	}
+
+	// 댓글 번호 조회(삭제)
+	@Override
+	public Reply findReplyByNo(int replyNo) {
+		return mapper.findReplyByNo(replyNo);
+	}
+	@Override
+	public int deleteReply(int replyNo) {
+		return mapper.deleteReply(replyNo);
+	}
+
+	
+	
+	
+	
+//	@Override
+//	public List<Month> getMonthList(PageInfo pageInfo) {
+//		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+//		int limit = pageInfo.getListLimit();
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+//		
+//		return mapper.findAllMonth(rowBounds);
+//	}
+	
+	
+	
+	// 참여 중인 챌린지 목록 조회
+	@Override
+	public List<MonthMember> findOngoingListByMemNo(int no, PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.findOngoingListByMemNo(no, rowBounds);
 	}
 	
+	// 참여 중인 챌린지 목록 갯수 조회
+	@Override
+	public int getOngoingListCount(int no) {
+		return mapper.getOngoingListCount(no);
+	}
+	
+	
+	
+	
+	
+
+	// 메인 - 챌린지 목록
+	@Override
+	public List<Month> findMonthBestList() {
+		return mapper.findMonthBestList();
+	}
+
+	// 메인 - 상품 목록
+	@Override
+	public List<Product> findProductList() {
+		return mapper.findProductBestList();
+	}
+
+	@Override
+	public List<TodayMember> findTodayCompleteList(int no) {
+		return mapper.findTodayCompleteList(no);
+	}
+
+	
+
+
+	
+
 
 
 	
@@ -131,21 +228,6 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	
 
-
-	
-
-	
-	
-
-	
-
-
-	
-
-
-
-
-	
 	
 
 }

@@ -20,8 +20,8 @@
 			<div class="page-tit">
 				<h3>이달의 챌린지</h3>
 				<div class="bread-crumb">
-					<a href="${ path }"><i class="material-icons md-16">home</i></a> <a
-						href="${ path }/today_main">에코 챌린지</a> <span>이달의 챌린지</span>
+					<a href="${ path }"><i class="material-icons md-16">home</i></a>
+					<a href="${ path }/today_main">에코 챌린지</a> <span>이달의 챌린지</span>
 				</div>
 			</div>
 
@@ -64,14 +64,10 @@
 
 				<div class="challenge-sort">
 					<form action="${ path }/challenge_arrange">
-						<select name="arrange" id="challenge-arrange" class="selectbox"
-							onchange="submit()">
-							<option value="최신순"
-								<c:if test="${arrange eq '최신순'}">selected</c:if>>최신순</option>
-							<option value="높은포인트순"
-								<c:if test="${arrange eq '높은포인트순'}">selected</c:if>>높은포인트순</option>
-							<option value="낮은포인트순"
-								<c:if test="${arrange eq '낮은포인트순'}">selected</c:if>>낮은포인트순</option>
+						<select name="arrange" id="challenge-arrange" class="selectbox" onchange="submit()">
+							<option value="최신순" <c:if test="${arrange eq '최신순'}">selected</c:if>>최신순</option>
+							<option value="높은포인트순" <c:if test="${arrange eq '높은포인트순'}">selected</c:if>>높은포인트순</option>
+							<option value="낮은포인트순" <c:if test="${arrange eq '낮은포인트순'}">selected</c:if>>낮은포인트순</option>
 						</select>
 					</form>
 				</div>
@@ -80,46 +76,43 @@
 					<ul>
 						<c:if test="${ !empty monthList }">
 							<c:forEach var="monthList" items="${ monthList }">
-								<li class="complete"><a
-									href="${ path }/month_view?chalNo=${ monthList.chalNo }">
+								<li class="complete">
+									<a href="${ path }/month_view?chalNo=${ monthList.chalNo }">
 										<div class="img-thumb">
-											<img
-												src="${ path }/resources/images/challenge/challenge_today01.jpg"
-												alt="">
+											<img src="${ path }/resources/upload/challenge/${ monthList.renamedFilename }" alt="">
 										</div>
 										<div class="item-cont">
+											<span class="tag tag-orange">
+												<b>${ monthList.chalCount }</b>회 인증 필요
+											</span>
 											<strong>${ monthList.chalTitle }</strong>
 											<p>${ monthList.chalContent }</p>
-											<span class="icon-point"> <fmt:formatNumber
-													pattern="##,###" value="${ monthList.chalPoint }" />
+											<span class="icon-point">
+												<fmt:formatNumber pattern="##,###" value="${ monthList.chalPoint }" />
 											</span>
 										</div>
-								</a></li>
+									</a>
+								</li>
 							</c:forEach>
 						</c:if>
 					</ul>
 
 					<div class="paging">
-						<a href="${ path }/month_list?page=1" class="first"><span>맨
-								앞으로</span></a> <a href="${ path }/month_list?page=${ pageInfo.prevPage }"
-							class="prev"><span>이전</span></a>
-						<c:forEach begin="${ pageInfo.startPage }"
-							end="${ pageInfo.endPage }" varStatus="status">
+						<a href="${ path }/month_list?page=1" class="first"><span>맨 앞으로</span></a>
+						<a href="${ path }/month_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+						<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
 							<c:if test="${ status.current == pageInfo.currentPage }">
 								<strong>${ status.current }</strong>
 							</c:if>
 
 							<c:if test="${ status.current != pageInfo.currentPage }">
 								<%-- <a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a> --%>
-								<a
-									href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
+								<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
 								<%-- <a href="${ path }/product_arrange?category=${ category }&category-detail=${ detail }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a> --%>
 							</c:if>
 						</c:forEach>
-						<a href="${ path }/month_list?page=${ pageInfo.nextPage }"
-							class="next"><span>다음</span></a> <a
-							href="${ path }/month_list?page=${ pageInfo.maxPage }"
-							class="last"><span>맨 뒤로</span></a>
+						<a href="${ path }/month_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+						<a href="${ path }/month_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
 					</div>
 				</div>
 			</div>
@@ -133,7 +126,7 @@
 </div>
 
 <script type="text/javascript">
-let idxNum=1;
+	let idxNum = 1;
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

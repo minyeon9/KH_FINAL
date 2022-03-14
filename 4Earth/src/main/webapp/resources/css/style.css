@@ -170,7 +170,7 @@
     left: -50%;
     display: flex;
     overflow: hidden;
-    padding-bottom: 30px;
+    padding: 0 10px 30px 10px;
 }
 .visual .best-list-main li {
     overflow: hidden;
