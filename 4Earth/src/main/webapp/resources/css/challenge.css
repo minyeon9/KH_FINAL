@@ -916,13 +916,6 @@
 .challenge .complete-page .icon-point {
 	background: url(../images/common/icon_point.png) 0 3px no-repeat;
 }
-.challenge .complete-page .link {
-	display: inline-block;
-	color: #666;
-	font-size: 14px;
-	border-bottom: 1px solid #ccc;
-	margin-top: 10px;
-}
 .challenge .complete-page .btn {
 	position: relative;
 	margin-top: 40px;

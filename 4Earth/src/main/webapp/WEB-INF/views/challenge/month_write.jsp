@@ -29,7 +29,7 @@
 			<div class="challenge prov">
 				<c:choose>
 					<c:when test="${ remainCount == 0 }">
-						<div class="empty-content">
+						<div class="empty-content full">
 							<i class="material-icons">info</i>
 							<p>참여 완료된 챌린지 입니다.</p>
 						</div>

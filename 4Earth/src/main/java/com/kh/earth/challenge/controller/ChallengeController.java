@@ -314,47 +314,51 @@ public class ChallengeController {
 	@GetMapping("/month_view")
 	public ModelAndView monthView(
 			ModelAndView model,
-			@SessionAttribute(name = "loginMember") Member loginMember,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
 			@RequestParam("chalNo") int chalNo) {
 		
 		// 이달의 챌린지 조회
 		Month month = service.findMonthListByNo(chalNo);
 		
 		// 참여 중인 사용자 목록 조회
-		Map<String, Object> map = new HashMap<>();
-		map.put("chalNo", chalNo);
-		map.put("no", loginMember.getNo());
-		List<MonthMember> ongoingMember = service.findOngoingUser(map);
-		
-		// 참여 중인 사용자 목록 갯수 조회
-		Map<String, Object> mapCount = new HashMap<>();
-		mapCount.put("chalNo", chalNo);
-		mapCount.put("no", loginMember.getNo());
-		int countUser = service.findOngoingUserCount(mapCount);
-		
-		// 사용자의 해당 챌린지 완료 횟수 조회
-		Map<String, Object> completeCount = new HashMap<>();
-		completeCount.put("chalNo", chalNo);
-		completeCount.put("no", loginMember.getNo());
-		List<MonthMember> count = service.getMonthGuage(completeCount);
-		
-		// 전체 필요 횟수
-		int requiredCount = month.getChalCount();
-		
-		// 남은 횟수
-		int remainCount = requiredCount - count.size();
-		ArrayList<Integer> remainCountList = new ArrayList<>();
-		for( int i = 0; i < remainCount; i++ ) {
-			remainCountList.add(i);
+		if( loginMember != null ) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("chalNo", chalNo);
+			map.put("no", loginMember.getNo());
+			List<MonthMember> ongoingMember = service.findOngoingUser(map);
+			
+			// 참여 중인 사용자 목록 갯수 조회
+			Map<String, Object> mapCount = new HashMap<>();
+			mapCount.put("chalNo", chalNo);
+			mapCount.put("no", loginMember.getNo());
+			int countUser = service.findOngoingUserCount(mapCount);
+			
+			// 사용자의 해당 챌린지 완료 횟수 조회
+			Map<String, Object> completeCount = new HashMap<>();
+			completeCount.put("chalNo", chalNo);
+			completeCount.put("no", loginMember.getNo());
+			List<MonthMember> count = service.getMonthGuage(completeCount);
+			
+			// 전체 필요 횟수
+			int requiredCount = month.getChalCount();
+			
+			// 남은 횟수
+			int remainCount = requiredCount - count.size();
+			ArrayList<Integer> remainCountList = new ArrayList<>();
+			for( int i = 0; i < remainCount; i++ ) {
+				remainCountList.add(i);
+			}
+			
+			model.addObject("ongoingMember", ongoingMember);
+			model.addObject("countUser", countUser);
+			model.addObject("requiredCount", requiredCount);
+			model.addObject("remainCount", remainCount);
+			model.addObject("count", count);
+			model.addObject("remainCountList", remainCountList);
 		}
 		
+		
 		model.addObject("month", month);
-		model.addObject("ongoingMember", ongoingMember);
-		model.addObject("countUser", countUser);
-		model.addObject("requiredCount", requiredCount);
-		model.addObject("remainCount", remainCount);
-		model.addObject("count", count);
-		model.addObject("remainCountList", remainCountList);
 		
 		System.out.println("댓글 테스트 중" + month);
 		

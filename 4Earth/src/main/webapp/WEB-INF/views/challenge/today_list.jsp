@@ -43,7 +43,7 @@
 								<c:set var="myListNumberSet" value="${ myListNumber }" />
 								<c:choose>
 									<c:when test="${fn:contains(myListNumberSet, todayList.chalNo)}">
-										<li class="complete"><i class="num">${ todayList.chalNo }</i>
+										<li class="complete"><i class="num">${ listStatus.count }</i>
 											<div class="item">
 												<div class="img-thumb">
 													<img src="${ path }/resources/images/challenge/${ todayList.renamedFilename }" alt="">

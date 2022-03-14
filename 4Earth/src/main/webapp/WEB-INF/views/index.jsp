@@ -24,7 +24,7 @@
 				<c:forEach var="challengeList" items="${ month }" begin="0" end="0">
 					<div class="best-main">
 						<div class="thumb-img">
-							<img src="${ path }/resources/images/@temp/@thumbnail01.jpg"alt="">
+							<img src="${ path }/resources/upload/challenge/${ challengeList.renamedFilename }"alt="">
 						</div>
 						<div class="cont">
 							<span><i class="material-icons md-36">military_tech</i> 많은 사용자가<br>참여하고 있어요!</span>
@@ -41,7 +41,7 @@
 						<li>
 							<a href="${ path }/month_view?chalNo=${ challengeList.chalNo }">
 								<div class="thumb-img">
-									<img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+									<img src="${ path }/resources/upload/challenge/${ challengeList.renamedFilename }" alt="">
 								</div>
 								<strong>${ challengeList.chalTitle }</strong>
 								<p>${ challengeList.chalContent }</p>

@@ -28,7 +28,7 @@
 			<div class="challenge">
 				<div class="thumb-list ongoing">
 					<c:if test="${ empty ongoingList }">
-						<div class="empty-content">
+						<div class="empty-content full">
 							<i class="material-icons">info</i>
 							<p>참여 중인 챌린지가 없습니다.</p>
 						</div>

@@ -65,15 +65,15 @@
 
                     <div class="thumb-list">
                        	<c:if test="${ empty todayMain }">
-                       		<div class="empty-content">
-                       			<p>조회된 오늘의 챌린지가 없습니다.</p>
+                       		<div class="empty-content full">
+                       			<p>금일 진행 중인 오늘의 챌린지가 없습니다.</p>
                        		</div>
                        	</c:if>
                         <ul>
                         	<c:if test="${ !empty todayMain }">
-	                         	<c:forEach var="todayMain" items="${ todayMain }">
+	                         	<c:forEach var="todayMain" items="${ todayMain }" varStatus="status">
 	                              <li>
-	                                  <i class="num">${ todayMain.chalNo }</i>
+	                                  <i class="num">${ status.count }</i>
 	                                  <div class="img-thumb">
 	                                      <img src="${ path }/resources/images/challenge/${ todayMain.renamedFilename }" alt="">
 	                                  </div>
