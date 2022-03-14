@@ -235,6 +235,7 @@
   color: #999;
 }
 
+
 /* ----------------------------------
     signup-form css
 ---------------------------------- */
@@ -355,7 +356,7 @@
 
 #name-area {
   display: grid;
-  grid-template-columns: 285px 150px;
+  grid-template-columns: 285px 160px;
   /* background-color: blue; */
   /* grid-template-columns: 200px; */
 }
@@ -366,6 +367,24 @@
 
 .layer-popup{
   background-image: url(../images/member/login-background.jpg);
+}
+
+
+#find_post_btn{
+  width: 70px;
+  height: 37px;
+  min-height: 37px !important;
+}
+
+#sample6_postcode{
+  margin-left: 78px;
+  /* width: 190px; */
+  /* margin-bottom: 5px; */
+}
+
+#checkDuplicate{
+  height: 37px;
+  min-height: 37px !important;
 }
 
 /* ----------------------------------

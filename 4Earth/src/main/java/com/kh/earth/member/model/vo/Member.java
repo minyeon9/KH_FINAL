@@ -22,7 +22,13 @@ public class Member {
 	
 	private String phone;
 	
+	private String postcode;
+	
 	private String address;
+	
+	private String extra_address;
+
+	private String detail_address;
 	
 	private String status;
 	

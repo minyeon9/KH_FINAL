@@ -18,6 +18,8 @@ public interface MemberMapper {
 	Member findMemberById_forSNS(String id);
 	
 	Member findMemberByPhone(String phone);
+	
+	Member findMemberByEmail(String userEmail);
 
 	int insertMember(Member member);
 
@@ -30,6 +32,8 @@ public interface MemberMapper {
 	int reSignup(String id);
 
 	int updatePassword(Map<String, String> map);
+
+
 
 
 

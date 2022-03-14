@@ -57,7 +57,7 @@
                                     <br>
                                     <div class="input-with-icon">
                                         <i class="material-icons">mail</i>
-                                        <input type="email" name="email" id="email" placeholder="이메일을 입력해주세요.">
+                                        <input type="mail" name="email" id="email" placeholder="이메일을 입력해주세요.">
                                     </div>
                                     <!-- <a href="#popup02" class="btn-open-pop"></a> -->
                                     <!--<button class="btn btn-login" id="findPw" type="submit">비밀번호 찾기</button>-->
