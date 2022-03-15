@@ -48,8 +48,11 @@
 
 				<div class="tab">
 					<div class="tab-title">
-						<a href="#tab01" class="is-open">적립/사용 내역</a> <a href="#tab02">소멸 예정</a>
+						<a href="#tab01" class="is-open">적립 내역</a>
+						<a href="#tab02">사용 내역</a>
+						<a href="#tab03">소멸 예정 내역</a>
 					</div>
+					
 					<div class="tab-content">
 						<div class="tab-view is-open" id="tab01">
 							<div class="board">
@@ -67,21 +70,77 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>0000-00-00</td>
-											<td>오늘의 챌린지 달성</td>
-											<td><span class="plus">1,000</span></td>
-										</tr>
-										<tr>
-											<td>0000-00-00</td>
-											<td>상품 구매</td>
-											<td><span class="minus">1,000</span></td>
-										</tr>
+										<c:if test="${ !empty savePoint }">
+											<c:forEach var="savePoint" items="${ savePoint }">
+												<tr>
+													<td>
+														<fmt:formatDate value="${ savePoint.saveDate }" pattern="yyyy-MM-dd"/>
+													</td>
+													<td>${ savePoint.saveContent }</td>
+													<td><span class="point-plus">${ savePoint.savePoint }</span></td>
+												</tr>
+											</c:forEach>
+										</c:if>
+										
+										<c:if test="${ empty savePoint }">
+											<tr>
+												<td colspan="3">
+													<div class="empty-content">
+														<i class="material-icons">info</i>
+														<p>포인트 적립 내역이 없습니다.</p>
+													</div>
+												</td>
+											</tr>												
+										</c:if>
 									</tbody>
 								</table>
 							</div>
 						</div>
+						
 						<div class="tab-view" id="tab02">
+							<div class="board">
+								<table class="table">
+									<colgroup>
+										<col width="20%">
+										<col width="*">
+										<col width="20%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th>사용일</th>
+											<th>상세 내역</th>
+											<th>적립/사용</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:if test="${ !empty spendPoint }">
+											<c:forEach var="spendPoint" items="${ spendPoint }">
+												<tr>
+													<td>
+														<fmt:formatDate value="${ spendPoint.spendDate }" pattern="yyyy-MM-dd"/>
+													</td>
+													<td>${ spendPoint.spendContent }</td>
+													<td><span class="point-minus">${ spendPoint.spendPoint }</span></td>
+												</tr>
+											</c:forEach>
+										</c:if>
+										
+										<c:if test="${ empty spendPoint }">
+											<tr>
+												<td colspan="3">
+													<div class="empty-content">
+														<i class="material-icons">info</i>
+														<p>포인트 사용 내역이 없습니다.</p>
+													</div>
+												</td>
+											</tr>												
+										</c:if>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						
+						<div class="tab-view" id="tab03">
 							<div class="empty-content">
 								<i class="material-icons">info</i>
 								<p>포인트 소멸 예정 내역이 없습니다.</p>

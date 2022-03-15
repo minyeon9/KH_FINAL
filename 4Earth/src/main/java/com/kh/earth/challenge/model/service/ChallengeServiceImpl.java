@@ -258,6 +258,44 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 	
+	
+	
+	// 포인트 - 적립 목록 갯수 조회
+	@Override
+	public int findSavePointCount(int no) {
+		return mapper.findSavePointCount(no);
+	}
+	
+	// 포인트 - 적립 목록 조회
+	@Override
+	public List<Point> findSavePointByNo(int no, PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.findSavePointByNo(no, rowBounds);
+	}
+
+	// 포인트 - 사용 목록 갯수 조회
+	@Override
+	public int findSpendPointCount(int no) {
+		return mapper.findSpendPointCount(no);
+	}
+	
+	// 포인트 - 사용 목록 조회
+	@Override
+	public List<Point> findSpendPointByNo(int no, PageInfo spendPageInfo) {
+		int offset = (spendPageInfo.getCurrentPage() - 1) * spendPageInfo.getListLimit();
+		int limit = spendPageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.findSpendPointByNo(no, rowBounds);
+	}
+
+	
+	
+
+	
 
 	
 

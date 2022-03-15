@@ -27,7 +27,7 @@
 							<img src="${ path }/resources/upload/challenge/${ challengeList.renamedFilename }"alt="">
 						</div>
 						<div class="cont">
-							<span><i class="material-icons md-36">military_tech</i> 많은 사용자가<br>참여하고 있어요!</span>
+							<span><i class="material-icons md-36">military_tech</i> 새로운 챌린지를<br>참여해보세요!</span>
 							<strong>${ challengeList.chalTitle }</strong>
 							<p>${ challengeList.chalContent }</p>
 							<%-- <button type="button" class="btn" onclick="location.href='${ path }/month_list'">참여하기</button> --%>

@@ -108,7 +108,6 @@
 							<c:if test="${ status.current != pageInfo.currentPage }">
 								<%-- <a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a> --%>
 								<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
-								<%-- <a href="${ path }/product_arrange?category=${ category }&category-detail=${ detail }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a> --%>
 							</c:if>
 						</c:forEach>
 						<a href="${ path }/month_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
