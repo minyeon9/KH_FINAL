@@ -133,6 +133,12 @@
 		<result property="revContent" column="R_REV_CONTENT"/>
 		<result property="revRating" column="R_REV_RATING"/>
 	</resultMap>
+	
+	<resultMap type="ProductImgs" id="ProductImgsResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFileName" column="RENAMED_FILENAME"/>
+	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
@@ -678,4 +684,12 @@
 		SET PRO_RATING = #{rating}
 		WHERE PRO_NO = #{proNo}
 	</update>
+	
+	<select id="getProductImgs" parameterType="_int" resultMap="ProductImgsResultMap">
+		SELECT PRO_NO, 
+			   ORIGINAL_FILENAME, 
+			   RENAMED_FILENAME
+		FROM PRODUCT_IMGS
+		WHERE PRO_NO = #{no}
+	</select>
 </mapper>

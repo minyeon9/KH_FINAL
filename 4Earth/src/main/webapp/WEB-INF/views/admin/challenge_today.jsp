@@ -83,12 +83,12 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
@@ -96,7 +96,8 @@
                                             <th> 챌린지 번호</th>
                                             <th>챌린지 제목</th>
                                             <th>챌린지 포인트</th>
-                                            <th>작성일</th>
+                                            <th>시작일</th>
+                                            <th>상태</th>
                                             <th>내용</th>
                                             <th>관리</th>
                                         </tr>
@@ -118,6 +119,7 @@
 		                                            <td>${ today.chalTitle }</td>
 		                                            <td>${ today.chalPoint }</td>
 		                                            <td>${ today.startDate }</td>
+		                                            <td>${ today.chalStatus }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                 <div class="layer-popup" id="popup${ vs.index }">
@@ -127,9 +129,42 @@
 						                                        <strong>${ today.chalTitle }</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
-						                                    <div class="pop-cont">
-						                                       ${ today.chalContent }
-						                                    </div>
+						                                    <table id="view-table">
+													           <colgroup>
+													           		<col style="10%">
+													           		<col style="40%">
+													           		<col style="15%">
+													           		<col style="35%">
+													    		</colgroup>
+													        	<tbody>
+													        		<tr>
+													        			<th>번호</th>
+													        			<td>${ today.chalNo }</td>
+													        			<th>제목</th>
+													        			<td>${ today.chalTitle }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>포인트</th>
+													        			<td>${ today.chalPoint }</td>
+													        			<th>빈칸</th>
+													        			<td></td>
+													        		</tr>
+													        		<tr>
+													        			<th>시작일</th>
+													        			<td>${ today.startDate }</td>
+													        			<th>종료일</th>
+													        			<td>${ today.endDate }</td>
+													        		</tr>
+													        		<tr>
+													        			<th colspan="2">사진</th>
+													        			<th colspan="2">내용</th>
+													        		</tr>
+													        		<tr>
+													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/challenge/${today.renamedFilename}" /></td>
+													        			<td colspan="2">${ today.chalContent }</td>
+													        		</tr>
+												        		</tbody>
+													       		</table>
 						                                    <div class="btn-wrap">
 						                                        <button class="btn gray btn-close-pop">취소</button>
 						                                        <button class="btn">저장</button>
@@ -138,7 +173,7 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
+		                                                <button class="btn btn-s" id="today_update" value="${ today.chalNo }">수정</button>
 		                                                <button id="delete" name="no" value=${ today.chalNo } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
@@ -148,7 +183,7 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
+                                <button id="today_write" class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
@@ -207,6 +242,22 @@
 	        }
 	    });
 	});
+	
+	$(document).on("click","#today_write", (e) => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "${ path }/admin/today_write";
+        
+        open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+    });
+	
+	$(document).on("click","#today_update", (e) => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "${ path }/admin/today_update?no="+ e.target.value;
+        
+        open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+    });
 </script>
 
 </html>

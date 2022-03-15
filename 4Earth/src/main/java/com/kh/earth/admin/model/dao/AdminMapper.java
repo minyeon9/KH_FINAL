@@ -14,7 +14,9 @@ import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.notice.model.vo.Notice;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 
 @Mapper
 public interface AdminMapper {
@@ -62,4 +64,24 @@ public interface AdminMapper {
 	Product findProductByNo(int no);
 
 	int updateProduct(Product product);
+
+	int getNoticeCount(Map<String, String> name);
+
+	List<Notice> getNoticeList(RowBounds rowBounds, Map<String, String> name);
+
+	int insertToday(Today today);
+
+	int productImgsSave(ProductImgs productImgs);
+
+	int insertMonth(Month month);
+
+	Today findTodayByNo(int no);
+
+	int updateToday(Today today);
+
+	Month findMonthByNo(int no);
+
+	int updateMonth(Month month);
+
+	int monthMemPoint(int no);
 }
