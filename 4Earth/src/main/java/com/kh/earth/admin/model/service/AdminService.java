@@ -77,4 +77,10 @@ public interface AdminService {
 
 	int updateToday(Today today);
 
+	Month findMonthByNo(int no);
+
+	int updateMonth(Month month);
+
+	int monthMemPoint(int no);
+
 }

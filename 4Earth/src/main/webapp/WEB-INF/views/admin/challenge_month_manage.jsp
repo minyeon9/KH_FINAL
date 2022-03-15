@@ -96,7 +96,7 @@
                                             <th>챌린지 참가 번호</th>
                                             <th>챌린지 참여자</th>
                                             <th>챌린지 번호</th>
-                                            <th>작성일</th>
+                                            <th>지급상황</th>
                                             <th>포인트</th>
                                             <th>내용</th>
                                             <th>관리</th>
@@ -118,7 +118,7 @@
 		                                            <td>${ monthMember.no }</td>
 		                                            <td>${ monthMember.memNo }</td>
 		                                            <td>${ monthMember.chalNo }</td>
-		                                            <td>${ monthMember.chalDate }</td>
+		                                            <td>${ monthMember.chalPointStatus }</td>
 		                                            <td>${ monthMember.chalPoint }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
@@ -147,14 +147,16 @@
 													        		<tr>
 													        			<th>포인트</th>
 													        			<td>${ monthMember.chalPoint }</td>
-													        			<th>빈칸</th>
-													        			<td>빈칸</td>
+													        			<th>지급상황</th>
+													        			<td>${ monthMember.chalPointStatus }</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="4">사진</th>
 													        		</tr>
 													        		<tr>
-													        			<td colspan="4" style="height: 300px">사진내용</td>
+													        			<td colspan="4" style="height: 300px">
+													        				<img id="member-img" src="${ path }/resources/upload/challengeUser/${ monthMember.renamedFilename }" />
+													        			</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>
@@ -167,7 +169,7 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
+		                                                <button id="point" name="no" value=${ monthMember.no } class="btn btn-s">지급</button>
 		                                                <button id="delete" name="no" value=${ monthMember.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
@@ -235,6 +237,14 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#point', (e) => {
+			if(confirm("정말로 포인트를 지급하겠습니까??")) {
+				location.replace("${ path }/admin/month_point?no=" + e.target.value);
+			}
+		})
 	});
 </script>
 
