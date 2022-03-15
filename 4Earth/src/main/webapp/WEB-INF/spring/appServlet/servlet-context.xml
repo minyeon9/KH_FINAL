@@ -42,12 +42,11 @@
 	 		<mapping path="/month_write"/>
 	 		<mapping path="/month_complete"/>
 	 		<mapping path="/ongoing_list"/>
+	 		<mapping path="/my_ongoing_list"/>
 	 		<mapping path="/wishlist"/>
 	 		<mapping path="/purchase_cart"/>
 	 		<mapping path="/order"/>
 			<mapping path="/order_detail"/>
-	 		
-			<exclude-mapping path="/today_main"/>
 			
 			<beans:bean class="com.kh.earth.common.interceptor.LoginCheckInterceptor" id="LoginCheckInterceptor"/>
 			
