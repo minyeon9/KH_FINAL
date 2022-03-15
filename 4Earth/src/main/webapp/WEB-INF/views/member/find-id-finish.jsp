@@ -49,7 +49,7 @@
                                 <p id="find-text">회원님의 아이디는
                                     <br><span id="id">${ userId }</span> 입니다.</p>
                                 <br>
-                                <button class="btn btn-login">비밀번호 찾기</button>
+                                <button class="btn btn-login" onClick="location.href='${ path }/find_id'">비밀번호 찾기</button>
                                 <br>
                                 <div id="find-area-box">
                                 <ul class="find-area2">
