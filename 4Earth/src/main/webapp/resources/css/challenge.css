@@ -550,7 +550,7 @@
     height: 80px;
     border-radius: 10px 0 0 10px;
 }
-.reply form .btn {
+.reply form .btn-write-reply {
     width: 105px;
     height: 80px;
 }
@@ -574,8 +574,11 @@
 }
 .reply-list > ul > li {
     position: relative;
-    border-bottom: 1px solid #ccc;
-    padding: 15px 10px;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 10px 0 10px;
+}
+.reply-list > ul > li .reply-wrap {
+	padding-bottom: 15px;
 }
 .reply-list > ul > li .user-info {
     position: relative;
@@ -593,16 +596,31 @@
     transform: translateY(-50%);
 }
 .reply-list > ul > li .user-info .user-id {
+	display: block;
     color: #67b16b;
+    margin-bottom: 2px;
 }
 .reply-list > ul > li .user-info .user-id .tag {
 	display: inline-block;
 	margin-left: 10px;
+	vertical-aling: 2px;
 }
 .reply-list .user-info .date {
     display: block;
     color: #999;
     font-size: 13px;
+}
+.reply-list > ul > li .user-info .img-thumb:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 20px;
+	height: 20px;
+	transform: translate(-50%, -50%);
+	background: url(../images/common/icon_user.png) 0 0 no-repeat;
+	background-size: 20px;
+	opacity: .3;
 }
 .reply-list > ul > li .user-info .img-thumb img {
     width: 100%;
@@ -618,6 +636,10 @@
     margin-top: 10px;
     padding-left: 60px;
     box-sizing: border-box;
+}
+.reply-list > ul > li .reply-cont p {
+	line-height: 1.2;
+	word-break: break-all;
 }
 .reply-list > ul > li .btn-wrap {
     position: absolute;
@@ -638,10 +660,9 @@
 .reply-list > ul > li .btn-wrap button:hover {
     color: #5CB65A;
 }
-/* 대댓글 */
+/* 대댓글 목록 */
 .reply-list > ul > li > ul {
     border-top: 1px solid #eee;
-    margin-top: 15px;
 }
 .reply-list > ul > li > ul > li {
     position: relative;
@@ -659,9 +680,9 @@
     height: 24px;
     background: url(../images/common/icon_reply.png) 0 0 no-repeat;
 }
-.reply-list > ul > li > ul > li:last-child {
+/* .reply-list > ul > li > ul > li:last-child {
     padding-bottom: 5px;
-}
+} */
 .reply-list > ul > li > ul > li .btn-wrap {
     right: 0;
 }
@@ -712,8 +733,21 @@
 	color: #999;
 	margin-top: 10px;
 }
-.reply .btn-nested:hover {
-	border-bottom: 1px solid #999;
+.reply .btn-nested-reply:hover {
+	color: #67b16b;
+	border-bottom: 1px solid #67b16b;
+}
+
+/* 대댓글 작성 */
+.reply-list > ul > li > ul.nested-wrap {
+	display: none;
+}
+.reply-list > ul > li > ul.nested-wrap .modify-reply-cont {
+	display: block;
+	width: 90%;
+}
+.reply-list > ul > li > ul.nested-wrap .modify-reply-cont .btn-wrap {
+	margin-top: -4px;
 }
 
 
@@ -1017,5 +1051,83 @@
 
 
 
-
-
+/* 신고하기 */
+.report-cont {
+}
+.report-cont .notice {
+	color: #333;
+	font-size: 14px;
+	font-weight: 400;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	
+}
+.report-cont .report-info {
+	padding: 0 20px 20px;
+}
+.report-cont .report-info li {
+	display: flex;
+}
+.report-cont .report-info li + li {
+	margin-top: 10px;
+}
+.report-cont .report-info strong {
+	position: relative;
+	color: #333;
+	min-width: 100px;
+	font-weight: 400;
+	padding-left: 14px;
+}
+.report-cont .report-info strong:before {
+	content: '';
+	position: absolute;
+	top: 8px;
+	left: 0;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: #67b16b;
+}
+.report-cont .report-info p {
+	color: #67b16b;
+}
+.report-cont .report-category {
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	background: #fff;
+	padding: 20px;
+}
+.report-cont .report-category strong {
+	display: block;
+	color: #333;
+	font-size: 16px;
+	font-weight: 500;
+	margin-bottom: 10px;
+}
+.report-cont .report-category strong span {
+	display: block;
+	color: #666;
+	font-size: 14px;
+	font-weight: 400;
+	margin-top: 5px;
+}
+.report-cont .report-category .radio-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 05px;
+}
+.report-cont .report-category .radio-wrap .radio-group {
+	width: 50%;
+    box-sizing: border-box;
+}
+.report-cont .report-detail textarea {
+	width: 100%;
+	height: 80px;
+	border-radius: 10px;
+}
+.reply-list > ul > li .layer-popup .btn-wrap {
+	position: relative;
+	top: auto;
+	right: auto;
+}

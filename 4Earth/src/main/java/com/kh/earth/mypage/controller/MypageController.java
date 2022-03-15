@@ -1,6 +1,7 @@
 package com.kh.earth.mypage.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.earth.challenge.model.service.ChallengeService;
+import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.common.util.FileProcess;
+import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.service.MemberService;
 import com.kh.earth.member.model.vo.Member;
 
@@ -26,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MypageController {
 	@Autowired
 	private MemberService service;
+	private ChallengeService challengeService;
 	
 	@Autowired
 	private ResourceLoader resourceLoader;
@@ -69,6 +74,8 @@ public class MypageController {
 //		
 //		return model;
 //	}
+	
+	
 
 	@GetMapping("/profile_view")
 	public String profile_view() {
