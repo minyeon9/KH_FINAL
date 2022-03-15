@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.challenge.model.dao.ChallengeMapper;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.NestedReply;
 import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
@@ -157,12 +159,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public Reply findReplyByNo(int replyNo) {
 		return mapper.findReplyByNo(replyNo);
 	}
+	// 댓글 삭제
 	@Override
 	public int deleteReply(int replyNo) {
 		return mapper.deleteReply(replyNo);
 	}
-
-	
 	
 	
 	
@@ -216,10 +217,49 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 	
+	// 대댓글 저장
+	@Override
+	@Transactional
+	public int saveNestedReply(NestedReply nestedReply) {
+		int result = 0;
+		
+		if( nestedReply.getNestedReplyNo() != 0 ) {
+			result = mapper.updateNestedReply(nestedReply);
+		} else {
+			result = mapper.insertNestedReply(nestedReply);
+		}
+		
+		return result;
+	}
+	
+	// 대댓글 삭제
+	@Override
+	public NestedReply findNestedReplyByNo(int nestedReplyNo) {
+		return mapper.findNestedReplyByNo(nestedReplyNo);
+	}
+	// 대댓글 삭제
+	@Override
+	public int deleteNestedReply(int nestedReplyNo) {
+		return mapper.deleteNestedReply(nestedReplyNo);
+	}
 
+	// 댓글 신고
+	@Override
+	public int saveReport(Report report) {
+		int result = 0;
+		
+		if( report.getReportNo() != 0 ) {
+			// result = mapper.updateNestedReply(nestedReply);
+		} else {
+			result = mapper.insertReport(report);
+		}
+		
+		return result;
+	}
 
 	
 
+	
 
 
 	

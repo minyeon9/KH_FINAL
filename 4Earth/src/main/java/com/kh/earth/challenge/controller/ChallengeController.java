@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.challenge.model.service.ChallengeService;
 import com.kh.earth.challenge.model.vo.Month;
 import com.kh.earth.challenge.model.vo.MonthMember;
+import com.kh.earth.challenge.model.vo.NestedReply;
 import com.kh.earth.challenge.model.vo.Point;
 import com.kh.earth.challenge.model.vo.Reply;
 import com.kh.earth.challenge.model.vo.Today;
@@ -355,12 +357,13 @@ public class ChallengeController {
 			model.addObject("remainCount", remainCount);
 			model.addObject("count", count);
 			model.addObject("remainCountList", remainCountList);
+			
+			System.out.println(month);
 		}
-		
 		
 		model.addObject("month", month);
 		
-		System.out.println("댓글 테스트 중" + month);
+		System.out.println(month);
 		
 		model.setViewName("challenge/month_view");
 		
@@ -392,8 +395,6 @@ public class ChallengeController {
 		model.addObject("remainCount", remainCount);
 		
 		model.setViewName("challenge/month_write");
-		
-		System.out.println("remainCount : " + remainCount);
 
 		return model;
 	}
@@ -539,43 +540,43 @@ public class ChallengeController {
 		
 		// 상세 내용 유지 ------------------------------------
 		// 이달의 챌린지 조회
-		Month month = service.findMonthListByNo(chalNo);
+//		Month month = service.findMonthListByNo(chalNo);
+//		
+//		// 참여 중인 사용자 목록 조회
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("chalNo", chalNo);
+//		map.put("no", loginMember.getNo());
+//		List<MonthMember> ongoingMember = service.findOngoingUser(map);
+//		
+//		// 참여 중인 사용자 목록 갯수 조회
+//		Map<String, Object> mapCount = new HashMap<>();
+//		mapCount.put("chalNo", chalNo);
+//		mapCount.put("no", loginMember.getNo());
+//		int countUser = service.findOngoingUserCount(mapCount);
+//		
+//		// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
+//		Map<String, Object> completeCount = new HashMap<>();
+//		completeCount.put("chalNo", chalNo);
+//		completeCount.put("no", loginMember.getNo());
+//		List<MonthMember> count = service.getMonthGuage(completeCount);
+//		
+//		// 전체 필요 횟수
+//		int requiredCount = 10;
+//		
+//		// 남은 횟수
+//		int remainCount = requiredCount - count.size();
+//		ArrayList<Integer> remainCountList = new ArrayList<>();
+//		for( int i = 0; i < remainCount; i++ ) {
+//			remainCountList.add(i);
+//		}
 		
-		// 참여 중인 사용자 목록 조회
-		Map<String, Object> map = new HashMap<>();
-		map.put("chalNo", chalNo);
-		map.put("no", loginMember.getNo());
-		List<MonthMember> ongoingMember = service.findOngoingUser(map);
-		
-		// 참여 중인 사용자 목록 갯수 조회
-		Map<String, Object> mapCount = new HashMap<>();
-		mapCount.put("chalNo", chalNo);
-		mapCount.put("no", loginMember.getNo());
-		int countUser = service.findOngoingUserCount(mapCount);
-		
-		// 로그인한 사용자가 해당 챌린지를 완료한 횟수 조회
-		Map<String, Object> completeCount = new HashMap<>();
-		completeCount.put("chalNo", chalNo);
-		completeCount.put("no", loginMember.getNo());
-		List<MonthMember> count = service.getMonthGuage(completeCount);
-		
-		// 전체 필요 횟수
-		int requiredCount = 10;
-		
-		// 남은 횟수
-		int remainCount = requiredCount - count.size();
-		ArrayList<Integer> remainCountList = new ArrayList<>();
-		for( int i = 0; i < remainCount; i++ ) {
-			remainCountList.add(i);
-		}
-		
-		model.addObject("month", month);
-		model.addObject("ongoingMember", ongoingMember);
-		model.addObject("countUser", countUser);
-		model.addObject("requiredCount", requiredCount);
-		model.addObject("remainCount", remainCount);
-		model.addObject("count", count);
-		model.addObject("remainCountList", remainCountList);
+//		model.addObject("month", month);
+//		model.addObject("ongoingMember", ongoingMember);
+//		model.addObject("countUser", countUser);
+//		model.addObject("requiredCount", requiredCount);
+//		model.addObject("remainCount", remainCount);
+//		model.addObject("count", count);
+//		model.addObject("remainCountList", remainCountList);
 
 		model.setViewName("common/msg");
 		
@@ -622,14 +623,11 @@ public class ChallengeController {
 			@RequestParam("chalNo") int chalNo,
 			@RequestParam("replyNo") int replyNo) {
 		
-		System.out.println("댓글 삭제 호출");
-		
 		int result = 0;
 		Reply reply = service.findReplyByNo(replyNo);
 		
-		System.out.println("reply: " + reply);
-		
 		result = service.deleteReply(replyNo);
+		
 		
 		if (result > 0) {
 			model.addObject("msg", "댓글이 삭제되었습니다.");
@@ -644,7 +642,126 @@ public class ChallengeController {
 		return model;
 	}
 	
+	// 대댓글 작성
+	@PostMapping("/write_nested_reply")
+	public ModelAndView writeNestedReply (
+			ModelAndView model,
+			@ModelAttribute NestedReply nestedReply,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo) {
+		
+		// 대댓글 작성
+		nestedReply.setMemNo(loginMember.getNo());
+		nestedReply.setChalNo(chalNo);
+		int result = service.saveNestedReply(nestedReply);
+		
+		if ( result > 0 ) {
+			model.addObject("msg", "답글이 등록되었습니다.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		} else {
+			model.addObject("msg", "답글 등록을 실패했습니다.\n다시 시도해 주세요.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		}
+
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
+	// 대댓글 수정
+	@PostMapping("/modify_nested_reply")
+	public ModelAndView modifyNestedReply (
+			ModelAndView model,
+			@ModelAttribute NestedReply nestedReplyreply,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo,
+			@RequestParam("replyNo") int replyNo) {
+		
+		nestedReplyreply.setMemNo(loginMember.getNo());
+		nestedReplyreply.setChalNo(chalNo);
+		nestedReplyreply.setReplyNo(replyNo);
+		int result = service.saveNestedReply(nestedReplyreply);
+		
+		if ( nestedReplyreply.getMemNo() == loginMember.getNo() ) {
+			if ( result > 0 ) {
+				model.addObject("msg", "답글이 수정되었습니다.");
+				model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+			} else {
+				model.addObject("msg", "답글 수정을 실패했습니다.\n다시 시도해 주세요.");
+				model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+			}
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/month_list");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	// 대댓글 삭제
+	@PostMapping("delete_nested_reply")
+	public ModelAndView deleteNestedReply (
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo,
+			@RequestParam("replyNo") int replyNo,
+			@RequestParam("nestedReplyNo") int nestedReplyNo) {
+		
+		int result = 0;
+		NestedReply nestedReply = service.findNestedReplyByNo(nestedReplyNo);
+		
+		System.out.println("대댓글 조회: " + nestedReply);
+		
+		result = service.deleteNestedReply(nestedReplyNo);
+		
+		if (result > 0) {
+			model.addObject("msg", "답글이 삭제되었습니다.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		} else {
+			model.addObject("msg", "답글 삭제를 실패했습니다.\n다시 시도해 주세요.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	// 댓글 신고
+	@PostMapping("/report_reply")
+	public ModelAndView reportReply (
+			ModelAndView model,
+			@ModelAttribute Report report,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam("chalNo") int chalNo,
+			// @RequestParam("memNo") int memNo,
+			@RequestParam(value = "report-detail") char reportCategory) {
+		
+		log.info("reportReply - 호출");
+		
+		// 대댓글 작성
+		report.setReportMemberNo(loginMember.getNo()); // 신고한 회원
+		// report.setReportedMemberNo(memNo); // 신고 받은 회원
+		report.setReportCategory(reportCategory); // 신고 분류
+		
+		int result = service.saveReport(report);
+		
+		if ( result > 0 ) {
+			model.addObject("msg", "댓글 신고가 접수되었습니다.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		} else {
+			model.addObject("msg", "댓글 신고를 실패했습니다.\n다시 시도해 주세요.");
+			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+		}
+		
+		System.out.println("신고 : " + result);
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	
 	
@@ -658,7 +775,7 @@ public class ChallengeController {
 	
 	
 	
-	// 참여 중인 챌린지 목록 조회
+	// 참여 중인 챌린지 목록 조회 - 에코 챌린지
 	@GetMapping("/ongoing_list")
 	public ModelAndView ongoingList(
 			ModelAndView model,
@@ -677,6 +794,26 @@ public class ChallengeController {
 		model.addObject("ongoingList", ongoingList);
 		
 		model.setViewName("challenge/ongoing_list");
+		
+		return model;
+	}
+	
+	// 참여 중인 챌린지
+	@GetMapping("/my_ongoing_list")
+	public ModelAndView myOngoingList(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam(defaultValue = "1") int page) {
+		
+		// 참여 중인 챌린지 목록
+		int listCount = service.getOngoingListCount(loginMember.getNo());
+		PageInfo pageInfo = new PageInfo(page, 10, listCount, 8);
+		List<MonthMember> ongoingList = service.findOngoingListByMemNo(loginMember.getNo(), pageInfo);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("ongoingList", ongoingList);
+		
+		model.setViewName("mypage/my_ongoing_list");
 		
 		return model;
 	}
