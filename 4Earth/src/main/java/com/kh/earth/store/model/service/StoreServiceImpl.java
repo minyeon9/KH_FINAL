@@ -15,6 +15,7 @@ import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
 import com.kh.earth.store.model.vo.Review;
@@ -396,6 +397,13 @@ public class StoreServiceImpl implements StoreService {
 		map.put("rating", rating);		
 		
 		return mapper.updateProductRating(map);
+	}
+
+	// 상품 상세 사진 가져오기
+	@Override
+	public List<ProductImgs> getProductImgs(int no) {
+		
+		return mapper.getProductImgs(no);
 	}
 
 

@@ -516,14 +516,14 @@
 		
 		let price = orderPrice - $("input[name=point-usage]").val();
 		
-		$("input[name=priceFinal]").val(price);		 
+		$("input[name=priceFinal]").val(price);
 		
 		// 결제 정보
 		let method = $("input[type=radio]:checked").val();
 		
 		console.log("method : " + method);
 		
-		$("input[name=orderMethod]").val(method);		
+		$("input[name=orderMethod]").val(method);
 		
 		// 아임포트 설정
 		var pg = "";

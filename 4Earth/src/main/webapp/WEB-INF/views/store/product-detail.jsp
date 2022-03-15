@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="path" value="${ pageContext.request.contextPath }"/> 
 
@@ -54,10 +55,17 @@
                             <input type="radio" name="slide" id="slide3">
                             <input type="radio" name="slide" id="slide4">
                             <ul id="imgholder" class="imgs">
-                                <li><img src="${ path }/resources/images/@temp/@thumbnail01.jpg"></li>
-                                <li><img src="${ path }/resources/images/@temp/@thumbnail01.jpg"></li>
-                                <li><img src="${ path }/resources/images/@temp/@thumbnail01.jpg"></li>
-                                <li><img src="${ path }/resources/images/@temp/@thumbnail01.jpg"></li>
+	                            <c:if test="${ !empty productImgs }">
+		                            <c:forEach var="productImgs" items="${ productImgs }">
+		                                <li><img src="${ path }/resources/upload/store/${ productImgs.renamedFileName }"></li>
+		                            </c:forEach>
+	                            </c:if>
+	                            <c:if test="${ empty productImgs }">
+	                            	<li><img src="${ path }/resources/images/@temp/@thumbnail01.jpg"></li>
+	                            	<li><img src="${ path }/resources/images/@temp/@thumbnail01.jpg"></li>
+	                            	<li><img src="${ path }/resources/images/@temp/@thumbnail01.jpg"></li>
+	                            	<li><img src="${ path }/resources/images/@temp/@thumbnail01.jpg"></li>
+	                            </c:if>
                             </ul>
                             <div class="bullets">
                                 <label for="slide1">&nbsp;</label>
@@ -134,7 +142,7 @@
                                 <!-- // 선택 옵션 -->                              
                             
                             <div class="pro-result">
-                                <button class="btn pro-btn">바로구매</button>
+                                <button class="btn pro-btn" id="buyNow">바로구매</button>
                                 <button class="btn pro-btn" id="addCart">장바구니</button>
                                 <button class="btn pro-btn" id="addWish">찜</button>
                             </div>                            
@@ -275,7 +283,14 @@
                         </div>
                     </section>
                     <!-- // Accordian -->
-                    </section>
+                    
+                    
+                      <!-- 바로구매 form -->
+                      <form:form id="form" modelAttribute="cartList" onsubmit="return false;"> 
+                     
+                      </form:form>
+                    
+                   </section>
 
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
@@ -339,93 +354,127 @@
 					    
     	$(".selected-wrap ul").append(selected);   
     	
-
-    	// 수량 변경
-    	/*
-    	이 코드가 잘못된 이유 : 클릭할 경우 이벤트를 등록하는 코드 -> 클릭할때마다 이벤트 등록만 반복
-    	$(".selectedProduct .quantity").on("click", e.target, function(e) {
-    		e.stopImmediatePropagation();
-    		
-    		let value = $(e.currentTarget).find('input[type="number"]').val();
-    		let btnUp = $(e.currentTarget).find('.quantity-up');
-    		let btnDown = $(e.currentTarget).find('.quantity-down');
-    		
-    		console.log(value);
-			
-			console.log(btnUp);
-			console.log(btnDown);
-			
-			// +
-			btnUp.on("click", () => {
-				console.log("+");
-			});
-			
-			// -
-			btnDown.on("click", () => {
-				console.log("+");
-			});
-    	});
-    	*/
-    	
-    	// +
-    	$(".quantity-up").on("click", function() {
-    		console.log("+");
-    		
-    		let input = $(this).parent().siblings('input[type="number"]');
-    		
-    		let value = input.val();
-    		
-    		console.log(value);
-    		
-    		value = isNaN(value) ? 1 : value;
-    		
-    		value++;
-    		
-    		// max 이상 입력 불가
-    		(value > input.attr('max')) ? value = input.attr('max') : value;
-    		
-    		console.log(value);
-    		
-    		input.val(value);
-    	});
-    	
-    	// -
-    	$(".quantity-down").on("click", function() {
-			console.log("-");
-    		
-			let input = $(this).parent().siblings('input[type="number"]');
-			
-    		let value = input.val();
-    		
-    		console.log(value);
-    		
-    		value--;
-    		
-    		// min(1) 미만 입력 불가능
-    		(value < input.attr('min')) ? value = input.attr('min') : value;
-    		
-    		console.log(value);
-    		
-    		input.val(value);
-    	});
-    	
-    	
-    	// 선택 옵션 삭제
     	$(".selectedProduct").on("click", ".cart-delete", function(e) {
     		console.log("삭제");
     		
+    		e.stopPropagation();
     		e.preventDefault();
     		 
 			$(this).closest('.selectedProduct').remove();
     	});
+    }); 	
+
+   	// 수량 변경    	
+   	// +
+	$(document).on("click", ".quantity-up", function(e){		
+		console.log("+");
+		
+		e.stopPropagation();
+		
+		let input = $(this).parent().siblings('input[type="number"]');
+		
+		let value = input.val();
+		
+		console.log(value);
+		
+		value = isNaN(value) ? 1 : value;
+		
+		value++;
+		
+		// max 이상 입력 불가
+		(value > input.attr('max')) ? value = input.attr('max') : value;
+		
+		console.log(value);
+		
+		input.val(value);
+		
+		// 금액 변경
+		let price = $(this).parents(".quantity").siblings(".selected-price").find(".price-span");
+		
+		price.empty();
+		
+		price.text(toCommas(${ product.proPrice } * value));
+   	});
     	
-	});    
+   	// -
+   	$(document).on("click", ".quantity-down", function(e){
+		console.log("-");
+		
+		e.stopPropagation();
+   		
+		let input = $(this).parent().siblings('input[type="number"]');
+		
+   		let value = input.val();
+   		
+   		console.log(value);
+   		
+   		value--;
+   		
+   		// min(1) 미만 입력 불가능
+   		(value < input.attr('min')) ? value = input.attr('min') : value;
+   		
+   		console.log(value);
+   		
+   		input.val(value);
+   		
+   		// 금액 변경
+		let price = $(this).parents(".quantity").siblings(".selected-price").find(".price-span");
+		
+		price.empty();
+		
+		price.text(toCommas(${ product.proPrice } * value));
+   	});    	
+    	
+   	// 선택 옵션 삭제
+   	/* $(".selectedProduct").on("click", ".cart-delete", function(e) {
+   		console.log("삭제");
+   		
+   		e.preventDefault();
+   		 
+		$(this).closest('.selectedProduct').remove();
+   	}); */	   
     
     // 숫자 3자리마다 ',' 찍기
     function toCommas(value) {
 	    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원";
 	}
     
+   	// 바로구매
+   	$(document).on("click", "#buyNow", function() {
+   		let form = document.getElementById("form");
+   		let form_content = '';
+   		let index = 0;
+   		
+   		$(".selected-wrap ul").find(".selectedProduct").each(function(i, element) {
+   			var selected = $(element);
+			
+   			var proOptNo = selected.find("input[type='hidden']").val();
+   			var proOptName = selected.find(".selectedOption").text();
+   			var cartQty = selected.find("input[type='number']").val();
+   			
+   			console.log(proOptNo);
+   			console.log(proOptName);
+   			console.log(cartQty);
+   			
+   			let input = "<input name='cartList[" + index + "].proName' type='hidden' value='" + `${ product.proName }` + "'>"
+					    + "<input name='cartList[" + index + "].proNo' type='hidden' value='" + `${ product.proNo }` + "'>"
+						+ "<input name='cartList[" + index + "].proOptNo' type='hidden' value='" + proOptNo + "'>"
+						+ "<input name='cartList[" + index + "].proOpt' type='hidden' value='" + proOptName + "'>"
+						+ "<input name='cartList[" + index + "].proPrice' type='hidden' value='" + `${ product.proPrice }` + "'>"
+						+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>";
+					
+			form_content += input;
+			
+			index += 1;	
+   		});
+   		
+   		$("#form").html(form_content);
+		
+		form.action = "${ path }/purchase_payment"
+		form.method = "POST";
+		form.submit();
+   	});
+   	
 	// 장바구니	
 	$(document).on("click", "#addCart", function() {	
 		let itemArr = new Array();

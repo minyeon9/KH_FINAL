@@ -3,6 +3,8 @@ package com.kh.earth.store.model.vo;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,8 @@ public class Product {
 	
 	private String proImg;
 	
+	private String proModifyImg;
+	
 	private String proInfo;
 	
 	private int proStat;
@@ -32,6 +36,8 @@ public class Product {
 	private int proCat;
 	
 	private int proSold;
+	
+	private int proStock;
 	
 	private String proMfg;
 	

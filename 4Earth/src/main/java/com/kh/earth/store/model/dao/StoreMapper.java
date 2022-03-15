@@ -13,6 +13,7 @@ import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
 import com.kh.earth.store.model.vo.Review;
@@ -100,6 +101,8 @@ public interface StoreMapper {
 	int getProductRating(int proNo);
 
 	int updateProductRating(Map<String, Object> map);
+
+	List<ProductImgs> getProductImgs(int no);
 
 
 

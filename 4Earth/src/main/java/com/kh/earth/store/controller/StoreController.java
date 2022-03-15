@@ -32,6 +32,7 @@ import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
 import com.kh.earth.store.model.vo.Review;
@@ -292,6 +293,10 @@ public class StoreController {
 		log.info("product : " + product.toString());
 		log.info("option : " + option.toString());	
 		
+		// 상세 사진 가져오기
+		List<ProductImgs> productImgs = service.getProductImgs(no);
+		log.info("productImgs : " + productImgs.toString());
+		
 		// 상품 문의 목록 가져오기
 		int inqCount = service.getProductInqCount(no);
 		log.info("inqCount : " + inqCount);
@@ -310,6 +315,7 @@ public class StoreController {
 		
 		log.info("revList : " + revList.toString());
 		
+		model.addObject("productImgs", productImgs);
 		model.addObject("inqPageInfo", inqPageInfo);
 		model.addObject("revPageInfo", revPageInfo);
 		model.addObject("revList", revList);
@@ -687,7 +693,7 @@ public class StoreController {
 						String location = null;
 						
 						try {
-							location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+							location = resourceLoader.getResource("resources/upload/review").getFile().getPath();
 						} catch (IOException e) {
 							e.printStackTrace();
 						} 

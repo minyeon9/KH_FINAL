@@ -17,7 +17,9 @@ import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.notice.model.vo.Notice;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -188,6 +190,60 @@ public class AdminServiceImpl implements AdminService {
 	public Product findProductByNo(int no) {
 		
 		return mapper.findProductByNo(no);
+	}
+
+	@Override
+	public int getNoticeCount(Map<String, String> name) {
+		
+		return mapper.getNoticeCount(name);
+	}
+
+	@Override
+	public List<Notice> getNoticeList(PageInfo pageInfo, Map<String, String> name) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getNoticeList(rowBounds, name);
+	}
+
+	@Override
+	public int todaySave(Today today) {
+		int result = 0;
+		
+		result = mapper.insertToday(today);
+		
+		return result;
+	}
+
+	@Override
+    public int productImgsSave(ProductImgs productImgs) {
+
+        return mapper.productImgsSave(productImgs);
+    }
+
+	@Override
+	public int monthSave(Month month) {
+		int result = 0;
+		
+		result = mapper.insertMonth(month);
+		
+		return result;
+	}
+
+	@Override
+	public Today findTodayByNo(int no) {
+		
+		return mapper.findTodayByNo(no);
+	}
+
+	@Override
+	public int updateToday(Today today) {
+		int result = 0;
+		
+		result = mapper.updateToday(today);
+		
+		return result;
 	}
 
 	
