@@ -171,6 +171,9 @@
 	                    </div>
                         <div class="accordian inquiry">
                             <ul>
+                            	<c:if test="${ empty revList }">
+                            		등록된 리뷰가 없습니다.
+                            	</c:if>
                             	<c:if test="${ !empty revList }">
 	                            	<c:forEach var="rev" items="${ revList }">
 		                            	<li class="inquiry-li">
@@ -231,6 +234,9 @@
 	                     </div>   
                         <div class="accordian inquiry">
                             <ul>
+                            	<c:if test="${ empty inqList }">
+                            		등록된 문의가 없습니다.
+                            	</c:if>
                             	<c:if test="${ !empty inqList }">
 	                            	<c:forEach var="inq" items="${ inqList }">
 		                            	<li class="inquiry-li">

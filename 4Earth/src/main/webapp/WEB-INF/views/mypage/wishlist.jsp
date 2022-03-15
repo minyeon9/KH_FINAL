@@ -39,13 +39,6 @@
 		                                        <div class="img-thumb">
 		                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
 		                                        </div>
-		                                        <div class="tag-wrap">
-		                                        	<c:if test="${ product.isNew lt 7 }">
-			                                            <span class="tag tag-orange">
-			                                            	NEW
-			                                            </span>
-		                                        	</c:if>
-		                                        </div>
 		                                        <input type="hidden" value="${ product.proNo }">
 		                                        <strong><a href="${ path }/product_detail?no=${ product.proNo }">${ product.proName }</a></strong>
 		                                        <div class="price">

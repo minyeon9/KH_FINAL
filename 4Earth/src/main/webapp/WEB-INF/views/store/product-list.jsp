@@ -81,6 +81,7 @@
 		                                <input type="hidden" name="arrange" value="${ arrange }">
 	                            	                         
 	                            </div>
+	                            <c:if test="${ category ne '전체' }">
                                 <ul>
                                     <li>
                                         <strong>상세 필터</strong>
@@ -136,6 +137,7 @@
                                         </div>
                                     </li>
                                 </ul>
+                                </c:if>
                             </div>
                             <div class="btn-wrap">
                                 <button class="btn gray" type="reset" onclick="removeChecked()">초기화</button>
@@ -150,10 +152,10 @@
                         <!-- Thumbnail List -->
                         <section>	  
                         	<div style="height:35px; margin-bottom:10px;">
+	                            <form action="${ path }/product_arrange?category=${ category }">
 	                            <strong>
 	                                총 ${ count }개의 상품이 있습니다. 
 	                            </strong>
-	                            <form action="${ path }/product_arrange?category=${ category }">
 		                            <select name="arrange" id="store-arrange" class="store-selectbox" onchange="submit()">
 		                                <option value="신상품순" <c:if test="${arrange eq '신상품순'}">selected</c:if> >신상품순</option>	                            
 		                                <option value="판매순" <c:if test="${arrange eq '판매순'}">selected</c:if>>판매순</option>
