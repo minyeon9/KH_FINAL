@@ -52,6 +52,18 @@ function kakaoLogin(){
     });
 }
 
+/* ----------------------------------
+        Google Login
+---------------------------------- */
+function loginWithGoogle() {
+    $.ajax({
+        url: 'getGoogleAuthUrl',
+        type: 'get',
+    }).done(function (res) {
+        location.href = res;
+    });
+}
+
 
 /* ----------------------------------
         side bar
