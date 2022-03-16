@@ -16,6 +16,7 @@ window.onload = function() {
 			let btnNested = btnWrap.prev().find('.btn-nested-reply');
 			let $li = $(e.currentTarget).closest('li');
 			let modifyBox = btnWrap.prev().find('.modify-wrap');
+			let count = btnWrap.prev('.reply-cont').find('.count-reply > em');
 			
 			btnWrap.hide();
 			originalReplyTag.hide();
@@ -24,6 +25,7 @@ window.onload = function() {
 			modifyBox.show();
 			modifyBox.find('textarea').val(originalReplyTxt).focus();
 			$(e.currentTarget).closest('.reply-item').find('.nested-wrap').hide();
+			count.text(originalReplyTxt.length);
 			
 		});
 	});
@@ -47,15 +49,6 @@ window.onload = function() {
 		});
 	});
 	
-	
-	window.deleteReply = function() {
-		if(confirm('댓글을 삭제하시겠습니까?')) {
-			location.replace("${ path }/delete_reply?no=${ month.chalNo }");
-		} else {
-			return false;
-		}	
-	}
-	
 	// 댓글 삭제 - 모댓글
 	btnDeleteParents.each(function(idx, el) {
 		$(el).on('click', (e) => {
@@ -66,7 +59,11 @@ window.onload = function() {
 				alert('답글이 있는 댓글은 삭제할 수 없습니다.');
 				return false;
 			} else {
-				deleteReply();
+				if(confirm('댓글을 삭제하시겠습니까?')) {
+					location.replace("${ path }/delete_reply?no=${ month.chalNo }");
+				} else {
+					return false;
+				}	
 			}
 			
 		});
@@ -75,7 +72,11 @@ window.onload = function() {
 	// 댓글 삭제 - 답글
 	btnDelete.each(function(idx, el) {
 		$(el).on('click', () => {
-			deleteReply();
+			if(confirm('댓글을 삭제하시겠습니까?')) {
+				location.replace("${ path }/delete_reply?no=${ month.chalNo }");
+			} else {
+				return false;
+			}	
 		});
 	});
 	
@@ -161,6 +162,5 @@ window.onload = function() {
 		
 		});
 	});
-	
 	
 }
