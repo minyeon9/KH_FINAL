@@ -32,4 +32,6 @@ public class Point {
 	
 	private char pointCategory;
 	
+	private char saveStatus;
+	
 }

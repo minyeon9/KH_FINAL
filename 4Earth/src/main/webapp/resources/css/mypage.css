@@ -54,12 +54,15 @@
     font-weight: 400;
 }
 .point-details .box p {
-    color: #669948;
+    color: #c93a3a;
     font-size: 14px;
     background-size: 15px;
     background-position: 0 60%;
     padding-left: 20px;
     margin-top: 5px;
+}
+.point-details .box:nth-of-type(3) p {
+	color: #3a70c9;
 }
 
 

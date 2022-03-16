@@ -121,6 +121,9 @@ public interface ChallengeService {
 	// 포인트 - 사용 목록 갯수 조회
 	int findSpendPointCount(int no);
 
+	// 적립 포인트 합계
+	// int findSaveTotal();
+
 
 	 
 
