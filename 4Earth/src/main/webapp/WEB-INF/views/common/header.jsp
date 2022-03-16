@@ -67,7 +67,7 @@
                         <ul>
                             <li><a href="${ path }/notice/list">공지사항</a></li>
                             <li><a href="${ path }/notice/faq">FAQ</a></li>
-                            <li><a href="#">1:1 문의</a></li>
+                            <li><a href="${ path }/notice/qnalist">1:1 문의</a></li>
                         </ul>
                     </li>
                     <li>

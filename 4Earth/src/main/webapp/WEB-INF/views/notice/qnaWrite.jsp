@@ -34,11 +34,7 @@
               </div>
             </div>
             <br />
-            <form action="${ path }/notice/modify" method="post" enctype="multipart/form-data">
-           		<input type="hidden" name="no" value="${ notice.no }">
-							<input type="hidden" name="originalFileName" value="${ notice.originalFileName }">
-							<input type="hidden" name="renamedFileName" value="${ notice.renamedFileName }">
-							<input type="hidden" name="writerId" value="${ notice.writerId }">
+            <form action="${ path }/notice/qnaWrite" id="ckeditorForm" method="post" enctype="multipart/form-data">
             	
             	<table class="store-editor">
                 <tr>
@@ -46,7 +42,25 @@
                         제목 : 
                     </td>
                     <td>
-                        <input type="text" name="title" id="" size="40" maxlength="40" value="${ notice.title }">
+                        <input type="text" name="title" id="" size="40" maxlength="40" placeholder="제목을 입력해주세요.">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        카테고리 : 
+                    </td>
+                    <td>
+                        <select name="category-upper" id="" class="c1">
+                            <option value="대분류" selected>대분류</option>
+                            <option value="챌린지">챌린지</option>
+                            <option value="소분샵">소분샵</option>
+                            <option value="회원">회원가입/정보</option>
+                            <option value="기타">기타</option>
+                        </select>
+                        <select name="category-lower" id="" class="c2">
+                            <option>소분류</option>
+                        </select>
+                        <input type="hidden" name="category">
                     </td>
                 </tr>
                 <tr>
@@ -55,9 +69,9 @@
                 	</td>
                 	<td>
 										<input type="file" name="upfile"><br>
-											<c:if test="${ !empty notice.originalFileName }">
-												<img src="${ path }/resources/images/common/file.gif" width="20" height="20"/>
-												<c:out value="${ notice.originalFileName }"></c:out>
+											<c:if test="${ !empty qna.originalFileName }">
+												<img src="${ path }/resources/images/file.png" width="20" height="20"/>
+												<c:out value="${ qna.originalFileName }"></c:out>
 											</c:if>
 									</td>
                 </tr>
@@ -67,14 +81,13 @@
                 		</td>
                     <td colspan="2">
                         <textarea name="content" id="editor">
-                        	${ notice.content }
                         </textarea> 
                     </td>
                 </tr>
             	</table>
             
             	<div class="write_table_bottom">
-              	<a class="btn" href="${ path }/notice/list">목록</a>
+              	<a class="btn" href="${ path }/notice/qnalist">목록</a>
               	<input type="submit" class="btn" value="작성하기">
             	</div>
             </form>
@@ -119,6 +132,69 @@
         console.error( error );
     } );
 
+    $(document).ready(() => {
+        var 챌린지 = ['챌린지수행관련문의', '포인트관련문의', '챌린지오류관련문의'];
+        var 소분샵 = ['구매', '환불', '포인트'];
+        var 회원 = ['가입', '탈퇴', '정보수정'];
+        var 기타 = ['기타'];
+        
+        $('.c1').change(function(){
+        	
+            var bel = $(this).val();
+            
+            if(bel == '챌린지'){
+                $('.op').remove();
+
+                $.each(챌린지, function(i, item){
+                    $('.c2').append('<option class="op">' +item+ '</option>');
+                });
+            }
+            if(bel == '소분샵'){
+                $('.op').remove();
+
+                $.each(소분샵, function(i, item){
+                    $('.c2').append('<option class="op">' +item+ '</option>');
+                });
+            }
+            if(bel == '회원가입/정보'){
+                $('.op').remove();
+
+                $.each(회원, function(i, item){
+                    $('.c2').append('<option class="op">' +item+ '</option>');
+                });
+            }
+            if(bel == '기타'){
+                $('.op').remove();
+
+                $.each(기타, function(i, item){
+                    $('.c2').append('<option class="op">' +item+ '</option>');
+                });
+            }
+            
+
+        });
+    });
+    
+ // 옵션 선택 & 내용 입력 필수	
+    $("#ckeditorForm").submit(function(e) {
+    	// 카테고리 값 전달
+    	let category = $(".c2 option:selected").val();
+    	
+    	$("input[name='category']").val(category);
+    	
+   		if(category == null || category == "소분류"){	
+    		alert("상품 카테고리를 선택해주세요.");
+            e.preventDefault();
+    	} else {    
+    		// 내용 입력 required
+            var content = $('#editor').val();
+            html = $(content).text();
+            if ($.trim(html) == '') {
+                alert("내용을 작성해주세요.");
+                e.preventDefault();
+            } 
+    	}
+    });
     
     
     $(() => {
