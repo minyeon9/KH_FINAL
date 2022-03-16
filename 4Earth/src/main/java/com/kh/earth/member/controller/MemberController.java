@@ -7,34 +7,45 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.kh.earth.common.util.FileProcess;
+import com.kh.earth.common.util.GoogleOAuthRequest;
 import com.kh.earth.common.util.MailUtil;
 import com.kh.earth.common.util.SendSMSTwilio;
 import com.kh.earth.member.model.service.MemberService;
 import com.kh.earth.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 
 @Slf4j
 @Controller
 @SessionAttributes("loginMember")
+@PropertySource("classpath:google.properties")
 public class MemberController {
 	@Autowired
 	private MemberService service;	
@@ -231,6 +242,155 @@ public class MemberController {
     	return map;
 	}
 	
+	// 구글 관련 properties값 불러오기(config.properties) 
+	@Value("${google.auth.url}")
+	private String googleAuthUrl;
+	
+	@Value("${google.client.id}")
+	private String googleClientId;
+	
+	@Value("${google.login.url}")
+	private String googleLoginUrl;
+	
+	@Value("${google.redirect.url}")
+	private String googleRedirectUrl;
+	
+	@Value("${google.secret}")
+	private String googleClientSecret;
+	
+	
+	// 구글 로그인창 호출
+	@RequestMapping(value = "/getGoogleAuthUrl")
+	public @ResponseBody String getGoogleAuthUrl(HttpServletRequest request) throws Exception {
+		
+	    String reqUrl = googleLoginUrl + "/o/oauth2/v2/auth?client_id=" + googleClientId + "&redirect_uri=" + googleRedirectUrl
+	            + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
+
+	    return reqUrl;
+	}
+	
+	 // 구글 연동정보 조회
+	@RequestMapping(value = "/login/oauth_google", method = {RequestMethod.GET})
+	public ModelAndView oauth_google(ModelAndView model, 
+			HttpServletRequest request, @RequestParam(value = "code") 
+			String authCode, @ModelAttribute Member member)  {
+		HttpSession session = request.getSession();
+
+	    // restTemplate 호출
+	    RestTemplate restTemplate = new RestTemplate();
+
+	    GoogleOAuthRequest googleOAuthRequestParam = GoogleOAuthRequest
+	            .builder()
+	            .clientId(googleClientId)
+	            .clientSecret(googleClientSecret)
+	            .code(authCode)
+	            .redirectUri(googleRedirectUrl)
+	            .grantType("authorization_code")
+	            .build();
+
+	    // String test = googleOAuthRequestParam.toString();
+	    // System.out.println("googleOAuthRequestParam : "+test);
+
+	    ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(googleAuthUrl + "/token", googleOAuthRequestParam, JSONObject.class);
+	    JSONObject responseBody = apiResponse.getBody();
+
+	    // System.out.println("responseBody : "+responseBody.toJSONString());
+	    
+	    
+	    // id_token은 jwt 형식
+	    String jwtToken = responseBody.getAsString("id_token");
+	    String requestUrl = UriComponentsBuilder.fromHttpUrl(googleAuthUrl + "/tokeninfo").queryParam("id_token", jwtToken).toUriString();
+
+	    JSONObject resultJson = restTemplate.getForObject(requestUrl, JSONObject.class);
+
+	    // 구글 정보조회 성공
+	    if (resultJson != null) {
+
+	    	// 전체 정보 조회
+	    	// System.out.println("전체정보 : "+resultJson.toJSONString());
+	        
+	    	//  필요한 회원정보 
+	        String id = resultJson.getAsString("sub");
+	        String picture = resultJson.getAsString("picture");
+	        String name = resultJson.getAsString("name");
+	        String email = resultJson.getAsString("email");
+	        
+	        System.out.println("아이디 : "+id);
+	        System.out.println("사진 : "+picture);
+	        System.out.println("이름 : "+name);
+	        System.out.println("이메일 : "+ email);
+	        
+	        member.setId(id);
+	        member.setImg_name(picture);
+	        member.setEmail(email);
+	        member.setName(name);
+			member.setPlatform_type("GOOGLE");
+	        
+	    	Member resultM = service.findMemberById_forSNS(id);
+	    	 System.out.println("DB에서 조회한 회원값 : "+resultM);
+	    	
+	    	if(resultM == null) {
+	    		// 1. 회원정보가 없다면 회원가입을 시킨다.
+	    		service.save(member);
+				
+	    		// 소셜 로그인의 경우 가입과 동시에 로그인 진행 
+				Member loginMember = service.login(id, member.getPassword());
+				session.setAttribute("loginMember", loginMember);
+				
+				model.addObject("msg", "회원가입이 정상적으로 완료되었습니다.");
+				model.addObject("location", "/signup_finish?name="+member.getName());
+
+				
+	    	} else if(resultM.getStatus().equals("N")){
+	    		// 2. 탈퇴했다가 다시 가입하는것이라면 상태값을 바꾸어준다. 
+	    		int result = service.reSignup(resultM.getId());
+	    		if(result>0) {
+	    			System.out.println("재가입에 성공하였습니다.");
+	    					
+	    			// 소셜 로그인의 경우 가입과 동시에 로그인 진행
+	    			Member loginMember = service.login(id, member.getPassword());	
+	    			session.setAttribute("loginMember", loginMember);
+	    			
+					model.addObject("msg", "회원가입이 정상적으로 완료되었습니다.");
+					model.addObject("location", "/signup_finish?name="+resultM.getName());
+
+	    			
+	    		}else {
+	    			// 가입 실패시 메인으로 이동
+	    			model.addObject("msg", "회원가입을 실패하였습니다.");
+	    			model.addObject("location", "/");
+	    		}
+
+	    	}
+	    	
+			// 3. (신규가입X, 재가입X 일 경우) 로그인을 시킨다.
+	    	Member loginMember = service.login(id, member.getPassword());	
+	       	// System.out.println("sns회원가입으로 정보가 있는 사람 로긴 : "+loginMember);
+	       	
+	    	if( loginMember != null ) {
+	    		// 로그인 성공
+	    		session.setAttribute("loginMember", loginMember); 
+
+				model.addObject("location", "/");
+			    model.setViewName("index");
+				return model;
+				
+	    	} else {
+	    		// 로그인 실패
+    			model.addObject("msg", "로그인에 실패하였습니다.");
+    			model.addObject("location", "/");
+	    	}
+			
+	    // 구글 정보조회 실패
+	    } else {
+			model.addObject("msg", "구글 정보 조회에 실패하였습니다.");
+			model.addObject("location", "/");
+	    }
+
+	    model.setViewName("common/msg");
+		return model;
+
+	}
 	
 	
 	@GetMapping("/jsonTest")

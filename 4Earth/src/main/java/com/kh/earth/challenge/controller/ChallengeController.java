@@ -246,6 +246,10 @@ public class ChallengeController {
 		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo()); // 로그인한 사용자의 참여 목록 조회
 		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯수
 		
+        if( mapLength == 4 ) {
+            int pointResult = service.savePoint(point);
+        }
+		
 		model.setViewName("common/msg");
 		
 		return model;
@@ -807,12 +811,16 @@ public class ChallengeController {
 	public ModelAndView point(
 			ModelAndView model,
 			@RequestParam(defaultValue="1") int page,
+			@RequestParam(defaultValue="1") int spendPage,
 			@SessionAttribute(name = "loginMember") Member loginMember) {
 		
 		log.info("point() - 호출");
 	
 		
-		// 포인트 합계 조회
+		// 적립 포인트 합계 조회
+		// int saveTotal = service.findSaveTotal();
+		// System.out.println("합계 : " + saveTotal);
+		
 		
 		// 소멸예정 포힌트 합계 조회
 		
@@ -821,15 +829,39 @@ public class ChallengeController {
 		PageInfo pageInfo = new PageInfo(page, 10, listCount, 10);
 		List<Point> savePoint = service.findSavePointByNo(loginMember.getNo(), pageInfo);
 		
+		// 적립 포인트 합계
+		int saveTotal = 0;
+		for( int i = 0; i < savePoint.size(); i++ ) {
+			saveTotal += savePoint.get(i).getSavePoint();
+		}
+		System.out.println("적립한 포인트 : " + saveTotal );
+		
 		// 포인트 - 사용 내역
 		int spendCount = service.findSpendPointCount(loginMember.getNo());
-		PageInfo spendPageInfo = new PageInfo(page, 10, spendCount, 10);
+		PageInfo spendPageInfo = new PageInfo(spendPage, 10, spendCount, 10);
 		List<Point> spendPoint = service.findSpendPointByNo(loginMember.getNo(), spendPageInfo);
+		
+		// 사용 포인트 합계
+		int spendTotal = 0;
+		for( int i = 0; i < spendPoint.size(); i++ ) {
+			spendTotal += spendPoint.get(i).getSpendPoint();
+		}
+		System.out.println("사용한 포인트 : " + spendTotal );
+		
+		// 사용 가능 포인트 = 적립포인트 - 사용포인트
+		int usePoint = saveTotal - spendTotal;
+		System.out.println("적립 - 사용 : " + usePoint );
+		
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("spendPageInfo", spendPageInfo);
 		model.addObject("savePoint", savePoint);
 		model.addObject("spendPoint", spendPoint);
+		model.addObject("saveTotal", saveTotal);
+		model.addObject("spendTotal", spendTotal);
+		model.addObject("usePoint", usePoint);
+		
+		System.out.println("사용내역 리스트: " + spendPoint);
 		
 		model.setViewName("mypage/point");
 		
