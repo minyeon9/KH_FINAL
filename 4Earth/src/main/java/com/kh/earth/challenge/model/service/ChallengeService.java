@@ -105,6 +105,26 @@ public interface ChallengeService {
 	// 댓글 신고
 	int saveReport(Report report);
 
+	
+	
+	
+	
+	
+	
+	// 포인트 - 적립 목록 조회
+	List<Point> findSavePointByNo(int no, PageInfo pageInfo);
+	// 포인트 - 적립 목록 갯수 조회
+	int findSavePointCount(int no);
+
+	// 포인트 - 사용 목록 조회
+	List<Point> findSpendPointByNo(int no, PageInfo spendPageInfo);
+	// 포인트 - 사용 목록 갯수 조회
+	int findSpendPointCount(int no);
+
+
+	 
+
+
 
 
 

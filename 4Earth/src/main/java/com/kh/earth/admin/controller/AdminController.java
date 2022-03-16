@@ -450,6 +450,62 @@ public class AdminController {
 		return model;
 	}
 	
+	@GetMapping("/month_update")
+	public ModelAndView admin_month_update(ModelAndView model,
+			@RequestParam("no")int no) {
+		log.info("admin_month_update() - 호출");
+		Month month = service.findMonthByNo(no);
+		
+		
+		model.addObject("month", month);
+		model.setViewName("admin/month_update");
+		
+		return model;
+	}
+	
+	@PostMapping("/month_update")
+	public ModelAndView admin_month_update(ModelAndView model,
+			@RequestParam("no")int no,
+			@ModelAttribute("month")Month month,
+			@RequestParam("imgname") MultipartFile imgname) {
+		int result;
+		
+		log.info("admin_month_update() - post 호출");
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				renamedFileName = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			 
+			 if(renamedFileName != null) {
+				 month.setOriginalFilename(imgname.getOriginalFilename());
+				 month.setRenamedFilename(renamedFileName);
+			 }
+		 }
+		
+		result = service.updateMonth(month);
+		
+		if (result > 0) {
+			model.addObject("msg", "오늘의 챌린지 업데이트 성공");
+			model.addObject("location", "/admin/today_update?no=" + month.getChalNo());
+		}else {
+			model.addObject("msg", "오늘의 챌린지 업데이트 실패");
+			model.addObject("location", "/admin/today_update?no=" + month.getChalNo());
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
 	@GetMapping("/month_write")
 	public String admin_month_write(ModelAndView model) {
 		log.info("admin_month_write() - 호출");
@@ -584,7 +640,34 @@ public class AdminController {
 		
 		return model;
 	}
-
+	
+	@GetMapping("/month_point")
+	public ModelAndView admin_challenge_month_point(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		int result = 0;
+		
+		log.info("month_point() - 호출");
+		
+		result = service.monthMemPoint(no);
+		
+		System.out.println(result);
+		System.out.println(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "포인트 지급 완료");
+			model.addObject("location", "/admin/challenge_month_manage");
+		}else {
+			model.addObject("msg", "포인트 지급 실패");
+			model.addObject("location", "/admin/challenge_month_manage");
+		}
+			
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
 	@GetMapping("/challenge_today_manage")
 	public ModelAndView admin_challenge_today_manage(ModelAndView model,
 			@RequestParam Map<String, String> name,

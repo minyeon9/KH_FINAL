@@ -575,7 +575,7 @@
 .reply-list > ul > li {
     position: relative;
     border-bottom: 1px solid #ddd;
-    padding: 15px 10px 0 10px;
+    padding: 15px 20px 0 20px;
 }
 .reply-list > ul > li .reply-wrap {
 	padding-bottom: 15px;
@@ -644,11 +644,12 @@
 .reply-list > ul > li .btn-wrap {
     position: absolute;
     top: 15px;
-    right: 10px;
+    right: 20px;
     margin-top: 0;
 }
 .reply-list > ul > li .btn-wrap form {
 	display: inline-block;
+	margin-left: 5px;
 }
 .reply-list > ul > li .btn-wrap button,
 .reply-list > ul > li .btn-wrap a {
@@ -729,13 +730,17 @@
 	font-weight: bold;
 	background: none;
 }
-.reply .btn-nested-reply {
-	color: #999;
+.reply .btn-s {
+	color: #ccc;
+	font-size: 11px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 	margin-top: 10px;
+	padding: 3px 5px;
 }
-.reply .btn-nested-reply:hover {
-	color: #67b16b;
-	border-bottom: 1px solid #67b16b;
+.reply .btn-s:hover {
+	color: #fff;
+	border: 1px solid #67b16b;
 }
 
 /* 대댓글 작성 */
@@ -1130,4 +1135,37 @@
 	position: relative;
 	top: auto;
 	right: auto;
+}
+
+
+
+
+/* 포인트 */
+.point-plus {
+	position: relative;
+	color: #3a70c9;
+	font-weight: 500;
+	padding-left: 12px;	
+}
+.point-plus:before {
+	content: '+';
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.point-minus {
+	position: relative;
+	color: #c93a3a;
+	font-weight: 500;
+	padding-left: 12px;	
+}
+.point-minus:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 2px;
+	width: 7px;
+	height: 1px;
+	background: #c93a3a;
+	transform: translateX(-50%);
 }

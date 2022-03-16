@@ -30,17 +30,16 @@ import lombok.extern.slf4j.Slf4j;
 public class MypageController {
 	@Autowired
 	private MemberService service;
-	private ChallengeService challengeService;
 	
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
-	@GetMapping("/point")
-	public String point() {
-		log.info("point() - 호출");
-		
-		return "mypage/point";
-	}
+//	@GetMapping("/point")
+//	public String point() {
+//		log.info("point() - 호출");
+//		
+//		return "mypage/point";
+//	}
 
 //	@GetMapping("/order")
 //	public String order() {

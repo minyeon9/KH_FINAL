@@ -114,20 +114,23 @@ public interface ChallengeMapper {
 	// 댓글 신고
 	int insertReport(Report report);
 
+	
+	
+	// 포인트 - 적립 목록 갯수 조회
+	int findSavePointCount(int no);
+	// 포인트 - 적립 목록 조회
+	List<Point> findSavePointByNo(int no, RowBounds rowBounds);
+
+	// 포인트 - 사용 목록 갯수 조회
+	int findSpendPointCount(int no);
+	// 포인트 - 사용 목록 조회
+	List<Point> findSpendPointByNo(int no, RowBounds rowBounds);
 
 	
 
 
-
-
-
 	
 
-
-
-	
-
-	
 
 
 

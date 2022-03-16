@@ -5,7 +5,8 @@ window.onload = function() {
 	let btnNested = $('.btn-nested-reply');
 	let btnNestedCancel = $('.nested-wrap').find('.btn-cancel-reply');
 	
-	btnModify.each(function(idx, el) { /* 댓글 수정 */
+	// 댓글 수정
+	btnModify.each(function(idx, el) {
 		$(el).on('click', (e) => {
 			let btnWrap = $(e.currentTarget).parents('.btn-wrap');
 			let originalReplyTag = btnWrap.prev().find('p');
@@ -19,12 +20,13 @@ window.onload = function() {
 			btnNested.hide();
 			$li.css('background', '#f9f9f9');
 			modifyBox.show();
-			modifyBox.find('textarea').val(originalReplyTxt);
+			modifyBox.find('textarea').val(originalReplyTxt).focus();
 			
 		});
 	});
 	
-	btnCancel.each(function(idx, el) { /* 댓글 수정 취소 */
+	// 댓글 수정 취소
+	btnCancel.each(function(idx, el) {
 		$(el).on('click', (e) => {
 			let btnWrap = $(e.currentTarget).parents('.reply-cont').next('.btn-wrap');
 			let originalReplyTxt = $(e.currentTarget).parents('.reply-cont').find('p');
@@ -42,7 +44,8 @@ window.onload = function() {
 		});
 	});
 	
-	btnDelete.on('click', () => { /* 댓글 삭제 */
+	// 댓글 삭제
+	btnDelete.on('click', () => {
 		if(confirm("댓글을 삭제하시겠습니까?")) {
 			location.replace("${ path }/delete_reply?no=${ month.chalNo }");
 		} else {
@@ -50,7 +53,8 @@ window.onload = function() {
 		}
 	})
 	
-	btnNested.each(function(idx, el) { /* 답글 작성 */
+	// 답글 작성
+	btnNested.each(function(idx, el) {
 		$(el).on('click', (e) => {
 			let nestedWrap = $(e.currentTarget).parents('.reply-wrap').siblings('.nested-wrap');
 			let targetLi = $(e.currentTarget).closest('li');
@@ -61,7 +65,8 @@ window.onload = function() {
 		});
 	});
 	
-	btnNestedCancel.each(function(idx, el) { /* 답글 작성 취소 */
+	// 답글 작성 취소
+	btnNestedCancel.each(function(idx, el) {
 		$(el).on('click', (e) => {
 			let nestedWrap = $(e.currentTarget).parents('.nested-wrap')
 			let targetLi = nestedWrap.parents('li');
@@ -71,8 +76,9 @@ window.onload = function() {
 		});
 	});
 	
-	$('textarea').keyup(function (e) {
-		let content = $(this).val(); // 글자수 세기 
+	// 글자수 제한
+	$('.write-reply-textarea').keyup(function (e) {
+		let content = $(this).val();
 		
 		if (content.length == 0 || content == '') { 
 			$('.count-reply em').text('0'); 
@@ -85,6 +91,31 @@ window.onload = function() {
 			$(this).val($(this).val().substring(0, 200));
 			alert('글자수가 초과되었습니다.'); 
 		}; 
+	});
+	
+	// 신고하기
+	$('.btn-report-reply').each(function(idx, el){
+		$(el).on('click', (e) => {
+			let userId = $(e.currentTarget).closest('.reply-item').find('.reply-user-id').text(); // 신고 받은 회원 아이디
+			let replyTxt = $(e.currentTarget).closest('.reply-item').find('.reply-cont').find('p').text(); // 신고 댓글 내용
+			
+			// 신고 받은 회원 아이디
+			let reportedUser =  $('.reported-user').val(); 
+			
+			// 팝업 출력용
+			$('.reply-user-id').text(userId); // 신고 받은 회원 아이디
+			$('.reply-content').text(replyTxt); // 신고 댓글 내용
+			
+			// 컨드롤러에 전달
+			$("input[name=reportedMemberNo]").val(reportedUser); // 신고 받은 회원 번호
+			$("input[name=reportTitle]").val(replyTxt); // 신고 사유 작성 내용
+			
+			// 신고 사유 라디오 버튼 선택
+			$("input[type=radio]").on('change', () => {
+				let reportChecked = $("input[type=radio]:checked").val();
+				$("input[name=reportCategory]").val(reportChecked);
+			});
+		});
 	});
 	
 }
