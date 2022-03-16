@@ -34,15 +34,15 @@
 					</div>
 					<div class="available">
 						<strong>사용 가능한 포인트</strong>
-						<p class="icon-point">1,890</p>
+						<p class="icon-point">${ usePoint }</p>
 					</div>
 					<div class="box">
-						<strong>적립</strong>
-						<p class="icon-point">1,890</p>
+						<strong>적립한 포인트</strong>
+						<p class="icon-point">${ saveTotal }</p>
 					</div>
 					<div class="box">
-						<strong>소멸 예정</strong>
-						<p class="icon-point">500</p>
+						<strong>사용한 포인트</strong>
+						<p class="icon-point">${ spendTotal }</p>
 					</div>
 				</div>
 
@@ -94,6 +94,25 @@
 										</c:if>
 									</tbody>
 								</table>
+								
+								<%-- <c:if test="${ !empty savePoint }">
+									<div class="paging">
+										<a href="${ path }/point?page=1" class="first"><span>맨 앞으로</span></a>
+										<a href="${ path }/point?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+										<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+											<c:if test="${ status.current == pageInfo.currentPage }">
+												<strong>${ status.current }</strong>
+											</c:if>
+				
+											<c:if test="${ status.current != pageInfo.currentPage }">
+												<a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+												<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
+											</c:if>
+										</c:forEach>
+										<a href="${ path }/point?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+										<a href="${ path }/point?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+									</div>
+								</c:if> --%>
 							</div>
 						</div>
 						
@@ -137,14 +156,90 @@
 										</c:if>
 									</tbody>
 								</table>
+								
+								<%-- <c:if test="${ !empty spendPoint }">
+									<div class="paging">
+										<a href="${ path }/point?spendPage=1#tab02" class="first"><span>맨 앞으로</span></a>
+										<a href="${ path }/point?spendPage=${ spendPageInfo.prevPage }#tab02" class="prev"><span>이전</span></a>
+										<c:forEach begin="${ spendPageInfo.startPage }" end="${ spendPageInfo.endPage }" varStatus="spendStatus">
+											<c:if test="${ spendStatus.current == spendPageInfo.currentPage }">
+												<strong>${ spendStatus.current }</strong>
+											</c:if>
+				
+											<c:if test="${ spendStatus.current != spendPageInfo.currentPage }">
+												<a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+												<a href="${ path }/point?spendPage=${ spendStatus.current }&count=${ pageInfo.listLimit }#tab02">${ spendStatus.current }</a>
+											</c:if>
+										</c:forEach>
+										<a href="${ path }/point?spendPage=${ spendPageInfo.nextPage }#tab02" class="next"><span>다음</span></a>
+										<a href="${ path }/point?spendPage=${ spendPageInfo.maxPage }#tab02" class="last"><span>맨 뒤로</span></a>
+									</div>
+									
+								</c:if> --%>
 							</div>
 						</div>
 						
 						<div class="tab-view" id="tab03">
-							<div class="empty-content">
-								<i class="material-icons">info</i>
-								<p>포인트 소멸 예정 내역이 없습니다.</p>
+							<div class="board">
+								<table class="table">
+									<colgroup>
+										<col width="20%">
+										<col width="*">
+										<col width="20%">
+									</colgroup>
+									<thead>
+										<tr>
+											<th>소멸 예정일</th>
+											<th>상세 내역</th>
+											<th>소멸 예정 포인트</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:if test="${ !empty savePoint }">
+											<c:forEach var="savePoint" items="${ savePoint }">
+												<tr>
+													<td>
+														<fmt:formatDate value="${ savePoint.disapearDate }" pattern="yyyy-MM-dd"/>
+													</td>
+													<td>${ savePoint.saveContent }</td>
+													<td><span class="point-minus">${ savePoint.savePoint }</span></td>
+												</tr>
+											</c:forEach>
+										</c:if>
+										
+										<c:if test="${ empty savePoint }">
+											<tr>
+												<td colspan="3">
+													<div class="empty-content">
+														<i class="material-icons">info</i>
+														<p>포인트 소멸 예정 내역이 없습니다.</p>
+													</div>
+												</td>
+											</tr>												
+										</c:if>
+									</tbody>
+								</table>
+								
+								<%-- <c:if test="${ !empty savePoint }">
+									<div class="paging">
+										<a href="${ path }/point?page=1" class="first"><span>맨 앞으로</span></a>
+										<a href="${ path }/point?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+										<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+											<c:if test="${ status.current == pageInfo.currentPage }">
+												<strong>${ status.current }</strong>
+											</c:if>
+				
+											<c:if test="${ status.current != pageInfo.currentPage }">
+												<a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+												<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
+											</c:if>
+										</c:forEach>
+										<a href="${ path }/point?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+										<a href="${ path }/point?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+									</div>
+								</c:if> --%>
 							</div>
+							
 						</div>
 					</div>
 				</div>

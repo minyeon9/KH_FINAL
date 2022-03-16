@@ -292,6 +292,12 @@ public class ChallengeServiceImpl implements ChallengeService {
 		return mapper.findSpendPointByNo(no, rowBounds);
 	}
 
+	// 포인트 - 적립 포인트 합계
+//	@Override
+//	public int findSaveTotal() {
+//		return mapper.findSaveTotal();
+//	}
+
 	
 	
 

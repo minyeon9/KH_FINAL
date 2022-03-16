@@ -3,6 +3,7 @@ window.onload = function() {
 	let btnCancel = $('.btn-cancel-reply');
 	let btnDelete = $('.btn-delete-reply');
 	let btnNested = $('.btn-nested-reply');
+	let btnReport = $('.btn-report-reply');
 	let btnNestedCancel = $('.nested-wrap').find('.btn-cancel-reply');
 	
 	// 댓글 수정
@@ -94,21 +95,38 @@ window.onload = function() {
 	});
 	
 	// 신고하기
-	$('.btn-report-reply').each(function(idx, el){
+	btnReport.each(function(idx, el){
 		$(el).on('click', (e) => {
-			let userId = $(e.currentTarget).closest('.reply-item').find('.reply-user-id').text(); // 신고 받은 회원 아이디
-			let replyTxt = $(e.currentTarget).closest('.reply-item').find('.reply-cont').find('p').text(); // 신고 댓글 내용
+			let $this = $(e.currentTarget);
+			let targetBtnWrap = $this.parents('.btn-wrap');
+			let popup = $('.layer-popup');
 			
+			// 팝업에 출력
 			// 신고 받은 회원 아이디
-			let reportedUser =  $('.reported-user').val(); 
+			let userIdEl = targetBtnWrap.siblings('.user-info').find('.reply-user-id'); 
+			let userId = userIdEl.text();
+			
+			// 신고 댓글 내용
+			let replyTxtEl = targetBtnWrap.siblings('.reply-cont').find('p');
+			let replyTxt = replyTxtEl.text();
+			
+			userIdEl.css('border', '1px solid red');
+			replyTxtEl.css('border', '1px solid blue');
+			
+			
+			// 컨트롤러에 전달
+			// 신고 받은 회원 번호
+			let reportedUserNo = targetBtnWrap.siblings('.user-info').find('.reported-user-no').val(); 
 			
 			// 팝업 출력용
-			$('.reply-user-id').text(userId); // 신고 받은 회원 아이디
-			$('.reply-content').text(replyTxt); // 신고 댓글 내용
+			popup.find('.reply-user-id').text(userId); // 신고 받은 회원 아이디
+			popup.find('.reply-content').text(replyTxt); // 신고 댓글 내용
 			
 			// 컨드롤러에 전달
-			$("input[name=reportedMemberNo]").val(reportedUser); // 신고 받은 회원 번호
+			$("input[name=reportedMemberNo]").val(reportedUserNo); // 신고 받은 회원 번호
 			$("input[name=reportTitle]").val(replyTxt); // 신고 사유 작성 내용
+			
+			console.log(reportedUserNo);
 			
 			// 신고 사유 라디오 버튼 선택
 			$("input[type=radio]").on('change', () => {
