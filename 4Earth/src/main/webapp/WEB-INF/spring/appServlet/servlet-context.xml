@@ -38,14 +38,15 @@
 			<mapping path="/profile_edit"/>
 	 		<mapping path="/today_list"/>
 	 		<mapping path="/today_view"/>
-      <mapping path="/today_complete"/>
-	 		<mapping path="/month_view"/>
+      		<mapping path="/today_complete"/>
 	 		<mapping path="/month_write"/>
 	 		<mapping path="/month_complete"/>
+	 		<mapping path="/ongoing_list"/>
+	 		<mapping path="/my_ongoing_list"/>
 	 		<mapping path="/wishlist"/>
 	 		<mapping path="/purchase_cart"/>
-	 		
-			<exclude-mapping path="/today_main"/>
+	 		<mapping path="/order"/>
+			<mapping path="/order_detail"/>
 			
 			<beans:bean class="com.kh.earth.common.interceptor.LoginCheckInterceptor" id="LoginCheckInterceptor"/>
 			
@@ -55,5 +56,10 @@
 	 		
 	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
 	 	</interceptor> -->
-	 </interceptors>	
+	 	<interceptor>
+	 		<mapping path="/pw_reset"/>
+	 		<beans:bean id="VericifationCheckInterceptor" class="com.kh.earth.common.interceptor.VerificationCheckInterceptor" />
+	 	</interceptor>
+	 </interceptors>
+	 
 </beans:beans>

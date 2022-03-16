@@ -155,7 +155,9 @@
 													        			<th colspan="4">사진</th>
 													        		</tr>
 													        		<tr>
-													        			<td colspan="4" style="height: 300px">사진내용</td>
+													        			<td colspan="4" style="height: 300px">
+													        				<img id="member-img" src="${ path }/resources/upload/challengeUser/${ todayMember.renamedFilename }" />
+													        			</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>
@@ -168,7 +170,7 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
+		                                                <button class="btn btn-s">지급</button>
 		                                                <button id="delete" name="no" value=${ todayMember.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
@@ -178,7 +180,6 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->

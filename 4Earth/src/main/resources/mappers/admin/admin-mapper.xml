@@ -45,10 +45,12 @@
 		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
 		<result property="proVol" column="PRO_VOL"/>
 		<result property="proImg" column="PRO_IMG"/>
+		<result property="proModifyImg" column="PRO_MODIFY_IMG"/>
 		<result property="proInfo" column="PRO_INFO"/>
 		<result property="proStat" column="PRO_STAT"/>
 		<result property="proCat" column="PRO_CAT"/>
 		<result property="proSold" column="PRO_SOLD"/>
+		<result property="proStock" column="PRO_STOCK"/>
 		<result property="proMfg" column="PRO_MFG"/>
 		<result property="proRating" column="PRO_RATING"/>
 	</resultMap>
@@ -58,9 +60,12 @@
 		<result property="category" column="CATEGORY"/>
 		<result property="chalTitle" column="CHAL_TITLE"/>
 		<result property="chalContent" column="CHAL_CONTENT"/>
-		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
-		<result property="chalDate" column="CHAL_DATE"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="chalStatus" column="CHAL_STATUS"/>
 	</resultMap>
 	
 	<resultMap type="Month" id="MonthListResultMap">
@@ -68,9 +73,13 @@
 		<result property="category" column="CATEGORY"/>
 		<result property="chalTitle" column="CHAL_TITLE"/>
 		<result property="chalContent" column="CHAL_CONTENT"/>
-		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
-		<result property="chalDate" column="CHAL_DATE"/>
+		<result property="chalCount" column="CHAL_COUNT"/>
+		<result property="startDate" column="START_DATE"/>
+		<result property="endDate" column="END_DATE"/>
+		<result property="chalStatus" column="CHAL_STATUS"/>
 	</resultMap>
 	
 	<resultMap type="MonthMember" id="MonthMemListResultMap">
@@ -78,8 +87,8 @@
 		<result property="memNo" column="MEM_NO"/>
 		<result property="chalNo" column="CHAL_NO"/>
 		<result property="chalDate" column="CHAL_DATE"/>
-		<result property="originalFilename" column="CHAL_CONTENT"/>
-		<result property="renamedFilename" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalStatus" column="CHAL_STATUS"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS"/>
@@ -90,8 +99,8 @@
 		<result property="memNo" column="MEM_NO"/>
 		<result property="chalNo" column="CHAL_NO"/>
 		<result property="chalDate" column="CHAL_DATE"/>
-		<result property="originalFilename" column="CHAL_CONTENT"/>
-		<result property="renamedFilename" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalStatus" column="CHAL_STATUS"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
 		<result property="chalPointStatus" column="CHAL_POINT_STATUS"/>
@@ -100,6 +109,57 @@
 	<resultMap type="Reported" extends="memberResultMap" id="ReportedListResultMap">
 		<result property="reportedTimes" column="REPORTED"/>
 	</resultMap>
+	
+	<resultMap type="Notice" id="noticeListResultMap">
+		<id property="no" column="NOTICE_NO"/>
+		<result property="writerNo" column="WRITER_NO"/>
+		<result property="writerId" column="ID"/>
+		<result property="title" column="NOTICE_TIT"/>
+		<result property="content" column="NOTICE_CONTENT"/>
+		<result property="readCount" column="NOTICE_COUNT"/>
+		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFileName" column="RENAMED_FILENAME"/>
+		<result property="createDate" column="DATE_WRITEN"/>
+		<result property="modifyDate" column="DATE_WRITEN_MODIFY"/>
+		<result property="status" column="NOTICE_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="OrderSum" id="OrderSumResultMap">
+		<id property="orderNo" column="ORDER_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="orderPrice" column="ORDER_PRICE"/>
+		<result property="orderStat" column="ORDER_STAT"/>
+		<result property="orderDate" column="ORDER_DATE"/>
+		<result property="orderMethod" column="ORDER_METHOD"/>
+		<result property="orderPm" column="ORDER_PM"/>
+		<result property="orderPoint" column="ORDER_POINT"/>
+	</resultMap>
+	
+	<resultMap type="OrderDetail" id="OrderDetailResultMap">
+		<id property="orderNo" column="ORDER_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="detailProNo" column="DETAIL_PRO_NO"/>
+		<result property="detailProName" column="DETAIL_PRO_NAME"/>
+		<result property="detailOpt" column="DETAIL_OPT"/>
+		<result property="detailOptName" column="DETAIL_OPT_NAME"/>
+		<result property="detailQty" column="DETAIL_QTY"/>
+		<result property="detailPrice" column="DETAIL_PRICE"/>
+	</resultMap>
+	
+	<sql id="selectNoticeSql">
+		SELECT  NOTICE_NO, 
+				WRITER_NO 
+		        NOTICE_TIT, 
+		        NOTICE_CONTENT, 
+		        NOTICE_COUNT, 
+		        ORIGINAL_FILENAME, 
+		        RENAMED_FILENAME, 
+		        DATE_WRITEN, 
+		        DATE_WRITEN_MODIFY, 
+		        NOTICE_STATUS 
+		FROM NOTICE
+		WHERE NOTICE_STATUS = 'Y' 
+	</sql>
 	
 	<sql id="selectReportSql">
 		SELECT REPORT_NO, 
@@ -137,9 +197,11 @@
 			   PRO_MODIFY_DATE, 
 			   PRO_VOL, 
 			   PRO_IMG, 
+			   PRO_MODIFY_IMG, 
 			   PRO_INFO, 
 			   PRO_STAT,
 			   PRO_CAT, 
+			   PRO_STOCK, 
 			   PRO_SOLD, 
 			   PRO_MFG, 
 			   PRO_RATING
@@ -200,6 +262,16 @@
   			REPORT_NO = #{no}
   	</delete>
   	
+	<delete id="banMember" parameterType="_int">
+  		UPDATE MEMBER
+  		SET
+  			STATUS = 'N'
+  		WHERE 
+  			NO = (SELECT REPORTED_M_NO
+                FROM REPORT
+                WHERE REPORT_NO = #{ no })
+  	</delete>
+  	
   	<delete id="deleteMember" parameterType="_int">
   		UPDATE MEMBER
   		SET
@@ -211,35 +283,53 @@
 	<select id="getMemberCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 	    FROM MEMBER
-	    WHERE STATUS = 'Y'
-		<choose>
-		   	<when test="no != null">
-		   		AND NAME LIKE '%' || #{no} || '%'
-		   	</when>
-		   	<when test="id != null">
-		   		AND NAME LIKE '%' || #{id} || '%'
-		   	</when>
-		   	<when test="name != null">
-		   		AND NAME LIKE '%' || #{name} || '%'
-		   	</when>
-		</choose>
+	    <where>
+			<if test="name != null">
+		   		NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="id != null">
+		   		ID LIKE '%' || #{id} || '%'
+			</if>
+			<if test="no != null">
+		   		NO LIKE '%' || #{no} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getNoticeCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM NOTICE
+	    <where>
+			<if test="no != null">
+		   		NOTICE_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="title != null">
+		   		NOTICE_TIT LIKE '%' || #{title} || '%'
+			</if>
+			<if test="writerNo != null">
+		   		WRITER_NO LIKE '%' || #{writerNo} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getNoticeList" parameterType="map" resultMap="noticeListResultMap">
+		<include refid="selectNoticeSql" />
 	</select>
 	
 	<select id="findMember" parameterType="map" resultMap="memberResultMap">
 		<include refid="selectMemberSql" />
 		FROM MEMBER
-		WHERE STATUS = 'Y'
-		<choose>
-		   	<when test="name != null">
-		   		AND NAME LIKE '%' || #{name} || '%'
-		   	</when>
-		   	<when test="id != null">
-		   		AND ID LIKE '%' || #{id} || '%'
-		   	</when>
-		   	<when test="no != null">
-		   		AND NO LIKE '%' || #{no} || '%'
-		   	</when>
-		</choose>
+		<where>
+			<if test="name != null">
+		   		NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="id != null">
+		   		ID LIKE '%' || #{id} || '%'
+			</if>
+			<if test="no != null">
+		   		NO LIKE '%' || #{no} || '%'
+			</if>
+		</where>
 		ORDER BY NO DESC
 	</select>
 	
@@ -248,10 +338,14 @@
 				CATEGORY,
 				CHAL_TITLE,
 				CHAL_CONTENT,
-				CHAL_IMG_PATH,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_DATE
+				START_DATE,
+				END_DATE,
+				CHAL_STATUS
 		FROM CHAL_TODAY
+		ORDER BY CHAL_NO DESC
 	</select>
 	
 	<select id="getMonthList" parameterType="map" resultMap="MonthListResultMap">
@@ -259,40 +353,58 @@
 				CATEGORY,
 				CHAL_TITLE,
 				CHAL_CONTENT,
-				CHAL_IMG_PATH,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_DATE
+				CHAL_COUNT,
+				START_DATE,
+				END_DATE,
+				CHAL_STATUS
 		FROM CHAL_MONTH
+		ORDER BY CHAL_NO DESC
 	</select>
 	
 	<select id="getMonthMemList" parameterType="map" resultMap="MonthMemListResultMap">
 		SELECT  NO,
 				MEM_NO,
 				CHAL_NO,
-				CHAL_DATE,
 				CHAL_STATUS,
 				ORIGINAL_FILENAME,
 				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_POINT_STATUS
+				CHAL_POINT_STATUS,
+				CHAL_DATE
 		FROM CHAL_MONTH_MEM
+		ORDER BY NO DESC
 	</select>
 	
 	<select id="getTodayMemList" parameterType="map" resultMap="TodayMemListResultMap">
 		SELECT  NO,
 				MEM_NO,
 				CHAL_NO,
-				CHAL_DATE,
 				CHAL_STATUS,
 				ORIGINAL_FILENAME,
 				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_POINT_STATUS
+				CHAL_POINT_STATUS,
+				CHAL_DATE
 		FROM CHAL_TODAY_MEM
+		ORDER BY NO DESC
 	</select>
 	
 	<select id="getProductCount" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+			<if test="proName != null">
+		   		PRO_NAME LIKE '%' || #{proName} || '%'
+			</if>
+			<if test="proStock != null">
+		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
+			</if>
+		</where>
 	</select>
 	
 	<select id="getTodayCount" resultType="_int">
@@ -326,9 +438,151 @@
 	<select id="getProductList" resultMap="ProductListResultMap">
 		<include refid="selectProductSql"/>
 		FROM PRODUCT
-		ORDER BY PRO_NO
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+			<if test="proName != null">
+		   		PRO_NAME LIKE '%' || #{proName} || '%'
+			</if>
+			<if test="proStock != null">
+		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
+			</if>
+		</where>
+		<if test="proStock == null">
+			ORDER BY PRO_NO DESC
+		</if>
+		<if test="proStock != null">
+			ORDER BY PRO_STOCK
+		</if>
 	</select>
 	
+	<update id="updateProduct" parameterType="Product">
+	UPDATE PRODUCT
+	<trim prefix="SET" suffixOverrides=",">
+	 	<if test="proName != null">
+	 		PRO_NAME = #{proName},
+	 	</if>
+	 	<if test="proPrice != null">
+	 		PRO_PRICE = #{proPrice},
+		</if>
+		<if test="proVol != null">
+	 		PRO_VOL = #{proVol},
+		</if>
+	 	<if test="proModifyImg != null">
+	 		PRO_MODIFY_IMG = #{proModifyImg},
+		</if>
+		<if test="proInfo != null">
+	 		PRO_INFO = #{proInfo},
+		</if>
+	 	<if test="proStat != null">
+	 		PRO_STAT = #{proStat},
+	 	</if>
+	 	<if test="proCat != null">
+	 		PRO_CAT = #{proCat},
+		</if>
+		<if test="proStock != null">
+	 		PRO_STOCK = #{proStock},
+		</if>
+	 	<if test="proSold != null">
+	 		PRO_SOLD = #{proSold},
+	 	</if>
+	 	<if test="proMfg != null">
+	 		PRO_MFG = #{proMfg},
+		</if>
+	 		PRO_MODIFY_DATE=SYSDATE
+	</trim>
+	 	WHERE
+	 		PRO_NO = #{proNo}
+	 </update>
+	
+	<update id="updateToday" parameterType="Today">
+	UPDATE CHAL_TODAY
+	<trim prefix="SET" suffixOverrides=",">
+	 	<if test="category != null">
+	 		CATEGORY = #{category},
+	 	</if>
+	 	<if test="chalTitle != null">
+	 		CHAL_TITLE = #{chalTitle},
+		</if>
+		<if test="chalContent != null">
+	 		CHAL_CONTENT = #{chalContent},
+		</if>
+	 	<if test="originalFilename != null">
+	 		ORIGINAL_FILENAME = #{originalFilename},
+		</if>
+		<if test="renamedFilename != null">
+	 		RENAMED_FILENAME = #{renamedFilename},
+		</if>
+	 	<if test="chalPoint != null">
+	 		CHAL_POINT = #{chalPoint},
+	 	</if>
+	 	<if test="startDate != null">
+	 		START_DATE = SYSDATE,
+		</if>
+		<if test="endDate != null">
+	 		END_DATE = SYSDATE,
+		</if>
+		<if test="chalStatus != null">
+	 		CHAL_STATUS = DEFAULT,
+		</if>
+	</trim>
+	 	WHERE CHAL_NO = #{chalNo}
+	 </update>
+	
+	<update id="updateMonth" parameterType="Month">
+	UPDATE CHAL_MONTH
+	<trim prefix="SET" suffixOverrides=",">
+	 	<if test="category != null">
+	 		CATEGORY = #{category},
+	 	</if>
+	 	<if test="chalTitle != null">
+	 		CHAL_TITLE = #{chalTitle},
+		</if>
+		<if test="chalContent != null">
+	 		CHAL_CONTENT = #{chalContent},
+		</if>
+	 	<if test="originalFilename != null">
+	 		ORIGINAL_FILENAME = #{originalFilename},
+		</if>
+		<if test="renamedFilename != null">
+	 		RENAMED_FILENAME = #{renamedFilename},
+		</if>
+	 	<if test="chalPoint != null">
+	 		CHAL_POINT = #{chalPoint},
+	 	</if>
+	 	<if test="chalCount != null">
+	 		CHAL_COUNT = #{chalCount},
+	 	</if>
+	 	<if test="startDate != null">
+	 		START_DATE = SYSDATE,
+		</if>
+		<if test="endDate != null">
+	 		END_DATE = SYSDATE,
+		</if>
+		<if test="chalStatus != null">
+	 		CHAL_STATUS = DEFAULT,
+		</if>
+	</trim>
+	 	WHERE CHAL_NO = #{chalNo}
+	</update>
+	
+	<update id="monthMemPoint" parameterType="_int">
+	UPDATE CHAL_MONTH_MEM
+	 	SET 
+	 		CHAL_POINT_STATUS = 'Y'
+	 	WHERE 
+	 		NO = #{no}
+	 </update>
+	 
+	<update id="orderDelivery" parameterType="_int">
+	UPDATE ORDER_SUM
+	 	SET 
+	 		ORDER_STAT = '배송완료'
+	 	WHERE 
+	 		ORDER_NO = #{orderNo}
+	 </update>
+	 
 	<select id="getReportedList" parameterType="map" resultMap="ReportedListResultMap">
 		SELECT NO, 
 		       MEMBER_TYPE, 
@@ -347,34 +601,200 @@
 		</choose>
 			ORDER BY REPORTED DESC
 	</select>
+	
+	<select id="getOrderListAll" parameterType="_int" resultMap="OrderSumResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			ORDER_PRICE, 
+			ORDER_STAT, 
+			ORDER_DATE, 
+			ORDER_METHOD, 
+			ORDER_POINT
+		FROM ORDER_SUM
+		WHERE ORDER_STAT = '결제완료'
+	</select>
+	
+	<select id="getOrderDeliveryList" parameterType="_int" resultMap="OrderSumResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			ORDER_PRICE, 
+			ORDER_STAT, 
+			ORDER_DATE, 
+			ORDER_METHOD, 
+			ORDER_POINT
+		FROM ORDER_SUM
+		WHERE ORDER_STAT = '배송완료'
+	</select>
+	
+	<select id="findDetailByNo" parameterType="_int" resultMap="OrderDetailResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			DETAIL_PRO_NO, 
+			DETAIL_PRO_NAME, 
+			DETAIL_OPT, 
+			DETAIL_OPT_NAME, 
+			DETAIL_QTY,
+			DETAIL_PRICE
+		FROM ORDER_DETAIL
+		WHERE ORDER_NO = #{ no }
+	</select>
+	
+	<select id="getOrderCountAll" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		WHERE ORDER_STAT = '결제완료'
+	</select>
 
+	<select id="getOrderDeliveryCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		WHERE ORDER_STAT = '발송완료'
+	</select>
+	
 	<select id="getReportDetail" parameterType="_int" resultMap="ReportListResultMap">
 		<include refid="selectReportSql"/>
 			FROM REPORT
 			WHERE REPORT_NO = #{ no }
 	</select>
 	
+	<select id="findProductByNo" parameterType="Product" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			FROM PRODUCT
+			WHERE PRO_NO = #{ proNo }
+	</select>
+	
+	<select id="findTodayByNo" parameterType="Today" resultMap="TodayListResultMap">
+		SELECT 	CHAL_NO,
+				CATEGORY,
+				CHAL_TITLE,
+				CHAL_CONTENT,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				CHAL_POINT,
+				START_DATE,
+				END_DATE
+		FROM CHAL_TODAY
+		WHERE CHAL_NO = #{ chalNo }
+	</select>
+	
+	<select id="findMonthByNo" parameterType="Month" resultMap="MonthListResultMap">
+		SELECT 	CHAL_NO,
+				CATEGORY,
+				CHAL_TITLE,
+				CHAL_CONTENT,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				CHAL_POINT,
+				CHAL_COUNT,
+				START_DATE,
+				END_DATE
+		FROM CHAL_MONTH
+		WHERE CHAL_NO = #{ chalNo }
+	</select>
+	
 	<insert id="insertProduct" parameterType="Product"
-	 	useGeneratedKeys="true" keyProperty="proNo" keyColumn="PRO_NO">
-	 	INSERT INTO PRODUCT(
-	 		PRO_NO,
-	 		PRO_NAME,
-	 		PRO_PRICE,
-	 		PRO_INFO,
-	 		PRO_VOL,
-	 		PRO_MODIFY_DATE,
-	 		PRO_SOLD,
-	 		PRO_MFG
+         useGeneratedKeys="true" keyProperty="proNo" keyColumn="PRO_NO">
+         INSERT INTO PRODUCT(
+             PRO_NO,
+             PRO_NAME,
+             PRO_PRICE,
+             PRO_INFO,
+             PRO_VOL,
+             PRO_MODIFY_DATE,
+             PRO_SOLD,
+             PRO_MFG,
+             PRO_IMG,
+             PRO_STAT,
+             PRO_CAT,
+             PRO_DATE,
+             PRO_STOCK,
+             PRO_MODIFY_IMG
+         ) VALUES(
+             SEQ_PRONO.NEXTVAL,
+             #{proName},
+             #{proPrice},
+             #{proInfo},
+             #{proVol},
+             DEFAULT,
+            0,
+            #{proMfg},
+             #{proImg},
+             #{proStat},
+             #{proCat},
+             DEFAULT,
+             #{proStock},
+             #{proModifyImg}
+         )
+     </insert>
+	 
+	 <insert id="productImgsSave" parameterType="productImgs">
+         INSERT INTO PRODUCT_IMGS (
+            PRO_NO,
+            ORIGINAL_FILENAME,
+            RENAMED_FILENAME
+        ) VALUES (
+            #{proNo},
+            #{originalFileName},
+            #{renamedFileName}
+        )
+     </insert>
+
+	<insert id="insertToday" parameterType="Today"
+	 	useGeneratedKeys="true" keyProperty="chalNo" keyColumn="CHAL_NO">
+	 	INSERT INTO CHAL_TODAY(
+	 		CHAL_NO,
+	 		CATEGORY,
+	 		CHAL_TITLE,
+	 		CHAL_CONTENT,
+	 		ORIGINAL_FILENAME,
+	 		RENAMED_FILENAME,
+	 		CHAL_POINT,
+	 		START_DATE,
+	 		END_DATE,
+	 		CHAL_STATUS
 	 	) VALUES(
-	 		SEQ_PRONO.NEXTVAL,
-	 		#{proName},
-	 		#{proPrice},
-	 		#{proInfo},
-	 		0,
-	 		DEFAULT,
-			0,
-			#{proMfg}
+	 		SEQ_CHAL_TODAY.NEXTVAL,
+	 		1,
+	 		#{chalTitle},
+	 		#{chalContent},
+	 		#{originalFilename},
+	 		#{renamedFilename},
+	 		#{chalPoint},
+	 		SYSDATE,
+	 		SYSDATE,
+	 		DEFAULT
 	 	)
 	 </insert>
-
+	 
+	<insert id="insertMonth" parameterType="Month"
+	 	useGeneratedKeys="true" keyProperty="chalNo" keyColumn="CHAL_NO">
+	 	INSERT INTO CHAL_MONTH(
+	 		CHAL_NO,
+	 		CATEGORY,
+	 		CHAL_TITLE,
+	 		CHAL_CONTENT,
+	 		ORIGINAL_FILENAME,
+	 		RENAMED_FILENAME,
+	 		CHAL_POINT,
+	 		CHAL_COUNT,
+	 		START_DATE,
+	 		END_DATE,
+	 		CHAL_STATUS
+	 	) VALUES(
+	 		SEQ_CHAL_MONTH.NEXTVAL,
+	 		#{category},
+	 		#{chalTitle},
+	 		#{chalContent},
+	 		#{originalFilename},
+	 		#{renamedFilename},
+	 		#{chalPoint},
+	 		#{chalCount},
+	 		SYSDATE,
+	 		SYSDATE,
+	 		DEFAULT
+	 	)
+	 </insert>
 </mapper>

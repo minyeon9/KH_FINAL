@@ -32,6 +32,4 @@ public class TodayMember {
 	
 	private char chalPointStatus;
 	
-	// private List<Today> today;
-	
 }

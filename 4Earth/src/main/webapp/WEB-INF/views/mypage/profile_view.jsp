@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>회원정보</title>
+    <title>내 정보</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
         <div class="container">
@@ -18,10 +18,10 @@
                 <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>회원정보</h3>
+                        <h3>내 정보</h3>
                         <div class="bread-crumb">
                             <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                            <a href="${ path }/profile_view">회원정보</a>
+                            <a href="${ path }/profile_view">내 정보</a>
                         </div>
                     </div>
 
@@ -32,7 +32,7 @@
                             <div id="form-box">
                             <div id="form-area">
                                 <br>
-                                <h2>회원정보</h2>
+                                <h2>내 정보</h2>
                                 <br>
                                 <c:if test="${ empty loginMember.img_name }">
                                 <img id="preview" src="${ path }/resources/images/member/user_default1.jpg" />
@@ -76,7 +76,12 @@
                                         <tr>
                                             <td class="profile_title">주소</td>
                                             <c:if test="${ !empty loginMember.address }">
-                                            	<td>${ loginMember.address }</td>
+                                            	<td>
+                                            	(우편번호 : ${ loginMember.postcode })<br>
+                                            	${ loginMember.address }<br>
+                                            	${ loginMember.extra_address } 
+                                            	${ loginMember.detail_address }
+                                            	</td>
                                             </c:if>
                                             <c:if test="${ empty loginMember.address }">
                                             	<td>미입력</td>

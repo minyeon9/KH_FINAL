@@ -23,28 +23,50 @@
 <body>
 	<div class="admin-report">
         <h2 style="text-align: center">물품 등록하기</h2> <br>
-           	<form action="${ path }/admin/echo_write" name="product" method="post">
+           	<form action="${ path }/admin/echo_write" name="product" method="post" enctype="multipart/form-data">
            	<table class="echo-write">
            		<tr>
-                    <td>
+        		<th>번호: </th>
+        		<td>..</td>
+           		<th>이름: </th>
+        		<td><input name="proName" type="text"></td>
+           		</tr>
+           		<tr>
+                    <th>
                         카테고리 : 
-                    </td>
-                    <td colspan="2">
-                        <select name="" id="" class="c1">
-                            <option value="대분류" selected>대분류</option>
-                            <option value="식품">식품</option>
-                            <option value="생활">생활</option>
-                            <option value="뷰티">뷰티</option>
-                            <option value="반려동물">반려동물</option>
+                    <input type="hidden" name="" value="">
+                    </th>
+                    <td colspan="1">
+                        <select name="proCat" id="cat" class="c1" onchange="">
+                            <option value="101">간편식</option>
+                            <option value="102">디저트/간식</option>
+                            <option value="103">건조식품</option>
+                            <option value="201">세탁</option>
+                            <option value="202">주방</option>
+                            <option value="203">욕실</option>
+                            <option value="301">바디케어</option>
+                            <option value="302">기초화장품</option>
+                            <option value="303">메이크업</option>
+                            <option value="304">헤어케어</option>
+                            <option value="401">강아지</option>
+                            <option value="402">고양이</option>
                         </select>
-                        <select name="" id="" class="c2">
-                            <option>소분류</option>
+                        <select name="proStat" id="stat" class="c2">
+                            <option value="1">모집중</option>
+                            <option value="2">모집성공</option>
+                            <option value="3">판매중</option>
+                            <option value="4">일시품절</option>
+                            <option value="5">판매중지</option>
                         </select>
                     </td>
+                    <th colspan="1">제조사 :</th>
+                    <td colspan="1">
+	        			<input name="proMfg" type="text">
+	        		</td>
                 </tr>
                 <tr>
         			<th>이름: </th>
-        			<td><input name="proName" type="text"></td>
+        			<td></td>
         			<th>가격: </th>
         			<td><input name="proPrice" type="text"></td>
         		</tr>
@@ -52,24 +74,28 @@
         			<th>용량: </th>
         			<td><input name="proVol" type="text"></td>
         			<th>수량</th>
-        			<td><input name="proSold" type="text"></td>
+        			<td><input name="proStock" type="text"></td>
         		</tr>
         		<tr style="text-align: center;">
-        			<th colspan="3">상품 설명 :</th>
+        			<th colspan="2">상품 설명</th>
+        			<th colspan="2">사진</th>
         		</tr>   
         		<tr style="text-align: center;">
-        			<td colspan="3"><input name="proInfo" type="text" style="width: 100%; height: 300px;"></td>
-        		</tr>
-        		<tr>
-        			<th colspan="2">사진</th>
-        			<td colspan="2"><input name="proMfg" type="text" value="4Earth 식품"></td>
-        		</tr>           
+        			<td colspan="2">
+        				<input name="proInfo" type="text" style="width: 100%; height: 300px;">
+        			</td>
+        			<th colspan="2">
+        				<input type="file" name="imgname" id="echoImg" title="뮬품사진"
+                                        value="profile1.png" />
+                        상세 사진: <input multiple="multiple" type="file" name="upfile" title="상세사진">
+        			</th>
+        		</tr>   
                 <tr>
-                    <th colspan="3">
+                    <th colspan="4">
                         <p><input class="btn" type="submit" value="등록"></p>
                     </th>
                 </tr>
-            </table>                                   
+            </table>                                 
         	</form>
 		</div>
     <script>

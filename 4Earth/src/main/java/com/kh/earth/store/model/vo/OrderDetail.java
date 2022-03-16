@@ -1,5 +1,7 @@
 package com.kh.earth.store.model.vo;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,4 +25,8 @@ public class OrderDetail {
 	private int detailQty;
 	
 	private int detailPrice;
+	
+	private String orderStat;
+	
+	private Date orderDate;
 }

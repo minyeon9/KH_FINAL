@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -9,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>챌린지</title>
+    <title>오늘의 챌린지</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
     <div class="container">
@@ -66,17 +65,17 @@
 
                     <div class="thumb-list">
                        	<c:if test="${ empty todayMain }">
-                       		<div class="empty-content">
-                       			<p>조회된 오늘의 챌린지가 없습니다.</p>
+                       		<div class="empty-content full">
+                       			<p>금일 진행 중인 오늘의 챌린지가 없습니다.</p>
                        		</div>
                        	</c:if>
                         <ul>
                         	<c:if test="${ !empty todayMain }">
-	                         	<c:forEach var="todayMain" items="${ todayMain }">
+	                         	<c:forEach var="todayMain" items="${ todayMain }" varStatus="status">
 	                              <li>
-	                                  <i class="num">${ todayMain.chalNo }</i>
+	                                  <i class="num">${ status.count }</i>
 	                                  <div class="img-thumb">
-	                                      <img src="${ path }${todayMain.chalImgPath}/challenge_today0${todayMain.chalNo}.jpg" alt="">
+	                                      <img src="${ path }/resources/images/challenge/${ todayMain.renamedFilename }" alt="">
 	                                  </div>
 	                                  <strong>${ todayMain.chalTitle }</strong>
 	                                  <p>${ todayMain.chalContent }</p>

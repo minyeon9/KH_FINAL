@@ -133,9 +133,10 @@ ul.imgs li{
     margin: 0;
 }
 ul.imgs li img{
-    width: 500px;
+    width: 450px;
     height: 400px;
     object-fit: scale-down;
+    overflow: hidden;
 }
 
 
@@ -245,15 +246,6 @@ ul.imgs li img{
 .tbody1 tr td.board-tit {
     text-align: left;
 }
-.tbody1 tr td .prd-option {
-    color: #999;
-    font-size: 12px;
-}
-.tbody1 tr td .prd-option b {
-    color: #666;
-    font-weight: 300;
-}
-
 .pro-table tbody tr th{
     width: 100%;
 }
@@ -399,6 +391,12 @@ input[type=number]
 	font-size: 16px;
 	font-weight: 600;
 }
+.prd-option {
+	width: 250px;
+}
+.prd-option small {
+	
+}
 
 /* 장바구니 */
 .purchase-wrap {
@@ -421,7 +419,7 @@ input[type=number]
     border-collapse: collapse;
 }
 .cart-table thead tr {
-    border-top: 2px solid #467443;
+    border-top: 2px solid #467443;    
 }
 .cart-table thead tr th {
     font-size: 15px;
@@ -434,6 +432,7 @@ input[type=number]
 
 .cart-table tbody tr td:first-of-type {
     table-layout: auto;
+    padding-left: 10px;
 }
 
 .cart-table tbody tr td {
@@ -527,6 +526,39 @@ input[type=number]
 .address2 {
 	display: none;
 }
+/* 주문/결제 */
+.purchase-btn {
+    font-size: 18px;
+    height: 50px;
+    width: 170px;
+    min-height: 50px;
+    color: #669948;
+    font-weight: bolder;
+    line-height: 16px;
+    background: #fff;
+    padding: 9px 25px 9px;
+    margin: 70px;
+    margin-top: 30px;
+    border: 2px solid #669948;
+    box-sizing: border-box;
+    transition: all 0.2s ease-out;
+    vertical-align: top;
+}
+.purchase-btn:hover {
+    color: #fff;
+    background: #669948;
+    border: 2px solid #669948;
+}
+.purchase-btn:disabled, .purchase-btn[disabled=disabled] {
+    color: #a5a5a5;
+    border: 2px solid #a5a5a5;
+}
+.purchase-btn[disabled]:hover {
+	color: #a5a5a5;
+	background: #fff;
+    border: 2px solid #a5a5a5;
+    cursor: default;
+}
 
 /* Sum */
 .sum {
@@ -595,6 +627,29 @@ input[type=number]
 .btn-radio:disabled, .btn-radio.disabled {
     color: #669948;
     background-color: transparent;
+}
+
+/* 주문완료 */
+.purchase-completed {
+	width: 60%;
+	height: 200px;
+	padding: 100px 150px;
+	text-align: center;
+	background-color: #f9f9f9;
+}
+.purchase-completed span {
+	font-size: 30px;
+	font-weight: 500;
+	display: block;
+	margin-bottom: 50px;
+}
+.purchase-completed strong {
+	font-size: 18px;
+}
+.purchase-completed a {
+	font-weight: 500;
+	color: #76b779;
+	text-decoration: underline;
 }
 
 /* ---------------
@@ -672,14 +727,17 @@ input[type=number]
 /* -----------------
     오프라인 매장안내
 ------------------ */
-.map-list ul{
-    border-bottom: 2px solid rgb(170, 170, 170);
-    padding-bottom: 7px;
-    margin-bottom: 10px;
+.map-list ul li{
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 18px;
+	margin-bottom: 18px;
+	line-height: 25px;
 }
-.map-list ul li:first-child {
-    font-size: 16px;
-    margin-bottom: 10px;
+.map-list ul li strong{
+	font-size: 18px;
+}
+.map-list ul li i{
+	font-size: 16px;
 }
 
 /*--------
@@ -705,6 +763,7 @@ input[type=number]
 .store-guide a {
 	font-weight: 500;
 	color: #76b779;
+	text-decoration: underline;
 }
 .store-editor {
 	margin-top: 10px;

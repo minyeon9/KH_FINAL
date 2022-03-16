@@ -1,6 +1,7 @@
 package com.kh.earth.mypage.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.earth.challenge.model.service.ChallengeService;
+import com.kh.earth.challenge.model.vo.MonthMember;
 import com.kh.earth.common.util.FileProcess;
+import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.service.MemberService;
 import com.kh.earth.member.model.vo.Member;
 
@@ -25,24 +29,24 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes("loginMember")
 public class MypageController {
 	@Autowired
-	private MemberService service;	
+	private MemberService service;
 	
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
-	@GetMapping("/point")
-	public String point() {
-		log.info("point() - 호출");
-		
-		return "mypage/point";
-	}
+//	@GetMapping("/point")
+//	public String point() {
+//		log.info("point() - 호출");
+//		
+//		return "mypage/point";
+//	}
 
-	@GetMapping("/order")
-	public String order() {
-		log.info("order() - 호출");
-		
-		return "mypage/order";
-	}
+//	@GetMapping("/order")
+//	public String order() {
+//		log.info("order() - 호출");
+//		
+//		return "mypage/order";
+//	}
 	
 //	@GetMapping("/wishlist")
 //	public ModelAndView wishlist(
@@ -69,6 +73,8 @@ public class MypageController {
 //		
 //		return model;
 //	}
+	
+	
 
 	@GetMapping("/profile_view")
 	public String profile_view() {

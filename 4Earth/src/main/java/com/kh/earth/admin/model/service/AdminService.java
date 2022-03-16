@@ -13,7 +13,11 @@ import com.kh.earth.challenge.model.vo.Today;
 import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
+import com.kh.earth.notice.model.vo.Notice;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductImgs;
 
 public interface AdminService {
 
@@ -29,9 +33,9 @@ public interface AdminService {
 	
 	int deleteMember(int no);
 	
-	int getProductCount();
+	int getProductCount(Map<String, String> name);
 
-	List<Product> getProductList(PageInfo pageInfo);
+	List<Product> getProductList(PageInfo pageInfo, Map<String, String> name);
 
 	List<Reported> getReportedList(PageInfo pageInfo, Map<String, String> name);
 
@@ -55,6 +59,46 @@ public interface AdminService {
 
 	List<TodayMember> getTodayMemList(PageInfo pageInfo, Map<String, String> name);
 
-	int save(Product product);
+	int productSave(Product product);
+
+	Product findProductByNo(int no);
+
+	int productUpdate(Product product);
+
+	int getNoticeCount(Map<String, String> name);
+
+	List<Notice> getNoticeList(PageInfo pageInfo, Map<String, String> name);
+
+	int todaySave(Today today);
+
+	int productImgsSave(ProductImgs productImgs);
+
+	int monthSave(Month month);
+
+	Today findTodayByNo(int no);
+
+	int updateToday(Today today);
+
+	Month findMonthByNo(int no);
+
+	int updateMonth(Month month);
+
+	int monthMemPoint(int no);
+
+	int getOrderCountAll(Map<String, String> name);
+
+	List<OrderSum> getOrderListAll(PageInfo pageInfo, Map<String, String> name);
+
+	List<OrderDetail> getDetailList(int no);
+
+	List<OrderDetail> findDetailByNo(int no);
+
+	int orderDelivery(int no);
+
+	int banMember(int no);
+
+	int getOrderDeliveryCount(Map<String, String> name);
+
+	List<OrderSum> getOrderDeliveryList(PageInfo pageInfo, Map<String, String> name);
 
 }

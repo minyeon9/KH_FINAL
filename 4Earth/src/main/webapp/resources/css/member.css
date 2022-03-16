@@ -235,6 +235,7 @@
   color: #999;
 }
 
+
 /* ----------------------------------
     signup-form css
 ---------------------------------- */
@@ -355,7 +356,7 @@
 
 #name-area {
   display: grid;
-  grid-template-columns: 285px 150px;
+  grid-template-columns: 285px 160px;
   /* background-color: blue; */
   /* grid-template-columns: 200px; */
 }
@@ -366,6 +367,24 @@
 
 .layer-popup{
   background-image: url(../images/member/login-background.jpg);
+}
+
+
+#find_post_btn{
+  width: 70px;
+  height: 37px;
+  min-height: 37px !important;
+}
+
+#sample6_postcode{
+  margin-left: 78px;
+  /* width: 190px; */
+  /* margin-bottom: 5px; */
+}
+
+#checkDuplicate{
+  height: 37px;
+  min-height: 37px !important;
 }
 
 /* ----------------------------------
@@ -488,6 +507,12 @@
 #result-img2 {
   width: 120px;
   height: 70px;
+  margin: auto;
+}
+
+#result-img3 {
+  width: 100px;
+  height: 100px;
   margin: auto;
 }
 
@@ -873,4 +898,59 @@ text-align: center;
   width: 550px;
   padding: 20px 20px 20px 20px;
   background-color: rgb(243, 243, 243);
+}
+
+/* ----------------------------------
+    find-pw-reset css
+---------------------------------- */
+#pw_reset_section{
+  /* background-color: yellow; */
+  border-top: 2px solid #ccc;
+  width: 90%;
+  margin: auto;
+}
+
+#pw_reset_section p{
+  font-size: 15px;
+  font-weight: bold;
+  text-align: left;
+  padding-left: 25px;
+  /* padding-top: 10px; */
+  padding-bottom: 10px;
+  color: gray;
+}
+
+
+#pw_reswe_title1{
+  /* background-color: magenta; */
+  padding-top: 15px;
+  /* border-top: 2px solid #ccc;*/
+  width: 200px;
+  margin: auto;
+}
+
+#pw_reswe_title2{
+  width: 200px;
+  margin: auto;
+  padding-top: 8px;
+  /* background-color: #ccc; */
+}
+
+
+.pw_reset_Tarea{
+	display: flex;
+}
+
+.alert1{
+	/* background-color: yellow; */
+  width: 130px;
+  text-align: right;
+  padding-top: 15px;
+  margin-right: 20px;
+    /* line-height: 50px; */
+}
+
+.pw_reset_Tarea span{
+  height: 10px;
+	margin-bottom: 22px;
 }

@@ -39,7 +39,7 @@
                                     <br><br><br>
                                     <h1>비밀번호 찾기</h1>
                                     <br>
-                                    <p>회원가입 시 입력한 이메일로 임시 비밀번호가 발송됩니다.</p>
+                                    <p>회원가입 시 입력한 이메일로 인증번호가 발송됩니다.</p>
                                     <!-- <hr class="short-line"> -->
                                     <br>
                                     
@@ -57,7 +57,7 @@
                                     <br>
                                     <div class="input-with-icon">
                                         <i class="material-icons">mail</i>
-                                        <input type="email" name="email" id="email" placeholder="이메일을 입력해주세요.">
+                                        <input type="mail" name="email" id="email" placeholder="이메일을 입력해주세요.">
                                     </div>
                                     <!-- <a href="#popup02" class="btn-open-pop"></a> -->
                                     <!--<button class="btn btn-login" id="findPw" type="submit">비밀번호 찾기</button>-->

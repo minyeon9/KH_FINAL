@@ -42,6 +42,15 @@ h1, h2, h3, h4, h5, h6 {
 /* ----------------------------------
     form
 ---------------------------------- */
+input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+	transition: background-color 5000s ease-in-out 0s;
+	-webkit-transition: background-color 9999s ease-out;
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: #333 !important;
+}
 input[type="text"],
 input[type="password"],
 input[type="tel"],
@@ -202,6 +211,8 @@ input[type="checkbox"] label {
     transform: translateY(0);
 }
 textarea {
+	color: #333;
+	font-family: "Noto Sans KR", sans-serif;
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 10px;
@@ -262,6 +273,50 @@ textarea:focus {
 .check-group .check-box:last-child {
     padding-right: 0;
 }
+.radio-group {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+.radio-group input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.radio-group .checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.radio-group:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.radio-group input:checked ~ .checkmark {
+    background-color: #67b16b;
+}
+.radio-group input:checked ~ .checkmark:after {
+    display: block;
+}
+.radio-group .checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+ 	top: 5px;
+	left: 5px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #fff;
+}
+
 select {
     color: #666;
     min-width: 100px;
@@ -396,6 +451,13 @@ a.btn {
 input + .btn {
     margin-left: 5px;
 }
+.btn-link {
+	display: inline-block;
+	color: #666;
+	font-size: 14px;
+	border-bottom: 1px solid #ccc;
+	margin-top: 10px;
+}
 
 
 
@@ -435,6 +497,7 @@ input + .btn {
     border-bottom: 1px solid #999;
 }
 .table thead tr th {font-size: 14px;
+	font-size: 16px;
     font-weight: 400;
     padding: 10px 0;
 }
@@ -740,6 +803,7 @@ input + .btn {
     text-decoration: none;
     text-align: center;
     background: #eee;
+    border: 1px solid #ddd;
     border-radius: 5px 5px 0 0;
     padding: 10px;
     box-sizing: border-box;
@@ -826,6 +890,9 @@ input + .btn {
 .empty-content {
     text-align: center;
     padding: 50px 0;
+}
+.empty-content.full {
+   padding: 150px 0;	
 }
 .empty-content i {
     color: #ddd;
