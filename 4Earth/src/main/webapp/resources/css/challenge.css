@@ -548,6 +548,7 @@
 .reply form textarea {
     width: calc(100% - 115px);
     height: 80px;
+    resize: none;
     border-radius: 10px 0 0 10px;
 }
 .reply form .btn-write-reply {
@@ -692,15 +693,25 @@
 	display: none;
 }
 .reply-list .modify-reply-cont form {
+	position: relative;
 	display: block;
 	background: #fff;
 }
 .reply-list .modify-reply-cont form textarea {
 	width: 100%;
+	resize: none;
 	border-radius: 0;
 }
 .reply-list .modify-reply-cont form textarea:focus {
     border: 1px solid #76b779;
+}
+.reply-list .modify-reply-cont form .count-reply {
+	display: inline-block;
+	position: absolute;
+	bottom: 10px;
+	left: 15px;
+	width: auto;
+	font-size: 14px;
 }
 .reply-list .modify-reply-cont form .btn-wrap {
 	position: relative;
