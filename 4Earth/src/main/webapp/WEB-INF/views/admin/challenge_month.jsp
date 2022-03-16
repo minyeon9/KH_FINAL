@@ -86,7 +86,7 @@
                                         <col width="13%">
                                         <col width="13%">
                                         <col width="13%">
-                                        <col width="10%">
+                                        <col width="13%">
                                         <col width="13%">
                                         <col width="13%">
                                         <col width="*">
@@ -96,7 +96,8 @@
                                             <th>챌린지 번호</th>
                                             <th>챌린지 제목</th>
                                             <th>챌린지 포인트</th>
-                                            <th>작성일</th>
+                                            <th>시작일</th>
+                                            <th>상태</th>
                                             <th>내용</th>
                                             <th>관리</th>
                                         </tr>
@@ -118,6 +119,7 @@
 		                                            <td>${ month.chalTitle }</td>
 		                                            <td>${ month.chalPoint }</td>
 		                                            <td>${ month.startDate }</td>
+		                                            <td>${ month.chalStatus }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                 <div class="layer-popup" id="popup${ vs.index }">
@@ -144,8 +146,8 @@
 													        		<tr>
 													        			<th>포인트</th>
 													        			<td>${ month.chalPoint }</td>
-													        			<th>빈칸</th>
-													        			<td></td>
+													        			<th>필요참여수</th>
+													        			<td>${ month.chalCount }</td>
 													        		</tr>
 													        		<tr>
 													        			<th>시작일</th>
@@ -171,9 +173,8 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
+		                                                <button class="btn btn-s" id="month_update" value="${ month.chalNo }">수정</button>
 		                                                <button id="delete" name="no" value=${ month.chalNo } class="btn btn-s gray">정지</button>
-		                                            </td>
 		                                        </tr>
 		                                    </tbody>
 										</c:forEach>
@@ -245,6 +246,14 @@
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);
         const url = "${ path }/admin/month_write";
+        
+        open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+    });
+	
+	$(document).on("click","#month_update", (e) => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "${ path }/admin/month_update?no="+ e.target.value;
         
         open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });

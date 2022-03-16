@@ -103,9 +103,13 @@
 		<id property="pointNo" column="POINT_NO" />
 		<result property="memNo" column="MEM_NO" />
 		<result property="saveDate" column="SAVE_DATE" />
-		<result property="content" column="CONTENT" />
-		<result property="point" column="POINT" />
+		<result property="saveContent" column="SAVE_CONTENT" />
+		<result property="savePoint" column="SAVE_POINT" />
+		<result property="spendDate" column="SPEND_DATE" />
+		<result property="spendContent" column="SPEND_CONTENT" />
+		<result property="spendPoint" column="SPEND_POINT" />
 		<result property="disapearDate" column="DISAPEAR_DATE" />
+		<result property="pointCategory" column="POINT_CATEGORY" />
 	</resultMap>
 	
 	<!-- 댓글 -->
@@ -202,7 +206,7 @@
 	</select>
 	
   	<!-- 오늘의 챌린지 인증 시 참여 회원 저장 -->
-  	<insert id="insertTodayMember" parameterType="map" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
+  	<insert id="insertTodayMember" parameterType="Today" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
 		INSERT INTO CHAL_TODAY_MEM (
 			NO,
 			MEM_NO,
@@ -232,25 +236,27 @@
 			CHAL_NO,
 			CHAL_DATE
 		FROM CHAL_TODAY_MEM
-		WHERE MEM_NO = #{ no }
+		WHERE MEM_NO = #{ no } AND TO_CHAR(CHAL_DATE, 'YYYY/MM/DD') = TO_CHAR(SYSDATE, 'YYYY/MM/DD')
 		ORDER BY NO
 	</select>
 	
 	<!-- 챌린지 달성 시 포인트 업데이트 -->
-	<insert id="insertPoint" parameterType="map" useGeneratedKeys="true" keyColumn="POINT_NO" keyProperty="pointNo">
+	<insert id="insertPoint" parameterType="Point" useGeneratedKeys="true" keyColumn="POINT_NO" keyProperty="pointNo">
 		INSERT INTO POINT (
 			POINT_NO,
 			MEM_NO,
 			SAVE_DATE,
-			CONTENT,
-			POINT,
+			SAVE_CONTENT,
+			SAVE_POINT,
+			SPEND_DATE,
 			DISAPEAR_DATE
 		) VALUES (
 			SEQ_POINT.NEXTVAL,
 			#{ memNo },
 			DEFAULT,
 			'챌린지 달성',
-			#{ point },
+			#{ savePoint },
+			NULL,
 			#{ disapearDate }
 		)
 	</insert>
@@ -378,7 +384,7 @@
 	</select>
 	
 	<!-- 이달의 챌린지 인증 시 참여 회원 저장 -->
-  	<insert id="insertMonthMember" parameterType="map" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
+  	<insert id="insertMonthMember" parameterType="MonthMember" useGeneratedKeys="true" keyColumn="NO" keyProperty="no">
 		INSERT INTO CHAL_MONTH_MEM (
 		    NO,
 		    MEM_NO,
@@ -430,7 +436,7 @@
 	</select>
 	
 	<!-- 댓글 작성 -->
-	<insert id="insertReply" parameterType="map" useGeneratedKeys="true" keyColumn="REPLY_NO" keyProperty="replyNo">
+	<insert id="insertReply" parameterType="Reply" useGeneratedKeys="true" keyColumn="REPLY_NO" keyProperty="replyNo">
 		INSERT INTO CHAL_REPLY (
 			REPLY_NO,
 			MEM_NO,
@@ -467,16 +473,17 @@
 		WHERE R.REPLY_NO = #{ replyNo }
 	</select>
 	
-	<update id="deleteReply" parameterType="map">
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="Reply">
 		DELETE FROM CHAL_REPLY
 		WHERE REPLY_NO = #{ replyNo }
-		UPDATE CHAL_REPLY 
+		<!-- UPDATE CHAL_REPLY 
 		SET REPLY_STATUS = #{ replyStatus } 
-		WHERE REPLY_NO = #{ replyNo }
-	</update>
+		WHERE REPLY_NO = #{ replyNo } -->
+	</delete>
 	
 	<!-- 대댓글 작성 -->
-	<insert id="insertNestedReply" parameterType="map" useGeneratedKeys="true" keyColumn="NESTED_REPLY_NO" keyProperty="nestedReplyNo">
+	<insert id="insertNestedReply" parameterType="NestedReply" useGeneratedKeys="true" keyColumn="NESTED_REPLY_NO" keyProperty="nestedReplyNo">
 		INSERT INTO CHAL_NESTED_REPLY (
 			NESTED_REPLY_NO,
 			REPLY_NO,
@@ -513,28 +520,28 @@
 	</select>
 	
 	<!-- 대댓글 삭제 -->
-	<update id="deleteNestedReply" parameterType="map">
+	<delete id="deleteNestedReply" parameterType="NestedReply">
 		DELETE FROM CHAL_NESTED_REPLY
 		WHERE NESTED_REPLY_NO = #{ nestedReplyNo }
-	</update>
+	</delete>
 	
 	<!-- 댓글 신고 -->
-	<insert id="insertReport" parameterType="map" useGeneratedKeys="true" keyColumn="reportNo" keyProperty="REPORTNO">
+	<insert id="insertReport" parameterType="Report">
 		INSERT INTO REPORT (
 		    REPORT_NO, 
 		    REPORT_M_NO, <!-- 신고한 회원 -->
 		    REPORTED_M_NO, <!-- 신고 받은 회원 --> 
 		    REPORT_DATE,
-		    REPORT_TITLE, 
+		    REPORT_TITLE,
 		    REPORT_CONTENT, 
 		    REPORT_STATUS, 
 		    REPORT_CATEGORY
 		) VALUES(
 		    SEQ_RNO.NEXTVAL, 
-		    #{ no }, 
-		    2, 
+		    #{ reportMemberNo }, <!-- 신고한 회원 --> 
+		    #{ reportedMemberNo }, <!-- 신고 받은 회원 --> 
 		    DEFAULT, 
-		    '', 
+		    #{ reportContent }, 
 		    #{ reportTitle },
 		    DEFAULT,
 		    #{ reportCategory }
@@ -613,6 +620,36 @@
 		WHERE PRO_STAT = 3
 		ORDER BY PRO_NO DESC
 		<!-- ORDER BY PRO_SOLD DESC -->
+	</select>
+  	
+	
+	
+	<!-- 포인트 - 적립 목록 조회 -->
+	<select id="findSavePointByNo" parameterType="arraylist" resultMap="pointListResultMap">
+		SELECT *
+		FROM POINT
+		WHERE MEM_NO = #{ no } AND POINT_CATEGORY = 1
+	</select>
+	
+	<!-- 포인트 - 적립 목록 갯수 조회 -->
+	<select id="findSavePointCount" parameterType="_int" resultType="_int">
+		SELECT COUNT (*)
+		FROM POINT
+		WHERE MEM_NO = #{ no } AND POINT_CATEGORY = 1
+	</select>
+	
+	<!-- 포인트 - 사용 목록 조회 -->
+	<select id="findSpendPointByNo" parameterType="arraylist" resultMap="pointListResultMap">
+		SELECT *
+		FROM POINT
+		WHERE MEM_NO = #{ no } AND POINT_CATEGORY = 2
+	</select>
+	
+	<!-- 포인트 - 사용 목록 갯수 조회 -->
+	<select id="findSpendPointCount" parameterType="_int" resultType="_int">
+		SELECT COUNT (*)
+		FROM POINT
+		WHERE MEM_NO = #{ no } AND POINT_CATEGORY = 2
 	</select>
 	
 	

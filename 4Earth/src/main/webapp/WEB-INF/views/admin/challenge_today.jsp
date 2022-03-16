@@ -83,12 +83,12 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
@@ -96,7 +96,8 @@
                                             <th> 챌린지 번호</th>
                                             <th>챌린지 제목</th>
                                             <th>챌린지 포인트</th>
-                                            <th>작성일</th>
+                                            <th>시작일</th>
+                                            <th>상태</th>
                                             <th>내용</th>
                                             <th>관리</th>
                                         </tr>
@@ -118,6 +119,7 @@
 		                                            <td>${ today.chalTitle }</td>
 		                                            <td>${ today.chalPoint }</td>
 		                                            <td>${ today.startDate }</td>
+		                                            <td>${ today.chalStatus }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                 <div class="layer-popup" id="popup${ vs.index }">

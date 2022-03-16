@@ -497,6 +497,7 @@ input + .btn {
     border-bottom: 1px solid #999;
 }
 .table thead tr th {font-size: 14px;
+	font-size: 16px;
     font-weight: 400;
     padding: 10px 0;
 }
@@ -802,6 +803,7 @@ input + .btn {
     text-decoration: none;
     text-align: center;
     background: #eee;
+    border: 1px solid #ddd;
     border-radius: 5px 5px 0 0;
     padding: 10px;
     box-sizing: border-box;

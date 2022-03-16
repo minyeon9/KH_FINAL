@@ -61,7 +61,6 @@ public class ChallengeController {
 			
 		List<Today> todayMain = service.getTodayList(formatedNow);
 		
-		
 		model.addObject("todayMain", todayMain);
 		model.setViewName("challenge/today_main");
 		
@@ -241,15 +240,11 @@ public class ChallengeController {
 		}
 		
 		point.setMemNo(loginMember.getNo());
-		point.setPoint(chalPoint);
+		point.setSavePoint(chalPoint);
 		
 		// 최종 완료 체크(포인트 지급)
 		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo()); // 로그인한 사용자의 참여 목록 조회
 		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯수
-		
-		if( mapLength == 4 ) {
-			int pointResult = service.savePoint(point);
-		}
 		
 		model.setViewName("common/msg");
 		
@@ -276,9 +271,7 @@ public class ChallengeController {
 			ModelAndView model,
 			@RequestParam(defaultValue = "1") int page) {
 		
-		int listCount = 0;
-		
-		listCount = service.getBoardCount();
+		int listCount = service.getBoardCount();
 		PageInfo pageInfo = new PageInfo(page, 10, listCount, 8);
 		List<Month> monthList = service.getMonthList(pageInfo);
 		
@@ -297,9 +290,7 @@ public class ChallengeController {
 			@RequestParam(defaultValue="1") int page,
 			@RequestParam(value = "arrange", defaultValue="최신순") String arrange) {
 		
-		int listCount = 0;
-		
-		listCount = service.getBoardCount();
+		int listCount = service.getBoardCount();
 		PageInfo pageInfo = new PageInfo(page, 10, listCount, 8);
 		List<Month> monthList = service.getMonthList(pageInfo, arrange);
 		
@@ -357,13 +348,9 @@ public class ChallengeController {
 			model.addObject("remainCount", remainCount);
 			model.addObject("count", count);
 			model.addObject("remainCountList", remainCountList);
-			
-			System.out.println(month);
 		}
 		
 		model.addObject("month", month);
-		
-		System.out.println(month);
 		
 		model.setViewName("challenge/month_view");
 		
@@ -497,20 +484,23 @@ public class ChallengeController {
 		}
 		
 		point.setMemNo(loginMember.getNo());
-		point.setPoint(chalPoint);
+		point.setSavePoint(chalPoint);
 		
 		// 최종 완료 체크(포인트 지급)
 		Map<String, Object> completeCount = new HashMap<>();
 		completeCount.put("chalNo", chalNo);
 		completeCount.put("no", loginMember.getNo());
 		
+		Month month = service.findMonthListByNo(chalNo);
 		List<MonthMember> count = service.getMonthGuage(completeCount);
 		int mapLength = count.size();
-		int requiredCount = 10;
+		int requiredCount = month.getChalCount();;
 		
 		if( mapLength == requiredCount ) {
 			int pointResult = service.savePoint(point);
 		}
+		
+		System.out.println("필요 횟수 : " + requiredCount);
 		
 		model.setViewName("common/msg");
 		
@@ -712,8 +702,6 @@ public class ChallengeController {
 		int result = 0;
 		NestedReply nestedReply = service.findNestedReplyByNo(nestedReplyNo);
 		
-		System.out.println("대댓글 조회: " + nestedReply);
-		
 		result = service.deleteNestedReply(nestedReplyNo);
 		
 		if (result > 0) {
@@ -735,30 +723,25 @@ public class ChallengeController {
 			ModelAndView model,
 			@ModelAttribute Report report,
 			@SessionAttribute(name = "loginMember") Member loginMember,
-			@RequestParam("chalNo") int chalNo,
-			// @RequestParam("memNo") int memNo,
-			@RequestParam(value = "report-detail") char reportCategory) {
+			@RequestParam("chalNo") int chalNo) {
 		
 		log.info("reportReply - 호출");
 		
-		// 대댓글 작성
 		report.setReportMemberNo(loginMember.getNo()); // 신고한 회원
-		// report.setReportedMemberNo(memNo); // 신고 받은 회원
-		report.setReportCategory(reportCategory); // 신고 분류
+		
+		System.out.println(report.toString());
 		
 		int result = service.saveReport(report);
 		
 		if ( result > 0 ) {
 			model.addObject("msg", "댓글 신고가 접수되었습니다.");
 			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+			model.setViewName("common/msg");
 		} else {
 			model.addObject("msg", "댓글 신고를 실패했습니다.\n다시 시도해 주세요.");
 			model.addObject("location", "/month_view?chalNo=" + chalNo + "#sectionReply");
+			model.setViewName("common/msg");
 		}
-		
-		System.out.println("신고 : " + result);
-		
-		model.setViewName("common/msg");
 		
 		return model;
 	}
@@ -819,7 +802,39 @@ public class ChallengeController {
 	}
 	
 	
+	// 포인트
+	@GetMapping("/point")
+	public ModelAndView point(
+			ModelAndView model,
+			@RequestParam(defaultValue="1") int page,
+			@SessionAttribute(name = "loginMember") Member loginMember) {
+		
+		log.info("point() - 호출");
 	
+		
+		// 포인트 합계 조회
+		
+		// 소멸예정 포힌트 합계 조회
+		
+		// 포인트 - 적립 목록 조회
+		int listCount = service.findSavePointCount(loginMember.getNo());
+		PageInfo pageInfo = new PageInfo(page, 10, listCount, 10);
+		List<Point> savePoint = service.findSavePointByNo(loginMember.getNo(), pageInfo);
+		
+		// 포인트 - 사용 내역
+		int spendCount = service.findSpendPointCount(loginMember.getNo());
+		PageInfo spendPageInfo = new PageInfo(page, 10, spendCount, 10);
+		List<Point> spendPoint = service.findSpendPointByNo(loginMember.getNo(), spendPageInfo);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("spendPageInfo", spendPageInfo);
+		model.addObject("savePoint", savePoint);
+		model.addObject("spendPoint", spendPoint);
+		
+		model.setViewName("mypage/point");
+		
+		return model;
+	}
 	
 	
 	

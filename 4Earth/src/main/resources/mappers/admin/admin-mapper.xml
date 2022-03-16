@@ -60,10 +60,12 @@
 		<result property="category" column="CATEGORY"/>
 		<result property="chalTitle" column="CHAL_TITLE"/>
 		<result property="chalContent" column="CHAL_CONTENT"/>
-		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
 		<result property="startDate" column="START_DATE"/>
 		<result property="endDate" column="END_DATE"/>
+		<result property="chalStatus" column="CHAL_STATUS"/>
 	</resultMap>
 	
 	<resultMap type="Month" id="MonthListResultMap">
@@ -71,10 +73,13 @@
 		<result property="category" column="CATEGORY"/>
 		<result property="chalTitle" column="CHAL_TITLE"/>
 		<result property="chalContent" column="CHAL_CONTENT"/>
-		<result property="chalImgPath" column="CHAL_IMG_PATH"/>
+		<result property="originalFilename" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFilename" column="RENAMED_FILENAME"/>
 		<result property="chalPoint" column="CHAL_POINT"/>
+		<result property="chalCount" column="CHAL_COUNT"/>
 		<result property="startDate" column="START_DATE"/>
 		<result property="endDate" column="END_DATE"/>
+		<result property="chalStatus" column="CHAL_STATUS"/>
 	</resultMap>
 	
 	<resultMap type="MonthMember" id="MonthMemListResultMap">
@@ -305,7 +310,8 @@
 				RENAMED_FILENAME,
 				CHAL_POINT,
 				START_DATE,
-				END_DATE
+				END_DATE,
+				CHAL_STATUS
 		FROM CHAL_TODAY
 		ORDER BY CHAL_NO DESC
 	</select>
@@ -318,8 +324,10 @@
 				ORIGINAL_FILENAME,
 				RENAMED_FILENAME,
 				CHAL_POINT,
+				CHAL_COUNT,
 				START_DATE,
-				END_DATE
+				END_DATE,
+				CHAL_STATUS
 		FROM CHAL_MONTH
 		ORDER BY CHAL_NO DESC
 	</select>
@@ -478,15 +486,63 @@
 	 		CHAL_POINT = #{chalPoint},
 	 	</if>
 	 	<if test="startDate != null">
-	 		START_DATE = #{startDate},
+	 		START_DATE = SYSDATE,
 		</if>
 		<if test="endDate != null">
-	 		END_DATE = #{endDate},
+	 		END_DATE = SYSDATE,
+		</if>
+		<if test="chalStatus != null">
+	 		CHAL_STATUS = DEFAULT,
 		</if>
 	</trim>
 	 	WHERE CHAL_NO = #{chalNo}
 	 </update>
 	
+	<update id="updateMonth" parameterType="Month">
+	UPDATE CHAL_MONTH
+	<trim prefix="SET" suffixOverrides=",">
+	 	<if test="category != null">
+	 		CATEGORY = #{category},
+	 	</if>
+	 	<if test="chalTitle != null">
+	 		CHAL_TITLE = #{chalTitle},
+		</if>
+		<if test="chalContent != null">
+	 		CHAL_CONTENT = #{chalContent},
+		</if>
+	 	<if test="originalFilename != null">
+	 		ORIGINAL_FILENAME = #{originalFilename},
+		</if>
+		<if test="renamedFilename != null">
+	 		RENAMED_FILENAME = #{renamedFilename},
+		</if>
+	 	<if test="chalPoint != null">
+	 		CHAL_POINT = #{chalPoint},
+	 	</if>
+	 	<if test="chalCount != null">
+	 		CHAL_COUNT = #{chalCount},
+	 	</if>
+	 	<if test="startDate != null">
+	 		START_DATE = SYSDATE,
+		</if>
+		<if test="endDate != null">
+	 		END_DATE = SYSDATE,
+		</if>
+		<if test="chalStatus != null">
+	 		CHAL_STATUS = DEFAULT,
+		</if>
+	</trim>
+	 	WHERE CHAL_NO = #{chalNo}
+	</update>
+	
+	<update id="monthMemPoint" parameterType="_int">
+	UPDATE CHAL_MONTH_MEM
+	 	SET 
+	 		CHAL_POINT_STATUS = 'Y'
+	 	WHERE 
+	 		NO = #{no}
+	 </update>
+	 
 	<select id="getReportedList" parameterType="map" resultMap="ReportedListResultMap">
 		SELECT NO, 
 		       MEMBER_TYPE, 
@@ -532,6 +588,21 @@
 		WHERE CHAL_NO = #{ chalNo }
 	</select>
 	
+	<select id="findMonthByNo" parameterType="Month" resultMap="MonthListResultMap">
+		SELECT 	CHAL_NO,
+				CATEGORY,
+				CHAL_TITLE,
+				CHAL_CONTENT,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				CHAL_POINT,
+				CHAL_COUNT,
+				START_DATE,
+				END_DATE
+		FROM CHAL_MONTH
+		WHERE CHAL_NO = #{ chalNo }
+	</select>
+	
 	<insert id="insertProduct" parameterType="Product"
 	 	useGeneratedKeys="true" keyProperty="proNo" keyColumn="PRO_NO">
 	 	INSERT INTO PRODUCT(
@@ -571,6 +642,7 @@
 	 	useGeneratedKeys="true" keyProperty="chalNo" keyColumn="CHAL_NO">
 	 	INSERT INTO CHAL_TODAY(
 	 		CHAL_NO,
+	 		CATEGORY,
 	 		CHAL_TITLE,
 	 		CHAL_CONTENT,
 	 		ORIGINAL_FILENAME,
@@ -581,6 +653,7 @@
 	 		CHAL_STATUS
 	 	) VALUES(
 	 		SEQ_CHAL_TODAY.NEXTVAL,
+	 		1,
 	 		#{chalTitle},
 	 		#{chalContent},
 	 		#{originalFilename},
@@ -596,6 +669,7 @@
 	 	useGeneratedKeys="true" keyProperty="chalNo" keyColumn="CHAL_NO">
 	 	INSERT INTO CHAL_MONTH(
 	 		CHAL_NO,
+	 		CATEGORY,
 	 		CHAL_TITLE,
 	 		CHAL_CONTENT,
 	 		ORIGINAL_FILENAME,
@@ -607,6 +681,7 @@
 	 		CHAL_STATUS
 	 	) VALUES(
 	 		SEQ_CHAL_MONTH.NEXTVAL,
+	 		#{category},
 	 		#{chalTitle},
 	 		#{chalContent},
 	 		#{originalFilename},

@@ -18,10 +18,18 @@ public class Point {
 	
 	private Date saveDate;
 	
-	private String content;	
+	private String saveContent;	
 	
-	private int point;
+	private int savePoint;
+	
+	private Date spendDate;
+	
+	private String spendContent;	
+	
+	private int spendPoint;
 	
 	private Date disapearDate;
+	
+	private char pointCategory;
 	
 }

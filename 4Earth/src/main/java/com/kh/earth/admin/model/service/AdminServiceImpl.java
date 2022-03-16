@@ -246,6 +246,30 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 	}
 
+	@Override
+	public Month findMonthByNo(int no) {
+
+		return mapper.findMonthByNo(no);
+	}
+
+	@Override
+	public int updateMonth(Month month) {
+		int result = 0;
+		
+		result = mapper.updateMonth(month);
+		
+		return result;
+	}
+
+	@Override
+	public int monthMemPoint(int no) {
+		int result = 0;
+		
+		result = mapper.monthMemPoint(no);
+		
+		return result;
+	}
+
 	
 
 }
