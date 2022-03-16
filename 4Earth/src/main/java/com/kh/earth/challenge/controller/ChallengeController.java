@@ -246,6 +246,10 @@ public class ChallengeController {
 		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo()); // 로그인한 사용자의 참여 목록 조회
 		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯수
 		
+        if( mapLength == 4 ) {
+            int pointResult = service.savePoint(point);
+        }
+		
 		model.setViewName("common/msg");
 		
 		return model;
