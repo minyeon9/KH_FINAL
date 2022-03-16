@@ -456,7 +456,7 @@
 	<insert id="createOrderSum" parameterType="OrderSum">
 		<selectKey keyProperty="orderNo" resultType="_int" order="BEFORE">
 			SELECT SEQ_ORDERNO.NEXTVAL FROM DUAL
-		</selectKey>		
+		</selectKey>
 		INSERT INTO ORDER_SUM (
 		    ORDER_NO,
 		    MEMBER_NO
@@ -692,4 +692,34 @@
 		FROM PRODUCT_IMGS
 		WHERE PRO_NO = #{no}
 	</select>
+	
+	<select id="getCategoryNo" parameterType="string" resultType="_int">
+		SELECT C_NO
+		FROM PRODUCT_CATEGORY
+		WHERE C_NAME = #{appCatName}
+	</select>
+	
+	<insert id="writeApplication">
+		INSERT INTO APPLICATION (
+		    APP_NO,
+		    MEMBER_NO,
+		    APP_NAME,
+		    APP_URL,
+		    APP_TITLE,
+		    APP_CONTENT,
+		    APP_S_NO,
+		    APP_C_NO,
+		    APP_DATE
+		) VALUES (
+		 	SEQ_APPNO.NEXTVAL,
+		    #{memberNo},
+		    #{appName},
+		    #{appUrl},
+		    #{appTitle},
+		    #{appContent},
+		    0,
+		    #{appCatNo},
+		    DEFAULT
+		)
+	</insert>
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.dao.StoreMapper;
+import com.kh.earth.store.model.vo.Application;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
@@ -404,6 +405,20 @@ public class StoreServiceImpl implements StoreService {
 	public List<ProductImgs> getProductImgs(int no) {
 		
 		return mapper.getProductImgs(no);
+	}
+
+	// 상품의 카테고리명으로 카테고리 번호 조회하기
+	@Override
+	public int getCategoryNo(String appCatName) {
+		
+		return mapper.getCategoryNo(appCatName);
+	}
+
+	// 입고 신청 작성
+	@Override
+	public int writeApplication(Application application) {
+		
+		return mapper.writeApplication(application);
 	}
 
 

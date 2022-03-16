@@ -33,28 +33,39 @@
                             <br>                
                             <div class="thumb-list">
                                 <ul>
+                                	<c:if test="${ empty list }">
+                                		<div class="cart-empty">
+	                                		<p>찜한 상품이 없습니다.</p>
+	                        				<a href="${ path }/product_list">쇼핑하러 가기</a>
+                                		</div>
+                                	</c:if>
                                     <c:if test="${ !empty list }">
                                 		<c:forEach var="product" items="${ list }">
                                 			<li>
 		                                        <div class="img-thumb">
 		                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-		                                        </div>
-		                                        <input type="hidden" value="${ product.proNo }">
+		                                        </div>		                                        
 		                                        <strong><a href="${ path }/product_detail?no=${ product.proNo }">${ product.proName }</a></strong>
 		                                        <div class="price">
 		                                        	<fmt:formatNumber value="${ product.proPrice }" pattern="##,###,###"/> 원
 		                                        </div>
 		                                        <div class="review">
-		                                        	<small>
-			                                        <span class="icon-star">
-		                                                <i class="unfill"></i>
-		                                                <i class="fill" style="width: ${ product.proRating * 20 }%"></i>
-		                                            </span>
-		                                        	${ product.proRating }
-		                                        	</small>
+		                                        	<c:if test="${ product.proRating ne 0.0 }">
+			                                        	<small>
+					                                        <span class="icon-star">
+				                                                <i class="unfill"></i>
+				                                                <i class="fill" style="width: ${ product.proRating * 20 }%"></i>
+				                                            </span>
+				                                        	${ product.proRating }
+			                                        	</small>
+		                                        	</c:if>
+		                                        	<c:if test="${ product.proRating eq 0.0 }">
+		                                        		<small>ㅡ</small>
+		                                        	</c:if>
 		                                        </div>
 		                                        <div class="btn-wrap">
-		                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
+		                                            <a href="javascript:void(0);" class="btn-delete-img"><i class="material-icons md-22">delete_outline</i></a>
+		                                        	<input type="hidden" id="productNo" value="${ product.proNo }">
 		                                        </div>
 		                                    </li>
                                 		</c:forEach>
@@ -62,23 +73,24 @@
                                 </ul>
                             </div>
                         </section>
-
-                        <div class="paging">
-                        	<a href="${ path }/wish_list?page=1" class="first"><span>맨 앞으로</span></a> 
-                            <a href="${ path }/wish_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
-                            <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == pageInfo.currentPage }">				
-									<strong>${ status.current }</strong>
-								</c:if>
-								
-								<c:if test="${ status.current != pageInfo.currentPage }">				
-									<a href="${ path }/wish_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-                            <a href="${ path }/wish_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
-                            <a href="${ path }/wish_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
-                        </div>
-
+						
+						<c:if test="${ !empty list }">
+	                        <div class="paging">
+	                        	<a href="${ path }/wish_list?page=1" class="first"><span>맨 앞으로</span></a> 
+	                            <a href="${ path }/wish_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+	                            <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">				
+										<strong>${ status.current }</strong>
+									</c:if>
+									
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/wish_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+	                            <a href="${ path }/wish_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+	                            <a href="${ path }/wish_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+	                        </div>
+						</c:if>
                 </section>
 
 
@@ -107,39 +119,40 @@
 	    }
 	});
 
- // 찜
-    $(".heart.fa").click(function() {
-        var selected = $(this);
-    	var productNo = $(this).parents("li").find("input[type='hidden']").val();
-        
-        console.log(JSON.stringify(productNo));
-        
+	// 찜 삭제
+	$(document).on("click", ".btn-wrap", (e) => {
+		let selected = e.currentTarget;
+		
+		let productNo = $(selected).find("input[type=hidden]").val();
+		
+		selected.closest("li").remove();
+		
+		console.log(productNo);
+		
 		$.ajax({
 			type : "post",
 			url : "${ path }/add_wish",
 			data : 
 				productNo,
 			contentType : 'application/json; charset=UTF-8',
-			error : function(request, error){
+			error : function(request, error) {
 		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-		    	
-		    	if(request.status === 500){
-		    		alert("이미 찜");
-		    	}
-		    	else if(request.status === 400){		    		
-			    	alert("우선 로그인해주세요");
-			    	window.location = "${ path }/login";
-		    	}
-			},
-			success : function(data){
+		    },
+		    success : function(data) {
 				console.log("ajax success");
-				console.log(data);
+				console.log("data : " + data);
 				
-				console.log(selected);
-				selected.toggleClass("fa-heart fa-heart-o");
-			}
-		});        
-    }); 
+				if(data === "Wish Added" || data === "Wish Again"){
+					alert("찜 성공");
+				}
+				else if(data === "Wish Deleted"){
+					alert("찜 삭제");
+				}
+				
+				window.location = "${ path }/wishlist";
+		    }
+		});
+	});
 	
 </script>
 

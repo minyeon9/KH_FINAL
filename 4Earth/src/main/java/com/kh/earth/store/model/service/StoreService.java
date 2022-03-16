@@ -3,6 +3,7 @@ package com.kh.earth.store.model.service;
 import java.util.List;
 
 import com.kh.earth.common.util.PageInfo;
+import com.kh.earth.store.model.vo.Application;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
@@ -101,6 +102,10 @@ public interface StoreService {
 	int updateProductRating(int proNo, double rating);
 
 	List<ProductImgs> getProductImgs(int no);
+
+	int getCategoryNo(String appCatName);
+
+	int writeApplication(Application application);
 
 
 

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.kh.earth.common.util.PageInfo;
+import com.kh.earth.store.model.vo.Application;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
@@ -103,6 +104,10 @@ public interface StoreMapper {
 	int updateProductRating(Map<String, Object> map);
 
 	List<ProductImgs> getProductImgs(int no);
+
+	int getCategoryNo(String appCatName);
+
+	int writeApplication(Application application);
 
 
 

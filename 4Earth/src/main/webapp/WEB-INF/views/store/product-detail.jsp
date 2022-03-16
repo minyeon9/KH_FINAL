@@ -206,7 +206,7 @@
                             </ul>
                         </div>
                         <div class="paging">
-                            <a href="${ path }/product_detail?no=${ product.proNo }revPage=${ revPageInfo.prevPage }" class="prev"><span>이전</span></a>
+                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.prevPage }" class="prev"><span>이전</span></a>
                             <c:forEach begin="${ revPageInfo.startPage }" end="${ revPageInfo.endPage }" varStatus="status">
 								<c:if test="${ status.current == revPageInfo.currentPage }">				
 									<strong>${ status.current }</strong>
@@ -216,7 +216,7 @@
 									<a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ status.current }&count=${ revPageInfo.listLimit }">${ status.current }</a>
 								</c:if>
 							</c:forEach>
-                            <a href="${ path }/product_detail?no=${ product.proNo }revPage=${ revPageInfo.nextPage }" class="next"><span>다음</span></a>
+                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.nextPage }" class="next"><span>다음</span></a>
                         	<input type="hidden" name="no" value="${ product.proNo }">
                         </div>
                     </section>
@@ -274,17 +274,17 @@
                             </ul>
                         </div>
                         <div class="paging">
-                            <a href="${ path }/product_detail?no=${ product.proNo }inqPage=${ inqPageInfo.prevPage }" class="prev"><span>이전</span></a>
+                            <a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ inqPageInfo.prevPage }" class="prev"><span>이전</span></a>
                             <c:forEach begin="${ inqPageInfo.startPage }" end="${ inqPageInfo.endPage }" varStatus="status">
 								<c:if test="${ status.current == inqPageInfo.currentPage }">				
 									<strong>${ status.current }</strong>
 								</c:if>
 								
 								<c:if test="${ status.current != inqPageInfo.currentPage }">				
-									<a href="${ path }/product_detail?no=${ product.proNo }inqPage=${ status.current }&count=${ inqPageInfo.listLimit }">${ status.current }</a>
+									<a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ status.current }&count=${ inqPageInfo.listLimit }">${ status.current }</a>
 								</c:if>
 							</c:forEach>
-                            <a href="${ path }/product_detail?no=${ product.proNo }inqPage=${ inqPageInfo.nextPage }" class="next"><span>다음</span></a>
+                            <a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ inqPageInfo.nextPage }" class="next"><span>다음</span></a>
                         	<input type="hidden" name="no" value="${ product.proNo }">
                         </div>
                     </section>

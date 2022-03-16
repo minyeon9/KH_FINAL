@@ -26,6 +26,7 @@ import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.service.StoreService;
 import com.kh.earth.store.model.service.StoreServiceImpl;
+import com.kh.earth.store.model.vo.Application;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.CartList;
 import com.kh.earth.store.model.vo.Delivery;
@@ -211,7 +212,7 @@ public class StoreController {
 			@SessionAttribute(name = "loginMember") Member loginMember
 			) {
 		log.info("addWish() - 호출");
-		log.info(productNo);
+		log.info("productNo : " + productNo);
 
 		int result = 0;
 		int count = 0;
@@ -689,7 +690,7 @@ public class StoreController {
 					
 					if(upfile != null && !upfile.isEmpty()) {
 						// 파일 저장
-						String renamedFileName = null;
+						String renamedFileName = null; 
 						String location = null;
 						
 						try {
@@ -823,11 +824,56 @@ public class StoreController {
 		return "store/bidding-detail";
 	}
 	
+	// 입고 신청하기
 	@GetMapping("/write_application")
-	public String wirteApplication() {
+	public ModelAndView writeApplication(
+			ModelAndView model			
+			) {
 		log.info("writeApplication() - 호출");
 		
-		return "store/write-application";
+		model.setViewName("store/write-application");
+		
+		return model;
+	}
+	
+	// 입고 신청하기 작성
+	@PostMapping("/write_application")
+	public ModelAndView writeApplication(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@ModelAttribute Application application
+			) {
+		log.info("writeApplication() - 호출");
+		
+		log.info("application : " + application.toString());
+		
+		if(loginMember != null) {
+			application.setMemberNo(loginMember.getNo());
+			
+			// 카테고리명으로 카테고리 번호 가져오기
+			int catNo = service.getCategoryNo(application.getAppCatName());
+			log.info("catNo : " + catNo);
+			
+			application.setAppCatNo(catNo);
+			
+			int result = service.writeApplication(application);
+			
+			if(result > 0) {
+				model.addObject("msg", "입고 신청이 등록되었습니다.");
+				
+				// 작성 창 닫고, 기존 페이지 새로고침				
+				model.addObject("script", "window.opener.document.location.reload(); window.close();");	
+				model.setViewName("common/msg");	
+			} else {
+				log.info("응안돼");
+			}			
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");				
+			model.setViewName("common/msg");
+		}		
+		
+		return model;		
 	}
 	
 	@GetMapping("/map")
