@@ -28,6 +28,8 @@ import com.kh.earth.common.util.FileProcess;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.notice.model.vo.Notice;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductImgs;
 
@@ -188,17 +190,81 @@ public class AdminController {
 	}
 	
 	@GetMapping("/echo_order")
-	public String admin_echo_order() {
+	public ModelAndView admin_echo_order(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<OrderSum> orderList = null;
+		
 		log.info("admin_echo_order() - 호출");
 		
-		return "admin/echo_order";
+		pageInfo = new PageInfo(page, 10, service.getOrderCountAll(name), count);
+		orderList = service.getOrderListAll(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("orderList", orderList);
+		
+		model.setViewName("/admin/echo_order");
+		
+		return model;
+	}
+	
+	@GetMapping("/echo_order_detail")
+	public ModelAndView admin_echo_order_detail(ModelAndView model,
+			@RequestParam("no")int no) {
+		List<OrderDetail> list = service.findDetailByNo(no);
+		System.out.println(list);
+		log.info("admin_echo_order_detail() - 호출");
+		
+		model.addObject("list", list);
+		
+		model.setViewName("/admin/echo_order_detail");
+		
+		return model;
+	}
+	
+	@PostMapping("/echo_order_detail")
+	public ModelAndView admin_echo_order_detail(ModelAndView model,
+			@ModelAttribute("orderDetail")OrderDetail orderDetail) {
+		int result;
+		
+		result = service.orderDelivery(orderDetail.getOrderNo());
+		
+		if (result > 0) {
+			model.addObject("msg", "에코샵  업데이트 성공");
+			model.addObject("location", "/admin/echo_order_detail?no=" + orderDetail.getOrderNo());
+		}else {
+			model.addObject("msg", "에코샵 업데이트 실패");
+			model.addObject("location", "/admin/echo_order_detail?no=" + orderDetail.getOrderNo());
+		}
+		
+		model.setViewName("common/msg");
+		
+		log.info("admin_echo_order_detail() - 호출");
+		
+		return model;
 	}
 	
 	@GetMapping("/echo_delivery")
-	public String admin_echo_delivery() {
-		log.info("admin_echo_delivery() - 호출");
+	public ModelAndView admin_echo_delivery(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<OrderSum> orderList = null;
 		
-		return "admin/echo_delivery";
+		log.info("admin_echo_order() - 호출");
+		
+		pageInfo = new PageInfo(page, 10, service.getOrderDeliveryCount(name), count);
+		orderList = service.getOrderDeliveryList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("orderList", orderList);
+		
+		model.setViewName("/admin/echo_delivery");
+		
+		return model;
 	}
 	
 	@GetMapping("/echo_cancel")
@@ -345,7 +411,7 @@ public class AdminController {
 				 product.setProModifyImg(renamedFileName);
 			 }
 		 }
-		
+
 		result = service.productUpdate(product);
 		System.out.println(result);
 		
@@ -738,6 +804,29 @@ public class AdminController {
 		return model;
 	}
 	
+	@GetMapping("/report_ban")
+	public ModelAndView admin_report_ban(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_report_ban" + no);
+		
+		int result = 0;
+		
+		result = service.banMember(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "멤버 정지 완료");
+			model.addObject("location", "/admin/report_list");
+		}else {
+			model.addObject("msg", "신고 처리 실패");
+			model.addObject("location", "/admin/report_list");
+		}
+		
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	
 	

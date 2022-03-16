@@ -15,6 +15,8 @@ import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.notice.model.vo.Notice;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductImgs;
 
@@ -84,4 +86,18 @@ public interface AdminMapper {
 	int updateMonth(Month month);
 
 	int monthMemPoint(int no);
+
+	List<OrderSum> getOrderListAll(RowBounds rowBounds, Map<String, String> name);
+
+	List<OrderDetail> getDetailList(int no);
+
+	List<OrderDetail> findDetailByNo(int no);
+
+	int orderDelivery(int no);
+
+	int banMember(int no);
+
+	int getOrderDeliveryCount(Map<String, String> name);
+
+	List<OrderSum> getOrderDeliveryList(RowBounds rowBounds, Map<String, String> name);
 }

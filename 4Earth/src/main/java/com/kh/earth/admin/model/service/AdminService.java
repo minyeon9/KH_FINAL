@@ -14,6 +14,8 @@ import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.notice.model.vo.Notice;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
 import com.kh.earth.store.model.vo.ProductImgs;
 
@@ -82,5 +84,21 @@ public interface AdminService {
 	int updateMonth(Month month);
 
 	int monthMemPoint(int no);
+
+	int getOrderCountAll(Map<String, String> name);
+
+	List<OrderSum> getOrderListAll(PageInfo pageInfo, Map<String, String> name);
+
+	List<OrderDetail> getDetailList(int no);
+
+	List<OrderDetail> findDetailByNo(int no);
+
+	int orderDelivery(int no);
+
+	int banMember(int no);
+
+	int getOrderDeliveryCount(Map<String, String> name);
+
+	List<OrderSum> getOrderDeliveryList(PageInfo pageInfo, Map<String, String> name);
 
 }
