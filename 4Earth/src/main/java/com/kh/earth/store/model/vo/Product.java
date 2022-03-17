@@ -46,4 +46,9 @@ public class Product {
 	private int isNew;
 	
 	private List<ProductOption> option;
+	
+	// 로그인 유저의 상품 찜 여부 표시를 위한 정보
+	private int memberNo; 
+	
+	private String wishStat;
 }

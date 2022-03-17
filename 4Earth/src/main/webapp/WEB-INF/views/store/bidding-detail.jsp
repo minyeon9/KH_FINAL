@@ -48,60 +48,52 @@
                     <!-- 
                         slide
                     -->
-                        <div class="slider">                                
-                            <input type="radio" name="slide" id="slide1" checked>
-                            <input type="radio" name="slide" id="slide2">
-                            <input type="radio" name="slide" id="slide3">
-                            <input type="radio" name="slide" id="slide4">
-                            <ul id="imgholder" class="imgs">
-                                <li><img src="../resources/images/@temp/@thumbnail01.jpg"></li>
-                                <li><img src="../resources/images/@temp/@thumbnail01.jpg"></li>
-                                <li><img src="../resources/images/@temp/@thumbnail01.jpg"></li>
-                                <li><img src="../resources/images/@temp/@thumbnail01.jpg"></li>
-                            </ul>
-                            <div class="bullets">
-                                <label for="slide1">&nbsp;</label>
-                                <label for="slide2">&nbsp;</label>
-                                <label for="slide3">&nbsp;</label>
-                                <label for="slide4">&nbsp;</label>
-                            </div>
-                        
+                        <div class="bid-img"> 
+                        	<img src="${ path }/resources/upload/store/${ product.renamedFileName }" alt="" class="bid-detail-img">
                         </div>
-                        
-                        <table class="pro-table bid-table">
-                            <thead>
-                                <tr>
-                                    <td>상품명</td>
-                                </tr>
-                            </thead>
-                            <tbody class="tbody1">
-                                <tr>
-                                    <td colspan="4">
-                                        <div class="progress prog-detail">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" style="font-weight: bold;">n명 참여</td>
-                                    <td style="text-align: right;">달성률 n%</td>
-                                </tr>
-                                <tr style="border-bottom: 1px solid #999;">
-                                    <td colspan="4" style="vertical-align: bottom;"><p>n 명의 관심이 모이면 에코샵에서 만나볼 수 있습니다.</p></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" style="border-bottom: 1px solid #999;">
-                                        <a href="">공식 판매처 링크</a>
-                                    </td>
-                                </tr>                             
-                            </tbody>
-                            <tr class="pro-result">
-                                <th colspan="4">
-                                    <button class="btn bid-btn">관심있어요</button>
-                                    <button class="btn bid-btn"><i class="material-icons md-24">share</i></button>
-                                </th>
-                            </tr>                            
-                        </table>
+                        <div class="pro-info">
+	                        <table class="pro-table" style="height: 350px;">
+	                            <thead>
+	                                <tr>
+	                                    <td>${ product.bidName }</td>
+	                                </tr>
+	                            </thead>
+	                            <tbody class="tbody1">
+	                                <tr>
+	                                    <td colspan="4" style="padding-top: 10px;">
+	                                        <div class="progress prog-detail">
+	                                            <div class="progress-bar bg-success" role="progressbar" style="width: ${ product.bidCurr div product.bidCond * 100 }%" aria-valuenow="${ product.bidCurr div product.bidCond * 100 }" aria-valuemin="0" aria-valuemax="100"></div>
+	                                        </div>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                    <td colspan="3" style="font-weight: bold;">${ product.bidCurr } 명 참여</td>
+	                                    <td style="text-align: right;">
+	                                    	달성률 <fmt:formatNumber value="${ product.bidCurr div product.bidCond * 100 }" pattern=".0"/>%	                                    	
+	                                    </td>
+	                                </tr>
+	                                <tr style="border-bottom: 1px solid #999; ">
+	                                    <td colspan="4" ><p><b>${ product.bidCond }</b> 명의 관심이 모이면 에코샵에서 만나볼 수 있습니다.</p></td>
+	                                </tr>
+	                                <tr style="padding-bottom: 15px;">
+	                                    <td colspan="4">
+	                                        <p>기존 판매처 링크 : </p>
+	                                    </td>
+	                                </tr> 
+	                                <tr>
+	                                    <td colspan="4" style="border-bottom: 1px solid #999;">
+	                                        <a href="" style="word-break: break-all;">${ product.bidUrl }</a>
+	                                    </td>
+	                                </tr>                             
+	                            </tbody>
+	                            <tr class="pro-result">
+	                                <th colspan="4">
+	                                    <button class="btn bid-btn" id="addBid">관심있어요</button>
+	                                    <button class="btn bid-btn"><i class="material-icons md-24">share</i></button>
+	                                </th>
+	                            </tr>                            
+	                        </table>
+                        </div>                        
                     </div>
 
                     <br><br><br><br>
@@ -109,7 +101,7 @@
 
                     <br><br><br><br>
 
-                    <!-- 상품후기 -->
+                    <!-- 한마디 게시판 -->
                     <section>
                     	<div class="store-board">
 	                        <p>
@@ -154,7 +146,7 @@
                     </section>
                     <!-- // Board -->
 
-
+				</section>
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
             <!-- <div class="select-option">
@@ -185,6 +177,51 @@
             }
         });
     });
+    
+ 	// 관심있어요
+	$("#addBid").click(function() {
+		var selected = $(this);
+		var bidNo = ${ product.bidNo };
+        
+		console.log(bidNo);
+		console.log(typeof bidNo);
+		console.log(selected);
+		
+        console.log(JSON.stringify(bidNo));
+        
+        $.ajax({
+			type : "post",
+			url : "${ path }/add_bid",
+			data : 
+				JSON.stringify(bidNo),
+			contentType : 'application/json; charset=UTF-8',
+			error : function(request, error){
+		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+		    	
+		    	if(request.status === 500){
+		    		alert("이미 참여하셨습니다.");
+		    	}
+		    	else if(request.status === 400){		    		
+			    	alert("우선 로그인해주세요");
+			    	window.location = "${ path }/login";
+		    	}
+			},
+			success : function(data){
+				console.log("ajax success");
+				console.log(data);
+				
+				if(data === "Bid Added" || data === "Bid Again"){
+					alert("참여 성공");
+					
+					location.reload();
+				}
+				else if(data === "Bid Deleted"){
+					alert("참여 취소");
+				}
+				
+			}
+		});
+	});
 </script>
 
 </html>
