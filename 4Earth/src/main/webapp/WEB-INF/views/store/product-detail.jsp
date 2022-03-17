@@ -144,7 +144,19 @@
                             <div class="pro-result">
                                 <button class="btn pro-btn" id="buyNow">바로구매</button>
                                 <button class="btn pro-btn" id="addCart">장바구니</button>
-                                <button class="btn pro-btn" id="addWish">찜</button>
+                                <c:choose>
+	                                 <c:when test="${ (loginMember.no eq product.memberNo) && product.wishStat eq 'Y' }">
+                                    	<button class="btn pro-btn wish-added" id="addWish">
+                                    		<i class="material-icons" id="wish-done">done</i>찜
+                                    	</button>			                                        	
+	                                 </c:when>
+	                                 <c:otherwise>
+                                    	<button class="btn pro-btn" id="addWish">
+                                    		찜
+                                    	</button>			                                        	
+	                                 </c:otherwise>
+                               	</c:choose>
+                                
                             </div>                            
                         </div>
                     </div>
@@ -153,9 +165,17 @@
                     
                     <!-- 상품설명 -->
                     <div class="pro-detail">
-                        상품 <br>
-                        상세 <br>
-                        설명 <br>
+                    	<div class="pro-detail-img">
+	                    	<c:if test="${ !empty product.proModifyImg }">
+	                       		<img src="${ path }/resources/upload/store/${ product.proModifyImg }" alt="">
+	                       	</c:if>
+                    	</div>
+                        
+                        <div class="pro-detail-description">
+                        	<p>
+	                        	${ product.proInfo }
+                        	</p>
+                        </div>
                     </div>
                     <!-- //상품설명 -->
 
@@ -172,7 +192,10 @@
                         <div class="accordian inquiry">
                             <ul>
                             	<c:if test="${ empty revList }">
-                            		등록된 리뷰가 없습니다.
+                            		<p style="text-align: center;">
+	                            		<br>등록된 리뷰가 없습니다.
+                            		</p>
+                            		<br>
                             	</c:if>
                             	<c:if test="${ !empty revList }">
 	                            	<c:forEach var="rev" items="${ revList }">
@@ -205,20 +228,22 @@
                             	</c:if>                  
                             </ul>
                         </div>
-                        <div class="paging">
-                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.prevPage }" class="prev"><span>이전</span></a>
-                            <c:forEach begin="${ revPageInfo.startPage }" end="${ revPageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == revPageInfo.currentPage }">				
-									<strong>${ status.current }</strong>
-								</c:if>
-								
-								<c:if test="${ status.current != revPageInfo.currentPage }">				
-									<a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ status.current }&count=${ revPageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.nextPage }" class="next"><span>다음</span></a>
-                        	<input type="hidden" name="no" value="${ product.proNo }">
-                        </div>
+                        <c:if test="${ !empty revList }">
+	                        <div class="paging">
+	                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.prevPage }" class="prev"><span>이전</span></a>
+	                            <c:forEach begin="${ revPageInfo.startPage }" end="${ revPageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == revPageInfo.currentPage }">				
+										<strong>${ status.current }</strong>
+									</c:if>
+									
+									<c:if test="${ status.current != revPageInfo.currentPage }">				
+										<a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ status.current }&count=${ revPageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+	                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.nextPage }" class="next"><span>다음</span></a>
+	                        	<input type="hidden" name="no" value="${ product.proNo }">
+	                        </div>
+                        </c:if>
                     </section>
                     <!-- // Board -->
 
@@ -235,7 +260,10 @@
                         <div class="accordian inquiry">
                             <ul>
                             	<c:if test="${ empty inqList }">
-                            		등록된 문의가 없습니다.
+                            		<p style="text-align: center;">
+                            			<br>등록된 문의가 없습니다.
+                            		</p>
+                            		<br>
                             	</c:if>
                             	<c:if test="${ !empty inqList }">
 	                            	<c:forEach var="inq" items="${ inqList }">
@@ -273,20 +301,22 @@
                             	</c:if>                                
                             </ul>
                         </div>
-                        <div class="paging">
-                            <a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ inqPageInfo.prevPage }" class="prev"><span>이전</span></a>
-                            <c:forEach begin="${ inqPageInfo.startPage }" end="${ inqPageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == inqPageInfo.currentPage }">				
-									<strong>${ status.current }</strong>
-								</c:if>
-								
-								<c:if test="${ status.current != inqPageInfo.currentPage }">				
-									<a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ status.current }&count=${ inqPageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-                            <a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ inqPageInfo.nextPage }" class="next"><span>다음</span></a>
-                        	<input type="hidden" name="no" value="${ product.proNo }">
-                        </div>
+                        <c:if test="${ !empty inqList }">
+	                        <div class="paging">
+	                            <a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ inqPageInfo.prevPage }" class="prev"><span>이전</span></a>
+	                            <c:forEach begin="${ inqPageInfo.startPage }" end="${ inqPageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == inqPageInfo.currentPage }">				
+										<strong>${ status.current }</strong>
+									</c:if>
+									
+									<c:if test="${ status.current != inqPageInfo.currentPage }">				
+										<a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ status.current }&count=${ inqPageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+	                            <a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ inqPageInfo.nextPage }" class="next"><span>다음</span></a>
+	                        	<input type="hidden" name="no" value="${ product.proNo }">
+	                        </div>
+                        </c:if>
                     </section>
                     <!-- // Accordian -->
                     
@@ -573,10 +603,15 @@
 				console.log("ajax success");
 				console.log(data);
 				
+				selected.toggleClass("wish-added");
+				
+				
 				if(data === "Wish Added" || data === "Wish Again"){
+					$("#wish-done").show();
 					alert("찜 성공");
 				}
 				else if(data === "Wish Deleted"){
+					$("#wish-done").hide();
 					alert("찜 삭제");
 				}
 				

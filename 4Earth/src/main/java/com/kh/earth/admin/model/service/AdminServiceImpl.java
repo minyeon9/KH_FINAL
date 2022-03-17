@@ -18,8 +18,13 @@ import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.notice.model.vo.Notice;
+import com.kh.earth.store.model.vo.OrderDetail;
+import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductBidding;
 import com.kh.earth.store.model.vo.ProductImgs;
+import com.kh.earth.store.model.vo.ProductInquiry;
+import com.twilio.rest.api.v2010.account.Application;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -270,6 +275,103 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 	}
 
-	
+	@Override
+	public int getOrderCountAll(Map<String, String> name) {
+		
+		return mapper.getNoticeCount(name);
+	}
+
+	@Override
+	public List<OrderSum> getOrderListAll(PageInfo pageInfo, Map<String, String> name) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getOrderListAll(rowBounds, name);
+	}
+
+	@Override
+	public List<OrderDetail> getDetailList(int no) {
+		
+		return mapper.getDetailList(no);
+	}
+
+	@Override
+	public List<OrderDetail> findDetailByNo(int no) {
+		
+		return mapper.findDetailByNo(no);
+	}
+
+	@Override
+	public int orderDelivery(int no) {
+		int result = 0;
+		
+		result = mapper.orderDelivery(no);
+		
+		return result;
+	}
+
+	@Override
+	public int banMember(int no) {
+		
+		return mapper.banMember(no);
+	}
+
+	@Override
+	public int getOrderDeliveryCount(Map<String, String> name) {
+		
+		return mapper.getOrderDeliveryCount(name);
+	}
+
+	@Override
+	public List<OrderSum> getOrderDeliveryList(PageInfo pageInfo, Map<String, String> name) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getOrderDeliveryList(rowBounds, name);
+	}
+
+	@Override
+	public int getProInqCount(Map<String, String> name) {
+		
+		return mapper.getProInqCount(name);
+	}
+
+	@Override
+	public List<ProductInquiry> getProInqList(PageInfo pageInfo, Map<String, String> name) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getProInqList(rowBounds, name);
+	}
+
+	@Override
+    public int getApplicationCount() {
+
+        return mapper.getApplicationCount();
+    }
+
+    @Override
+    public List<Application> getApplicationList(PageInfo pageInfo, String select) {
+        int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+        int limit = pageInfo.getListLimit();
+        RowBounds rowBounds = new RowBounds(offset, limit);
+
+        return mapper.getApplicationList(rowBounds, select);
+    }
+
+    @Override
+    public int biddingSave(ProductBidding productBidding) {
+
+        return mapper.biddingSave(productBidding);
+    }
+
+    @Override
+    public int updateApplication(int appNo) {
+
+        return mapper.updateApplication(appNo);
+    }
 
 }

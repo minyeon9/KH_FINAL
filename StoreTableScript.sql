@@ -382,30 +382,10 @@ COMMENT ON COLUMN PRODUCT_IMGS.RENAMED_FILENAME IS '상세사진수정이름';
 --------------------------------------------------------------------------------------------------------
 -- 수정 사항 (3/15)
 ALTER TABLE PRODUCT MODIFY PRO_RATING DEFAULT 0;
+ALTER TABLE PRODUCT_BIDDING ADD BID_URL VARCHAR2(200);
+ALTER TABLE PRODUCT_BIDDING ADD ORIGINAL_FILENAME VARCHAR2(2000);
+ALTER TABLE PRODUCT_BIDDING ADD RENAMED_FILENAME VARCHAR2(2000);
+--------------------------------------------------------------------------------------------------------
 
-SELECT C_NO
-FROM PRODUCT_CATEGORY
-WHERE C_NAME = '바디케어';
 
-INSERT INTO APPLICATION (
-    APP_NO,
-    MEMBER_NO,
-    APP_NAME,
-    APP_URL,
-    APP_TITLE,
-    APP_CONTENT,
-    APP_S_NO,
-    APP_C_NO,
-    APP_DATE
-) VALUES (
- APP_NO,
-    MEMBER_NO,
-    APP_NAME,
-    APP_URL,
-    APP_TITLE,
-    APP_CONTENT,
-    APP_S_NO,
-    APP_C_NO,
-    APP_DATE
-);
 

@@ -64,138 +64,51 @@
 
                             <div class="thumb-list">
                                 <ul>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="${ path }/bidding_detail">상품명</a></strong>
-                                        <div class="price">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <div class="review"><small>달성률 70%</small></div>
-                                        <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="#">상품명</a></strong>
-                                        <div class="price">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>                                        </div>
-                                        <div class="review"><small>달성률 70%</small></div>
-                                        <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="#">상품명</a></strong>
-                                        <div class="price">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>                                        </div>
-                                        <div class="review"><small>달성률 70%</small></div>
-                                        <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="#">상품명</a></strong>
-                                        <div class="price">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>                                        </div>
-                                        <div class="review"><small>달성률 70%</small></div>
-                                        <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="#">상품명</a></strong>
-                                        <div class="price">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>                                        </div>
-                                        <div class="review"><small>달성률 70%</small></div>
-                                        <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="#">상품명</a></strong>
-                                        <div class="price">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>                                        </div>
-                                        <div class="review"><small>달성률 70%</small></div>
-                                        <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="#">상품명</a></strong>
-                                        <div class="price">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>                                        </div>
-                                        <div class="review"><small>달성률 70%</small></div>
-                                        <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="img-thumb">
-                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
-                                        </div>
-                                        <strong><a href="#">상품명</a></strong>
-                                        <div class="price">
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>                                        </div>
-                                        <div class="review"><small>달성률 70%</small></div>
-                                        <div class="btn-wrap">
-                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
-                                        </div>
-                                    </li>
+                                	<c:if test="${ empty list }">
+                                		<p style="text-align: center;">모집중인 상품이 없습니다.</p> 
+                                	</c:if>
+                                	<c:if test="${ !empty list }">
+                                		<c:forEach var="list" items="${ list }">
+											<li>
+												<input type="hidden" value="${ list.bidNo }">
+		                                        <div class="img-thumb">
+		                                            <img src="${ path }/resources/upload/store/${ list.renamedFileName }" alt="">
+		                                        </div>
+		                                        <strong><a href="${ path }/bidding_detail?no=${ list.bidNo }">${ list.bidName }</a></strong>
+		                                        <div class="price">
+		                                            <div class="progress">
+		                                                <div class="progress-bar bg-success prog-list" role="progressbar" style="width: ${ list.bidCurr div list.bidCond * 100 }%" aria-valuenow="${ list.bidCurr div list.bidCond * 100 }" aria-valuemin="0" aria-valuemax="100"></div>
+		                                            </div>
+		                                        </div>
+		                                        <div class="review"><small>달성률 <fmt:formatNumber value="${ list.bidCurr div list.bidCond * 100 }" pattern="0.0"/>%</small></div>
+		                                        
+		                                        <div class="btn-wrap">
+		                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
+		                                        </div>
+		                                    </li>
+                                		</c:forEach>                                		
+                                	</c:if>
                                 </ul>
                             </div>
                         </section>
                         <!-- // Thumbnail List -->
 
-                        <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
-                            <a href="#">8</a>
-                            <a href="#">9</a>
-                            <a href="#">10</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>
+                        <c:if test="${ !empty list }">
+	                        <div class="paging">
+	                            <a href="${ path }/product_bidding?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+	                            <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">				
+										<strong>${ status.current }</strong>
+									</c:if>
+									
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }product_bidding?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+	                            <a href="${ path }/product_bidding?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+	                        	<input type="hidden" name="no" value="${ product.proNo }">
+	                        </div>
+                        </c:if>
                     </div> <!-- // guide -->
                 </section>
 
@@ -232,10 +145,54 @@
         });
     });
 
+    // 하트 버튼
     $(".heart.fa").click(function() {
         $(this).toggleClass("fa-heart fa-heart-o");
     });
 
+ 	// 모집 참여
+    $(document).on("click", ".heart.fa", function() {
+        var selected = $(this);
+    	var bidNo = $(this).parents("li").find("input[type='hidden']").val();
+        
+        console.log(bidNo);
+        console.log(typeof bidNo);
+        
+		$.ajax({
+			type : "post",
+			url : "${ path }/add_bid",
+			data : 
+				bidNo,
+			contentType : 'application/json; charset=UTF-8',
+			error : function(request, error){
+		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+		    	
+		    	if(request.status === 500){
+		    		alert("이미 참여하셨습니다.");
+		    	}
+		    	else if(request.status === 400){		    		
+			    	alert("우선 로그인해주세요");
+			    	window.location = "${ path }/login";
+		    	}
+			},
+			success : function(data){
+				console.log("ajax success");
+				console.log(data);
+				
+				console.log(selected);
+				selected.toggleClass("fa-heart fa-heart-o");
+				
+				if(data === "Bid Added" || data === "Bid Again"){
+					alert("참여 성공");
+				}
+				else if(data === "Bid Deleted"){
+					alert("참여 취소");
+				}
+			}
+		});  
+    }); 
+    
+    // 입고 신청하기 팝업
     $("#writeApplication").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
         var popupY= (window.screen.height / 2) - (800 / 2);

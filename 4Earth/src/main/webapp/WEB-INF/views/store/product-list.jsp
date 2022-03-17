@@ -174,9 +174,14 @@
                                 	<c:if test="${ !empty list }">
                                 		<c:forEach var="product" items="${ list }">
                                 			<li>
-		                                        <div class="img-thumb">
+		                                        <div class="img-thumb store-thumb">
 		                                        <a href="${ path }/product_detail?no=${ product.proNo }">
-		                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                        	<c:if test="${ empty product.proModifyImg }">
+		                                        		<img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                        	</c:if>
+		                                        	<c:if test="${ !empty product.proModifyImg }">
+		                                        		<img src="${ path }/resources/upload/store/${ product.proModifyImg }" alt="">
+		                                        	</c:if>		                                            
 		                                        </a>
 		                                        </div>
 		                                        <div class="tag-wrap">
@@ -206,7 +211,14 @@
 		                                        	</c:if>
 		                                        </div>
 		                                        <div class="btn-wrap">
-		                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
+		                                        	<c:choose>
+				                                        <c:when test="${ (loginMember.no eq product.memberNo) && product.wishStat eq 'Y' }">
+			                                            	<a href="javascript:void(0);"><i class="heart fa fa-heart"></i></a>			                                        	
+				                                        </c:when>
+				                                        <c:otherwise>
+			                                            	<a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>			                                        	
+				                                        </c:otherwise>
+		                                        	</c:choose>
 		                                        </div>
 		                                    </li>
                                 		</c:forEach>
@@ -269,7 +281,7 @@
     });
 
     // 찜
-    $(".heart.fa").click(function() {
+    $(document).on("click", ".heart.fa", function() {
         var selected = $(this);
     	var productNo = $(this).parents("li").find("input[type='hidden']").val();
         
@@ -298,6 +310,13 @@
 				
 				console.log(selected);
 				selected.toggleClass("fa-heart fa-heart-o");
+				
+				if(data === "Wish Added" || data === "Wish Again"){
+					alert("찜 성공");
+				}
+				else if(data === "Wish Deleted"){
+					alert("찜 삭제");
+				}
 			}
 		});        
     }); 

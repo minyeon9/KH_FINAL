@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.vo.Application;
+import com.kh.earth.store.model.vo.Bidding;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductBidding;
 import com.kh.earth.store.model.vo.ProductImgs;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
@@ -107,8 +109,19 @@ public interface StoreService {
 
 	int writeApplication(Application application);
 
+	int getBiddingCount();
 
+	List<ProductBidding> getBiddingList(PageInfo pageInfo);
 
+	ProductBidding getBiddingDetailByNo(int no);
+
+	int addBid(Bidding bidding);
+
+	int getBidCurr(int no);
+
+	int updateBidCurr(int no, int bidCurrPlusOne);
+
+	
 
 
 	
