@@ -18,7 +18,10 @@ import com.kh.earth.notice.model.vo.Notice;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductBidding;
 import com.kh.earth.store.model.vo.ProductImgs;
+import com.kh.earth.store.model.vo.ProductInquiry;
+import com.twilio.rest.api.v2010.account.Application;
 
 @Mapper
 public interface AdminMapper {
@@ -100,4 +103,16 @@ public interface AdminMapper {
 	int getOrderDeliveryCount(Map<String, String> name);
 
 	List<OrderSum> getOrderDeliveryList(RowBounds rowBounds, Map<String, String> name);
+
+	int getProInqCount(Map<String, String> name);
+
+	List<ProductInquiry> getProInqList(RowBounds rowBounds, Map<String, String> name);
+
+	int getApplicationCount();
+
+	List<Application> getApplicationList(RowBounds rowBounds, String select);
+
+	int biddingSave(ProductBidding productBidding);
+
+	int updateApplication(int appNo);
 }
