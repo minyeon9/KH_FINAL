@@ -260,12 +260,6 @@ public class ChallengeServiceImpl implements ChallengeService {
 	
 	
 	
-	// 포인트 - 적립 목록 갯수 조회
-	@Override
-	public int findSavePointCount(int no) {
-		return mapper.findSavePointCount(no);
-	}
-	
 	// 포인트 - 적립 목록 조회
 	@Override
 	public List<Point> findSavePointByNo(int no, PageInfo pageInfo) {
@@ -275,11 +269,10 @@ public class ChallengeServiceImpl implements ChallengeService {
 		
 		return mapper.findSavePointByNo(no, rowBounds);
 	}
-
-	// 포인트 - 사용 목록 갯수 조회
+	// 포인트 - 적립 목록 갯수 조회
 	@Override
-	public int findSpendPointCount(int no) {
-		return mapper.findSpendPointCount(no);
+	public int findSavePointCount(int no) {
+		return mapper.findSavePointCount(no);
 	}
 	
 	// 포인트 - 사용 목록 조회
@@ -291,13 +284,27 @@ public class ChallengeServiceImpl implements ChallengeService {
 		
 		return mapper.findSpendPointByNo(no, rowBounds);
 	}
+	// 포인트 - 사용 목록 갯수 조회
+	@Override
+	public int findSpendPointCount(int no) {
+		return mapper.findSpendPointCount(no);
+	}
+	
 
-	// 포인트 - 적립 포인트 합계
-//	@Override
-//	public int findSaveTotal() {
-//		return mapper.findSaveTotal();
-//	}
-
+	// 포인트 - 소멸 예정 목록 조회
+	@Override
+	public List<Point> findDisapearPointByNo(int no, PageInfo disapearPageInfo) {
+		int offset = (disapearPageInfo.getCurrentPage() - 1) * disapearPageInfo.getListLimit();
+		int limit = disapearPageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.findDisapearPointByNo(no, rowBounds);
+	}
+	// 포인트 - 소멸 예정 목록 갯수 조회
+	@Override
+	public int findDisapearPointCount(int no) {
+		return mapper.findDisapearPointCount(no);
+	}
 	
 	
 

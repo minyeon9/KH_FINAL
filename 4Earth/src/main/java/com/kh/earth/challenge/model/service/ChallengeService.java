@@ -121,8 +121,10 @@ public interface ChallengeService {
 	// 포인트 - 사용 목록 갯수 조회
 	int findSpendPointCount(int no);
 
-	// 적립 포인트 합계
-	// int findSaveTotal();
+	// 포인트 - 소멸 예정 목록 조회
+	List<Point> findDisapearPointByNo(int no, PageInfo disapearPageInfo);
+	// 포인트 - 소멸 예정 목록 갯수 조회
+	int findDisapearPointCount(int no);
 
 
 	 

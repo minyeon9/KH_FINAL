@@ -155,8 +155,8 @@ window.onload = function() {
 				thisCount.text(content.length); 
 			} 
 		
-			if ( content.length > 100 ) { 
-				$(this).val($(this).val().substring(0, 100));
+			if ( content.length > 200 ) { 
+				$(this).val($(this).val().substring(0, 200));
 				alert('글자수가 초과되었습니다.'); 
 			}; 	
 		

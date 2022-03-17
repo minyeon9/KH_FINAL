@@ -1140,6 +1140,7 @@
 .report-cont .report-detail textarea {
 	width: 100%;
 	height: 80px;
+	resize: none;
 	border-radius: 10px;
 }
 .reply-list > ul > li .layer-popup .btn-wrap {
@@ -1151,32 +1152,4 @@
 
 
 
-/* 포인트 */
-.point-plus {
-	position: relative;
-	color: #3a70c9;
-	font-weight: 500;
-	padding-left: 12px;	
-}
-.point-plus:before {
-	content: '+';
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-.point-minus {
-	position: relative;
-	color: #c93a3a;
-	font-weight: 500;
-	padding-left: 12px;	
-}
-.point-minus:before {
-	content: '';
-	position: absolute;
-	top: 50%;
-	left: 2px;
-	width: 7px;
-	height: 1px;
-	background: #c93a3a;
-	transform: translateX(-50%);
-}
+

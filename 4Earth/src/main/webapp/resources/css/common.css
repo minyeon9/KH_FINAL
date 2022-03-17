@@ -927,3 +927,11 @@ input + .btn {
     background: url(../images/common/icon_point.png) 0 0 no-repeat;
     padding-left: 25px;
 }
+
+.notice-txt {
+	color: #999;
+	font-size: 12px;
+}
+table + .notice-txt {
+	margin-top: 10px;
+}
