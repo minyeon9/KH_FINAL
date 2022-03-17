@@ -287,7 +287,7 @@
 						<a href="#" class="btn">채팅문의</a>
 					</div>
 					<div class="check-box">
-						<a href="${ path }/write_qa" class="btn">문의작성</a>
+						<a href="${ path }/notice/qnalist" class="btn">문의작성</a>
 					</div>
 					<div class="check-box">
 						<a href="${ path }/map" class="btn">전화문의</a>
@@ -301,3 +301,19 @@
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
+    <script>
+    $(() => {
+        let sideBarMenu = $('.side-bar ul li');
+        let menuPath = ['list', 'faq','qnalist'];
+        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
+        let menuIcon = ['home', 'home', 'home' ]
+
+        for( let i = 0; i < menuName.length; i++ ) {
+            let menuIdx = sideBarMenu.eq(i);
+
+            menuIdx.find('a').attr('href', menuPath[i]);
+            menuIdx.find('a > i').text(menuIcon[i]);
+            menuIdx.find('a > span').text(menuName[i]);
+        }
+    });
+    </script>

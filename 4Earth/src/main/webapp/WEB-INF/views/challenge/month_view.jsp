@@ -148,7 +148,6 @@
 							
 									<c:if test="${ !empty month.replies }">
 										<c:forEach var="reply" items="${ month.replies }" varStatus="replyStatus">
-											<input type="hidden" value="${ reply.memNo }" class="reported-user"/> 
                      						
 											<li class="reply-item">
 												<div class="reply-wrap">
@@ -162,7 +161,8 @@
 															</c:if>
 														</div>
 														<span class="user-id">
-															<span class="reply-user-id" naem="${ reply.id }">${ reply.id }</span>
+															<input type="hidden" value="${ reply.memNo }" class="reported-user-no"/> 
+															<span class="reply-user-id" name="${ reply.id }">${ reply.id }</span>
 															<c:if test="${ loginMember.no == reply.memNo }">
 																<span class="tag tag-orange">내가 쓴 댓글</span>
 															</c:if>
@@ -238,7 +238,8 @@
 																			</c:if>
 				                                                        </div>
 				                                                        <span class="user-id">
-																			${ nestedReply.id }
+				                                                        	<input type="hidden" value="${ nestedReply.memNo }" class="reported-user-no"/>
+				                                                        	<span class="reply-user-id" name="${ nestedReply.id }">${ nestedReply.id }</span>
 																			<c:if test="${ loginMember.no == nestedReply.memNo }">
 																				<span class="tag tag-orange">내가 쓴 댓글</span>
 																			</c:if>
@@ -329,87 +330,88 @@
 	               	<form action="report_reply?chalNo=${ month.chalNo }" method="post">
 	                	<div class="pop-cont">
 		                    <div class="report-cont">
+	                    		<!-- 서버로 보낼 회원번호/댓글 내용 -->
+	                    		<input type="text" name="reportedMemberNo" class="blind"> <!-- 신고 받은 회원 -->
+	                    		<input type="text" name="reportTitle" class="blind">
+	                    		
 		                    	<p class="notice">신고 접수 후 관리자가 확인 후 조치하고 있습니다.<br>처리까지 신고일 기준 1-3일 정도 소요될 수 있습니다.</p>
 		                    	
-		                    		<!-- 서버로 보낼 회원번호/댓글 내용 -->
-		                    		<input type="text" name="reportedMemberNo" class="blind"> <!-- 신고 받은 회원 -->
-		                    		<input type="text" name="reportTitle" class="blind">
-		                    		
-		                    		<ul class="report-info">
-		                    			<li>
-		                    				<strong>신고 아이디</strong>
-		                    				<p class="reply-user-id"></p>
-		                    			</li>
-		                    			<li>
-		                    				<strong>신고 댓글</strong>
-		                    				<p class="reply-content"></p>
-		                    			</li>
-		                    		</ul>
-		                    		
-		                    		<div class="report-category">
-		                    			<strong>
-		                    				신고 사유
-		                    				<span>* 여러 사유에 해당하는 경우 대표적인 사유 1개를 선택해주세요.</span>
-		                    			</strong>
-										<div class="radio-wrap">
-											<label class="radio-group">
-												영리목적 / 홍보성
-												<input type="radio" name="report-category" value="0">
-												<span class="checkmark"></span>
-											</label>
-											<label class="radio-group">
-												불법 정보
-												<input type="radio" name="report-category" value="1">
-												<span class="checkmark"></span>
-											</label>
-											<label class="radio-group">
-												욕설 / 인신 공격	
-												<input type="radio" name="report-category" value="2">
-												<span class="checkmark"></span>
-											</label>
-											<label class="radio-group">
-												개인정보 노출
-												<input type="radio" name="report-category" value="3">
-												<span class="checkmark"></span>
-											</label>
-											<label class="radio-group">
-												음란성 / 선정성
-												<input type="radio" name="report-category" value="4">
-												<span class="checkmark"></span>
-											</label>
-											<label class="radio-group">
-												아이디 / DB 거래
-												<input type="radio" name="report-category" value="5">
-												<span class="checkmark"></span>
-											</label>
-											<label class="radio-group">
-												동일 내용 반복(도배)
-												<input type="radio" name="report-category" value="6">
-												<span class="checkmark"></span>
-											</label>
-											<label class="radio-group">
-												기타
-												<input type="radio" name="report-category" value="7">
-												<span class="checkmark"></span>
-											</label>
-										</div>
-										<input type="hidden" name="reportCategory" />
-										
-										<div class="report-detail">
-											<strong>상세 내용(선택)</strong>
-											<textarea name="reportContent"></textarea>
-										</div>
-									</div> <!-- // report-category -->
-			                    </div> <!-- // report-cont -->
-		                	</div> <!-- pop-cont  -->
-		                	
-			                <div class="btn-wrap">
-			                    <button type="button" class="btn gray btn-close-pop">취소</button>
-		                    	<button type="submit" class="btn">신고</button>
-			                </div>
-						</form>
-	            	</div>
-		        </div>
+	                    		<ul class="report-info">
+	                    			<li>
+	                    				<strong>신고 아이디</strong>
+	                    				<p class="reply-user-id"></p>
+	                    			</li>
+	                    			<li>
+	                    				<strong>신고 댓글</strong>
+	                    				<p class="reply-content"></p>
+	                    			</li>
+	                    		</ul>
+	                    		
+	                    		<div class="report-category">
+	                    			<strong>
+	                    				신고 사유
+	                    				<span>* 여러 사유에 해당하는 경우 대표적인 사유 1개를 선택해주세요.</span>
+	                    			</strong>
+									<div class="radio-wrap">
+										<label class="radio-group">
+											영리목적 / 홍보성
+											<input type="radio" name="report-category" value="0" checked>
+											<span class="checkmark"></span>
+										</label>
+										<label class="radio-group">
+											불법 정보
+											<input type="radio" name="report-category" value="1">
+											<span class="checkmark"></span>
+										</label>
+										<label class="radio-group">
+											욕설 / 인신 공격	
+											<input type="radio" name="report-category" value="2">
+											<span class="checkmark"></span>
+										</label>
+										<label class="radio-group">
+											개인정보 노출
+											<input type="radio" name="report-category" value="3">
+											<span class="checkmark"></span>
+										</label>
+										<label class="radio-group">
+											음란성 / 선정성
+											<input type="radio" name="report-category" value="4">
+											<span class="checkmark"></span>
+										</label>
+										<label class="radio-group">
+											아이디 / DB 거래
+											<input type="radio" name="report-category" value="5">
+											<span class="checkmark"></span>
+										</label>
+										<label class="radio-group">
+											동일 내용 반복(도배)
+											<input type="radio" name="report-category" value="6">
+											<span class="checkmark"></span>
+										</label>
+										<label class="radio-group">
+											기타
+											<input type="radio" name="report-category" value="7">
+											<span class="checkmark"></span>
+										</label>
+									</div>
+									<input type="hidden" name="reportCategory" />
+									
+									<div class="report-detail">
+										<strong>상세 내용(선택)</strong>
+										<textarea name="reportContent"></textarea>
+									</div>
+								</div> <!-- // report-category -->
+								
+		                    </div> <!-- // report-cont -->
+	                	</div> <!-- // pop-cont -->
+	                	
+		                <div class="btn-wrap">
+		                    <button type="button" class="btn gray btn-close-pop">취소</button>
+	                    	<button type="submit" class="btn">신고</button>
+		                </div>
+					</form>
+            	</div>
+	        </div>
 		        <div class="dimed"></div>
 		        <!-- // layer popup -->
 	        

@@ -126,6 +126,9 @@ public interface ChallengeMapper {
 	// 포인트 - 사용 목록 조회
 	List<Point> findSpendPointByNo(int no, RowBounds rowBounds);
 
+	// 포인트 - 적립 포인트 합계
+	// int findSaveTotal();
+
 	
 
 

@@ -143,7 +143,7 @@
 <script>
 $(() => {
     let sideBarMenu = $('.side-bar ul li');
-    let menuPath = ['${ path }/admin/helpboard','${ path }/admin/helpboard_done','${ path }/admin/faq'];
+    let menuPath = ['${ path }/admin/helpboard','${ path }/admin/helpboard_done','${ path }/admin/echo_faq'];
     let menuName = ['문의 목록', '문의 완료 목록', 'FAQ'];
     let menuIcon = ['home', 'home', 'home']
 

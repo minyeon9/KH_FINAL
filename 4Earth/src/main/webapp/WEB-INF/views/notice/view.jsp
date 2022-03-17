@@ -8,20 +8,22 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <script
-      src="https://kit.fontawesome.com/b670a466b9.js"
-      crossorigin="anonymous"
-    ></script>
-    <title>공지사항 - 세부내용</title>
+<style>
+.ck-editor__editable {
+    min-height: 400px;
+}
+</style>
+    <script src="../resources/ckeditor5/build/ckeditor.js"></script>
+    <title>공지사항</title>
 </head>
-
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-       <div class="container">
+
+      <div class="container">
         <div class="contents">
+        <%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
           <section class="content-wrap">
             <div class="page-tit">
-              <h3>제목</h3>
-
+              <h3>${ notice.title }</h3>
               <div class="bread-crumb">
                 <a href="${ path }"
                   ><i class="material-icons md-16">home</i></a
@@ -30,37 +32,102 @@
                 <span>공지사항</span>
               </div>
             </div>
-            <hr />
             <br />
-            에디터 내용
-            <br />
-            <br />
+            	<table class="store-editor">
+                <tr>
+									<td class="img-thumb">
+										<c:if test="${ empty notice.originalFileName }">
+											<span> - </span>
+										</c:if>
+										<c:if test="${ !empty notice.originalFileName }">
+											<!-- <img src="../resources/images/common/file.gif" width="20" height="20"/> -->
+											<img src="${ path }/resources/upload/notice/${ notice.renamedFileName }" width="800" height="400" alt="">
+										
+											<%-- <a href="javascript:fileDownload('${ notice.originalFileName }', '${notice.renamedFileName}')">
+												<c:out value="${ notice.originalFileName }" /> --%>
+											</a>
+										</c:if>
+									</td>
+								</tr>
+                <tr>
+                    <td>
+                        ${ notice.content }
+                    </td>
+                </tr>
+            	</table>
+            	
             <div class="view_table_bottom">
-              <a class="btn" href="${ path }/notice" role="button"> 목록 </a>
-              <a class="btn" href="${ path }/notice_write" role="button">
-                글쓰기
-              </a>
-              <a class="btn" href="${ path }/notice_modify" role="button">
-                수정하기
-              </a>
-              <a class="btn" href="${ path }/notice_delete" role="button">
-                삭제하기
-              </a>
+	        		<c:choose> 
+								<c:when test="${notice.no > 0}">
+									<a href="${ path }/notice/view?no=${ notice.no - 1 }" class="btn">
+			                  	<i class="fa-solid fa-angle-up"></i> 이전글 </a
+			                	>
+								</c:when>
+								<c:otherwise>
+									<c:redirect url="/notice/view?" context="/earth">
+						        <c:param name="no" value="1"/>
+									</c:redirect>
+								</c:otherwise>
+							</c:choose>
+              <a class="btn" href="${ path }/notice/list" role="button"> 목록 </a>
+              
+              <c:if test="${ ! empty loginMember && loginMember.id == notice.writerId }">
+  							<a class="btn" href="${ path }/notice/modify?no=${ notice.no }" role="button">
+                수정
+              	</a>
+  							<a class="btn" id="btnDelete" href="${ path }/notice/delete?no=${ notice.no }" role="button">
+                삭제
+              	</a>
+							</c:if>
+              
+              <a href="${ path }/notice/view?no=${ notice.no + 1 }" class="btn">
+		                  <i class="fa-solid fa-angle-down"></i>다음글 </a
+		                >
             </div>
-            <ul>
-              <li>
-                <a href="#" class="angle">
-                  <i class="fa-solid fa-angle-up"></i> 이전글 내용 입니다</a
-                >
-              </li>
-              <li>
-                <a href="#" class="angle">
-                  <i class="fa-solid fa-angle-down"></i> 다음글 내용 입니다</a
-                >
-              </li>
-            </ul>
+             
+              	<ul>
+		              <li>
+		              	
+		              </li>
+		              <li>
+		                
+		              </li>
+            		</ul>
           </section>
         </div>
       </div>
 
+
+<script>
+$(() => {
+    let sideBarMenu = $('.side-bar ul li');
+    let menuPath = ['list', 'faq','qnalist'];
+    let menuName = ['공지사항', 'FAQ', '1:1 문의'];
+    let menuIcon = ['home', 'home', 'home' ]
+
+    for( let i = 0; i < menuName.length; i++ ) {
+        let menuIdx = sideBarMenu.eq(i);
+
+        menuIdx.find('a').attr('href', menuPath[i]);
+        menuIdx.find('a > i').text(menuIcon[i]);
+        menuIdx.find('a > span').text(menuName[i]);
+    }
+});
+
+
+$(document).ready(() => {
+	$("#btnDelete").on("click", () => {
+		if(confirm("정말로 게시글을 삭제 하시겠습니까?")) {
+			location.replace("${ path }/notice/delete?no=${ notice.no }");
+		}
+	})
+});
+
+function fileDownload(oname, rname) {
+	
+	// encodeURIComponent()
+	//  - 아스키문자(a~z, A~Z, 1~9, ... )는 그대로 전달하고 기타 문자(한글, 특수 문자 등)만 %XX(16진수 2자리)와 같이 변환된다.
+	location.assign("${ path }/notice/fileDown?oname=" + encodeURIComponent(oname) + "&rname=" + encodeURIComponent(rname));
+}
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

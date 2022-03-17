@@ -86,12 +86,12 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>

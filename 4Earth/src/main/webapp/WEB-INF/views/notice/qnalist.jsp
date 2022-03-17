@@ -48,22 +48,22 @@
 			</tr>	
 		</c:if>
 		<c:if test="${ !empty list }">
-			<c:forEach var="notice" items="${ list }">
+			<c:forEach var="qna" items="${ list }">
 				<tr>
-					<td>${ notice.no }</td>
-					<td>
-						<a href="${ path }/notice/view?no=${ notice.no }">
-							${ notice.title }
+					<td>${ qna.no }</td>
+					<td colspan="8">
+						<a href="${ path }/notice/qnaView?no=${ qna.no }">
+							${ qna.title }
 						</a>
 					</td>
-					<td>${ notice.writerId }</td>
-					<td><fmt:formatDate type="date" value="${ notice.createDate }"/></td>
+					<td>${ qna.writerId }</td>
+					<td><fmt:formatDate type="date" value="${ qna.createDate }"/></td>
 					<td>
-						<c:if test="${ empty notice.originalFileName }">
+						<c:if test="${ empty qna.originalFileName }">
 							<span> - </span>
 						</c:if>
-						<c:if test="${ !empty notice.originalFileName }">
-							<img src="../resources/images/common/file.gif" width="20" height="20"/>
+						<c:if test="${ !empty qna.originalFileName }">
+							<img src="${ path }/resources/images/file.png" width="20" height="20"/>
 						</c:if>
 					</td>
 				</tr>
@@ -73,7 +73,7 @@
               </tbody>
             </table>
             <div class="table_bottom">
-              <a class="btn" href="${ path }/notice/write" role="button">
+              <a class="btn" href="${ path }/notice/qnaWrite" role="button">
                 글쓰기
               </a>
 
@@ -90,14 +90,14 @@
               <!-- 맨 처음으로 -->
               <a
                 class="first"
-                onclick="location.href='${ path }/notice/list?page=1'"
+                onclick="location.href='${ path }/notice/qnalist?page=1'"
               >
               </a>
 
               <!-- 이전 페이지로 -->
               <a
                 class="prev"
-                onclick="location.href='${ path }/notice/list?page=${ pageInfo.prevPage }'"
+                onclick="location.href='${ path }/notice/qnalist?page=${ pageInfo.prevPage }'"
               >
               </a>
 
@@ -113,7 +113,7 @@
 
                 <c:if test="${ status.current != pageInfo.currentPage }">
                   <a
-                    onclick="location.href='${ path }/notice/list?page=${ status.current }&count=${ pageInfo.listLimit }'"
+                    onclick="location.href='${ path }/notice/qnalist?page=${ status.current }&count=${ pageInfo.listLimit }'"
                   >
                     ${ status.current }
                   </a>
@@ -123,14 +123,14 @@
               <!-- 다음 페이지로 -->
               <a
                 class="next"
-                onclick="location.href='${ path }/notice/list?page=${ pageInfo.nextPage }'"
+                onclick="location.href='${ path }/notice/qnalist?page=${ pageInfo.nextPage }'"
               >
               </a>
 
               <!-- 맨 끝으로 -->
               <a
                 class="last"
-                onclick="location.href='${ path }/notice/list?page=${ pageInfo.maxPage }'"
+                onclick="location.href='${ path }/notice/qnalist?page=${ pageInfo.maxPage }'"
               >
               </a>
             </div>
