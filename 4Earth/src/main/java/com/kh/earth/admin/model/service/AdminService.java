@@ -17,7 +17,10 @@ import com.kh.earth.notice.model.vo.Notice;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductBidding;
 import com.kh.earth.store.model.vo.ProductImgs;
+import com.kh.earth.store.model.vo.ProductInquiry;
+import com.twilio.rest.api.v2010.account.Application;
 
 public interface AdminService {
 
@@ -100,5 +103,17 @@ public interface AdminService {
 	int getOrderDeliveryCount(Map<String, String> name);
 
 	List<OrderSum> getOrderDeliveryList(PageInfo pageInfo, Map<String, String> name);
+
+	int getProInqCount(Map<String, String> name);
+
+	List<ProductInquiry> getProInqList(PageInfo pageInfo, Map<String, String> name);
+
+	int getApplicationCount();
+
+	List<Application> getApplicationList(PageInfo pageInfo, String select);
+
+	int updateApplication(int appNo);
+
+	int biddingSave(ProductBidding productBidding);
 
 }

@@ -1,8 +1,6 @@
 package com.kh.earth.admin.controller;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +29,10 @@ import com.kh.earth.notice.model.vo.Notice;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductBidding;
 import com.kh.earth.store.model.vo.ProductImgs;
+import com.kh.earth.store.model.vo.ProductInquiry;
+import com.twilio.rest.api.v2010.account.Application;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -166,6 +167,27 @@ public class AdminController {
 		return "/admin/faq";
 	}
 	
+	@GetMapping("/echo_faq")
+	public ModelAndView admin_echo_faq(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<ProductInquiry> productInquiry = null;
+		
+		log.info("admin_echo_faq() - 호출");
+		
+		pageInfo = new PageInfo(page, 10, service.getProInqCount(name), count);
+		productInquiry = service.getProInqList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("productInquiry", productInquiry);
+		
+		model.setViewName("/admin/echo_faq");
+		
+		return model;
+	}
+	
 	@GetMapping("/echo_list")
 	public ModelAndView admin_echo_list(ModelAndView model,
 			@RequestParam Map<String, String> name,
@@ -275,18 +297,121 @@ public class AdminController {
 	}
 	
 	@GetMapping("/echo_bidding")
-	public String admin_echo_bidding() {
-		log.info("admin_echo_bidding() - 호출");
-		
-		return "admin/echo_bidding";
-	}
+    public ModelAndView admin_echo_bidding(ModelAndView model,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10")int count,
+            @RequestParam(value = "select", defaultValue = "전체보기") String select) {
+        PageInfo pageInfo = null;
+        List<Application> list = null;
+
+        log.info("admin_echo_bidding() - 호출");
+
+        pageInfo = new PageInfo(page, 10, service.getApplicationCount(), count);
+        list = service.getApplicationList(pageInfo, select);
+
+        log.info("list : " + list.toString());
+
+        model.addObject("pageInfo", pageInfo);
+        model.addObject("select", select);
+        model.addObject("list", list);
+
+        model.setViewName("admin/echo_bidding");
+
+        return model;
+    }
 	
-	@GetMapping("/echo_write")
-	public String admin_echo_write(ModelAndView model) {
-		log.info("admin_echo_write() - 호출");
-		
-		return "admin/echo_write";
-	}
+	@GetMapping("/echo_bidding_select")
+    public ModelAndView admin_echo_bidding_select(ModelAndView model,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10")int count,
+            @RequestParam(value = "select") String select) {
+        PageInfo pageInfo = null;
+        List<Application> list = null;
+
+        log.info("admin_echo_bidding() - 호출");
+
+        log.info("select : " + select);
+
+        pageInfo = new PageInfo(page, 10, service.getApplicationCount(), count);
+        list = service.getApplicationList(pageInfo, select);
+
+        log.info("list : " + list.toString());
+
+        model.addObject("pageInfo", pageInfo);
+        model.addObject("select", select);
+        model.addObject("list", list);
+
+        model.setViewName("admin/echo_bidding");
+
+        return model;
+    }
+	
+//	@GetMapping("/echo_write")
+//	public String admin_echo_write(ModelAndView model) {
+//		log.info("admin_echo_write() - 호출");
+//		
+//		return "admin/echo_write";
+//	}
+	
+	@GetMapping("/echo_bidding_write")
+    public ModelAndView admin_echo_bidding_write(ModelAndView model,
+            @RequestParam("no") int appNo) {
+
+        log.info("admin_echo_bidding_write() - 호출");
+
+        model.addObject("appNo", appNo);
+
+        model.setViewName("admin/echo_bidding_write");
+
+        return model;
+    }
+	
+	@PostMapping("/echo_bidding_write")
+    public ModelAndView admin_echo_bidding_write(ModelAndView model,
+            @RequestParam("no") int appNo,
+            @ModelAttribute("productBidding") ProductBidding productBidding,
+            @RequestParam("upfile") MultipartFile upfile) {
+        int result = 0;
+
+        log.info("admin_echo_bidding_write() - post 호출");
+
+        log.info("productBidding : " + productBidding);
+
+        if(upfile != null && !upfile.isEmpty()) {
+            String location = null;
+            String renamedFileName = null;
+            try {
+                location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+                renamedFileName = FileProcess.save(upfile, location);
+                System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+                System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+             if(renamedFileName != null) {
+                 productBidding.setOriginalFileName(upfile.getOriginalFilename());
+                 productBidding.setRenamedFileName(renamedFileName);
+             }
+         }
+
+        result = service.biddingSave(productBidding);
+
+        if (result > 0) {
+            int updateResult = service.updateApplication(appNo);
+
+            model.addObject("msg", "모집 등록 성공");
+            model.addObject("script", "window.opener.document.location.reload(); window.close();");
+        }else {
+            model.addObject("msg", "모집 등록 실패");
+            model.addObject("script", "window.opener.document.location.reload(); window.close();");
+        }
+
+        model.setViewName("common/msg");
+
+        return model;
+    }
 	
 	@GetMapping("/echo_update")
 	public ModelAndView admin_echo_update(ModelAndView model,
@@ -437,6 +562,7 @@ public class AdminController {
 		List<Today> list = null;
 		
 		log.info("admin_challenge_today() - 호출", page);
+		
 		
 		pageInfo = new PageInfo(page, 10, service.getTodayCount(), count);
 		list = service.getTodayList(pageInfo, name);
@@ -606,7 +732,9 @@ public class AdminController {
 			 }
 		 }
 		
+		System.out.println(today);
 		result = service.todaySave(today);
+		System.out.println(result);
 		
 		if (result > 0) {
 			model.addObject("msg", "에코샵 등록 성공");
@@ -827,6 +955,8 @@ public class AdminController {
 		
 		return model;
 	}
+	
+	
 	
 	
 	

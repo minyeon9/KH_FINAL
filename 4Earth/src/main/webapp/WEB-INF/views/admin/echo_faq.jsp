@@ -83,12 +83,12 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
@@ -102,18 +102,77 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td><button class="btn btn-s gray">보기</button></td>
-                                            <td>
-                                                <button class="btn btn-s">등록</button>
-                                                <button class="btn btn-s gray">정지</button>
-                                            </td>
-                                        </tr>
-                                        
+                                        <c:if test="${ empty productInquiry }">
+	                                    <tbody>
+		                                    <tr>
+		                                    	<td colspan="6">
+												조회된 FAQ가 없습니다
+		                                    	</td>
+		                                    </tr>
+	                                    </tbody>
+									</c:if>
+									<c:if test="${ !empty productInquiry }">
+										<c:forEach var="inq" items="${ productInquiry }" varStatus="vs">
+		                                    <tbody>
+		                                        <tr>
+		                                            <td>${ inq.proNo }</td>
+		                                            <td>${ inq.memberNo }</td>
+		                                            <td>${ inq.inqNo }</td>
+		                                            <td>${ inq.inqDate }</td>
+		                                            <td>
+		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+					                                <div class="layer-popup" id="popup${ vs.index }">
+						                                <div class="layer-inner">
+						                                    <div class="pop-head">
+						                                    	${ inq.proNo }
+						                                        <strong>${ inq.inqTitle }</strong>
+						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+						                                    </div>
+						                                    <div class="pop-cont">
+						                                       <table id="view-table">
+													           <colgroup>
+													           		<col style="10%">
+													           		<col style="40%">
+													           		<col style="15%">
+													           		<col style="35%">
+													    		</colgroup>
+													        	<tbody>
+													        		<tr>
+													        			<th>문의번호</th>
+													        			<td>${ inq.inqNo }</td>
+													        			<th>문의멤버번호</th>
+													        			<td>${ inq.memberNo }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>문의일자</th>
+													        			<td>${ inq.inqDate }</td>
+													        			<th>빈칸</th>
+													        			<td>빈칸내용</td>
+													        		</tr>
+													        		<tr>
+													        			<th colspan="4">내용</th>
+													        		</tr>
+													        		<tr>
+													        			<td colspan="4">${ inq.inqContent }</td>
+													        		</tr>
+												        		</tbody>
+													       		</table>
+						                                    </div>
+						                                    <div class="btn-wrap">
+						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button class="btn">저장</button>
+						                                    </div>
+						                                </div>
+						                            </div>
+                            						</td>
+		                                            <td>
+		                                                <button class="btn btn-s" id="echo_update" value="${ inq.inqNo }">수정</button>
+		                                                <button id="delete" name="no" value=${ inq.inqNo } class="btn btn-s gray">정지</button>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+										</c:forEach>
+									</c:if>
                                     </tbody>
                                 </table>
                             </div>
@@ -143,7 +202,7 @@
 <script>
 $(() => {
     let sideBarMenu = $('.side-bar ul li');
-    let menuPath = ['${ path }/admin/helpboard','${ path }/admin/helpboard_done','${ path }/admin/echo_faq'];
+    let menuPath = ['${ path }/admin/helpboard','${ path }/admin/helpboard_done','${ path }/admin/faq'];
     let menuName = ['문의 목록', '문의 완료 목록', 'FAQ'];
     let menuIcon = ['home', 'home', 'home']
 

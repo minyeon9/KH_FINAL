@@ -50,14 +50,14 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>FAQ</h3>
+                        <h3>물품 접수 목록</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">문의</a>
-                            <span>FAQ</span>
+                            <a href="#">에코샵</a>
+                            <span>물품 접수 목록</span>
                         </div>
                     </div>
-
+                    
                     <div class="guide">
                         <!-- Category -->
                         <section>
@@ -93,10 +93,10 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>FAQ 번호</th>
-                                            <th>FAQ 분류</th>
-                                            <th>FAQ 제목</th>
-                                            <th>작성일</th>
+                                            <th>모집 번호</th>
+                                            <th>물품 이름</th>
+                                            <th>필요인원</th>
+                                            <th>현재인원</th>
                                             <th>내용</th>
                                             <th>관리</th>
                                         </tr>
@@ -131,7 +131,6 @@
                             <a href="#" class="next"><span>다음</span></a>
                         </div>                   
                     </div>
-                    
             </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
@@ -141,27 +140,26 @@
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 <script>
-$(() => {
-    let sideBarMenu = $('.side-bar ul li');
-    let menuPath = ['${ path }/admin/helpboard','${ path }/admin/helpboard_done','${ path }/admin/echo_faq'];
-    let menuName = ['문의 목록', '문의 완료 목록', 'FAQ'];
-    let menuIcon = ['home', 'home', 'home']
-
-
-    for( let i = 0; i < menuName.length; i++ ) {
-        let menuIdx = sideBarMenu.eq(i);
-
-        menuIdx.find('a').attr('href', menuPath[i]);
-        menuIdx.find('a > i').text(menuIcon[i]);
-        menuIdx.find('a > span').text(menuName[i]);
-    }
-
-    sideBarMenu.each(function(idx, el) {
-        if(idx == 2) {
-            $(this).addClass('current');
-        }
-    });
-});
+	$(() => {
+	    let sideBarMenu = $('.side-bar ul li');
+	    let menuPath = ['${ path }/admin/echo_list','${ path }/admin/echo_order','${ path }/admin/echo_delivery','${ path }/admin/echo_cancel','${ path }/admin/echo_bidding'];
+	    let menuName = ['에코샵 물품 목록', '주문 접수 목록', '발송 완료 목록', '주문 취소 목록', '물품 접수 목록'];
+	    let menuIcon = ['home', 'home', 'home', 'home', 'home']
+	
+	    for( let i = 0; i < menuName.length; i++ ) {
+	        let menuIdx = sideBarMenu.eq(i);
+	
+	        menuIdx.find('a').attr('href', menuPath[i]);
+	        menuIdx.find('a > i').text(menuIcon[i]);
+	        menuIdx.find('a > span').text(menuName[i]);
+	    }
+	
+	    sideBarMenu.each(function(idx, el) {
+	        if(idx == 4) {
+	            $(this).addClass('current');
+	        }
+	    });
+	});
 </script>
 
 </html>
