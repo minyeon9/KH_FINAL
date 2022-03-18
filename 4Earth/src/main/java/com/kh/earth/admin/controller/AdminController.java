@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.earth.admin.model.service.AdminService;
+import com.kh.earth.admin.model.vo.QnaAnswer;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
 import com.kh.earth.challenge.model.vo.Month;
@@ -26,6 +27,7 @@ import com.kh.earth.common.util.FileProcess;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.notice.model.vo.Notice;
+import com.kh.earth.notice.model.vo.Qna;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
@@ -146,29 +148,96 @@ public class AdminController {
 		return model;
 	}
 	
-	@GetMapping("/helpboard")
-	public String admin_helpboard() {
-		log.info("admin_helpboard() - 호출");
+	@GetMapping("/qna_done")
+	public ModelAndView admin_qna_done(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		log.info("admin_qna_done() - 호출");
+		PageInfo pageInfo = null;
+		List<Qna> list = null;
+
 		
-		return "admin/helpboard";
+		log.info("admin_qna() - 호출", page);
+		
+		pageInfo = new PageInfo(page, 10, service.getQnaDoneCount(name), count);
+		list = service.getQnaDoneList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		
+		
+		model.setViewName("/admin/qna_done");
+		
+		return model;
 	}
 	
-	@GetMapping("/helpboard_done")
-	public String admin_helpboard_done() {
-		log.info("admin_helpboard_done() - 호출");
+	@GetMapping("/qna")
+	public ModelAndView admin_qna(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Qna> list = null;
+
 		
-		return "admin/helpboard_done";
+		log.info("admin_qna() - 호출", page);
+		
+		pageInfo = new PageInfo(page, 10, service.getQnaCount(name), count);
+		list = service.getQnaList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		
+		
+		model.setViewName("/admin/qna");
+		
+		return model;
 	}
 	
-	@GetMapping("/faq")
-	public String admin_faq() {
-		log.info("admin_faq() - 호출");
+	@GetMapping("/qna_answer")
+	public ModelAndView admin_qna_answer(ModelAndView model,
+			@RequestParam("no")int no) {
 		
-		return "/admin/faq";
+		log.info("admin_qna_answer() - 호출");
+		Qna qna = service.findQnaByNo(no);
+		
+		
+		model.addObject("qna", qna);
+		model.setViewName("admin/qna_answer");
+		
+		return model;
 	}
 	
-	@GetMapping("/echo_faq")
-	public ModelAndView admin_echo_faq(ModelAndView model,
+	@PostMapping("/qna_answer")
+	public ModelAndView admin_qna_answer(ModelAndView model,
+			@RequestParam("no")int no,
+			@ModelAttribute("qnaAnswer")QnaAnswer qnaAnswer) {
+		int result = 0;
+		log.info("admin_qna_answer() - post 호출");
+		System.out.println(qnaAnswer);
+		result = service.answerQna(qnaAnswer);
+		System.out.println(result);
+		
+		if (result > 0) {
+			model.addObject("msg", "에코샵  업데이트 성공");
+			model.addObject("location", "/admin/echo_qna_answer?no=" + qnaAnswer.getQnaNo());
+		}else {
+			model.addObject("msg", "에코샵 업데이트 실패");
+			model.addObject("location", "/admin/echo_qna_answer?no=" + qnaAnswer.getQnaNo());
+		}
+		
+		model.setViewName("common/msg");
+		
+		
+		model.addObject("qnaAnswer", qnaAnswer);
+		model.setViewName("admin/qna_answer");
+		
+		return model;
+	}
+	
+	@GetMapping("/echo_qna")
+	public ModelAndView admin_echo_qna(ModelAndView model,
 			@RequestParam Map<String, String> name,
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10")int count) {
@@ -183,7 +252,7 @@ public class AdminController {
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("productInquiry", productInquiry);
 		
-		model.setViewName("/admin/echo_faq");
+		model.setViewName("/admin/echo_qna");
 		
 		return model;
 	}
@@ -228,6 +297,30 @@ public class AdminController {
 		model.addObject("orderList", orderList);
 		
 		model.setViewName("/admin/echo_order");
+		
+		return model;
+	}
+	
+	@GetMapping("/order_cancel")
+	public ModelAndView admin_order_cancel(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_echo_cancel" + no);
+		
+		int result = 0;
+		
+		result = service.cancelOrder(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "주문 취소 완료");
+			model.addObject("location", "/admin/echo_order");
+		}else {
+			model.addObject("msg", "주문 취소 실패");
+			model.addObject("location", "/admin/echo_order");
+		}
+			
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}
@@ -290,10 +383,24 @@ public class AdminController {
 	}
 	
 	@GetMapping("/echo_cancel")
-	public String admin_echo_cancel() {
+	public ModelAndView admin_echo_cancel(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<OrderSum> orderList = null;
+		
 		log.info("admin_echo_cancel() - 호출");
 		
-		return "admin/echo_cancel";
+		pageInfo = new PageInfo(page, 10, service.getOrderCancelCount(name), count);
+		orderList = service.getOrderCancelList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("orderList", orderList);
+		
+		model.setViewName("/admin/echo_cancel");
+		
+		return model;
 	}
 	
 	@GetMapping("/echo_bidding")
