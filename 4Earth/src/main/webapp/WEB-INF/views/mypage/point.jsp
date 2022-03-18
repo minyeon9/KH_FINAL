@@ -67,7 +67,7 @@
 							<div class="tab-title">
 								<button type="submit" class="is-open" name="arrange" value="적립내역">적립 내역</button>
 								<button type="submit" name="arrange" value="사용내역">사용 내역</button>
-								<button type="submit" name="arrange" value="소멸내역">소멸 내역</button>
+								<button type="submit" name="arrange" value="소멸내역">소멸 예정 내역</button>
 							</div>
 						</form>
 						
@@ -128,7 +128,7 @@
 							<div class="tab-title">
 								<button type="submit" name="arrange" value="적립내역">적립 내역</button>
 								<button type="submit" class="is-open" name="arrange" value="사용내역">사용 내역</button>
-								<button type="submit" name="arrange" value="소멸내역">소멸 내역</button>
+								<button type="submit" name="arrange" value="소멸내역">소멸 예정 내역</button>
 							</div>
 						</form>
 						
@@ -189,7 +189,7 @@
 							<div class="tab-title">
 								<button type="submit" name="arrange" value="적립내역">적립 내역</button>
 								<button type="submit" name="arrange" value="사용내역">사용 내역</button>
-								<button type="submit" class="is-open" name="arrange" value="소멸내역">소멸 내역</button>
+								<button type="submit" class="is-open" name="arrange" value="소멸내역">소멸 예정 내역</button>
 							</div>
 						</form>
 						
