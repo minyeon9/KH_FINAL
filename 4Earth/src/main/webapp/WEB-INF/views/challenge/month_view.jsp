@@ -295,6 +295,8 @@
 										</c:forEach>
 									</c:if>
 								</ul>
+								
+								<!-- <button type="button" id="btnMore" class="btn btn-w">더보기</button> -->
 	
 								<!-- <div class="paging">
 									<a href="#" class="prev"><span>이전</span></a>
