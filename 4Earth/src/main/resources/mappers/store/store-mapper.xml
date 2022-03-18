@@ -135,6 +135,8 @@
 		<result property="revTitle" column="R_REV_TITLE"/>
 		<result property="revContent" column="R_REV_CONTENT"/>
 		<result property="revRating" column="R_REV_RATING"/>
+		<result property="originalFileName" column="R_ORIGINAL_FILENAME"/>
+		<result property="renamedFileName" column="R_RENAMED_FILENAME"/>
 	</resultMap>
 	
 	<resultMap type="ProductImgs" id="ProductImgsResultMap">
@@ -172,6 +174,16 @@
 		<result property="bidUrl" column="BID_URL"/>
 		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
 		<result property="renamedFileName" column="RENAMED_FILENAME"/>
+	</resultMap>
+	
+	<resultMap type="BiddingBoard" id="BiddingBoardListResultMap">
+		<id property="boardNo" column="B_BOARD_NO"/>
+		<result property="memberNo" column="B_MEMBER_NO"/>
+		<result property="bidNo" column="B_BID_NO"/>
+		<result property="boardContent" column="B_BOARD_CONTENT"/>
+		<result property="boardDate" column="B_BOARD_DATE"/>
+		<result property="boardStat" column="B_BOARD_STAT"/>
+		<result property="memberId" column="M_ID"/>
 	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
@@ -702,7 +714,9 @@
 		       R.REV_TITLE AS R_REV_TITLE,
 		       R.REV_CONTENT AS R_REV_CONTENT,
 		       R.REV_RATING AS R_REV_RATING,
-		       R.PRO_OPT_NAME AS R_PRO_OPT_NAME     
+		       R.PRO_OPT_NAME AS R_PRO_OPT_NAME,
+		       R.ORIGINAL_FILENAME AS R_ORIGINAL_FILENAME,     
+		       R.RENAMED_FILENAME AS R_RENAMED_FILENAME     
 		FROM REVIEW R
 		JOIN MEMBER M ON(R.MEMBER_NO = M.NO)
 		WHERE PRO_NO = #{no}
@@ -812,5 +826,86 @@
 		UPDATE PRODUCT_BIDDING
 		SET BID_CURR = #{bidCurrPlusOne}
 		WHERE BID_NO = #{no}
+	</update>
+	
+	<select id="getPurchaseList" parameterType="_int" resultMap="OrderDetailListResultMap">
+		SELECT DETAIL_PRO_NO, 
+			   SUM(DETAIL_QTY) AS DETAIL_QTY
+		FROM ORDER_DETAIL
+		WHERE ORDER_NO = #{orderNo}
+		GROUP BY DETAIL_PRO_NO
+	</select>
+	
+	<update id="calcQty" parameterType="map">
+		UPDATE PRODUCT
+		SET PRO_STOCK = (SELECT PRO_STOCK FROM PRODUCT WHERE PRO_NO = #{proNo}) - #{qty},
+		    PRO_SOLD = (SELECT PRO_SOLD FROM PRODUCT WHERE PRO_NO = #{proNo}) + #{qty}
+		WHERE PRO_NO = #{proNo}
+	</update>
+	
+	<select id="getBid" parameterType="Bidding" resultType="_int">
+		SELECT COUNT(*)
+		FROM BIDDING
+		WHERE BID_MEMBER_NO = #{bidMemberNo}
+			  AND BID_NO = #{bidNo}
+	</select>
+	
+	<update id="updateBid" parameterType="Bidding">
+		UPDATE BIDDING
+		SET BID_STAT = #{bidStat}
+		WHERE BID_MEMBER_NO = #{bidMemberNo}
+			  AND BID_NO = #{bidNo}
+	</update>
+	
+	<select id="getBidStat" parameterType="Bidding" resultType="string">
+		SELECT BID_STAT
+		FROM BIDDING
+		WHERE BID_MEMBER_NO = #{bidMemberNo}
+			  AND BID_NO = #{bidNo}
+	</select>
+	
+	<insert id="writeBiddingBoard" parameterType="BiddingBoard"	
+		useGeneratedKeys="true" keyProperty="boardNo" keyColumn="BOARD_NO">
+		INSERT INTO BIDDING_BOARD (
+			BOARD_NO,
+			MEMBER_NO,
+			BID_NO,
+			BOARD_CONTENT,
+			BOARD_DATE,
+			BOARD_STAT
+		) VALUES (
+			SEQ_BID_BOARDNO.NEXTVAL,
+			#{memberNo},
+			#{bidNo},
+			#{boardContent},
+			DEFAULT,
+			'Y'
+		)
+	</insert>
+	
+	<select id="getBiddingBoardCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM BIDDING_BOARD
+		WHERE BID_NO = #{no}
+	</select>
+	
+	<select id="getBiddingBoardList" parameterType="_int" resultMap="BiddingBoardListResultMap">
+		SELECT B.BOARD_NO AS B_BOARD_NO, 
+			   B.MEMBER_NO AS B_MEMBER_NO, 
+			   B.BID_NO AS B_BID_NO, 
+			   B.BOARD_CONTENT AS B_BOARD_CONTENT, 
+			   B.BOARD_DATE AS B_BOARD_DATE, 
+			   B.BOARD_STAT AS B_BOARD_STAT, 
+			   M.ID AS M_ID
+		FROM BIDDING_BOARD B
+		JOIN MEMBER M ON(B.MEMBER_NO = M.NO)
+		WHERE BID_NO = #{no}
+			  AND BOARD_STAT = 'Y'
+	</select>
+	
+	<update id="updateBiddingBoard" parameterType="_int">
+		UPDATE BIDDING_BOARD
+		SET BOARD_STAT = 'N'
+		WHERE BOARD_NO = #{boardNo}
 	</update>
 </mapper>

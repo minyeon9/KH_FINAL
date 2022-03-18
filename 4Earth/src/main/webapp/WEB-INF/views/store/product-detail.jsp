@@ -152,7 +152,7 @@
 	                                 </c:when>
 	                                 <c:otherwise>
                                     	<button class="btn pro-btn" id="addWish">
-                                    		찜
+                                    		<i class="material-icons" id="wish-done" style="display: none;">done</i>찜
                                     	</button>			                                        	
 	                                 </c:otherwise>
                                	</c:choose>
@@ -206,22 +206,26 @@
 		                                            <i class="fill" style="width: ${ rev.revRating * 20 }%"></i>
 		                                        </span>
 		                                       	<span class="prd-option">
-		                                       		<small>구매 옵션 : ${ rev.proOptName } </small>
+		                                       		<small>구매 옵션 : ${ rev.proOptName }</small>
 		                                       		<br>
 		                                       		<p style="width: 300px;">${ rev.revTitle }</p>
 		                                   		</span>
 		                                        <span class="prd-date">
-		                                        	<fmt:formatDate value="${ rev.revDate }" pattern="yyy-MM-dd"/>
+		                                        	<fmt:formatDate value="${ rev.revDate }" pattern="yyy-MM-dd hh:mm"/>
 		                                        </span>
-		                                        <span class="inquiry-writerId">
+		                                        <span class="inquiry-writerId" style="color: #67b16b; width: 80px;">
 		                                        	${ rev.memberId }
 		                                        </span>
 		                                    </a>
-		                                    <c:if test="${ rev.renamedFileName }"></c:if>
 		                                    <div>
+		                                    	<c:if test="${ !empty rev.renamedFileName }">
+		                                    		<div>
+		                                    			<img src="${ path }/resources/upload/store/${ rev.renamedFileName }">
+		                                    		</div>
+		                                    	</c:if>
 		                                        <div class="inqContent-wrap" style="padding: 10px 5px;">
 			                                    	${ rev.revContent }
-		                                    	</div>
+		                                    	</div>		                                    	
 		                                    </div>
 		                                </li> 
 	                            	</c:forEach>
@@ -273,18 +277,18 @@
 		                                        	<p></p>
 		                                        </c:if>
 		                                        <c:if test="${ inq.inqStat eq 'Y' }">
-		                                        	<p>답변완료</p>
+		                                        	<p>&lt;답변완료&gt;</p>
 		                                        </c:if>		                                        
-		                                        <p>
+		                                        <p style="padding-left: 50px">
 		                                        	<c:if test="${ inq.inqSecret eq 'Y' }">
 		                                        		<i class="material-icons md-16">lock</i>
 		                                        	</c:if>		                                            
 		                                            ${ inq.inqTitle }
 		                                        </p>
-		                                        <p>
-		                                        	<fmt:formatDate value="${ inq.inqDate }" pattern="yyy-MM-dd"/>
+		                                        <p class="prd-date" style="width: 165px;">
+		                                        	<fmt:formatDate value="${ inq.inqDate }" pattern="yyy-MM-dd hh:mm"/>
 		                                        </p>
-		                                        <p class="inquiry-writerId">${ inq.memberId }</p>
+		                                        <p class="inquiry-writerId" style="color: #67b16b;">${ inq.memberId }</p>
 		                                    </a>
 		                                    <div>
 		                                        <i class="icon-question"></i>
@@ -604,7 +608,6 @@
 				console.log(data);
 				
 				selected.toggleClass("wish-added");
-				
 				
 				if(data === "Wish Added" || data === "Wish Again"){
 					$("#wish-done").show();

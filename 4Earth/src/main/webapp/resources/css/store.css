@@ -416,7 +416,9 @@ input[type=number]
 .prd-option {
 	width: 250px;
 }
-
+.prd-date {
+	font-size: 14px;
+}
 
 
 /* 장바구니 */
@@ -754,14 +756,30 @@ input[type=number]
 }
 .bid-btn {
     width: 120px;
-    padding: 8px 18px;    
+    padding: 8px 10px;  
+}
+.bid-board {
+	margin-bottom: 15px;
 }
 .bid-board td:first-child{
     width: 75%;
     text-align: left;
 }
-
-
+.wish-added:disabled {
+	cursor: not-allowed;
+}
+.bid-write {
+	margin-bottom: 15px;
+}
+.bid-write form {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.bid-write form textarea {
+    width: calc(100% - 125px);
+    height: 45px;
+}
 
 /* -----------------
     오프라인 매장안내

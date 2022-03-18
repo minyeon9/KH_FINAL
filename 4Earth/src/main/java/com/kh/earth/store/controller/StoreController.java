@@ -26,6 +26,7 @@ import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.service.StoreService;
 import com.kh.earth.store.model.vo.Application;
 import com.kh.earth.store.model.vo.Bidding;
+import com.kh.earth.store.model.vo.BiddingBoard;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.CartList;
 import com.kh.earth.store.model.vo.Delivery;
@@ -114,6 +115,8 @@ public class StoreController {
 		
 		pageInfo = new PageInfo(page, 10, count, 8);
 
+		log.info("카테고리 적용 count : " + count);	
+		
 		// 상세 필터 미선택
 		if(detail == null || detail.isEmpty()) {	
 			
@@ -636,7 +639,7 @@ public class StoreController {
 					log.info("deleteOrderSum 실패");
 				}
 				
-				// Delivery - 배송정보 insert
+				// DELIVERY - 배송정보 insert
 				Delivery delivery = new Delivery();
 				
 				delivery.setOrderNo(orderNo);
@@ -653,6 +656,24 @@ public class StoreController {
 				
 				if(deliveryResult <= 0) {
 					log.info("addDelivery 실패");
+				}
+				
+				// PRODUCT - 재고 차감 & 판매량 증가
+				/*
+				 * orderNo로 ORDER_DETAIL 조회, proNo & qty 찾은 후
+				 * PRODUCT 테이블에서 proNo로 상품 찾아 qty만큼 재고 -, 판매량 + 
+				 */
+				List<OrderDetail> products = service.getPurchaseList(orderNo);
+				
+				for (OrderDetail orderdetail : products) {
+					int proNo = orderdetail.getDetailProNo();
+					int qty = orderdetail.getDetailQty();
+					
+					int calc = service.calcQty(proNo, qty);
+					
+					if(calc <= 0) {
+						log.info("calcQty 실패");
+					}
 				}
 			}
 			
@@ -879,7 +900,8 @@ public class StoreController {
 	@GetMapping("/bidding_list")
 	public ModelAndView bidding_list(
 			ModelAndView model,
-			@RequestParam(defaultValue="1") int page
+			@RequestParam(defaultValue="1") int page,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember
 			) {
 		log.info("bidding_list() - 호출");
 		
@@ -890,6 +912,13 @@ public class StoreController {
 		List<ProductBidding> list = null;
 		
 		list = service.getBiddingList(pageInfo);
+		
+		// 로그인 회원일 경우 모집 참여 여부 확인
+		if(loginMember != null) {
+			list = checkBid(list, loginMember.getNo());
+			
+			model.addObject("loginMember", loginMember);
+		}
 		
 		model.addObject("list", list);
 		
@@ -904,15 +933,40 @@ public class StoreController {
 	@GetMapping("/bidding_detail")
 	public ModelAndView biddingDetail(
 			ModelAndView model,
-			@RequestParam("no") int no
+			@RequestParam("no") int no,
+			@RequestParam(defaultValue="1") int page,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember
 			) {
 		log.info("biddingDetail() - 호출");
 		
 		ProductBidding productBidding = service.getBiddingDetailByNo(no);
 		
+		// 로그인 회원일 경우 찜 여부 조회
+		if(loginMember != null) {
+			Bidding bidding = new Bidding();
+			
+			bidding.setBidNo(no);
+			bidding.setBidMemberNo(loginMember.getNo());
+			
+			productBidding.setBidMemberNo(loginMember.getNo());
+			productBidding.setBidStat(service.getBidStat(bidding));
+		}
+		
 		log.info("productBidding : " + productBidding.toString());
 		
+		// 한마디 게시판 목록 가져오기
+		int count = service.getBiddingBoardCount(no);
+		
+		PageInfo pageInfo = new PageInfo(page, 10, count, 5);
+		
+		List<BiddingBoard> list = service.getBiddingBoardList(pageInfo, no);
+		
+		System.out.println("list : " + list.toString());
+		
 		model.addObject("product", productBidding);
+		model.addObject("list", list);
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("loginMember", loginMember);
 		
 		model.setViewName("store/bidding-detail");
 		
@@ -939,23 +993,71 @@ public class StoreController {
 			bidding.setBidNo(no);
 			bidding.setBidMemberNo(loginMember.getNo());
 			
-			result = service.addBid(bidding);
+			int count = service.getBid(bidding);
 			
-			if(result > 0) {
-				// PRODUCT_BIDDING 현재 인원 +1
-				int bidCurr = service.getBidCurr(no);
+			log.info("count : " + count);
+			
+			if(count != 0) {
+				String bidStat = service.getBidStat(bidding);
 				
-				int updateResult = service.updateBidCurr(no, bidCurr + 1);
+				System.out.println(bidStat);
 				
-				if(updateResult > 0) {
-					data = "Bid Added";					
-				} else {
-					data = "update 오류";		
+				int updateResult = 0;
+				
+				if(bidStat.equals("Y")) {					
+					// 참여 취소 
+					System.out.println("참여취소하자");
+					bidding.setBidStat("N");
+					
+					updateResult = service.updateBid(bidding);
+					
+					// 인원 -1
+					int bidCurr = service.getBidCurr(no);
+					service.updateBidCurr(no, bidCurr - 1);
+					
+					if(updateResult > 0) {
+						data = "Bid Deleted";
+					} else {
+						data = "error";
+					}				
+				} else if (bidStat.equals("N")) {
+					// 다시 참여
+					System.out.println("다시참여하자");
+					bidding.setBidStat("Y");
+					
+					updateResult = service.updateBid(bidding);
+					
+					// 인원 +1
+					int bidCurr = service.getBidCurr(no);
+					service.updateBidCurr(no, bidCurr + 1);
+					
+					if(updateResult > 0) {
+						data = "Bid Again";
+					} else {
+						data = "error";
+					}
 				}
-				
 			} else {
-				data = "insert 오류";
+				// 모집 참여
+				result = service.addBid(bidding);
+				
+				if(result > 0) {
+					// PRODUCT_BIDDING 현재 인원 +1
+					int bidCurr = service.getBidCurr(no);
+					
+					int updateResult = service.updateBidCurr(no, bidCurr + 1);
+					
+					if(updateResult > 0) {
+						data = "Bid Added";					
+					} else {
+						data = "update 오류";		
+					}
+					
+				} else {
+					data = "insert 오류";
+				}
 			}
+			
 		} else {
 			log.info("로그인되어있지 않음");
 		}
@@ -1013,6 +1115,64 @@ public class StoreController {
 		}		
 		
 		return model;		
+	}
+	
+	// 입고 신청 - 한마디 게시판 작성
+	@PostMapping("/write_bidding_board")
+	public ModelAndView writeBiddingBoard(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@ModelAttribute BiddingBoard biddingBoard
+			) {
+		log.info("writeBiddingBoard() - post 호출");
+		int result = 0;
+		
+		if(loginMember != null) {
+			log.info("biddingBoard : " + biddingBoard.toString());
+			
+			biddingBoard.setMemberNo(loginMember.getNo());
+			
+			result = service.writeBiddingBoard(biddingBoard);
+			
+			if(result > 0) {
+				model.addObject("msg", "게시글이 등록되었습니다.");
+				model.addObject("location", "/bidding_detail?no=" + biddingBoard.getBidNo());	
+				model.setViewName("common/msg");
+			} else {
+				model.addObject("msg", "게시글 등록에 실패하였습니다.");
+				model.addObject("location", "/bidding_detail?no=" + biddingBoard.getBidNo());	
+				model.setViewName("common/msg");
+			}
+			
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("location", "/bidding_detail?no=" + biddingBoard.getBidNo());	
+			model.setViewName("common/msg");
+		}
+		
+		return model;
+	}
+	
+	// 입고 신청 - 한마디 게시판 삭제
+	@PostMapping("/delete_bidding_board")
+	@ResponseBody
+	public String deleteBiddingBoard(
+			ModelAndView model,
+			@RequestBody int boardNo
+			) {
+		log.info("deleteBiddingBoard() - 호출");
+		int result = 0;
+		String data = "";
+		
+		result = service.updateBiddingBoard(boardNo);
+		
+		if(result > 0) {
+			data = "Successfully Deleted";
+		} else {
+			data = "Delete Failed";
+		}
+		
+		return data;
 	}
 	
 	@GetMapping("/map")
@@ -1100,16 +1260,13 @@ public class StoreController {
 	
 	// 상품 목록 & 회원 번호로 찜 여부 조회
 	private List<Product> checkWish(List<Product> list, int memberNo) {
-		String wishStat = "";
-		
 		List<Product> listWithWish = new ArrayList<>();
 		Wish wish = new Wish();
 
-		System.out.println("memberNo : " + memberNo);
-		
-		wish.setMemberNo(memberNo);
+		System.out.println("memberNo : " + memberNo);		
 		
 		for (Product product : list) {
+			wish.setMemberNo(memberNo);
 			wish.setProNo(product.getProNo());
 			
 			product.setWishStat(service.getWishStat(wish));		
@@ -1119,6 +1276,27 @@ public class StoreController {
 		}
 		
 		return listWithWish;		
+	}
+	
+	// 상품 목록 & 회원 번호로 모집 참여 여부 조회
+	private List<ProductBidding> checkBid(List<ProductBidding> list, int memberNo) {
+		List<ProductBidding> listWithBid = new ArrayList<>();
+		Bidding bidding = new Bidding();
+
+		System.out.println("memberNo : " + memberNo);
+		
+		
+		for (ProductBidding productBidding : list) {			
+			bidding.setBidMemberNo(memberNo);
+			bidding.setBidNo(productBidding.getBidNo());
+			
+			productBidding.setBidStat(service.getBidStat(bidding));		
+			productBidding.setBidMemberNo(memberNo);
+			
+			listWithBid.add(productBidding);
+		}
+		
+		return listWithBid;		
 	}
 
 }
