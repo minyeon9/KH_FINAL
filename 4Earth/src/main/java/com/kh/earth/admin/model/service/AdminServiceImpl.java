@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.admin.model.dao.AdminMapper;
+import com.kh.earth.admin.model.vo.QnaAnswer;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
 import com.kh.earth.challenge.model.vo.Month;
@@ -18,6 +19,7 @@ import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.notice.model.vo.Notice;
+import com.kh.earth.notice.model.vo.Qna;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
@@ -373,5 +375,68 @@ public class AdminServiceImpl implements AdminService {
 
         return mapper.updateApplication(appNo);
     }
+
+	@Override
+	public int cancelOrder(int no) {
+		
+		return mapper.cancelOrder(no);
+	}
+
+	@Override
+	public int getOrderCancelCount(Map<String, String> name) {
+		
+		return mapper.getOrderCancelCount(name);
+	}
+
+	@Override
+	public List<OrderSum> getOrderCancelList(PageInfo pageInfo, Map<String, String> name) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getOrderCancelList(rowBounds, name);
+	}
+
+	@Override
+	public int getQnaCount(Map<String, String> name) {
+		
+		return mapper.getQnaCount(name);
+	}
+
+	@Override
+	public List<Qna> getQnaList(PageInfo pageInfo, Map<String, String> name) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getQnaList(rowBounds, name);
+	}
+
+	@Override
+	public int getQnaDoneCount(Map<String, String> name) {
+		
+		return mapper.getQnaDoneCount(name);
+	}
+
+	@Override
+	public List<Qna> getQnaDoneList(PageInfo pageInfo, Map<String, String> name) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getQnaDoneList(rowBounds, name);
+	}
+
+	@Override
+	public Qna findQnaByNo(int no) {
+		
+		return mapper.findQnaByNo(no);
+	}
+
+	@Override
+	public int answerQna(QnaAnswer qnaAnswer) {
+		
+		return mapper.answerQna(qnaAnswer);
+	}
 
 }

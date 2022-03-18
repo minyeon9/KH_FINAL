@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.kh.earth.admin.model.vo.QnaAnswer;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
 import com.kh.earth.challenge.model.vo.Month;
@@ -15,6 +16,7 @@ import com.kh.earth.challenge.model.vo.TodayMember;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.notice.model.vo.Notice;
+import com.kh.earth.notice.model.vo.Qna;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
@@ -115,4 +117,22 @@ public interface AdminMapper {
 	int biddingSave(ProductBidding productBidding);
 
 	int updateApplication(int appNo);
+
+	int cancelOrder(int no);
+
+	int getOrderCancelCount(Map<String, String> name);
+
+	List<OrderSum> getOrderCancelList(RowBounds rowBounds, Map<String, String> name);
+
+	int getQnaCount(Map<String, String> name);
+
+	List<Qna> getQnaList(RowBounds rowBounds, Map<String, String> name);
+
+	int getQnaDoneCount(Map<String, String> name);
+
+	List<Qna> getQnaDoneList(RowBounds rowBounds, Map<String, String> name);
+
+	Qna findQnaByNo(int no);
+
+	int answerQna(QnaAnswer qnaAnswer);
 }

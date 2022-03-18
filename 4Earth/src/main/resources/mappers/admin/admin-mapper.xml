@@ -137,6 +137,29 @@
 		<result property="status" column="NOTICE_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="Qna" id="qnaListResultMap">
+		<id property="no" column="QNA_NO"/>
+		<result property="writerNo" column="WRITER_NO"/>
+		<result property="title" column="QNA_TIT"/>
+		<result property="categoryNo" column="QNA_CAT"/>
+		<result property="content" column="QNA_CONTENT"/>
+		<result property="readCount" column="QNA_COUNT"/>
+		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFileName" column="RENAMED_FILENAME"/>
+		<result property="createDate" column="DATE_WRITEN"/>
+		<result property="modifyDate" column="DATE_WRITEN_MODIFY"/>
+		<result property="status" column="QNA_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="QnaAnswer" id="qnaAnswerListResultMap">
+		<id property="answerNo" column="ANSWER_NO"/>
+		<result property="qnaNo" column="QNA_NO"/>
+		<result property="writerNo" column="WRITER_NO"/>
+		<result property="answerContent" column="ANSWER_CONTENT"/>
+		<result property="answerDate" column="ANSWER_DATE"/>
+		<result property="answerStatus" column="ANSWER_STATUS"/>
+	</resultMap>
+	
 	<resultMap type="OrderSum" id="OrderSumResultMap">
 		<id property="orderNo" column="ORDER_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
@@ -338,9 +361,96 @@
 		</where>
 	</select>
 	
+	<select id="getQnaCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM QNA
+	    <where>
+	    	QNA_STATUS = 'Y'
+			<if test="no != null">
+		   		AND QNA_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="writerNo != null">
+		   		AND WRITER_NO LIKE '%' || #{writerNo} || '%'
+			</if>
+			<if test="categoryNo != null">
+		   		AND QNA_CAT LIKE '%' || #{categoryNo} || '%'
+			</if>
+		</where>
+		ORDER BY DATE_WRITEN DESC
+	</select>
+	
+	<select id="getQnaDoneCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM QNA
+	    <where>
+	    	QNA_STATUS = 'Y'
+			<if test="no != null">
+		   		AND QNA_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="writerNo != null">
+		   		AND WRITER_NO LIKE '%' || #{writerNo} || '%'
+			</if>
+			<if test="categoryNo != null">
+		   		AND QNA_CAT LIKE '%' || #{categoryNo} || '%'
+			</if>
+		</where>
+		ORDER BY DATE_WRITEN DESC
+	</select>
+	
 	<select id="getNoticeList" parameterType="map" resultMap="noticeListResultMap">
 		<include refid="selectNoticeSql" />
 	</select>
+	
+	<select id="getQnaList" parameterType="map" resultMap="qnaListResultMap">
+		SELECT  QNA_NO, 
+				WRITER_NO, 
+		        QNA_TIT, 
+		        QNA_CAT, 
+		        QNA_CONTENT, 
+		        QNA_COUNT, 
+		        ORIGINAL_FILENAME, 
+		        RENAMED_FILENAME, 
+		        DATE_WRITEN, 
+		        DATE_WRITEN_MODIFY, 
+		        QNA_STATUS 
+		FROM QNA
+		WHERE QNA_STATUS = 'Y' 
+	</select>
+	
+	<select id="getQnaDoneList" parameterType="map" resultMap="qnaListResultMap">
+		SELECT  QNA_NO, 
+				WRITER_NO, 
+		        QNA_TIT, 
+		        QNA_CAT, 
+		        QNA_CONTENT, 
+		        QNA_COUNT, 
+		        ORIGINAL_FILENAME, 
+		        RENAMED_FILENAME, 
+		        DATE_WRITEN, 
+		        DATE_WRITEN_MODIFY, 
+		        QNA_STATUS 
+		FROM QNA
+		WHERE QNA_STATUS = 'N' 
+	</select>
+	
+	<insert id="answerQna" parameterType="QnaAnswer"
+         useGeneratedKeys="true" keyProperty="answerNo" keyColumn="ANSWER_NO">
+         INSERT INTO QNA_ANSWER(
+             ANSWER_NO,
+             QNA_NO,
+             WRITER_NO,
+             ANSWER_CONTENT,
+             ANSWER_STATUS,
+             ANSWER_DATE
+         ) VALUES(
+             SEQ_QNA_ANSWER.NEXTVAL,
+             #{qnaNo},
+             #{writerNo},
+             #{answerContent},
+             DEFAULT,
+             DEFAULT
+         )
+     </insert>
 	
 	<select id="findMember" parameterType="map" resultMap="memberResultMap">
 		<include refid="selectMemberSql" />
@@ -637,6 +747,14 @@
 	 		ORDER_NO = #{orderNo}
 	 </update>
 	 
+	<update id="cancelOrder" parameterType="_int">
+	UPDATE ORDER_SUM
+	 	SET 
+	 		ORDER_STAT = '주문취소'
+	 	WHERE 
+	 		ORDER_NO = #{orderNo}
+	 </update>
+	 
 	<select id="getReportedList" parameterType="map" resultMap="ReportedListResultMap">
 		SELECT NO, 
 		       MEMBER_TYPE, 
@@ -682,6 +800,19 @@
 		WHERE ORDER_STAT = '배송완료'
 	</select>
 	
+	<select id="getOrderCancelList" parameterType="_int" resultMap="OrderSumResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			ORDER_PRICE, 
+			ORDER_STAT, 
+			ORDER_DATE, 
+			ORDER_METHOD, 
+			ORDER_POINT
+		FROM ORDER_SUM
+		WHERE ORDER_STAT = '주문취소'
+	</select>
+	
 	<select id="findDetailByNo" parameterType="_int" resultMap="OrderDetailResultMap">
 		SELECT 
 			ORDER_NO,
@@ -706,6 +837,12 @@
 		SELECT COUNT(*)
 		FROM ORDER_SUM
 		WHERE ORDER_STAT = '발송완료'
+	</select>
+	
+	<select id="getOrderCancelCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		WHERE ORDER_STAT = '주문취소'
 	</select>
 	
 	<select id="getReportDetail" parameterType="_int" resultMap="ReportListResultMap">
@@ -747,6 +884,22 @@
 				END_DATE
 		FROM CHAL_MONTH
 		WHERE CHAL_NO = #{ chalNo }
+	</select>
+	
+	<select id="findQnaByNo" parameterType="Qna" resultMap="qnaListResultMap">
+		SELECT 	QNA_NO,
+				WRITER_NO,
+				QNA_TIT,
+				QNA_CAT,
+				QNA_CONTENT,
+				QNA_COUNT,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				DATE_WRITEN,
+				DATE_WRITEN_MODIFY,
+				QNA_STATUS
+		FROM QNA
+		WHERE QNA_NO = #{ no }
 	</select>
 	
 	<insert id="insertProduct" parameterType="Product"
