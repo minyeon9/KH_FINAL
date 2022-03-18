@@ -13,6 +13,7 @@
 			   PRO_MODIFY_DATE, 
 			   PRO_VOL, 
 			   PRO_IMG, 
+			   PRO_MODIFY_IMG,
 			   PRO_INFO, 
 			   PRO_STAT,
 			   PRO_CAT, 
@@ -29,6 +30,7 @@
 		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
 		<result property="proVol" column="PRO_VOL"/>
 		<result property="proImg" column="PRO_IMG"/>
+		<result property="proModifyImg" column="PRO_MODIFY_IMG"/>
 		<result property="proInfo" column="PRO_INFO"/>
 		<result property="proStat" column="PRO_STAT"/>
 		<result property="proCat" column="PRO_CAT"/>
@@ -51,6 +53,7 @@
 		<result property="proModifyDate" column="P_PRO_MODIFY_DATE"/>
 		<result property="proVol" column="P_PRO_VOL"/>
 		<result property="proImg" column="P_PRO_IMG"/>
+		<result property="proModifyImg" column="P_PRO_MODIFY_IMG"/>
 		<result property="proInfo" column="P_PRO_INFO"/>
 		<result property="proStat" column="P_PRO_STAT"/>
 		<result property="proCat" column="P_PRO_CAT"/>
@@ -139,6 +142,37 @@
 		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
 		<result property="renamedFileName" column="RENAMED_FILENAME"/>
 	</resultMap>
+	
+	<resultMap type="Product" id="ProductListWithWishResultMap">
+		<id property="proNo" column="P_PRO_NO"/>
+		<result property="proName" column="P_PRO_NAME"/>
+		<result property="proPrice" column="P_PRO_PRICE"/>
+		<result property="proDate" column="P_PRO_DATE"/>
+		<result property="proModifyDate" column="P_PRO_MODIFY_DATE"/>
+		<result property="proVol" column="P_PRO_VOL"/>
+		<result property="proImg" column="P_PRO_IMG"/>
+		<result property="proModifyImg" column="P_PRO_MODIFY_IMG"/>
+		<result property="proInfo" column="P_PRO_INFO"/>
+		<result property="proStat" column="P_PRO_STAT"/>
+		<result property="proCat" column="P_PRO_CAT"/>
+		<result property="proSold" column="P_PRO_SOLD"/>
+		<result property="proMfg" column="P_PRO_MFG"/>
+		<result property="proRating" column="P_PRO_RATING"/>
+		<result property="isNew" column="ISNEW"/>
+		<result property="memberNo" column="W_MEMBER_NO"/>
+		<result property="wishStat" column="W_WISH_STAT"/>
+	</resultMap>
+	
+	<resultMap type="ProductBidding" id="ProductBiddingListResultMap">
+		<id property="bidNo" column="BID_NO"/>
+		<result property="bidName" column="BID_NAME"/>
+		<result property="bidCond" column="BID_COND"/>
+		<result property="bidCurr" column="BID_CURR"/>
+		<result property="bidStatNo" column="BID_S_NO"/>
+		<result property="bidUrl" column="BID_URL"/>
+		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFileName" column="RENAMED_FILENAME"/>
+	</resultMap>
 
 	<select id="getProductCount" parameterType="string" resultType="_int">
 		SELECT COUNT(*) FROM PRODUCT
@@ -175,7 +209,7 @@
 	</select>
 	
 	<select id="getProductList" parameterType="string" resultMap="ProductListResultMap">
-		<include refid="selectProductSql"/>
+		<include refid="selectProductSql"/>		
 			, ROUND((SELECT TO_DATE(TO_CHAR(SYSDATE, 'YYYYMMDD')) FROM DUAL) - PRO_DATE) AS isNew
 		FROM PRODUCT
 		WHERE PRO_STAT = 3
@@ -287,6 +321,7 @@
 		       P.PRO_MODIFY_DATE AS P_PRO_MODIFY_DATE, 
 		       P.PRO_VOL AS P_PRO_VOL, 
 		       P.PRO_IMG AS P_PRO_IMG, 
+		       P.PRO_MODIFY_IMG AS P_PRO_MODIFY_IMG, 
 		       P.PRO_INFO AS P_PRO_INFO, 
 		       P.PRO_STAT AS P_PRO_STAT,
 		       P.PRO_CAT AS P_PRO_CAT, 
@@ -456,7 +491,7 @@
 	<insert id="createOrderSum" parameterType="OrderSum">
 		<selectKey keyProperty="orderNo" resultType="_int" order="BEFORE">
 			SELECT SEQ_ORDERNO.NEXTVAL FROM DUAL
-		</selectKey>		
+		</selectKey>
 		INSERT INTO ORDER_SUM (
 		    ORDER_NO,
 		    MEMBER_NO
@@ -692,4 +727,90 @@
 		FROM PRODUCT_IMGS
 		WHERE PRO_NO = #{no}
 	</select>
+	
+	<select id="getCategoryNo" parameterType="string" resultType="_int">
+		SELECT C_NO
+		FROM PRODUCT_CATEGORY
+		WHERE C_NAME = #{appCatName}
+	</select>
+	
+	<insert id="writeApplication">
+		INSERT INTO APPLICATION (
+		    APP_NO,
+		    MEMBER_NO,
+		    APP_NAME,
+		    APP_URL,
+		    APP_TITLE,
+		    APP_CONTENT,
+		    APP_S_NO,
+		    APP_C_NO,
+		    APP_DATE
+		) VALUES (
+		 	SEQ_APPNO.NEXTVAL,
+		    #{memberNo},
+		    #{appName},
+		    #{appUrl},
+		    #{appTitle},
+		    #{appContent},
+		    0,
+		    #{appCatNo},
+		    DEFAULT
+		)
+	</insert>
+	
+	<select id="getBiddingCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM PRODUCT_BIDDING
+		WHERE BID_S_NO = 1
+	</select>
+	
+	<select id="getBiddingList" resultMap="ProductBiddingListResultMap">
+		SELECT BID_NO,
+			   BID_NAME,
+			   BID_COND,
+			   BID_CURR,
+			   BID_S_NO,
+			   BID_URL,
+			   ORIGINAL_FILENAME,
+			   RENAMED_FILENAME
+		FROM PRODUCT_BIDDING
+		WHERE BID_S_NO = 1
+	</select>
+	
+	<select id="getBiddingDetailByNo" parameterType="_int" resultMap="ProductBiddingListResultMap">
+		SELECT BID_NO,
+			   BID_NAME,
+			   BID_COND,
+			   BID_CURR,
+			   BID_S_NO,
+			   BID_URL,
+			   ORIGINAL_FILENAME,
+			   RENAMED_FILENAME
+		FROM PRODUCT_BIDDING
+		WHERE BID_NO = #{no}
+	</select>
+	
+	<insert id="addBid" parameterType="Bidding">
+		INSERT INTO BIDDING (
+			BID_NO,
+			BID_MEMBER_NO,
+			BID_STAT
+		) VALUES (
+			#{bidNo},
+			#{bidMemberNo},
+			'Y'
+		)
+	</insert>
+	
+	<select id="getBidCurr" parameterType="_int" resultType="_int">
+		SELECT BID_CURR
+		FROM PRODUCT_BIDDING
+		WHERE BID_NO = #{no}
+	</select>
+	
+	<update id="updateBidCurr" parameterType="map">
+		UPDATE PRODUCT_BIDDING
+		SET BID_CURR = #{bidCurrPlusOne}
+		WHERE BID_NO = #{no}
+	</update>
 </mapper>
