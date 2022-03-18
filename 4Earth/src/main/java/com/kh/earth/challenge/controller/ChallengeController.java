@@ -57,7 +57,6 @@ public class ChallengeController {
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd"); // 날짜 포멧 정의
 		String formatedNow = now.format(formatter); // 포맷 적용
-		System.out.println(formatedNow);
 			
 		List<Today> todayMain = service.getTodayList(formatedNow);
 		
@@ -477,7 +476,7 @@ public class ChallengeController {
 		Date time = new Date();	//현재 날짜
 		Calendar cal = Calendar.getInstance(); // 날짜 계산	
 		cal.setTime(time);	
-		cal.add(Calendar.MONTH, 1); // + 1달
+		cal.add(Calendar.MONTH, 6); // + 1달
 		String date = simpleDate.format(cal.getTime());
 		
         try {
@@ -503,8 +502,6 @@ public class ChallengeController {
 		if( mapLength == requiredCount ) {
 			int pointResult = service.savePoint(point);
 		}
-		
-		System.out.println("필요 횟수 : " + requiredCount);
 		
 		model.setViewName("common/msg");
 		
@@ -733,8 +730,6 @@ public class ChallengeController {
 		
 		report.setReportMemberNo(loginMember.getNo()); // 신고한 회원
 		
-		System.out.println(report.toString());
-		
 		int result = service.saveReport(report);
 		
 		if ( result > 0 ) {
@@ -806,30 +801,31 @@ public class ChallengeController {
 	}
 	
 	
+	
 	// 포인트
 	@GetMapping("/point")
-	public ModelAndView point(
+	public ModelAndView Point (
 			ModelAndView model,
 			@RequestParam(defaultValue="1") int page,
-			@RequestParam(defaultValue="1") int spendPage,
-			@RequestParam(defaultValue="1") int disapearPage,
-			@SessionAttribute(name = "loginMember") Member loginMember) {
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@RequestParam(value = "arrange", defaultValue="적립내역") String arrange) {
 		
-		// 포인트 - 적립 목록 조회
-		int listCount = service.findSavePointCount(loginMember.getNo());
-		PageInfo pageInfo = new PageInfo(page, 10, listCount, 10);
-		List<Point> savePoint = service.findSavePointByNo(loginMember.getNo(), pageInfo);
+		// 적립, 사용, 소멸 내역 조회
+		int listCount = service.getPointCount(loginMember.getNo());
+		PageInfo pageInfo = new PageInfo(page, 10, listCount, 8);
 		
-		// 포인트 - 사용 내역
-		int spendCount = service.findSpendPointCount(loginMember.getNo());
-		PageInfo spendPageInfo = new PageInfo(spendPage, 10, spendCount, 10);
-		List<Point> spendPoint = service.findSpendPointByNo(loginMember.getNo(), spendPageInfo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("pageInfo", pageInfo);
+		map.put("no", loginMember.getNo());
+		map.put("arrange", arrange);
+		List<Point> point = service.findPointListByNo(map);
 		
-		
-		// 포인트 - 소멸 예정 내역
-		int disapearCount = service.findDisapearPointCount(loginMember.getNo());
-		PageInfo disapearPageInfo = new PageInfo(disapearPage, 10, disapearCount, 10);
-		List<Point> disapearPoint = service.findDisapearPointByNo(loginMember.getNo(), disapearPageInfo);
+		// 적립 내역
+		List<Point> savePoint = service.findSavePointByNo(loginMember.getNo());
+		// 사용 내역
+		List<Point> spendPoint = service.findSpendPointByNo(loginMember.getNo());
+		// 소멸예정 내역
+		List<Point> disapearPoint = service.findDisapearPointByNo(loginMember.getNo());
 		
 
 		// 적립 포인트 합계
@@ -853,15 +849,9 @@ public class ChallengeController {
 			disapearTotal += disapearPoint.get(i).getSavePoint();
 		}
 		
-		// 페이징
 		model.addObject("pageInfo", pageInfo);
-		model.addObject("spendPageInfo", spendPageInfo);
-		model.addObject("disapearPageInfo", disapearPageInfo);
-		// 목록
-		model.addObject("savePoint", savePoint); // 적립 포인트 목록
-		model.addObject("spendPoint", spendPoint); // 사용 포인트 목록
-		model.addObject("disapearPoint", disapearPoint); // 소멸 예정 포인트 목록
-		// 합계
+		model.addObject("arrange", arrange);
+		model.addObject("point", point);
 		model.addObject("saveTotal", saveTotal); // 적립 포인트 합계
 		model.addObject("spendTotal", spendTotal); // 사용 포인트 합계
 		model.addObject("usePoint", usePoint); // 적립 - 사용 = 사용 가능 포인트

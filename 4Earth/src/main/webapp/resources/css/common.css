@@ -899,6 +899,7 @@ input + .btn {
     font-size: 40px;
 }
 .empty-content p {
+	color: #666;
     font-size: 16px;
     margin-top: 20px;
 }

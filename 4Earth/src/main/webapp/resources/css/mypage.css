@@ -4,7 +4,23 @@
     포인트 내역
 ---------------------------------- */
 .point {
-
+}
+.point .tab .tab-title > button {
+    color: #999;
+    width: 33.33%;
+    text-decoration: none;
+    text-align: center;
+    background: #eee;
+    border: 1px solid #ddd;
+    border-radius: 5px 5px 0 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.point .tab .tab-title > button.is-open {
+    color: #76b779;
+    font-weight: 500;
+    background: #fff;
+    border: 2px solid #76b779;
 }
 .point-details {
     display: flex;

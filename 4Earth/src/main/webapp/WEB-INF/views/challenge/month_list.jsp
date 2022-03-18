@@ -62,7 +62,7 @@
 					</div>
 				</div>
 
-				<div class="challenge-sort">
+				<div class="challenge-sort" id="challengeSort">
 					<form action="${ path }/challenge_arrange">
 						<select name="arrange" id="challenge-arrange" class="selectbox" onchange="submit()">
 							<option value="최신순" <c:if test="${arrange eq '최신순'}">selected</c:if>>최신순</option>
@@ -96,23 +96,32 @@
 							</c:forEach>
 						</c:if>
 					</ul>
-
+					
 					<div class="paging">
-						<a href="${ path }/month_list?page=1" class="first"><span>맨 앞으로</span></a>
-						<a href="${ path }/month_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+						<a href="${ path }/challenge_arrange?category=${ category }&page=1&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="first">
+							<span>맨 앞으로</span>
+						</a>
+						<a href="${ path }/challenge_arrange?category=${ category }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="prev">
+							<span>이전</span>
+						</a>
 						<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
 							<c:if test="${ status.current == pageInfo.currentPage }">
 								<strong>${ status.current }</strong>
 							</c:if>
 
 							<c:if test="${ status.current != pageInfo.currentPage }">
-								<%-- <a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a> --%>
-								<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
+								<a href="${ path }/challenge_arrange?category=${ category }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort">${ status.current }</a>
 							</c:if>
 						</c:forEach>
-						<a href="${ path }/month_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
-						<a href="${ path }/month_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+						<a href="${ path }/challenge_arrange?category=${ category }&page=${ pageInfo.nextPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="next">
+							<span>다음</span>
+						</a>
+						<a href="${ path }/challenge_arrange?category=${ category }&page=${ pageInfo.maxPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="last">
+							<span>맨 뒤로</span>
+						</a>
 					</div>
+					
+					
 				</div>
 			</div>
 		</section>

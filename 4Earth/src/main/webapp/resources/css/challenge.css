@@ -576,10 +576,10 @@
 .reply-list > ul > li {
     position: relative;
     border-bottom: 1px solid #ddd;
-    padding: 15px 20px 0 20px;
+    padding-top: 15px;
 }
 .reply-list > ul > li .reply-wrap {
-	padding-bottom: 15px;
+	padding: 0 20px 15px;
 }
 .reply-list > ul > li .user-info {
     position: relative;
@@ -668,7 +668,7 @@
 }
 .reply-list > ul > li > ul > li {
     position: relative;
-    padding: 15px 0 15px 50px;
+    padding: 15px 20px 15px 50px;
 }
 .reply-list > ul > li > ul > li + li {
     border-top: 1px solid #eee;
@@ -685,9 +685,6 @@
 /* .reply-list > ul > li > ul > li:last-child {
     padding-bottom: 5px;
 } */
-.reply-list > ul > li > ul > li .btn-wrap {
-    right: 0;
-}
 
 .reply-list .modify-reply-cont {
 	display: none;

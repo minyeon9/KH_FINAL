@@ -262,12 +262,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 	
 	// 포인트 - 적립 목록 조회
 	@Override
-	public List<Point> findSavePointByNo(int no, PageInfo pageInfo) {
-		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
-		int limit = pageInfo.getListLimit();
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return mapper.findSavePointByNo(no, rowBounds);
+	public List<Point> findSavePointByNo(int no) {
+		return mapper.findSavePointByNo(no);
 	}
 	// 포인트 - 적립 목록 갯수 조회
 	@Override
@@ -277,12 +273,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 	
 	// 포인트 - 사용 목록 조회
 	@Override
-	public List<Point> findSpendPointByNo(int no, PageInfo spendPageInfo) {
-		int offset = (spendPageInfo.getCurrentPage() - 1) * spendPageInfo.getListLimit();
-		int limit = spendPageInfo.getListLimit();
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return mapper.findSpendPointByNo(no, rowBounds);
+	public List<Point> findSpendPointByNo(int no) {
+		return mapper.findSpendPointByNo(no);
 	}
 	// 포인트 - 사용 목록 갯수 조회
 	@Override
@@ -293,18 +285,41 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	// 포인트 - 소멸 예정 목록 조회
 	@Override
-	public List<Point> findDisapearPointByNo(int no, PageInfo disapearPageInfo) {
-		int offset = (disapearPageInfo.getCurrentPage() - 1) * disapearPageInfo.getListLimit();
-		int limit = disapearPageInfo.getListLimit();
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return mapper.findDisapearPointByNo(no, rowBounds);
+	public List<Point> findDisapearPointByNo(int no) {
+		return mapper.findDisapearPointByNo(no);
 	}
 	// 포인트 - 소멸 예정 목록 갯수 조회
 	@Override
 	public int findDisapearPointCount(int no) {
 		return mapper.findDisapearPointCount(no);
 	}
+
+	
+	
+	
+	
+	
+	
+	// 적립, 사용, 소멸 내역 조회
+//	@Override
+//	public List<Point> findPointListByNo(int no, PageInfo pageInfo, String arrange) {
+//		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+//		int limit = pageInfo.getListLimit();
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+//		
+//		return mapper.findPointListByNo(no, rowBounds, arrange);
+//	}
+	@Override
+	public List<Point> findPointListByNo(Map<String, Object> map) {
+		return mapper.findPointListByNo(map);
+	}
+
+	// 적립, 사용, 소멸 내역 갯수 조회
+	@Override
+	public int getPointCount(int no) {
+		return mapper.getPointCount(no);
+	}
+
 	
 	
 

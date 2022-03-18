@@ -61,218 +61,219 @@
 					</div>
 				</div>
 
-				<div class="tab">
-					<div class="tab-title">
-						<a href="#tab01" class="is-open">적립 내역</a>
-						<a href="#tab02">사용 내역</a>
-						<a href="#tab03">소멸 예정 내역</a>
+				<c:if test="${ arrange eq '적립내역'}">
+					<div class="tab">
+						<form action="${ path }/point">
+							<div class="tab-title">
+								<button type="submit" class="is-open" name="arrange" value="적립내역">적립 내역</button>
+								<button type="submit" name="arrange" value="사용내역">사용 내역</button>
+								<button type="submit" name="arrange" value="소멸내역">소멸 내역</button>
+							</div>
+						</form>
+						
+						<div class="tab-content">
+							<div class="tab-view is-open" id="tab01">
+								<div class="board">
+									<table class="table">
+										<colgroup>
+											<col width="20%">
+											<col width="*">
+											<col width="20%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>적립일</th>
+												<th>상세 내역</th>
+												<th>적립 포인트</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:if test="${ !empty point }">
+												<c:forEach var="point" items="${ point }">
+													<tr>
+														<td>
+															<fmt:formatDate value="${ point.saveDate }" pattern="yyyy-MM-dd"/>
+														</td>
+														<td>${ point.saveContent }</td>
+														<td>
+															<span class="point-plus">
+																<fmt:formatNumber pattern="##,###" value="${ point.savePoint }" />
+															</span>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:if>
+										
+											<c:if test="${ empty point }">
+												<tr>
+													<td colspan="3">
+														<div class="empty-content">
+															<i class="material-icons">info</i>
+															<p>포인트 적립 내역이 없습니다.</p>
+														</div>
+													</td>
+												</tr>												
+											</c:if>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div> <!-- // tab-content -->
+					</div> <!-- // tab -->
+				</c:if>
+						
+				<c:if test="${ arrange eq '사용내역'}">
+					<div class="tab tab-point">
+						<form action="${ path }/point">
+							<div class="tab-title">
+								<button type="submit" name="arrange" value="적립내역">적립 내역</button>
+								<button type="submit" class="is-open" name="arrange" value="사용내역">사용 내역</button>
+								<button type="submit" name="arrange" value="소멸내역">소멸 내역</button>
+							</div>
+						</form>
+						
+						<div class="tab-content">
+							<div class="tab-view is-open" id="tab02">
+								<div class="board">
+									<table class="table">
+										<colgroup>
+											<col width="20%">
+											<col width="*">
+											<col width="20%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>사용일</th>
+												<th>상세 내역</th>
+												<th>사용 포인트</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:if test="${ !empty point }">
+												<c:forEach var="point" items="${ point }">
+													<tr>
+														<td>
+															<fmt:formatDate value="${ point.spendDate }" pattern="yyyy-MM-dd"/>
+														</td>
+														<td>${ point.spendContent }</td>
+														<td>
+															<span class="point-minus">
+																<fmt:formatNumber pattern="##,###" value="${ point.spendPoint }" />
+															</span>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:if>
+											
+											<c:if test="${ empty point }">
+												<tr>
+													<td colspan="3">
+														<div class="empty-content">
+															<i class="material-icons">info</i>
+															<p>포인트 사용 내역이 없습니다.</p>
+														</div>
+													</td>
+												</tr>												
+											</c:if>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div> <!-- // tab-content -->
+					</div> <!-- // tab -->
+				</c:if>
+						
+				<c:if test="${ arrange eq '소멸내역'}">
+					<div class="tab tab-point">
+						<form action="${ path }/point">
+							<div class="tab-title">
+								<button type="submit" name="arrange" value="적립내역">적립 내역</button>
+								<button type="submit" name="arrange" value="사용내역">사용 내역</button>
+								<button type="submit" class="is-open" name="arrange" value="소멸내역">소멸 내역</button>
+							</div>
+						</form>
+						
+						<div class="tab-content">
+							<div class="tab-view is-open" id="tab03">
+								<div class="board">
+									<table class="table">
+										<colgroup>
+											<col width="20%">
+											<col width="*">
+											<col width="20%">
+										</colgroup>
+										<thead>
+											<tr>
+												<th>소멸 예정일</th>
+												<th>상세 내역</th>
+												<th>소멸 예정 포인트</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:if test="${ !empty point }">
+												<c:forEach var="point" items="${ point }">
+													<tr>
+														<td>
+															<fmt:formatDate value="${ point.disapearDate }" pattern="yyyy-MM-dd"/>
+														</td>
+														<td>${ point.saveContent }</td>
+														<td>
+															<span class="point-minus">
+																<fmt:formatNumber pattern="##,###" value="${ point.savePoint }" />
+															</span>
+														</td>
+													</tr>
+												</c:forEach>
+											</c:if>
+											
+											<c:if test="${ empty point }">
+												<tr>
+													<td colspan="3">
+														<div class="empty-content">
+															<i class="material-icons">info</i>
+															<p>포인트 소멸 예정 내역이 없습니다.</p>
+														</div>
+													</td>
+												</tr>												
+											</c:if>
+										</tbody>
+									</table>
+									<p class="notice-txt">- 포인트 소멸 예정일이 30일 미만인 내역만 조회 됩니다.</p>
+								</div>
+							</div>
+						</div> <!-- // tab-content -->
+					</div> <!-- // tab -->
+				</c:if>
+				
+				<c:if test="${ !empty point }">
+					<div class="paging">
+						<a href="${ path }/point?category=${ category }&page=1&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="first">
+							<span>맨 앞으로</span>
+						</a>
+						<a href="${ path }/point?category=${ category }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="prev">
+							<span>이전</span>
+						</a>
+						<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+							<c:if test="${ status.current == pageInfo.currentPage }">
+								<strong>${ status.current }</strong>
+							</c:if>
+
+							<c:if test="${ status.current != pageInfo.currentPage }">
+								<a href="${ path }/point?category=${ category }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
+							</c:if>
+						</c:forEach>
+						<a href="${ path }/point?category=${ category }&page=${ pageInfo.nextPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="next">
+							<span>다음</span>
+						</a>
+						<a href="${ path }/point?category=${ category }&page=${ pageInfo.maxPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="last">
+							<span>맨 뒤로</span>
+						</a>
 					</div>
+				</c:if>
 					
-					<div class="tab-content">
-						<div class="tab-view is-open" id="tab01">
-							<div class="board">
-								<table class="table">
-									<colgroup>
-										<col width="20%">
-										<col width="*">
-										<col width="20%">
-									</colgroup>
-									<thead>
-										<tr>
-											<th>적립일</th>
-											<th>상세 내역</th>
-											<th>적립 포인트</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:if test="${ !empty savePoint }">
-											<c:forEach var="savePoint" items="${ savePoint }">
-												<tr>
-													<td>
-														<fmt:formatDate value="${ savePoint.saveDate }" pattern="yyyy-MM-dd"/>
-													</td>
-													<td>${ savePoint.saveContent }</td>
-													<td>
-														<span class="point-plus">
-															<fmt:formatNumber pattern="##,###" value="${ savePoint.savePoint }" />
-														</span>
-													</td>
-												</tr>
-											</c:forEach>
-										</c:if>
-										
-										<c:if test="${ empty savePoint }">
-											<tr>
-												<td colspan="3">
-													<div class="empty-content">
-														<i class="material-icons">info</i>
-														<p>포인트 적립 내역이 없습니다.</p>
-													</div>
-												</td>
-											</tr>												
-										</c:if>
-									</tbody>
-								</table>
-								
-								<%-- <c:if test="${ !empty savePoint }">
-									<div class="paging">
-										<a href="${ path }/point?page=1" class="first"><span>맨 앞으로</span></a>
-										<a href="${ path }/point?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
-										<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-											<c:if test="${ status.current == pageInfo.currentPage }">
-												<strong>${ status.current }</strong>
-											</c:if>
 				
-											<c:if test="${ status.current != pageInfo.currentPage }">
-												<a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-												<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
-											</c:if>
-										</c:forEach>
-										<a href="${ path }/point?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
-										<a href="${ path }/point?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
-									</div>
-								</c:if> --%>
-							</div>
-						</div>
-						
-						<div class="tab-view" id="tab02">
-							<div class="board">
-								<table class="table">
-									<colgroup>
-										<col width="20%">
-										<col width="*">
-										<col width="20%">
-									</colgroup>
-									<thead>
-										<tr>
-											<th>사용일</th>
-											<th>상세 내역</th>
-											<th>사용 포인트</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:if test="${ !empty spendPoint }">
-											<c:forEach var="spendPoint" items="${ spendPoint }">
-												<tr>
-													<td>
-														<fmt:formatDate value="${ spendPoint.spendDate }" pattern="yyyy-MM-dd"/>
-													</td>
-													<td>${ spendPoint.spendContent }</td>
-													<td>
-														<span class="point-minus">
-															<fmt:formatNumber pattern="##,###" value="${ spendPoint.spendPoint }" />
-														</span>
-													</td>
-												</tr>
-											</c:forEach>
-										</c:if>
-										
-										<c:if test="${ empty spendPoint }">
-											<tr>
-												<td colspan="3">
-													<div class="empty-content">
-														<i class="material-icons">info</i>
-														<p>포인트 사용 내역이 없습니다.</p>
-													</div>
-												</td>
-											</tr>												
-										</c:if>
-									</tbody>
-								</table>
-								
-								<%-- <c:if test="${ !empty spendPoint }">
-									<div class="paging">
-										<a href="${ path }/point?spendPage=1#tab02" class="first"><span>맨 앞으로</span></a>
-										<a href="${ path }/point?spendPage=${ spendPageInfo.prevPage }#tab02" class="prev"><span>이전</span></a>
-										<c:forEach begin="${ spendPageInfo.startPage }" end="${ spendPageInfo.endPage }" varStatus="spendStatus">
-											<c:if test="${ spendStatus.current == spendPageInfo.currentPage }">
-												<strong>${ spendStatus.current }</strong>
-											</c:if>
 				
-											<c:if test="${ spendStatus.current != spendPageInfo.currentPage }">
-												<a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-												<a href="${ path }/point?spendPage=${ spendStatus.current }&count=${ pageInfo.listLimit }#tab02">${ spendStatus.current }</a>
-											</c:if>
-										</c:forEach>
-										<a href="${ path }/point?spendPage=${ spendPageInfo.nextPage }#tab02" class="next"><span>다음</span></a>
-										<a href="${ path }/point?spendPage=${ spendPageInfo.maxPage }#tab02" class="last"><span>맨 뒤로</span></a>
-									</div>
-									
-								</c:if> --%>
-							</div>
-						</div>
-						
-						<div class="tab-view" id="tab03">
-							<div class="board">
-								<table class="table">
-									<colgroup>
-										<col width="20%">
-										<col width="*">
-										<col width="20%">
-									</colgroup>
-									<thead>
-										<tr>
-											<th>소멸 예정일</th>
-											<th>상세 내역</th>
-											<th>소멸 예정 포인트</th>
-										</tr>
-									</thead>
-									<tbody>
-										<c:if test="${ !empty disapearPoint }">
-											<c:forEach var="disapearPoint" items="${ disapearPoint }">
-												<tr>
-													<td>
-														<fmt:formatDate value="${ disapearPoint.disapearDate }" pattern="yyyy-MM-dd"/>
-													</td>
-													<td>${ disapearPoint.saveContent }</td>
-													<td>
-														<span class="point-minus">
-															<fmt:formatNumber pattern="##,###" value="${ disapearPoint.savePoint }" />
-														</span>
-													</td>
-												</tr>
-											</c:forEach>
-										</c:if>
-										
-										<c:if test="${ empty disapearPoint }">
-											<tr>
-												<td colspan="3">
-													<div class="empty-content">
-														<i class="material-icons">info</i>
-														<p>포인트 소멸 예정 내역이 없습니다.</p>
-													</div>
-												</td>
-											</tr>												
-										</c:if>
-									</tbody>
-								</table>
-								
-								<%-- <c:if test="${ !empty savePoint }">
-									<div class="paging">
-										<a href="${ path }/point?page=1" class="first"><span>맨 앞으로</span></a>
-										<a href="${ path }/point?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
-										<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-											<c:if test="${ status.current == pageInfo.currentPage }">
-												<strong>${ status.current }</strong>
-											</c:if>
-				
-											<c:if test="${ status.current != pageInfo.currentPage }">
-												<a href="${ path }/month_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-												<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
-											</c:if>
-										</c:forEach>
-										<a href="${ path }/point?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
-										<a href="${ path }/point?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
-									</div>
-								</c:if> --%>
-								
-								<p class="notice-txt">- 포인트 소멸 예정일이 30일 미만인 내역만 조회 됩니다.</p>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
+			</div> <!-- point -->
 		</section>
 
 		<button class="btn scroll-top">
@@ -283,6 +284,25 @@
 </div>
 <script>
 	let idxNum = 0;
+	
+	$(() => {
+		let target = $('.tab-title > button');
+		
+		/* console.log( $('.tab-title > button').length );
+		
+		target.each(function(idx, el) {
+			$(el).on('click', (e) => {
+				console.log( $(e.currentTarget).text() );
+				
+				let tabTitle = $('.tab-title').find('button');
+				let content = $('.tab-view');
+				
+				tabTitle.css('border', '1px solid red;');
+				tabTitle.removeClass('is-open');
+				content.removeClass('is-open');
+			});
+		}); */
+	});
 </script>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
