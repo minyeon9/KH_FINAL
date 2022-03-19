@@ -1061,5 +1061,40 @@
         SET APP_S_NO = 1
         WHERE APP_NO = #{appNo}
      </update>
+
+     <select id="findProInqByNo" parameterType="_int" resultMap="ProductInqListResultMap">
+     	SELECT PRO_NO, 
+     		   MEMBER_NO, 
+     		   INQ_NO, 
+     		   INQ_DATE, 
+     		   INQ_MOD_DATE, 
+     		   INQ_TITLE, 
+     		   INQ_CONTENT, 
+     		   INQ_STAT
+		FROM PRODUCT_INQUIRY
+		WHERE INQ_NO = #{no}
+     </select>
+     
+     <insert id="answerProInq" parameterType="ProInqAnswer">
+     	INSERT INTO PRO_INQ_ANSWER (
+			PRO_NO,
+			MEMBER_NO,
+			INQ_NO,
+			INQ_ANS,
+			INQ_ANS_DATE
+		) VALUES (
+			#{proNo},
+			#{memberNo},
+			#{inqNo},
+			#{inqAns},
+			DEFAULT
+		)
+     </insert>
+     
+     <update id="updateProInq" parameterType="_int">
+     	UPDATE PRODUCT_INQUIRY
+     	SET INQ_STAT = 'Y'
+     	WHERE INQ_NO = #{no}
+     </update>
 	 
 </mapper>

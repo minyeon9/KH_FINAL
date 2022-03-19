@@ -576,6 +576,10 @@ public class StoreController {
 				
 				List<OrderDetail> OrderDetailList = service.getOrderDetailList(orderNo);
 				
+				// 포인트 조회
+				int point = service.getPoint(loginMember.getNo());
+				
+				model.addObject("point", point);
 				model.addObject("list", OrderDetailList);
 				model.addObject("orderSum", orderSum);
 				model.addObject("loginMember", loginMember);
@@ -658,6 +662,13 @@ public class StoreController {
 					log.info("addDelivery 실패");
 				}
 				
+				// 포인트 차감
+				int calcPointResult = service.calcPoint(memberNo, pointUsage);
+				
+				if(calcPointResult <= 0) {
+					log.info("calcPoint 실패");
+				}
+				
 				// PRODUCT - 재고 차감 & 판매량 증가
 				/*
 				 * orderNo로 ORDER_DETAIL 조회, proNo & qty 찾은 후
@@ -669,9 +680,9 @@ public class StoreController {
 					int proNo = orderdetail.getDetailProNo();
 					int qty = orderdetail.getDetailQty();
 					
-					int calc = service.calcQty(proNo, qty);
+					int calcQtyResult = service.calcQty(proNo, qty);
 					
-					if(calc <= 0) {
+					if(calcQtyResult <= 0) {
 						log.info("calcQty 실패");
 					}
 				}
@@ -840,6 +851,32 @@ public class StoreController {
 		return model;
 	}
 	
+	// 소분샵 - 리뷰 삭제
+	@PostMapping("/delete_review")
+	public ModelAndView deleteReview(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@ModelAttribute Review review
+			) {
+		log.info("deleteReview() - 호출");
+		log.info(review.toString());
+		
+		int result = 0;
+		
+		result = service.deleteReview(review); // 한 주문에서 a 상품의 1번 옵션을 2개 구매했을 경우에 리뷰 작성 가능 개수와 삭제할 때 특정 ?
+		
+		if(result > 0) {
+			model.addObject("msg", "리뷰를 삭제했습니다.");
+			model.addObject("location", "/product_detail?no=" + review.getProNo());
+		} else {
+			model.addObject("msg", "리뷰를 삭제하는 중 문제가 발생했습니다. 다시 시도해주세요.");
+			model.addObject("location", "/product_detail?no=" + review.getProNo());
+		}
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
 	// 소분샵 - 상품 문의
 	@GetMapping("/write_qna")
 	public ModelAndView writeQnA(
@@ -892,6 +929,32 @@ public class StoreController {
 		} else {
 			log.info("로그인되어있지 않음");
 		}		
+		
+		return model;
+	}
+	
+	// 소분샵 - 상품 문의 삭제
+	@PostMapping("/delete_qna")
+	public ModelAndView deleteQna(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@ModelAttribute ProductInquiry productInquiry
+			) {
+		log.info("deleteQna() - 호출");
+		log.info(productInquiry.toString());
+		
+		int result = 0;
+		
+		result = service.deleteQna(productInquiry); 
+		
+		if(result > 0) {
+			model.addObject("msg", "문의를 삭제했습니다.");
+			model.addObject("location", "/product_detail?no=" + productInquiry.getProNo());
+		} else {
+			model.addObject("msg", "문의를 삭제하는 중 문제가 발생했습니다. 다시 시도해주세요.");
+			model.addObject("location", "/product_detail?no=" + productInquiry.getProNo());
+		}
+		model.setViewName("common/msg");
 		
 		return model;
 	}
@@ -1248,7 +1311,8 @@ public class StoreController {
 		// 주문 상세 조회 : 주문번호
 		List<OrderDetail> orderDetailList = service.getOrderDetailList(orderNo);
 		
-		log.info("orderDetailList : " + orderDetailList);
+		log.info("orderSum : " + orderSum.toString());
+		log.info("orderDetailList : " + orderDetailList.toString());
 		
 		model.addObject("orderSum", orderSum);
 		model.addObject("orderDetailList", orderDetailList);		

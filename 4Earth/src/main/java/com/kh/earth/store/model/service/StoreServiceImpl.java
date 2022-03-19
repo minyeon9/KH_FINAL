@@ -545,6 +545,38 @@ public class StoreServiceImpl implements StoreService {
 		return mapper.updateBiddingBoard(boardNo);
 	}
 
+	// 리뷰 삭제
+	@Override
+	public int deleteReview(Review review) {
+		
+		return mapper.deleteReview(review);
+	}
+
+	// 문의 삭제
+	@Override
+	public int deleteQna(ProductInquiry productInquiry) {
+		
+		return mapper.deleteQna(productInquiry);
+	}
+
+	// 회원번호로 포인트 조회
+	@Override
+	public int getPoint(int no) {
+		
+		return mapper.getPoint(no);
+	}
+
+	// 결제 - 포인트 사용량만큼 차감
+	@Override
+	public int calcPoint(int memberNo, int pointUsage) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("memberNo", memberNo);
+		map.put("pointUsage", pointUsage);
+		
+		return mapper.calcPoint(map);
+	}
+
 
 	
 

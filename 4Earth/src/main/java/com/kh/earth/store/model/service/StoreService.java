@@ -140,6 +140,14 @@ public interface StoreService {
 
 	int updateBiddingBoard(int boardNo);
 
+	int deleteReview(Review review);
+
+	int deleteQna(ProductInquiry productInquiry);
+
+	int getPoint(int no);
+
+	int calcPoint(int memberNo, int pointUsage);
+
 	
 
 

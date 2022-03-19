@@ -141,6 +141,14 @@ public interface StoreMapper {
 	List<BiddingBoard> getBiddingBoardList(RowBounds rowBounds, int no);
 
 	int updateBiddingBoard(int boardNo);
+
+	int deleteReview(Review review);
+
+	int deleteQna(ProductInquiry productInquiry);
+
+	int getPoint(int no);
+
+	int calcPoint(Map<String, Object> map);
 	
 
 

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 
+import com.kh.earth.admin.model.vo.ProInqAnswer;
 import com.kh.earth.admin.model.vo.QnaAnswer;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
@@ -136,4 +137,10 @@ public interface AdminService {
 
 	int answerQna(QnaAnswer qnaAnswer);
 
+	ProductInquiry findProInqByNo(int no); 
+
+	int answerProInq(ProInqAnswer proInqAnswer); 
+
+	int updateProInq(int no); 
+	
 }

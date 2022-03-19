@@ -87,6 +87,8 @@
 		<result property="inqContent" column="I_INQ_CONTENT"/>
 		<result property="inqStat" column="I_INQ_STAT"/>
 		<result property="inqSecret" column="I_INQ_SECRET"/>
+		<result property="inqAns" column="A_INQ_ANS"/>
+		<result property="inqAnsDate" column="A_INQ_ANS_DATE"/>
 	</resultMap>
 	
 	<resultMap type="OrderDetail" id="OrderDetailListResultMap">
@@ -486,18 +488,22 @@
 	
 	<select id="getProductInqList" parameterType="_int" resultMap="ProductInqListResultMap">
 		SELECT I.PRO_NO AS I_PRO_NO, 
-			I.MEMBER_NO AS I_MEMBER_NO, 
-			M.ID AS M_ID, 
-			I.INQ_NO AS I_INQ_NO, 
-			I.INQ_DATE AS I_INQ_DATE, 
-			I.INQ_MOD_DATE AS I_INQ_MOD_DATE, 
-			I.INQ_TITLE AS I_INQ_TITLE, 
-			I.INQ_CONTENT AS I_INQ_CONTENT, 
-			I.INQ_STAT AS I_INQ_STAT,
-			I.INQ_SECRET AS I_INQ_SECRET
+			   I.MEMBER_NO AS I_MEMBER_NO, 
+			   M.ID AS M_ID, 
+			   I.INQ_NO AS I_INQ_NO, 
+			   I.INQ_DATE AS I_INQ_DATE, 
+			   I.INQ_MOD_DATE AS I_INQ_MOD_DATE, 
+			   I.INQ_TITLE AS I_INQ_TITLE, 
+			   I.INQ_CONTENT AS I_INQ_CONTENT, 
+			   I.INQ_STAT AS I_INQ_STAT,
+			   I.INQ_SECRET AS I_INQ_SECRET,
+		       A.INQ_ANS AS A_INQ_ANS,
+		       A.INQ_ANS_DATE AS A_INQ_ANS_DATE
 		FROM PRODUCT_INQUIRY I
 		JOIN MEMBER M ON(I.MEMBER_NO = M.NO)
-		WHERE PRO_NO = #{no}
+		LEFT OUTER JOIN PRO_INQ_ANSWER A ON(I.INQ_NO = A.INQ_NO)
+		WHERE I.PRO_NO = #{no}
+		ORDER BY I.INQ_DATE DESC
 	</select>
 	
 	<insert id="createOrderSum" parameterType="OrderSum">
@@ -630,6 +636,7 @@
 		FROM ORDER_SUM
 		WHERE MEMBER_NO = #{memberNo} 
 			  AND ORDER_STAT != '주문생성'
+		ORDER BY ORDER_DATE DESC
 	</select>
 	
 	<select id="findOrderDetail" parameterType="map" resultType="_int">
@@ -720,6 +727,7 @@
 		FROM REVIEW R
 		JOIN MEMBER M ON(R.MEMBER_NO = M.NO)
 		WHERE PRO_NO = #{no}
+		ORDER BY R.REV_DATE DESC
 	</select>
 	
 	<select id="getProductRating" parameterType="_int" resultType="_int">
@@ -908,4 +916,45 @@
 		SET BOARD_STAT = 'N'
 		WHERE BOARD_NO = #{boardNo}
 	</update>
+	
+	<delete id="deleteReview" parameterType="Review">
+		DELETE FROM REVIEW
+		WHERE ORDER_NO = #{orderNo}
+			  AND PRO_NO = #{proNo}
+			  AND PRO_OPT = #{proOpt}
+			  AND MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<delete id="deleteQna" parameterType="ProductInquiry">
+		DELETE FROM PRODUCT_INQUIRY
+		WHERE PRO_NO = #{proNo}
+			  AND INQ_NO = #{inqNo}
+			  AND MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<select id="getPoint" parameterType="_int" resultType="_int">
+		SELECT NVL(SUM(NVL(SAVE_POINT, 0)) - SUM(NVL(SPEND_POINT, 0)), 0) 
+		FROM POINT
+		WHERE MEM_NO = #{no}
+	</select>
+	
+	<insert id="calcPoint" parameterType="map">
+		INSERT INTO POINT (
+	        POINT_NO,
+	        MEM_NO,
+	        SPEND_DATE,
+	        SPEND_CONTENT,
+	        SPEND_POINT,
+	        POINT_CATEGORY,
+	        SAVE_STATUS
+	    ) VALUES (
+	        SEQ_POINT.NEXTVAL,
+	        #{memberNo},
+	        DEFAULT,
+	        '스토어 - 포인트 사용',
+	        #{pointUsage},
+	        2,
+	        'Y'
+	    )
+	</insert>
 </mapper>

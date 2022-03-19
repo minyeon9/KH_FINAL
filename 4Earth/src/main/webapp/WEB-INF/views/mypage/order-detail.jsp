@@ -14,31 +14,7 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <div class="container">
             <div class="contents">
-                <div class="side-bar is-open">
-                    <button class="btn toggle-nav">
-                        <i class="material-icons md-24">last_page</i>
-                    </button>
-                    <ul>
-                        <li class="current">
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>
                 
                 <section class="content-wrap">
                     <div class="page-tit">
@@ -67,7 +43,7 @@
                                 <table class="cart-table order-table">
                                     <thead>
                                         <tr>
-                                            <th colspan="2">상품정보</th>
+                                            <th colspan="4">상품정보</th>
                                             <th>주문 금액</th>
                                             <th></th>
                                         </tr>
@@ -75,14 +51,14 @@
                                     <tbody>
                                     	<c:forEach var="list" items="${ orderDetailList }">
                                     		<tr>
-	                                            <td>
+	                                            <td style="width: 30%;">
 	                                                <div class="cart-img">
 		                                                <a href="${ path }/product_detail?no=${ list.detailProNo }">
 		                                                    <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
 		                                                </a>
 	                                                </div>
 	                                            </td>
-	                                            <td style="text-align: left;">
+	                                            <td colspan="3" style="text-align: left; width: 35%;">
 	                                            	<a href="${ path }/product_detail?no=${ list.detailProNo }">
 		                                                <strong>${ list.detailProName }</strong>
 		                                                <p>${ list.detailOptName }</p>
@@ -100,6 +76,37 @@
 	                                        </tr>
                                     	</c:forEach>                                        
                                     </tbody>
+                                    <tr id="sum-result1" style="border-bottom: none;">
+	                                      <th style="width: 20%; vertical-align: bottom;">
+	                                          총 주문 금액
+	                                      </th>
+	                                      <th rowspan="2">
+	                                          -
+	                                      </th>
+	                                      <th style="width: 20%; vertical-align: bottom;">
+	                                          포인트 사용
+	                                      </th>
+	                                      <th rowspan="2">
+	                                          =
+	                                      </th>
+	                                      <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
+	                                          최종 결제 금액
+	                                      </th>
+	                                      <th rowspan="2" id="sum-result2-final" style="vertical-align: middle; font-size: 18px;">
+	                                      	 <fmt:formatNumber value="${ orderSum.orderPrice }" pattern="##,###,###"/>
+	                                      	 원
+	                                      </th>
+	                                  </tr>
+	                                  <tr id="sum-result2">
+	                                      <th style="vertical-align: top;" id="sum-result2-product">
+	                                      	 <fmt:formatNumber value="${ orderSum.orderPrice + orderSum.orderPoint }" pattern="##,###,###"/>
+	                                      	 원
+	                                      </th>                                        
+	                                      <th style="vertical-align: top;" id="sum-result2-point">
+	                                         <fmt:formatNumber value="${ orderSum.orderPoint }" pattern="##,###,###"/>
+	                                         원
+	                                      </th>                                        
+	                                  </tr>
                                 </table>
                             <div>
                                 
@@ -121,7 +128,7 @@
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['#', '#','#', '#', '#', '#'];
+	    let menuPath = ['/4earth/point', '/4earth/order','/4earth/wishlist', '#', '/4earth/my_ongoing_list', '/4earth/profile_view'];
 	    let menuName = ['포인트 내역', '주문/배송 내역', '찜한 상품', '1:1문의 내역', '참여 중인 챌린지', '내정보'];
 	    let menuIcon = ['savings', 'local_shipping', 'favorite', 'headset_mic', 'bookmark_border', 'person']
 	
@@ -132,6 +139,12 @@
 	        menuIdx.find('a > i').text(menuIcon[i]);
 	        menuIdx.find('a > span').text(menuName[i]);
 	    }
+	    
+	    sideBarMenu.each(function(idx, el) {
+            if(idx == 1) {
+                $(this).addClass('current');
+            }
+        });
 	});
 	
 	// 리뷰 작성

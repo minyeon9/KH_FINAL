@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.admin.model.dao.AdminMapper;
+import com.kh.earth.admin.model.vo.ProInqAnswer;
 import com.kh.earth.admin.model.vo.QnaAnswer;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
@@ -437,6 +438,24 @@ public class AdminServiceImpl implements AdminService {
 	public int answerQna(QnaAnswer qnaAnswer) {
 		
 		return mapper.answerQna(qnaAnswer);
+	}
+
+	@Override
+	public ProductInquiry findProInqByNo(int no) {
+		
+		return mapper.findProInqByNo(no);
+	}
+
+	@Override
+	public int answerProInq(ProInqAnswer proInqAnswer) {
+		
+		return mapper.answerProInq(proInqAnswer);
+	}
+
+	@Override
+	public int updateProInq(int no) {
+		
+		return mapper.updateProInq(no);
 	}
 
 }

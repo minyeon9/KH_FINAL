@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.earth.admin.model.service.AdminService;
+import com.kh.earth.admin.model.vo.ProInqAnswer;
 import com.kh.earth.admin.model.vo.QnaAnswer;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
@@ -253,6 +254,51 @@ public class AdminController {
 		model.addObject("productInquiry", productInquiry);
 		
 		model.setViewName("/admin/echo_qna");
+		
+		return model;
+	}
+	
+	@GetMapping("/echo_qna_answer")
+	public ModelAndView admin_echo_qna_answer(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_qna_answer() - 호출");
+		ProductInquiry productInquiry = service.findProInqByNo(no);
+		
+		Product product = service.findProductByNo(productInquiry.getProNo());
+		
+		System.out.println(product.toString());
+		
+		model.addObject("product", product);
+		model.addObject("inq", productInquiry);
+		model.setViewName("admin/echo_qna_answer");
+		
+		return model;
+	}
+	
+	@PostMapping("echo_qna_answer")
+	public ModelAndView admin_echo_qna_answer(ModelAndView model,
+			@RequestParam("no")int no,
+			@ModelAttribute ProInqAnswer proInqAnswer) {
+		int result = 0;
+		int updateResult = 0;
+		log.info("admin_echo_qna_answer() - post 호출");
+		System.out.println(proInqAnswer);
+		
+		result = service.answerProInq(proInqAnswer);
+		
+		if(result > 0) {
+			// 문의 상태 UPDATE 
+			updateResult = service.updateProInq(no);
+			
+			model.addObject("msg", "답변이 등록되었습니다.");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");		
+			model.setViewName("common/msg");
+		} else {
+			model.addObject("msg", "답변 등록 실패");
+			model.addObject("location", "admin/echo_qna_answer?no=" + no);	
+			model.setViewName("common/msg");
+		}
 		
 		return model;
 	}
