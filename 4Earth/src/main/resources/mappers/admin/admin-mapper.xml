@@ -149,9 +149,10 @@
 		<result property="createDate" column="DATE_WRITEN"/>
 		<result property="modifyDate" column="DATE_WRITEN_MODIFY"/>
 		<result property="status" column="QNA_STATUS"/>
+		<result property="category" column="C_NAME"/>
 	</resultMap>
 	
-	<resultMap type="QnaAnswer" id="qnaAnswerListResultMap">
+	<resultMap type="QnaAnswer" extends="qnaListResultMap" id="qnaAnswerListResultMap">
 		<id property="answerNo" column="ANSWER_NO"/>
 		<result property="qnaNo" column="QNA_NO"/>
 		<result property="writerNo" column="WRITER_NO"/>
@@ -311,6 +312,32 @@
   			REPORT_NO = #{no}
   	</delete>
   	
+	<delete id="deleteToday" parameterType="_int">
+  		UPDATE CHAL_TODAY
+  		SET
+  			CHAL_STATUS = 'N'
+  		WHERE 
+  			CHAL_NO = #{no}
+  	</delete>
+  	
+	<delete id="deleteMonth" parameterType="_int">
+  		UPDATE CHAL_MONTH
+  		SET
+  			CHAL_STATUS = 'N'
+  		WHERE 
+  			CHAL_NO = #{no}
+  	</delete>
+  	
+	<delete id="deleteMonthMem" parameterType="_int">
+  		DELETE CHAL_MONTH_MEM
+  		WHERE NO = #{no}
+  	</delete>
+  	
+	<delete id="deleteTodayMem" parameterType="_int">
+  		DELETE CHAL_TODAY_MEM
+  		WHERE NO = #{no}
+  	</delete>
+  	
 	<delete id="banMember" parameterType="_int">
   		UPDATE MEMBER
   		SET
@@ -328,6 +355,14 @@
   		WHERE 
   			NO = #{no}
   	</delete>
+  	
+  	<update id="unbanMember" parameterType="_int">
+	UPDATE MEMBER
+	 	SET 
+	 		STATUS = 'Y'
+	 	WHERE 
+	 		NO = #{no}
+	 </update>
 
 	<select id="getMemberCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
@@ -402,35 +437,48 @@
 	</select>
 	
 	<select id="getQnaList" parameterType="map" resultMap="qnaListResultMap">
-		SELECT  QNA_NO, 
-				WRITER_NO, 
-		        QNA_TIT, 
-		        QNA_CAT, 
-		        QNA_CONTENT, 
-		        QNA_COUNT, 
-		        ORIGINAL_FILENAME, 
-		        RENAMED_FILENAME, 
-		        DATE_WRITEN, 
-		        DATE_WRITEN_MODIFY, 
-		        QNA_STATUS 
-		FROM QNA
-		WHERE QNA_STATUS = 'Y' 
+		SELECT      Q.QNA_NO, 
+		            Q.WRITER_NO, 
+		            Q.QNA_TIT, 
+		            Q.QNA_CAT, 
+		            Q.QNA_CONTENT, 
+		            Q.QNA_COUNT, 
+		            Q.ORIGINAL_FILENAME, 
+		            Q.RENAMED_FILENAME, 
+		            Q.DATE_WRITEN, 
+		            Q.DATE_WRITEN_MODIFY, 
+		            Q.QNA_STATUS,
+		            QC.C_NAME
+		FROM QNA Q
+        JOIN QNA_CATEGORY QC ON(QNA_CAT = QC.C_NO)
+		WHERE Q.QNA_STATUS = 'Y'
+		ORDER BY Q.QNA_NO DESC
 	</select>
 	
 	<select id="getQnaDoneList" parameterType="map" resultMap="qnaListResultMap">
-		SELECT  QNA_NO, 
-				WRITER_NO, 
-		        QNA_TIT, 
-		        QNA_CAT, 
-		        QNA_CONTENT, 
-		        QNA_COUNT, 
-		        ORIGINAL_FILENAME, 
-		        RENAMED_FILENAME, 
-		        DATE_WRITEN, 
-		        DATE_WRITEN_MODIFY, 
-		        QNA_STATUS 
-		FROM QNA
-		WHERE QNA_STATUS = 'N' 
+		SELECT      Q.QNA_NO, 
+		            Q.WRITER_NO, 
+		            Q.QNA_TIT, 
+		            Q.QNA_CAT, 
+		            Q.QNA_CONTENT, 
+		            Q.QNA_COUNT, 
+		            Q.ORIGINAL_FILENAME, 
+		            Q.RENAMED_FILENAME, 
+		            Q.DATE_WRITEN, 
+		            Q.DATE_WRITEN_MODIFY, 
+		            Q.QNA_STATUS,
+		            QC.C_NAME
+		FROM QNA Q
+        JOIN QNA_CATEGORY QC ON(QNA_CAT = QC.C_NO)
+		WHERE Q.QNA_STATUS = 'N'
+		ORDER BY Q.QNA_NO DESC
+	</select>
+	
+	<select id="getAnswerByNo" parameterType="map" resultMap="qnaAnswerListResultMap">
+		 SELECT QA.ANSWER_CONTENT
+		    FROM QNA_ANSWER QA
+		    JOIN QNA Q ON(QA.QNA_NO = Q.QNA_NO)
+		    ORDER BY Q.QNA_NO DESC
 	</select>
 	
 	<insert id="answerQna" parameterType="QnaAnswer"
@@ -451,7 +499,16 @@
              DEFAULT
          )
      </insert>
-	
+     
+     <update id="updateQna" parameterType="_int">
+	UPDATE QNA_ANSWER
+	 	SET 
+	 		ANSWER_CONTENT = #{answerContent},
+	 		ANSWER_DATE = SYSDATE
+	 	WHERE 
+	 		ANSWER_NO = #{answerNo}
+	 </update>
+     
 	<select id="findMember" parameterType="map" resultMap="memberResultMap">
 		<include refid="selectMemberSql" />
 		FROM MEMBER
@@ -511,6 +568,7 @@
 				CHAL_POINT_STATUS,
 				CHAL_DATE
 		FROM CHAL_MONTH_MEM
+		WHERE CHAL_POINT_STATUS = 'N'
 		ORDER BY NO DESC
 	</select>
 	
@@ -525,6 +583,7 @@
 				CHAL_POINT_STATUS,
 				CHAL_DATE
 		FROM CHAL_TODAY_MEM
+		WHERE CHAL_POINT_STATUS = 'N'
 		ORDER BY NO DESC
 	</select>
 	
@@ -688,7 +747,7 @@
 	 		END_DATE = #{endDate},
 		</if>
 		<if test="chalStatus != null">
-	 		CHAL_STATUS = DEFAULT,
+	 		CHAL_STATUS = 'Y',
 		</if>
 	</trim>
 	 	WHERE CHAL_NO = #{chalNo}
@@ -739,6 +798,14 @@
 	 		NO = #{no}
 	 </update>
 	 
+	<update id="todayMemPoint" parameterType="_int">
+	UPDATE CHAL_TODAY_MEM
+	 	SET 
+	 		CHAL_POINT_STATUS = 'Y'
+	 	WHERE 
+	 		NO = #{no}
+	 </update>
+	 
 	<update id="orderDelivery" parameterType="_int">
 	UPDATE ORDER_SUM
 	 	SET 
@@ -765,7 +832,6 @@
 			FROM MEMBER
 			WHERE NO IN(SELECT REPORTED_M_NO
 				        FROM REPORT)
-				AND STATUS = 'Y'
 		<choose>
 		   	<when test="name != null">
 		   		AND NAME LIKE '%' || #{name} || '%'
@@ -901,6 +967,14 @@
 		FROM QNA
 		WHERE QNA_NO = #{ no }
 	</select>
+	
+	<update id="qnaDone" parameterType="_int">
+	UPDATE QNA
+	 	SET 
+	 		QNA_STATUS = 'N'
+	 	WHERE 
+	 		QNA_NO = #{no}
+	 </update>
 	
 	<insert id="insertProduct" parameterType="Product"
          useGeneratedKeys="true" keyProperty="proNo" keyColumn="PRO_NO">
@@ -1061,40 +1135,41 @@
         SET APP_S_NO = 1
         WHERE APP_NO = #{appNo}
      </update>
-
+     
      <select id="findProInqByNo" parameterType="_int" resultMap="ProductInqListResultMap">
-     	SELECT PRO_NO, 
-     		   MEMBER_NO, 
-     		   INQ_NO, 
-     		   INQ_DATE, 
-     		   INQ_MOD_DATE, 
-     		   INQ_TITLE, 
-     		   INQ_CONTENT, 
-     		   INQ_STAT
-		FROM PRODUCT_INQUIRY
-		WHERE INQ_NO = #{no}
+         SELECT PRO_NO, 
+                MEMBER_NO, 
+                INQ_NO, 
+                INQ_DATE, 
+                INQ_MOD_DATE, 
+                INQ_TITLE, 
+                INQ_CONTENT, 
+                INQ_STAT
+        FROM PRODUCT_INQUIRY
+        WHERE INQ_NO = #{no}
+        ORDER BY(INQ_STAT, 'N', 1) PRO_NO DESC
      </select>
-     
+
      <insert id="answerProInq" parameterType="ProInqAnswer">
-     	INSERT INTO PRO_INQ_ANSWER (
-			PRO_NO,
-			MEMBER_NO,
-			INQ_NO,
-			INQ_ANS,
-			INQ_ANS_DATE
-		) VALUES (
-			#{proNo},
-			#{memberNo},
-			#{inqNo},
-			#{inqAns},
-			DEFAULT
-		)
+         INSERT INTO PRO_INQ_ANSWER (
+            PRO_NO,
+            MEMBER_NO,
+            INQ_NO,
+            INQ_ANS,
+            INQ_ANS_DATE
+        ) VALUES (
+            #{proNo},
+            #{memberNo},
+            #{inqNo},
+            #{inqAns},
+            DEFAULT
+        )
      </insert>
-     
+
      <update id="updateProInq" parameterType="_int">
-     	UPDATE PRODUCT_INQUIRY
-     	SET INQ_STAT = 'Y'
-     	WHERE INQ_NO = #{no}
+         UPDATE PRODUCT_INQUIRY
+         SET INQ_STAT = 'Y'
+         WHERE INQ_NO = #{no}
      </update>
 	 
 </mapper>

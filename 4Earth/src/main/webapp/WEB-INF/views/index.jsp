@@ -12,7 +12,7 @@
 	<div class="contents">
 		<div class="visual">
 			<strong>
-				<img src="${ path }/resources/images/main/tit_main.png" alt="Choose your eco side!">
+				<img src="${ path }/resources/images/main/tit_main02.png" alt="Choose your eco side!">
 			</strong>
 			<div class="visual-box campain">
 				<div class="center-img">

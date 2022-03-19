@@ -341,6 +341,8 @@ public class NoticeController {
 	
 		int result = 0;
 		
+		System.out.println(qna.toString());
+		
 		if(upfile != null && !upfile.isEmpty()) {
 			String location = null;
 			String renamedFileName = null;
@@ -359,6 +361,9 @@ public class NoticeController {
 				qna.setRenamedFileName(renamedFileName);
 			}
 		}
+		
+		int catNo = service.getCategoryNo(qna.getCategory());
+		qna.setCategoryNo(catNo);
 		
 		qna.setWriterNo(loginMember.getNo());
 		result = service.qnaSave(qna);

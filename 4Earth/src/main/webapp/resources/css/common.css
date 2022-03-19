@@ -717,7 +717,7 @@ input + .btn {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
+    /* width: 100%; */
     transform: translate(-50%, -50%);
 }
 .thumb-list ul li strong {
@@ -899,6 +899,7 @@ input + .btn {
     font-size: 40px;
 }
 .empty-content p {
+	color: #666;
     font-size: 16px;
     margin-top: 20px;
 }
@@ -926,4 +927,12 @@ input + .btn {
     font-weight: 500;
     background: url(../images/common/icon_point.png) 0 0 no-repeat;
     padding-left: 25px;
+}
+
+.notice-txt {
+	color: #999;
+	font-size: 12px;
+}
+table + .notice-txt {
+	margin-top: 10px;
 }

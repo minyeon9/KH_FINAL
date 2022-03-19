@@ -97,6 +97,13 @@ public class NoticeServiceImpl implements NoticeService {
 		return mapper.selectQnaByNo(no);
 	}
 
+	@Override
+	public int getCategoryNo(String category) {
+		
+
+		return mapper.getCategoryNo(category);
+	}
+
 
 
 }

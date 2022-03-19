@@ -93,10 +93,10 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                        	<th>답변 상태</th>
+                                            <th>문의 번호</th>
                                             <th>상품 번호</th>
                                             <th>회원 번호</th>
-                                            <th>문의 번호</th>
+                                        	<th>답변 상태</th>
                                             <th>작성일</th>
                                             <th>내용</th>
                                             <th>관리</th>
@@ -116,10 +116,10 @@
 										<c:forEach var="inq" items="${ productInquiry }" varStatus="vs">
 		                                    <tbody>
 		                                        <tr>
-		                                        	<td>${ inq.inqStat }</td>
+		                                            <td>${ inq.inqNo }</td>
 		                                            <td>${ inq.proNo }</td>
 		                                            <td>${ inq.memberNo }</td>
-		                                            <td>${ inq.inqNo }</td>
+		                                        	<td>${ inq.inqStat }</td>
 		                                            <td><fmt:formatDate value="${ inq.inqDate }" pattern="yyy-MM-dd hh:mm"/></td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 

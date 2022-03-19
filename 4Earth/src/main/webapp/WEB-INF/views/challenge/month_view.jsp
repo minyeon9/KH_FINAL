@@ -181,6 +181,7 @@
 															<!-- <form action="" method=""> -->
 																<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
 																<textarea name="content" required></textarea>
+																<span class="count-reply"><em>0</em> / 200</span>
 																<div class="btn-wrap">
 																	<button type="button" class="btn btn-cancel-reply">취소</button>
 																	<button type="submit" class="btn">수정</button>
@@ -195,7 +196,7 @@
 															<button class="material-icons md-18 btn-modify-reply" title="수정">create</button>
 															<form action="delete_reply?chalNo=${ month.chalNo }" method="post">
 																<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
-																<button type="submit" class="material-icons md-18 btn-delete-reply" title="삭제">delete_outline</button>
+																<button type="submit" class="material-icons md-18 btn-delete-parents-reply" title="삭제">delete_outline</button>
 															</form>
 														</c:if>
 														<c:if test="${ loginMember.no != reply.memNo }">
@@ -211,6 +212,7 @@
 															<form action="write_nested_reply?chalNo=${ month.chalNo }" method="post">
 																<input type="text" name="replyNo" value="${ reply.replyNo }" class="blind">
 																<textarea name="content" required></textarea>
+																<span class="count-reply"><em>0</em> / 200</span>
 																<div class="btn-wrap">
 																	<button type="button" class="btn btn-cancel-reply">취소</button>
 																	<button type="submit" class="btn">등록</button>
@@ -225,7 +227,7 @@
 												<c:if test="${ !empty month.replies }">
 													<c:forEach var="nestedReply" items="${ month.nestedReplies }" varStatus="nestedStatus">
 														<c:if test="${ reply.replyNo == nestedReply.replyNo }">
-															<ul>
+															<ul class="nested-reply-list">
 				                                                <li>
 				                                                	<%-- 대댓글 번호: ${ nestedReply.nestedReplyNo } --%>
 				                                                    <div class="user-info">
@@ -257,6 +259,7 @@
 																				<input type="text" name="replyNo" value="${ nestedReply.replyNo }" class="blind">
 																				<input type="text" name="nestedReplyNo" value="${ nestedReply.nestedReplyNo }" class="blind">
 																				<textarea name="content" required></textarea>
+																				<span class="count-reply"><em>0</em> / 200</span>
 																				<div class="btn-wrap">
 																					<button type="button" class="btn btn-cancel-reply">취소</button>
 																					<button type="submit" class="btn">수정</button>
@@ -292,6 +295,8 @@
 										</c:forEach>
 									</c:if>
 								</ul>
+								
+								<!-- <button type="button" id="btnMore" class="btn btn-w">더보기</button> -->
 	
 								<!-- <div class="paging">
 									<a href="#" class="prev"><span>이전</span></a>

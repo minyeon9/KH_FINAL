@@ -64,6 +64,18 @@ function loginWithGoogle() {
     });
 }
 
+/* ----------------------------------
+        Naver Login
+---------------------------------- */
+function loginWithNaver() {
+    $.ajax({
+        url: 'getNaverAuthUrl',
+        type: 'get',
+    }).done(function (res) {
+        location.href = res;
+    });
+}
+
 
 /* ----------------------------------
         side bar
@@ -563,6 +575,12 @@ $(document).ready(()=>{
 	});
 });
 
+/*
+$(window).load(function(){
+	$('.loader').delay('3000').fadeOut();
+});
+*/
+
 
 
 // 프로필 이미지 등록시 미리보기
@@ -572,6 +590,7 @@ reader.onload = (readerEvent) => {
     document.querySelector("#preview").setAttribute("src", readerEvent.target.result);
     
 };
+
 
 // 회원가입 - 프로필 이미지 로딩
 document.querySelector("#profileImg").addEventListener("change", (changeEvent) => {

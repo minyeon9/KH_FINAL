@@ -12,6 +12,7 @@ import com.kh.earth.notice.model.vo.Qna;
 @Mapper
 public interface NoticeMapper {
 
+
 	int getNoticeCount();
 	
 	int getQnaCount();
@@ -33,5 +34,7 @@ public interface NoticeMapper {
 	int qnaModify(Qna qna);
 
 	int modifyStatus(@Param("no") int no, @Param("status") String status);
+
+	int getCategoryNo(String category);
 
 }

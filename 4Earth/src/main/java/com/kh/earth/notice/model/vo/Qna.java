@@ -16,6 +16,8 @@ public class Qna {
 	
 	private String writerId;
 	
+	private int cat;
+	
 	private String category;
 	
 	private int categoryNo;
