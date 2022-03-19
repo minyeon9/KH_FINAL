@@ -26,4 +26,6 @@ public interface NoticeService {
 
 	int delete(int no);
 
+	int getCategoryNo(String category);
+
 }

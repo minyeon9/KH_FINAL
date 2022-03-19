@@ -168,35 +168,40 @@ WHERE A.NOTICE_STATUS = 1;
 	
 	
 	<sql id="noticeQnaListSql">
-		SELECT  Q.QNA_NO, 
-		        M.ID, 
-		        Q.QNA_CAT,
-		        Q.QNA_TIT, 
-		        Q.QNA_CONTENT, 
-		        Q.QNA_COUNT, 
-		        Q.ORIGINAL_FILENAME, 
-		        Q.RENAMED_FILENAME, 
-		        Q.DATE_WRITEN, 
-		        Q.DATE_WRITEN_MODIFY, 
-		        Q.QNA_STATUS 
+		SELECT  Q.QNA_NO AS Q_QNA_NO, 
+		        M.ID AS M_ID, 
+		        Q.QNA_CAT AS Q_QNA_CAT,
+		        Q.QNA_TIT AS Q_QNA_TIT,
+		        C.C_NO AS C_NO,
+		        C.C_NAME AS C_NAME, 
+		        Q.QNA_CONTENT AS Q_QNA_CONTENT, 
+		        Q.QNA_COUNT AS Q_QNA_COUNT, 
+		        Q.ORIGINAL_FILENAME AS Q_ORIGINAL_FILENAME, 
+		        Q.RENAMED_FILENAME AS Q_RENAMED_FILENAME, 
+		        Q.DATE_WRITEN AS Q_DATE_WRITEN, 
+		        Q.DATE_WRITEN_MODIFY AS Q_DATE_WRITEN_MODIFY, 
+		        Q.QNA_STATUS AS Q_QNA_STATUS
 		FROM QNA Q 
-		JOIN MEMBER M ON(Q.WRITER_NO = M.NO) 
+		JOIN MEMBER M ON(Q.WRITER_NO = M.NO)
+		JOIN QNA_CATEGORY C ON(Q.QNA_CAT = C.C_NO)
 		WHERE Q.QNA_STATUS = 'Y' 
 	</sql>
 
 	<resultMap type="Qna" id="noticeQnaListResultMap">
-		<id property="no" column="QNA_NO"/>
+		<id property="no" column="Q_QNA_NO"/>
 		<result property="writerNo" column="WRITER_NO"/>
-		<result property="writerId" column="ID"/>
-		<result property="category" column="QNA_CAT"/>
-		<result property="title" column="QNA_TIT"/>
-		<result property="content" column="QNA_CONTENT"/>
-		<result property="readCount" column="QNA_COUNT"/>
-		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
-		<result property="renamedFileName" column="RENAMED_FILENAME"/>
-		<result property="createDate" column="DATE_WRITEN"/>
-		<result property="modifyDate" column="DATE_WRITEN_MODIFY"/>
-		<result property="status" column="QNA_STATUS"/>
+		<result property="writerId" column="M_ID"/>
+		<result property="cat" column="Q_QNA_CAT"/>
+		<result property="categoryNo" column="C_NO"/>
+		<result property="category" column="C_NAME"/>
+		<result property="title" column="Q_QNA_TIT"/>
+		<result property="content" column="Q_QNA_CONTENT"/>
+		<result property="readCount" column="Q_QNA_COUNT"/>
+		<result property="originalFileName" column="Q_ORIGINAL_FILENAME"/>
+		<result property="renamedFileName" column="Q_RENAMED_FILENAME"/>
+		<result property="createDate" column="Q_DATE_WRITEN"/>
+		<result property="modifyDate" column="Q_DATE_WRITEN_MODIFY"/>
+		<result property="status" column="Q_QNA_STATUS"/>
 	</resultMap>
 	
 	
@@ -250,13 +255,21 @@ WHERE A.NOTICE_STATUS = 1;
 		WHERE Q.QNA_STATUS = 'Y' AND Q.QNA_NO = #{no}
 	</select>
 	
+	
+	<select id="getCategoryNo" parameterType="string" resultType="_int">
+		SELECT C_NO
+		FROM QNA_CATEGORY
+		WHERE C_NAME = #{category}
+	</select>
+	
+	
 	<insert id="qnaInsert" parameterType="Qna"
 			useGeneratedKeys="true" keyProperty="no" keyColumn="QNA_NO">
 		INSERT INTO QNA (
 				QNA_NO, 
 				WRITER_NO,
+				QNA_TIT,
 				QNA_CAT,
-			  QNA_TIT, 
 			  QNA_CONTENT, 
 			  QNA_COUNT, 
 			  ORIGINAL_FILENAME, 
@@ -267,8 +280,8 @@ WHERE A.NOTICE_STATUS = 1;
 		) VALUES (
 				SEQ_QNA_NO.NEXTVAL,
 				#{writerNo},
-				#{category},
 				#{title},
+				#{categoryNo},
 				#{content},
 				DEFAULT,
 				#{originalFileName},
