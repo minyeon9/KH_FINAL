@@ -98,10 +98,10 @@
 					</ul>
 					
 					<div class="paging">
-						<a href="${ path }/challenge_arrange?category=${ category }&page=1&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="first">
+						<a href="${ path }/challenge_arrange?page=1&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="first">
 							<span>맨 앞으로</span>
 						</a>
-						<a href="${ path }/challenge_arrange?category=${ category }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="prev">
+						<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="prev">
 							<span>이전</span>
 						</a>
 						<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
@@ -110,13 +110,13 @@
 							</c:if>
 
 							<c:if test="${ status.current != pageInfo.currentPage }">
-								<a href="${ path }/challenge_arrange?category=${ category }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort">${ status.current }</a>
+								<a href="${ path }/challenge_arrange?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort">${ status.current }</a>
 							</c:if>
 						</c:forEach>
-						<a href="${ path }/challenge_arrange?category=${ category }&page=${ pageInfo.nextPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="next">
+						<a href="${ path }/challenge_arrange?page=${ pageInfo.nextPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="next">
 							<span>다음</span>
 						</a>
-						<a href="${ path }/challenge_arrange?category=${ category }&page=${ pageInfo.maxPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="last">
+						<a href="${ path }/challenge_arrange?page=${ pageInfo.maxPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }#challengeSort" class="last">
 							<span>맨 뒤로</span>
 						</a>
 					</div>

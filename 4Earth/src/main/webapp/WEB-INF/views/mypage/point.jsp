@@ -247,10 +247,10 @@
 				
 				<c:if test="${ !empty point }">
 					<div class="paging">
-						<a href="${ path }/point?category=${ category }&page=1&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="first">
+						<a href="${ path }/point?page=1&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="first">
 							<span>맨 앞으로</span>
 						</a>
-						<a href="${ path }/point?category=${ category }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="prev">
+						<a href="${ path }/point?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="prev">
 							<span>이전</span>
 						</a>
 						<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
@@ -259,13 +259,13 @@
 							</c:if>
 
 							<c:if test="${ status.current != pageInfo.currentPage }">
-								<a href="${ path }/point?category=${ category }&page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
+								<a href="${ path }/point?page=${ status.current }&count=${ pageInfo.listLimit }&arrange=${ arrange }">${ status.current }</a>
 							</c:if>
 						</c:forEach>
-						<a href="${ path }/point?category=${ category }&page=${ pageInfo.nextPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="next">
+						<a href="${ path }/point?page=${ pageInfo.nextPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="next">
 							<span>다음</span>
 						</a>
-						<a href="${ path }/point?category=${ category }&page=${ pageInfo.maxPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="last">
+						<a href="${ path }/point?page=${ pageInfo.maxPage }&count=${ pageInfo.listLimit }&arrange=${ arrange }" class="last">
 							<span>맨 뒤로</span>
 						</a>
 					</div>
