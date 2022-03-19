@@ -124,7 +124,7 @@
                             						</td>
 		                                            <td>
 		                                                <button class="btn btn-s" id="echo_update" value="${ order.orderNo }">수정</button>
-		                                                <button id="delete" name="no" value=${ order.orderNo } class="btn btn-s gray">정지</button>
+		                                                <button id="cancel" name="no" value=${ order.orderNo } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -185,6 +185,14 @@
         
         open(url, "", 'status=no, height=800, width=1500, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
+	
+	$(document).ready(() => {
+		$(document).on('click','#cancel', (e) => {
+			if(confirm("정말로 이 주문을 취소 시키겠습니까??")) {
+				location.replace("${ path }/admin/order_cancel?no=" + e.target.value);
+			}
+		})
+	});
 </script>
 
 </html>

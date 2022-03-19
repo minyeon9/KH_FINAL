@@ -55,6 +55,19 @@
 		<result property="proRating" column="PRO_RATING"/>
 	</resultMap>
 	
+	<resultMap type="ProductInquiry" id="ProductInqListResultMap">
+		<id property="proNo" column="PRO_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="inqNo" column="INQ_NO"/>
+		<result property="proDate" column="PRO_DATE"/>
+		<result property="inqDate" column="INQ_DATE"/>
+		<result property="inqModDate" column="INQ_MOD_DATE"/>
+		<result property="inqTitle" column="INQ_TITLE"/>
+		<result property="inqContent" column="INQ_CONTENT"/>
+		<result property="inqStat" column="INQ_STAT"/>
+		<result property="inqSecret" column="INQ_SECRET"/>
+	</resultMap>
+	
 	<resultMap type="Today" id="TodayListResultMap">
 		<id property="chalNo" column="CHAL_NO"/>
 		<result property="category" column="CATEGORY"/>
@@ -124,6 +137,29 @@
 		<result property="status" column="NOTICE_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="Qna" id="qnaListResultMap">
+		<id property="no" column="QNA_NO"/>
+		<result property="writerNo" column="WRITER_NO"/>
+		<result property="title" column="QNA_TIT"/>
+		<result property="categoryNo" column="QNA_CAT"/>
+		<result property="content" column="QNA_CONTENT"/>
+		<result property="readCount" column="QNA_COUNT"/>
+		<result property="originalFileName" column="ORIGINAL_FILENAME"/>
+		<result property="renamedFileName" column="RENAMED_FILENAME"/>
+		<result property="createDate" column="DATE_WRITEN"/>
+		<result property="modifyDate" column="DATE_WRITEN_MODIFY"/>
+		<result property="status" column="QNA_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="QnaAnswer" id="qnaAnswerListResultMap">
+		<id property="answerNo" column="ANSWER_NO"/>
+		<result property="qnaNo" column="QNA_NO"/>
+		<result property="writerNo" column="WRITER_NO"/>
+		<result property="answerContent" column="ANSWER_CONTENT"/>
+		<result property="answerDate" column="ANSWER_DATE"/>
+		<result property="answerStatus" column="ANSWER_STATUS"/>
+	</resultMap>
+	
 	<resultMap type="OrderSum" id="OrderSumResultMap">
 		<id property="orderNo" column="ORDER_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
@@ -145,6 +181,19 @@
 		<result property="detailQty" column="DETAIL_QTY"/>
 		<result property="detailPrice" column="DETAIL_PRICE"/>
 	</resultMap>
+	
+	<resultMap type="Application" id="ApplicationListResultMap">
+        <id property="appNo" column="A_APP_NO"/>
+        <result property="memberNo" column="A_MEMBER_NO"/>
+        <result property="appName" column="A_APP_NAME"/>
+        <result property="appUrl" column="A_APP_URL"/>
+        <result property="appTitle" column="A_APP_TITLE"/>
+        <result property="appContent" column="A_APP_CONTENT"/>
+        <result property="appStatNo" column="A_APP_S_NO"/>
+        <result property="appCatNo" column="A_APP_C_NO"/>
+        <result property="appCatName" column="P_C_NAME"/>
+        <result property="appDate" column="A_APP_DATE"/>
+    </resultMap>
 	
 	<sql id="selectNoticeSql">
 		SELECT  NOTICE_NO, 
@@ -312,9 +361,96 @@
 		</where>
 	</select>
 	
+	<select id="getQnaCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM QNA
+	    <where>
+	    	QNA_STATUS = 'Y'
+			<if test="no != null">
+		   		AND QNA_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="writerNo != null">
+		   		AND WRITER_NO LIKE '%' || #{writerNo} || '%'
+			</if>
+			<if test="categoryNo != null">
+		   		AND QNA_CAT LIKE '%' || #{categoryNo} || '%'
+			</if>
+		</where>
+		ORDER BY DATE_WRITEN DESC
+	</select>
+	
+	<select id="getQnaDoneCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM QNA
+	    <where>
+	    	QNA_STATUS = 'Y'
+			<if test="no != null">
+		   		AND QNA_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="writerNo != null">
+		   		AND WRITER_NO LIKE '%' || #{writerNo} || '%'
+			</if>
+			<if test="categoryNo != null">
+		   		AND QNA_CAT LIKE '%' || #{categoryNo} || '%'
+			</if>
+		</where>
+		ORDER BY DATE_WRITEN DESC
+	</select>
+	
 	<select id="getNoticeList" parameterType="map" resultMap="noticeListResultMap">
 		<include refid="selectNoticeSql" />
 	</select>
+	
+	<select id="getQnaList" parameterType="map" resultMap="qnaListResultMap">
+		SELECT  QNA_NO, 
+				WRITER_NO, 
+		        QNA_TIT, 
+		        QNA_CAT, 
+		        QNA_CONTENT, 
+		        QNA_COUNT, 
+		        ORIGINAL_FILENAME, 
+		        RENAMED_FILENAME, 
+		        DATE_WRITEN, 
+		        DATE_WRITEN_MODIFY, 
+		        QNA_STATUS 
+		FROM QNA
+		WHERE QNA_STATUS = 'Y' 
+	</select>
+	
+	<select id="getQnaDoneList" parameterType="map" resultMap="qnaListResultMap">
+		SELECT  QNA_NO, 
+				WRITER_NO, 
+		        QNA_TIT, 
+		        QNA_CAT, 
+		        QNA_CONTENT, 
+		        QNA_COUNT, 
+		        ORIGINAL_FILENAME, 
+		        RENAMED_FILENAME, 
+		        DATE_WRITEN, 
+		        DATE_WRITEN_MODIFY, 
+		        QNA_STATUS 
+		FROM QNA
+		WHERE QNA_STATUS = 'N' 
+	</select>
+	
+	<insert id="answerQna" parameterType="QnaAnswer"
+         useGeneratedKeys="true" keyProperty="answerNo" keyColumn="ANSWER_NO">
+         INSERT INTO QNA_ANSWER(
+             ANSWER_NO,
+             QNA_NO,
+             WRITER_NO,
+             ANSWER_CONTENT,
+             ANSWER_STATUS,
+             ANSWER_DATE
+         ) VALUES(
+             SEQ_QNA_ANSWER.NEXTVAL,
+             #{qnaNo},
+             #{writerNo},
+             #{answerContent},
+             DEFAULT,
+             DEFAULT
+         )
+     </insert>
 	
 	<select id="findMember" parameterType="map" resultMap="memberResultMap">
 		<include refid="selectMemberSql" />
@@ -407,6 +543,15 @@
 		</where>
 	</select>
 	
+	<select id="getProInqCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_INQUIRY
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+		</where>
+	</select>
+	
 	<select id="getTodayCount" resultType="_int">
 		SELECT COUNT(*) FROM CHAL_TODAY
 	</select>
@@ -455,6 +600,25 @@
 		<if test="proStock != null">
 			ORDER BY PRO_STOCK
 		</if>
+	</select>
+	
+	<select id="getProInqList" resultMap="ProductInqListResultMap">
+		SELECT PRO_NO,
+				MEMBER_NO,
+				INQ_NO,
+				INQ_DATE,
+				INQ_MOD_DATE,
+				INQ_TITLE,
+				INQ_CONTENT,
+				INQ_STAT,
+				INQ_SECRET
+		FROM PRODUCT_INQUIRY
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+		</where>
+		ORDER BY PRO_NO DESC
 	</select>
 	
 	<update id="updateProduct" parameterType="Product">
@@ -518,10 +682,10 @@
 	 		CHAL_POINT = #{chalPoint},
 	 	</if>
 	 	<if test="startDate != null">
-	 		START_DATE = SYSDATE,
+	 		START_DATE = #{startDate},
 		</if>
 		<if test="endDate != null">
-	 		END_DATE = SYSDATE,
+	 		END_DATE = #{endDate},
 		</if>
 		<if test="chalStatus != null">
 	 		CHAL_STATUS = DEFAULT,
@@ -555,10 +719,10 @@
 	 		CHAL_COUNT = #{chalCount},
 	 	</if>
 	 	<if test="startDate != null">
-	 		START_DATE = SYSDATE,
+	 		START_DATE = #{startDate},
 		</if>
 		<if test="endDate != null">
-	 		END_DATE = SYSDATE,
+	 		END_DATE = #{endDate},
 		</if>
 		<if test="chalStatus != null">
 	 		CHAL_STATUS = DEFAULT,
@@ -579,6 +743,14 @@
 	UPDATE ORDER_SUM
 	 	SET 
 	 		ORDER_STAT = '배송완료'
+	 	WHERE 
+	 		ORDER_NO = #{orderNo}
+	 </update>
+	 
+	<update id="cancelOrder" parameterType="_int">
+	UPDATE ORDER_SUM
+	 	SET 
+	 		ORDER_STAT = '주문취소'
 	 	WHERE 
 	 		ORDER_NO = #{orderNo}
 	 </update>
@@ -628,6 +800,19 @@
 		WHERE ORDER_STAT = '배송완료'
 	</select>
 	
+	<select id="getOrderCancelList" parameterType="_int" resultMap="OrderSumResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			ORDER_PRICE, 
+			ORDER_STAT, 
+			ORDER_DATE, 
+			ORDER_METHOD, 
+			ORDER_POINT
+		FROM ORDER_SUM
+		WHERE ORDER_STAT = '주문취소'
+	</select>
+	
 	<select id="findDetailByNo" parameterType="_int" resultMap="OrderDetailResultMap">
 		SELECT 
 			ORDER_NO,
@@ -652,6 +837,12 @@
 		SELECT COUNT(*)
 		FROM ORDER_SUM
 		WHERE ORDER_STAT = '발송완료'
+	</select>
+	
+	<select id="getOrderCancelCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		WHERE ORDER_STAT = '주문취소'
 	</select>
 	
 	<select id="getReportDetail" parameterType="_int" resultMap="ReportListResultMap">
@@ -693,6 +884,22 @@
 				END_DATE
 		FROM CHAL_MONTH
 		WHERE CHAL_NO = #{ chalNo }
+	</select>
+	
+	<select id="findQnaByNo" parameterType="Qna" resultMap="qnaListResultMap">
+		SELECT 	QNA_NO,
+				WRITER_NO,
+				QNA_TIT,
+				QNA_CAT,
+				QNA_CONTENT,
+				QNA_COUNT,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				DATE_WRITEN,
+				DATE_WRITEN_MODIFY,
+				QNA_STATUS
+		FROM QNA
+		WHERE QNA_NO = #{ no }
 	</select>
 	
 	<insert id="insertProduct" parameterType="Product"
@@ -763,8 +970,8 @@
 	 		#{originalFilename},
 	 		#{renamedFilename},
 	 		#{chalPoint},
-	 		SYSDATE,
-	 		SYSDATE,
+	 		#{startDate},
+	 		#{endDate},
 	 		DEFAULT
 	 	)
 	 </insert>
@@ -792,9 +999,67 @@
 	 		#{renamedFilename},
 	 		#{chalPoint},
 	 		#{chalCount},
-	 		SYSDATE,
-	 		SYSDATE,
+	 		#{startDate},
+	 		#{endDate},
 	 		DEFAULT
 	 	)
 	 </insert>
+	 
+	 <select id="getApplicationCount" resultType="_int">
+         SELECT COUNT(*)
+        FROM APPLICATION
+     </select>
+
+     <select id="getApplicationList" parameterType="string" resultMap="ApplicationListResultMap">
+         SELECT A.APP_NO AS A_APP_NO, 
+               A.MEMBER_NO AS A_MEMBER_NO, 
+               A.APP_NAME AS A_APP_NAME, 
+               A.APP_URL AS A_APP_URL, 
+               A.APP_TITLE AS A_APP_TITLE, 
+               A.APP_CONTENT AS A_APP_CONTENT, 
+               A.APP_S_NO AS A_APP_S_NO, 
+               A.APP_C_NO AS A_APP_C_NO, 
+               A.APP_DATE AS A_APP_DATE,
+               P.C_NAME AS P_C_NAME
+        FROM APPLICATION A
+        JOIN PRODUCT_CATEGORY P ON(A.APP_C_NO = P.C_NO)
+        <where>
+            <if test="select == '모집중'">
+                AND APP_S_NO = 1
+            </if>
+            <if test="select == '모집대기'">
+                AND APP_S_NO = 0
+            </if>
+        </where>
+     </select>
+
+     <insert id="biddingSave" parameterType="ProductBidding"
+             useGeneratedKeys="true" keyProperty="bidNo" keyColumn="BID_NO">
+         INSERT INTO PRODUCT_BIDDING (
+            BID_NO,
+            BID_NAME,
+            BID_COND,
+            BID_CURR,
+            BID_S_NO,
+            BID_URL,
+            ORIGINAL_FILENAME,
+            RENAMED_FILENAME
+            ) VALUES (
+            SEQ_BIDNO.NEXTVAL,
+            #{bidName},
+            #{bidCond},
+            #{bidCurr},
+            #{bidStatNo},
+            #{bidUrl},
+            #{originalFileName},
+            #{renamedFileName}
+            )
+     </insert>
+
+     <update id="updateApplication" parameterType="_int">
+         UPDATE APPLICATION
+        SET APP_S_NO = 1
+        WHERE APP_NO = #{appNo}
+     </update>
+	 
 </mapper>

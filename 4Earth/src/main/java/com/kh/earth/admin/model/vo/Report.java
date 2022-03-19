@@ -24,7 +24,7 @@ public class Report {
 	
 	private String reportTitle;
 	
-	private String reportContent;	
+	private String reportContent;
 	
 	private String reportCategory;
 	

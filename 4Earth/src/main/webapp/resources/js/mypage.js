@@ -78,6 +78,14 @@ $(document).ready(()=>{
 });
 */
 
+function unregisterSNS() {
+	if(confirm("정말로 탈퇴하시겠습니까?")){
+		location.replace("member_delete_SNS")
+	}else{
+		location.replace("profile_view")
+	}
+};
+
 /* ----------------------------------
       다음 우편번호 찾기
 ---------------------------------- */
@@ -132,5 +140,232 @@ $(document).ready(()=>{
 	}
 
 
+/* ----------------------------------
+       	정규식 확인
+---------------------------------- */
+let idCheck = RegExp(/^[a-zA-Z][a-zA-Z\d]{5,12}$/);
+$('#userId').keyup(function() {
+  if (!idCheck.test($('#userId').val())) {
+    $('#member-id').css('color', 'red').text("형식에 맞지 않음");
+    
+  } else {
+    $('#member-id').css('color', 'green').text("OK");
+    
+  }
+});
 
 
+// 비밀번호
+let passwordCheck = RegExp(/^(?=.*[A-Za-z])(?=.*[!@#$%)^~(*+=-])(?=.*\d).{8,16}$/);
+$('#userPwd').keyup(function() {
+  if (!passwordCheck.test($('#userPwd').val())) {
+    $('#member-password').css('color', 'red').text("형식에 맞지 않음");
+  } else {
+    $('#member-password').css('color', 'green').text("OK");
+  }
+});
+
+
+// 비밀번호 확인체크
+$('#userPwCheck').keyup(function(){
+  let passwd = $('#userPwd').val();
+  let passwdcheck = $('#userPwCheck').val();
+
+  if(passwd == passwdcheck){
+    passCheck = true;
+    $('#member-passwordcheck').text('OK');
+    $('#member-passwordcheck').css('color', '#08a600');
+  }else{
+    passCheck = false;
+    $('#member-passwordcheck').text('동일하지 않습니다.');
+    $('#member-passwordcheck').css('color', 'red');
+  }
+});
+
+
+// 이름
+let nameCheck = RegExp(/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,16}$/);
+$('#userName').keyup(function() {
+  if (!nameCheck.test($('#userName').val())) {
+    $('#member-name').css('color', 'red').text("형식에 맞지 않음");
+  } else {
+    $('#member-name').css('color', 'green').text("OK");
+  }
+});
+
+
+// 이메일
+let email_result = 'fail';
+let emailCheck = RegExp(/^[\w-]+@([\w-]+)\.([A-Za-z\.]{2,3})$/);
+$('#userEmail').change(function () {
+	$('#userEmail').attr("check_result", "fail");
+});
+	
+$('#userEmail').keyup(function() {
+	if (!emailCheck.test($('#userEmail').val())) {
+		$('#member-email').css('color', 'red').text("형식에 맞지 않음");
+		} else {
+		let userEmail = $("#userEmail").val().trim();
+			$.ajax({
+				type: "post",
+				url: "emailCheck",
+				dataType: "JSON",
+				data: {
+					userEmail
+				},
+				success: (data) => {
+					console.log(data);
+					let email=document.getElementById('userEmail');
+					
+					if(data.duplicate == true) {
+						$('#member-email').css('color', 'red').text("이미 등록된 이메일입니다.");
+
+					}else {
+						$('#member-email').css('color', 'green').text("OK");
+						$('#userEmail').attr("check_result", "true");
+						email_result = 'true';
+					}
+				},
+				error: (error) => {
+					console.log(error);
+				}	
+			});
+    }
+});
+
+
+// 전화번호
+let phone_result = 'fail';
+let phoneCheck = RegExp(/^01([0|1|6|7|8|9]?)([0-9]{3,4})([0-9]{4})$/);
+$('#userPhone').change(function () {
+	$('#userPhone').attr("check_result", "fail");
+});
+
+$('#userPhone').keyup(function() {
+	if (!phoneCheck.test($('#userPhone').val())) {
+		$('#member-phone').css('color', 'red').text("형식에 맞지 않음");
+		$('#userPhone').attr("check_result", "fail");
+		} else {
+		let userPhone = $("#userPhone").val().trim();
+			$.ajax({
+				type: "post",
+				url: "phoneCheck",
+				dataType: "JSON",
+				data: {
+					userPhone
+				},
+				success: (data) => {
+					console.log(data);
+					let phone=document.getElementById('userPhone');
+					
+					if(data.duplicate == true) {
+						$('#member-phone').css('color', 'red').text("이미 등록된 번호입니다.");
+						$('#userPhone').attr("check_result", "fail");
+					}else {
+						$('#member-phone').css('color', 'green').text("OK");
+						$('#userPhone').attr("check_result", "true");
+						phone_result = 'true';
+					}
+				},
+				error: (error) => {
+					console.log(error);
+				}	
+			});
+    }
+});
+
+
+
+/* ----------------------------------
+      회원가입폼 제출 전 마지막 체크
+---------------------------------- */
+function edit_check_All() {
+
+	if(!nameCheck.test($('#userName').val())){
+		alert("형식에 맞지 않는 이름입니다.");
+		$('#userName').focus();
+		return false;
+	}else if(!emailCheck.test($('#userEmail').val())){
+		alert("형식에 맞지 않는 이메일입니다.");
+		$('#userEmail').focus();
+		return false;
+	}else if(email_result == 'fail'){
+	    alert("이미 등록된 이메일입니다. 다른 메일을 사용해주세요.");
+		/* $('#userEmail').val(''); */
+	    return false;
+	}else if(!phoneCheck.test($('#userPhone').val())){
+		alert("형식에 맞지 않는 전화번호입니다.");
+		$('#userPhone').focus();
+		return false;
+	}else if(phone_result == 'fail'){
+	    alert("이미 등록된 전화번호입니다. 다른 번호를 입력해주세요.");
+		/* $('#userPhone').val(''); */
+	    return false;
+	}
+	
+	return true;
+}
+
+/* ----------------------------------
+      비밀번호 변경
+---------------------------------- */
+// 비밀번호
+$('#userPwd2').keyup(function() {
+  if (!passwordCheck.test($('#userPwd2').val())) {
+    $('#member-password2').css('color', 'red').text("형식 불일치");
+  } else {
+    $('#member-password2').css('color', 'green').text("OK");
+  }
+});
+
+// 비밀번호 확인체크
+$('#userPwCheck2').keyup(function(){
+  let passwd = $('#userPwd2').val();
+  let passwdcheck = $('#userPwCheck2').val();
+
+  if(passwd == passwdcheck){
+    passCheck = true;
+    $('#member-passwordcheck').text(' OK');
+    $('#member-passwordcheck').css('color', '#08a600');
+  }else{
+    passCheck = false;
+    $('#member-passwordcheck').text('동일하지 않음');
+    $('#member-passwordcheck').css('color', 'red');
+  }
+});
+
+function pw_change_check() {
+  let passwd = $('#userPwd1').val();
+  let newpasswd = $('#userPwd2').val();
+  let passwdcheck = $('#userPwCheck2').val();
+  let loginpw = $('#userPwd3').val();
+  console.log(loginpw);
+  console.log(document.cookie);
+  
+	if(!passwordCheck.test($('#userPwd2').val())){
+		alert("형식에 맞지 않는 비밀번호입니다.");
+		return false;
+	}else if(newpasswd != passwdcheck){
+		alert("비밀번호 재확인 결과가 동일하지 않습니다.");
+		return false;
+	}
+	
+	// return true;
+
+}
+
+// 프로필 이미지 등록시 미리보기
+const reader = new FileReader();
+
+reader.onload = (readerEvent) => {
+    document.querySelector("#preview").setAttribute("src", readerEvent.target.result);
+    
+};
+
+// 프로필 이미지 로딩
+document.querySelector("#profileImg").addEventListener("change", (changeEvent) => {
+
+    const imgFile = changeEvent.target.files[0];
+    reader.readAsDataURL(imgFile);
+
+});

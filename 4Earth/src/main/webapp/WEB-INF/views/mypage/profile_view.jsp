@@ -47,10 +47,12 @@
                                 </c:if>
                                 <table id="profile_table">
                                     <tbody>
+                                    	<c:if test="${ loginMember.platform_type == 'HOMEPAGE' }">
                                         <tr>
                                             <td class="profile_title">아이디</td>
                                             <td>${ loginMember.id }</td>
                                         </tr>
+                                        </c:if>
                                         <tr>
                                             <td class="profile_title">이름</td>
                                             <td>${ loginMember.name }</td>
@@ -109,9 +111,15 @@
                                                 <br>
                                                 <div id="unregister_cont">
                                                     <p>1. 회원탈퇴 시 고객님의 정보는 상품 반품 및 A/S를 위해 전자상거래 등에서의 소비자 보호에 관한 법률에 의거한 고객정보 보호정책에 따라 관리됩니다. </p>
+                                                    <c:if test="${ loginMember.platform_type != 'HOMEPAGE' }">
+                                                    <p>2. SNS회원의 경우 탈퇴 시 연결해제는 해당 플랫폼에서 가능합니다.</p>
+                                                    <p>(단, 카카오는 탈퇴 시 바로 연결해제 가능)</p>
+                                                    </c:if>
+                                                    <c:if test="${ loginMember.platform_type == 'HOMEPAGE' }">
                                                     <p>2. 탈퇴 시 고객님께서 보유하셨던 포인트는 모두 삭제됩니다. </p>
+                                                    </c:if>
                                                     <p>3. 탈퇴한 아이디는 본인과 타인 모두 재사용이 불가하오니 신중하게 선택해주시기 바랍니다. </p>
-                                                    <c:if test="${ loginMember.platform_type == 'KAKAO' }">
+                                                    <c:if test="${ loginMember.platform_type != 'HOMEPAGE' }">
                                                     <p>  (단 SNS 로그인의 경우 탈퇴 후 같은 아이디로 재가입이 가능합니다. )</p>
                                                     </c:if>
                                                     <p>4. 혹시 이용 과정에서 불편한 점이 있으셨다면 [1:1 문의]로 내용을 남겨주세요. </p>
@@ -147,6 +155,18 @@
 				                                    <img class="login-btn" src="${ path }/resources/images/member/kakao_unlink_btn.png">
 				                                    </a>
 			                                    </c:if>
+			                                    <c:if test="${ loginMember.platform_type == 'GOOGLE' }">
+                                                	<!--  <button type="submit"></button>  -->
+				                                    <a href="javascript:unregisterSNS();">
+				                                    <img class="login-btn" src="${ path }/resources/images/member/google_unregister_btn.png">
+				                                    </a>
+			                                    </c:if>
+			                                    <c:if test="${ loginMember.platform_type == 'NAVER' }">
+                                                	<!--  <button type="submit"></button>  -->
+				                                    <a href="javascript:unregisterSNS();">
+				                                    <img class="login-btn" src="${ path }/resources/images/member/naver_unregister_btn.png">
+				                                    </a>
+			                                    </c:if>
 			                                    <c:if test="${ loginMember.platform_type == 'HOMEPAGE' }">
                                                 <button type="submit" class="btn btn-login" >회원탈퇴</button>
                                                 <br><br>
@@ -175,4 +195,4 @@ let idxNum=5;
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/mypage.js"></script>
-<script src="resources/js/member.js"></script>
+<!--  <script src="resources/js/member.js"></script>  -->

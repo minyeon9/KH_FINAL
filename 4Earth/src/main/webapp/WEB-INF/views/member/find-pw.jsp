@@ -11,13 +11,15 @@
 <head>
     <title>비밀번호 찾기</title>
 </head>
+                <div class="loader"></div>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-
+                        
         <div class="container">
             <div class="contents">
                 <%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
 
                 <section class="content-wrap">
+
                     <div class="page-tit">
                         <h3>비밀번호 찾기</h3>
                         <div class="bread-crumb">

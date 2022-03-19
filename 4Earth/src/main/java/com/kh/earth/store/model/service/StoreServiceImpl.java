@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.dao.StoreMapper;
+import com.kh.earth.store.model.vo.Application;
+import com.kh.earth.store.model.vo.Bidding;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductBidding;
 import com.kh.earth.store.model.vo.ProductImgs;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
@@ -404,6 +407,70 @@ public class StoreServiceImpl implements StoreService {
 	public List<ProductImgs> getProductImgs(int no) {
 		
 		return mapper.getProductImgs(no);
+	}
+
+	// 상품의 카테고리명으로 카테고리 번호 조회하기
+	@Override
+	public int getCategoryNo(String appCatName) {
+		
+		return mapper.getCategoryNo(appCatName);
+	}
+
+	// 입고 신청 작성
+	@Override
+	public int writeApplication(Application application) {
+		
+		return mapper.writeApplication(application);
+	}
+
+	// 모집 중인 상품 개수 조회
+	@Override
+	public int getBiddingCount() {
+		
+		return mapper.getBiddingCount();
+	}
+
+	// 모집 중인 상품 목록 조회
+	@Override
+	public List<ProductBidding> getBiddingList(PageInfo pageInfo) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);	
+		
+		return mapper.getBiddingList(rowBounds);
+	}
+
+	// 모집 번호로 모집 중인 상품 상세 조회
+	@Override
+	public ProductBidding getBiddingDetailByNo(int no) {
+		
+		return mapper.getBiddingDetailByNo(no);
+	}
+
+	// 모집 참여(관심있어요)
+	@Override
+	public int addBid(Bidding bidding) {
+		
+		return mapper.addBid(bidding);
+	}
+
+	// 해당 모집의 현재 인원수 조회
+	@Override
+	public int getBidCurr(int no) {
+		
+		return mapper.getBidCurr(no);
+	}
+
+	// 해당 모집의 현재 인원 +1
+	@Override
+	public int updateBidCurr(int no, int bidCurrPlusOne) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("no", no);
+		map.put("bidCurrPlusOne", bidCurrPlusOne);
+		
+		return mapper.updateBidCurr(map);
 	}
 
 

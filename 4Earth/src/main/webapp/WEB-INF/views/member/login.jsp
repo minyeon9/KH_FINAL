@@ -66,7 +66,7 @@
                                     <a href="javascript:kakaoLogin();">
                                     <img class="login-btn" src="${ path }/resources/images/member/kakao-login-btn.png">
                                     </a>
-                                    <a href="">
+                                    <a href="javascript:loginWithNaver()">
                                     <img class="login-btn" src="${ path }/resources/images/member/naver-login-btn.png" alt="">
                                     <!-- <input type="button" class="splgin-btn" id="naver" style="cursor:pointer;" value="네이버 간편 로그인"> -->
                                     </a>
