@@ -72,11 +72,12 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="15%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
@@ -86,6 +87,7 @@
                                             <th>가입일</th>
                                             <th>회원등급</th>
                                             <th>신고회수</th>
+                                            <th>상태</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -107,9 +109,10 @@
 		                                            <td>${ reported.enrollDate }</td>
 		                                            <td>${ reported.member_type }</td>
 		                                            <td>${ reported.reportedTimes }</td>
+		                                            <td>${ reported.status }</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
-		                                                <button id="delete" name="no" value=${ reported.no } class="btn btn-s gray">정지</button>
+		                                                <button id="unban" name="no" value=${ reported.no } class="btn btn-s">해제</button>
+		                                                <button id="ban" name="no" value=${ reported.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -186,6 +189,22 @@
 				location.replace("${ path }/admin/reported_list?name=" + $("#search-val").val());
 			})
 		});
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#ban', (e) => {
+			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
+				location.replace("${ path }/admin/member_delete?no=" + e.target.value);
+			}
+		})
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#unban', (e) => {
+			if(confirm("정말로 이 멤버를 정지 해제시키겠습니까??")) {
+				location.replace("${ path }/admin/member_unban?no=" + e.target.value);
+			}
+		})
 	});
 </script>
 

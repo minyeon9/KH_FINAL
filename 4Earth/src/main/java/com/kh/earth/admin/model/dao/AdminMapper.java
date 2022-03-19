@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.kh.earth.admin.model.vo.ProInqAnswer;
 import com.kh.earth.admin.model.vo.QnaAnswer;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
@@ -135,4 +136,32 @@ public interface AdminMapper {
 	Qna findQnaByNo(int no);
 
 	int answerQna(QnaAnswer qnaAnswer);
+
+	int qnaDone(int no);
+	
+	ProductInquiry findProInqByNo(int no); 
+
+    int answerProInq(ProInqAnswer proInqAnswer);
+
+    int updateProInq(int no);
+
+	int updateQna(int qnaNo);
+
+	List<QnaAnswer> getAnswerByNo(RowBounds rowBounds, Map<String, String> name);
+
+	int deleteToday(int no);
+
+	int deleteMonth(int no);
+
+	int deleteMonthMem(int no);
+
+	int todayMemPoint(int no);
+
+	int deleteTodayMem(int no);
+
+	int unbanMember(int no);
+
+	int writeNotice(Notice notice);
+
+	int updateQna(QnaAnswer qnaAnswer);
 }

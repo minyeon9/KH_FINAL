@@ -161,7 +161,7 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
+                                <button id="write" type="button" class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
@@ -218,6 +218,14 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).on("click","#write", (e) => {
+	    var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+	    var popupY= (window.screen.height / 2) - (800 / 2);
+	    const url = "${ path }/admin/notice_write?no="+ e.target.value;
+	    
+	    open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 	});
 </script>
 
