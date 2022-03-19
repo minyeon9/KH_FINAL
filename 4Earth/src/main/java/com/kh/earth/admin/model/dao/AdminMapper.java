@@ -137,9 +137,31 @@ public interface AdminMapper {
 
 	int answerQna(QnaAnswer qnaAnswer);
 
+	int qnaDone(int no);
+	
 	ProductInquiry findProInqByNo(int no); 
 
-	int answerProInq(ProInqAnswer proInqAnswer);
+    int answerProInq(ProInqAnswer proInqAnswer);
 
-	int updateProInq(int no); 
+    int updateProInq(int no);
+
+	int updateQna(int qnaNo);
+
+	List<QnaAnswer> getAnswerByNo(RowBounds rowBounds, Map<String, String> name);
+
+	int deleteToday(int no);
+
+	int deleteMonth(int no);
+
+	int deleteMonthMem(int no);
+
+	int todayMemPoint(int no);
+
+	int deleteTodayMem(int no);
+
+	int unbanMember(int no);
+
+	int writeNotice(Notice notice);
+
+	int updateQna(QnaAnswer qnaAnswer);
 }
