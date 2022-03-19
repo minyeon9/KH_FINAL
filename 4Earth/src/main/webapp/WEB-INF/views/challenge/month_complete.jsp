@@ -55,7 +55,7 @@
 								<img src="${ path }/resources/upload/challengeUser/${ list.renamedFilename }" alt="">
 							</div>
 							
-							<a href="${ path }/month_view?chalNo=${ list.chalNo }" class="btn">${ list.chalTitle }</a>
+							<a href="${ path }/month_view?chalNo=${ list.chalNo }" class="btn">${ list.chalTitle } 챌린지로 이동</a>
 						</div>
 					</c:otherwise>
 				</c:choose>

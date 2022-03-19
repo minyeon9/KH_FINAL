@@ -34,6 +34,7 @@
                 <tr>
                   <th>번호</th>
                   <th>제목</th>
+                  <th>카테고리</th>
                   <th>작성자</th>
                   <th>날짜</th>
                   <th>파일</th>
@@ -56,6 +57,7 @@
 							${ qna.title }
 						</a>
 					</td>
+					<td>${ qna.category }</td>
 					<td>${ qna.writerId }</td>
 					<td><fmt:formatDate type="date" value="${ qna.createDate }"/></td>
 					<td>

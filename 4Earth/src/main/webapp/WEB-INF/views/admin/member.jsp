@@ -166,8 +166,8 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
-		                                                <button type="button" id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
+		                                                <button type="button" id="unban" name="no" value=${ member.no } class="btn btn-s">해제</button>
+		                                                <button type="button" id="ban" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -239,9 +239,17 @@
 	});
 	
 	$(document).ready(() => {
-		$(document).on('click','#delete', (e) => {
+		$(document).on('click','#ban', (e) => {
 			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
 				location.replace("${ path }/admin/member_delete?no=" + e.target.value);
+			}
+		})
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#unban', (e) => {
+			if(confirm("정말로 이 멤버를 정지 해제시키겠습니까??")) {
+				location.replace("${ path }/admin/member_unban?no=" + e.target.value);
 			}
 		})
 	});

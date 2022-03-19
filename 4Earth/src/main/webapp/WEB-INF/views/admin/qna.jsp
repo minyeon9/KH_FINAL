@@ -50,7 +50,7 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>FAQ</h3>
+                        <h3>문의 목록</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">문의</a>
@@ -96,6 +96,7 @@
                                             <th>문의 번호</th>
                                             <th>문의 제목</th>
                                             <th>문의 분류</th>
+                                            <th>문의 회원</th>
                                             <th>작성일</th>
                                             <th>내용</th>
                                             <th>관리</th>
@@ -105,7 +106,7 @@
 	                                    <tbody>
 		                                    <tr>
 		                                    	<td colspan="6">
-												조회된 공지사항이 없습니다
+												조회된 문의사항이 없습니다
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
@@ -116,7 +117,7 @@
 		                                        <tr>
 		                                            <td>${ qna.no }</td>
 		                                            <td>${ qna.title }</td>
-		                                            <td>${ qna.categoryNo }</td>
+		                                            <td>${ qna.category }</td>
 		                                            <td>${ qna.writerNo }</td>
 		                                            <td>${ qna.createDate }</td>
 		                                            <td>
@@ -140,8 +141,8 @@
 													        		<tr>
 													        			<th>제목</th>
 													        			<td>${ qna.title }</td>
-													        			<th>조회수</th>
-													        			<td>${ qna.readCount }</td>
+													        			<th>문의 분류</th>
+													        			<td>${ qna.category }</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="2">사진</th>
@@ -155,8 +156,8 @@
 													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
+						                                        <button type="button" id="qna_answer" name="no" value=${ qna.no } class="btn btn">답변</button>
 						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -198,7 +199,7 @@
 $(() => {
     let sideBarMenu = $('.side-bar ul li');
     let menuPath = ['${ path }/admin/qna','${ path }/admin/qna_done','${ path }/admin/echo_qna'];
-    let menuName = ['문의 목록', '문의 완료 목록', '물품 문의 목록'];
+    let menuName = ['문의 목록', '문의 완료 목록', '상품 문의'];
     let menuIcon = ['home', 'home', 'home']
 
 
