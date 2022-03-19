@@ -21,7 +21,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li class="current">
+                        <li class="">
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>

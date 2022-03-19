@@ -23,7 +23,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li class="current">
+                        <li class="">
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -274,9 +274,7 @@
         sideBarMenu.each(function(idx, el) {
             if(idx == 0) {
                 $(this).addClass('current');
-            } else {
-            	$(this).removeClass('current');
-            }
+            } 
         });
     });
 
