@@ -103,3 +103,4 @@
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 
 <script src="resources/js/challenge.js"></script>
+<script src="resources/js/fileUpload.js"></script>

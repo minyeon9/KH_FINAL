@@ -4,13 +4,30 @@
     포인트 내역
 ---------------------------------- */
 .point {
-
+}
+.point .tab .tab-title > button {
+    color: #999;
+    width: 33.33%;
+    text-decoration: none;
+    text-align: center;
+    background: #eee;
+    border: 1px solid #ddd;
+    border-radius: 5px 5px 0 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.point .tab .tab-title > button.is-open {
+    color: #76b779;
+    font-weight: 500;
+    background: #fff;
+    border: 2px solid #76b779;
 }
 .point-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border: 1px solid #ccc;
+    border-radius: 10px;
     padding: 20px;
     margin-bottom: 50px;
 }
@@ -34,19 +51,23 @@
     font-weight: 500;
 }
 .point-details .available p {
-    color: #669948;
+    color: #458ef2;
     font-size: 20px;
     background-position: 0 70%;
 }
 .point-details .box {
-    width: 167px;
+    width: 130px;
     background: #f9f9f9;
     border: 1px solid #eee;
+    border-radius: 10px;
     padding: 10px 20px;
     box-sizing: border-box;
 }
 .point-details .box:nth-of-type(3) {
-    margin: 0 10px 0 auto;
+    margin-left: auto;
+}
+.point-details .box:nth-of-type(4) {
+	margin: 0 10px;
 }
 .point-details .box strong {
     color: #666;
@@ -62,9 +83,36 @@
     margin-top: 5px;
 }
 .point-details .box:nth-of-type(3) p {
-	color: #3a70c9;
+	color: #458ef2;
 }
-
+.point-plus {
+	position: relative;
+	color: #458ef2;
+	font-weight: 500;
+	padding-left: 12px;	
+}
+.point-plus:before {
+	content: '+';
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.point-minus {
+	position: relative;
+	color: #dd5b5b;
+	font-weight: 500;
+	padding-left: 12px;	
+}
+.point-minus:before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 2px;
+	width: 7px;
+	height: 1px;
+	background: #c93a3a;
+	transform: translateX(-50%);
+}
 
 /* ----------------------------------
     주문 배송 내역
