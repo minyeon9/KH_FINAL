@@ -66,11 +66,11 @@
                                     <a href="javascript:kakaoLogin();">
                                     <img class="login-btn" src="${ path }/resources/images/member/kakao-login-btn.png">
                                     </a>
-                                    <a href="">
+                                    <a href="javascript:loginWithNaver()">
                                     <img class="login-btn" src="${ path }/resources/images/member/naver-login-btn.png" alt="">
                                     <!-- <input type="button" class="splgin-btn" id="naver" style="cursor:pointer;" value="네이버 간편 로그인"> -->
                                     </a>
-                                    <a href="javascript:unlinkWithKakao();">
+                                    <a href="javascript:loginWithGoogle();">
                                     <img class="login-btn" src="${ path }/resources/images/member/google-login-btn.png">
                                     <!-- <input type="button" class="splgin-btn" id="google" style="cursor:pointer;" value="카카오 로그아웃"> -->
                                     </a>

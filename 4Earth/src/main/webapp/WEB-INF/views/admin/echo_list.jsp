@@ -278,7 +278,7 @@
 	
 	$(document).ready(() => {
 		$("#delete").on("click", (e) => {
-			if(confirm("정말로 이 물품 판매를 정지시키겠습니까??")) {
+			if(confirm("정말로 이 물품 판매를 중지시키겠습니까??")) {
 				location.replace("${ path }/admin/echo_pro_delete?no=" + e.target.value);
 			}
 		})

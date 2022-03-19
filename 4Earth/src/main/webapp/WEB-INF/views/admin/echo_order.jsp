@@ -83,37 +83,53 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th>주문 번호</th>
                                             <th>주문자</th>
-                                            <th>아이디</th>
+                                            <th>가격</th>
                                             <th>주문일</th>
                                             <th>주문 목록</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>번호</td>
-                                            <td>내용1</td>
-                                            <td>내용2</td>
-                                            <td>내용3</td>
-                                            <td><button class="btn btn-s gray">주문 보기</button></td>
-                                            <td>
-                                                <button class="btn btn-s">등록</button>
-                                                <button class="btn btn-s gray">정지</button>
-                                            </td>
-                                        </tr>
-                                        
+                                        <c:if test="${ empty orderList }">
+	                                    <tbody>
+		                                    <tr>
+		                                    	<td colspan="6">
+												조회된 물품이 없습니다
+		                                    	</td>
+		                                    </tr>
+	                                    </tbody>
+									</c:if>
+									<c:if test="${ !empty orderList }">
+										<c:forEach var="order" items="${ orderList }" varStatus="vs">
+		                                    <tbody>
+		                                        <tr>
+		                                            <td>${ order.orderNo }</td>
+		                                            <td>${ order.memberNo }</td>
+		                                            <td>${ order.orderPrice }</td>
+		                                            <td>${ order.orderDate }</td>
+		                                            <td>
+		                                            	<button class="btn btn" id="echo_order_detail" value="${ order.orderNo }">보기</button>
+                            						</td>
+		                                            <td>
+		                                                <button class="btn btn-s" id="echo_update" value="${ order.orderNo }">수정</button>
+		                                                <button id="cancel" name="no" value=${ order.orderNo } class="btn btn-s gray">정지</button>
+		                                            </td>
+		                                        </tr>
+		                                    </tbody>
+										</c:forEach>
+									</c:if>
                                     </tbody>
                                 </table>
                             </div>
@@ -160,6 +176,22 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).on("click","#echo_order_detail", (e) => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "${ path }/admin/echo_order_detail?no="+ e.target.value;
+        
+        open(url, "", 'status=no, height=800, width=1500, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+    });
+	
+	$(document).ready(() => {
+		$(document).on('click','#cancel', (e) => {
+			if(confirm("정말로 이 주문을 취소 시키겠습니까??")) {
+				location.replace("${ path }/admin/order_cancel?no=" + e.target.value);
+			}
+		})
 	});
 </script>
 

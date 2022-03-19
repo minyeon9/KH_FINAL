@@ -38,9 +38,15 @@
            		</tr>
                 <tr>
         			<th>시작일: </th>
-        			<td><input name="" type="text"></td>
+        			<td>
+        				<input id="startDateGet" name="startDate1" type="text" value="" placeholder="yyyy-MM-ddThh:MM">
+        				<input id="startDateSet" name="startDate" type="hidden" value="">
+        			</td>
         			<th>종료일: </th>
-        			<td><input name="" type="text"></td>
+        			<td>
+        				<input id="endDateGet" name="endDate1" type="text" value="" placeholder="yyyy-MM-ddThh:MM">
+	        			<input id="endDateSet" name="endDate" type="hidden" value="">
+        			</td>
         		</tr>
                 <tr>
         			<th>참여수: </th>
@@ -70,6 +76,17 @@
         	</form>
 		</div>
     <script>
+    $("#startDateGet").change(function(){
+    	const str = $(this).val();
+    	const start_date = new Date(str);
+        $('#startDateSet').val(start_date);
+    });
+    
+    $("#endDateGet").change(function(){
+    	const str = $(this).val();
+    	const end_date = new Date(str);
+        $('#endDateSet').val(end_date);
+    });
     </script>
 </body>
 </html>

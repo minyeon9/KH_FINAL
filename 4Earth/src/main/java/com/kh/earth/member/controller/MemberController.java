@@ -1,40 +1,57 @@
 package com.kh.earth.member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.google.gson.Gson;
 import com.kh.earth.common.util.FileProcess;
+import com.kh.earth.common.util.GoogleOAuthRequest;
 import com.kh.earth.common.util.MailUtil;
+import com.kh.earth.common.util.NaverLoginBO;
 import com.kh.earth.common.util.SendSMSTwilio;
 import com.kh.earth.member.model.service.MemberService;
 import com.kh.earth.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 
 @Slf4j
 @Controller
 @SessionAttributes("loginMember")
+@PropertySource("classpath:google.properties")
 public class MemberController {
 	@Autowired
 	private MemberService service;	
@@ -158,12 +175,6 @@ public class MemberController {
 			HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Map<String, String> map = new HashMap<>();
-		
-//	    Enumeration params = request.getParameterNames();
-//	    while(params.hasMoreElements()) {
-//	      String name = (String) params.nextElement();
-//	      System.out.print(" ▶ "+name + " : " + request.getParameter(name)); 
-//	    }
 	    
 		String id = request.getParameter("id");
 		String email = request.getParameter("kakao_account[email]");
@@ -231,7 +242,273 @@ public class MemberController {
     	return map;
 	}
 	
+	// 구글 관련 properties값 불러오기(config.properties) 
+	@Value("${google.auth.url}")
+	private String googleAuthUrl;
 	
+	@Value("${google.client.id}")
+	private String googleClientId;
+	
+	@Value("${google.login.url}")
+	private String googleLoginUrl;
+	
+	@Value("${google.redirect.url}")
+	private String googleRedirectUrl;
+	
+	@Value("${google.secret}")
+	private String googleClientSecret;
+	
+	
+	// 구글 로그인창 호출
+	@RequestMapping(value = "/getGoogleAuthUrl")
+	public @ResponseBody String getGoogleAuthUrl(HttpServletRequest request) throws Exception {
+		
+	    String reqUrl = googleLoginUrl + "/o/oauth2/v2/auth?client_id=" + googleClientId + "&redirect_uri=" + googleRedirectUrl
+	            + "&response_type=code&scope=email%20profile%20openid&access_type=offline";
+
+	    return reqUrl;
+	}
+	
+	
+	 // 구글 연동정보 조회
+	@RequestMapping(value = "/login/oauth_google", method = {RequestMethod.GET})
+	public String oauth_google(HttpServletResponse response,
+			HttpServletRequest request, @ModelAttribute Member member,
+			@RequestParam(value = "code") String authCode)  {
+		HttpSession session = request.getSession();
+	    String url = "";
+	    // restTemplate(스프링에서 제공하는 http 통신에 유용하게 쓸 수 있는 템플릿, 
+		// HttpClient를 추상화(HttpEntity의 json, xml 등)해서 제공) 호출
+	    RestTemplate restTemplate = new RestTemplate();
+
+	    GoogleOAuthRequest googleOAuthRequestParam = GoogleOAuthRequest
+	            .builder()
+	            .clientId(googleClientId)
+	            .clientSecret(googleClientSecret)
+	            .code(authCode)
+	            .redirectUri(googleRedirectUrl)
+	            .grantType("authorization_code")
+	            .build();
+
+	    // String test = googleOAuthRequestParam.toString();
+	    // System.out.println("googleOAuthRequestParam : "+test);
+
+	    // postForEntity를 통해 post요청을 보내고, 결과로 ResponseEntity 반환받기 → responseBody 추출
+	    ResponseEntity<JSONObject> apiResponse = restTemplate.postForEntity(googleAuthUrl + "/token", googleOAuthRequestParam, JSONObject.class);
+	    JSONObject responseBody = apiResponse.getBody();
+	    // System.out.println("responseBody : "+responseBody.toJSONString());
+	    
+	    
+	    // id_token은 JWT(전자 서명 된 URL-safe (URL로 이용할 수있는 문자 만 구성된)의 JSON) 형식
+	    String jwtToken = responseBody.getAsString("id_token");
+
+	    // JWT Token을 전달해 JWT 저장된 사용자 정보 확인
+	    // UriComponentsBuilder : 여러 개의 파라미터들을 연결하여 URL 형태로 만들어 주는 기능
+	    String requestUrl = UriComponentsBuilder.fromHttpUrl(googleAuthUrl + "/tokeninfo").queryParam("id_token", jwtToken).toUriString();
+
+	    JSONObject resultJson = restTemplate.getForObject(requestUrl, JSONObject.class);
+
+	    // 구글 정보조회 성공
+	    if (resultJson != null) {
+
+	    	// 전체 정보 조회
+	    	// System.out.println("전체정보 : "+resultJson.toJSONString());
+	        
+	    	//  필요한 회원정보 
+	        String id = resultJson.getAsString("sub");
+	        String picture = resultJson.getAsString("picture");
+	        String name = resultJson.getAsString("name");
+	        String email = resultJson.getAsString("email");
+	        
+	        member.setId(id);
+	        member.setImg_name(picture);
+	        member.setEmail(email);
+	        member.setName(name);
+			member.setPlatform_type("GOOGLE");
+	        
+	    	Member resultM = service.findMemberById_forSNS(id);
+	    	System.out.println("DB에서 조회한 회원값 : "+resultM);
+	    	
+	    	if(resultM == null) {
+	    		// 1. 회원정보가 없다면 회원가입을 시킨다.
+	    		service.save(member);
+				
+	    		// 소셜 로그인의 경우 가입과 동시에 로그인 진행 
+				Member loginMember = service.login(id, member.getPassword());
+				session.setAttribute("loginMember", loginMember);
+				
+				url = "signup_finish?name="+member.getName();
+				System.out.println("새 가입시 이름 : "+member.getName());
+				
+	    	} else if(resultM.getStatus().equals("N")){
+	    		// 2. 탈퇴했다가 재가입하는것이라면 상태값을 바꾸어준다. 
+	    		int result = service.reSignup(resultM.getId());
+	    		if(result>0) {
+	    					
+	    			// 소셜 로그인의 경우 가입과 동시에 로그인 진행
+	    			Member loginMember = service.login(id, member.getPassword());	
+	    			session.setAttribute("loginMember", loginMember);
+	    			
+					url = "signup_finish?name="+resultM.getName();
+					System.out.println("재 가입시 이름 : "+resultM.getName());
+	    			
+	    		}else {
+	    			// 가입 실패시 메인으로 이동
+	    			System.out.println("가입에 실패하였습니다.");
+	    		}
+
+	    	}
+	    	
+			// 3. (신규가입X, 재가입X 일 경우) 로그인을 시킨다.
+	    	Member loginMember = service.login(id, member.getPassword());	
+	       	
+	    	if( loginMember != null ) {
+	    		// 로그인 성공
+	    		session.setAttribute("loginMember", loginMember); 
+	    		response.setContentType("text/html; charset=UTF-8");
+				
+	    	} else {
+	    		// 로그인 실패
+	    		System.out.println("로그인에 실패하였습니다.");
+	    		url = "";
+
+	    	}
+			
+	    // 구글 정보조회 실패
+	    } else {
+	    	url = "";
+    		System.out.println("정보 조회에 실패하였습니다.");
+	    }
+
+		return "redirect:/"+url;
+	}
+	
+	
+	// 네이버 로그인창 호출
+	@RequestMapping(value = "/getNaverAuthUrl")
+	public @ResponseBody String getNaverAuthUrl(HttpSession session) throws Exception {
+		NaverLoginBO naverBO = new NaverLoginBO();
+		
+	    String reqUrl = naverBO.getAuthorizationUrl(session);
+	    System.out.println("reqUrl : "+reqUrl);
+	    return reqUrl;
+	}
+	
+	// 네이버 연동정보 조회
+//	@ResponseBody
+	@RequestMapping(value = "/login/oauth_naver")
+	public String oauthNaver(HttpServletRequest request, Member member, HttpServletResponse response)throws Exception{
+		System.out.println("여기까지 왔니?");
+	    JSONParser parser = new JSONParser();
+	    String url = "";
+
+	    HttpSession session = request.getSession();
+	    String code = request.getParameter("code");
+	    String state = request.getParameter("state");
+	    String error = request.getParameter("error");
+
+	    // 로그인 팝업창에서 취소버튼 눌렀을경우
+	    if ( error != null ){
+	        if(error.equals("access_denied")){
+	            return "redirect:/login";
+	        }
+	    }
+
+	    // oauthToken 받아오기
+	    OAuth2AccessToken oauthToken = null;
+	    NaverLoginBO naverBO = new NaverLoginBO();
+	    
+	    oauthToken = naverBO.getAccessToken(session, code, state);
+	    
+	    //로그인 사용자 정보를 읽어온다.
+	    String loginInfo = null;
+	    loginInfo = naverBO.getUserProfile(session, oauthToken);
+		
+	    System.out.println("loginInfo : "+loginInfo);
+	    System.out.println("oauthToken : "+oauthToken);
+    
+	    // JSON 형태로 변환
+		Object obj = parser.parse(loginInfo);
+		System.out.println("obj : "+obj);
+		JSONObject jsonObj = (JSONObject) obj;
+		
+	    // 데이터 파싱
+	    // Top레벨 단계 _response 파싱
+		JSONObject response_obj = (JSONObject)jsonObj.get("response");
+		
+	    // 네이버 정보조회 성공
+	    if (response_obj != null) {
+			
+			//response의 name값 파싱
+			String id = (String)response_obj.get("id");
+		    String name = (String)response_obj.get("name");
+		    String email = (String)response_obj.get("email");
+		    String phone =(String)response_obj.get("mobile");
+		    String picture =(String)response_obj.get("profile_image");
+		    
+		    
+	        member.setId(id);
+	        member.setName(name);
+	        member.setEmail(email);
+	        member.setImg_name(phone);
+	        member.setImg_name(picture);
+			member.setPlatform_type("NAVER");
+			
+	    	Member resultM = service.findMemberById_forSNS(id);
+	    	System.out.println("DB에서 조회한 회원값 : "+resultM);
+	    	
+	    	if(resultM == null) {
+		    	// 1. 회원정보가 없다면 회원가입을 시킨다.
+	    		service.save(member);
+				
+	    		// 소셜 로그인의 경우 가입과 동시에 로그인 진행 
+				Member loginMember = service.login(id, member.getPassword());
+				session.setAttribute("loginMember", loginMember);
+				
+				url = "signup_finish?name="+member.getName();
+				
+	    	} else if(resultM.getStatus().equals("N")){
+	    		// 2. 탈퇴했다가 재가입하는것이라면 상태값을 바꾸어준다. 
+	    		int result = service.reSignup(resultM.getId());
+	    		if(result>0) {
+	    					
+	    			// 소셜 로그인의 경우 가입과 동시에 로그인 진행
+	    			Member loginMember = service.login(id, member.getPassword());	
+	    			session.setAttribute("loginMember", loginMember);
+	    			
+					url = "signup_finish?name="+resultM.getName();
+	    			
+	    		}else {
+	    			// 가입 실패시 메인으로 이동
+	    			System.out.println("가입에 실패하였습니다.");
+	    		}
+	
+	    	}
+	    	
+			// 3. (신규가입X, 재가입X 일 경우) 로그인을 시킨다.
+	    	Member loginMember = service.login(id, member.getPassword());	
+	       	
+	    	if( loginMember != null ) {
+	    		// 로그인 성공
+	    		session.setAttribute("loginMember", loginMember); 
+	    		response.setContentType("text/html; charset=UTF-8");
+				
+	    	} else {
+	    		// 로그인 실패
+	    		System.out.println("로그인에 실패하였습니다.");
+	    		url = "";
+	    	}
+
+	    // 네이버 정보조회 실패
+	    } else {
+	    	System.out.println("네이버 정보조회 실패");
+	    }
+
+		return "redirect:/"+url;
+	}
+	
+	
+
 	
 	@GetMapping("/jsonTest")
 	@ResponseBody
@@ -314,10 +591,42 @@ public class MemberController {
 			model.setViewName("common/msg");
 			
 			return model;
-				
 		}
-		
 	}	
+	
+	@GetMapping("/member_delete_SNS")
+	public ModelAndView member_delete_SNS(ModelAndView model,
+			@SessionAttribute(name="loginMember")Member loginMember) {
+		
+		// 로그인 멤버의 id와 입력한 패스워드로 로그인하여 해당 멤버인지 확인
+		Member member = service.login(loginMember.getId(), loginMember.getPassword());		
+
+		if(member != null) {
+			// 비밀번호를 제대로 입력했을 경우 탈퇴 진행
+			int result = service.delete(loginMember.getNo());
+			
+			if(result > 0) {
+				model.addObject("msg", "정상적으로 탈퇴되었습니다.");
+				model.addObject("location", "/logout"); 
+			}else {
+				model.addObject("msg", "회원 탈퇴에 실패하였습니다.");
+				model.addObject("location", "/profile_view");
+			}
+			
+			model.setViewName("common/msg");
+			
+			return model;
+			
+		}else {
+			// 비밀번호를 잘 못 입력한 경우
+			model.addObject("msg", "비밀번호를 잘못입력하셨습니다.");
+			model.addObject("location", "/profile_view");
+			model.setViewName("common/msg");
+			
+			return model;
+		}
+	}	
+	
 	
 	@PostMapping("/kakao_unlink")
 	@ResponseBody
@@ -345,8 +654,6 @@ public class MemberController {
 			String userPwd1, String userPwd2, String userPwCheck2, 
 			@SessionAttribute(name="loginMember") Member loginMember) {
 		int result = 0;
-//		log.info("{}", userPwd1);
-//		log.info("{}, {}", userPwd2, userPwCheck2);
 		
 		Member loginSuccess = service.login(loginMember.getId(), userPwd1);
 		
@@ -383,8 +690,6 @@ public class MemberController {
 	public Object find_if(ModelAndView model, HttpSession session,
 			String name, String phone) {
 		Map<String, String> map = new HashMap<>();
-	
-		// System.out.println(name+phone);
 		
 		Member resultM = service.findMemberByPhone(phone);
 		// System.out.println(resultM);

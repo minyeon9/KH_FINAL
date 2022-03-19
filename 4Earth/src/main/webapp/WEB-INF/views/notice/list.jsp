@@ -16,8 +16,7 @@
 
        <div class="container">
         <div class="contents">
-        <%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
-
+<%@ include file="/WEB-INF/views/common/sideBar.jsp" %>  
           <section class="content-wrap">
             <div class="page-tit">
               <h3>공지사항</h3>
@@ -38,7 +37,6 @@
                   <th>작성자</th>
                   <th>날짜</th>
                   <th>파일</th>
-                  <th>조회수</th>
                 </tr>
               </thead>
               <tbody>
@@ -65,10 +63,9 @@
 							<span> - </span>
 						</c:if>
 						<c:if test="${ !empty notice.originalFileName }">
-							<img src="${ path }/resources/images/file.png" width="20" height="20"/>
+							<img src="../resources/images/common/file.gif" width="20" height="20"/>
 						</c:if>
 					</td>
-					<td>${ notice.readCount }</td>
 				</tr>
 			</c:forEach>
 
@@ -111,15 +108,15 @@
                 varStatus="status"
               >
                 <c:if test="${ status.current == pageInfo.currentPage}">
-                  <button disabled>${ status.current }</button>
+                  <a disabled>${ status.current }</a>
                 </c:if>
 
                 <c:if test="${ status.current != pageInfo.currentPage }">
-                  <button
+                  <a
                     onclick="location.href='${ path }/notice/list?page=${ status.current }&count=${ pageInfo.listLimit }'"
                   >
                     ${ status.current }
-                  </button>
+                  </a>
                 </c:if>
               </c:forEach>
 
@@ -137,9 +134,26 @@
               >
               </a>
             </div>
+                      
           </section>
         </div>
       </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
     <script src="../resources/js/notice.js"></script>
+    <script>
+    $(() => {
+        let sideBarMenu = $('.side-bar ul li');
+        let menuPath = ['list', 'faq','qnalist'];
+        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
+        let menuIcon = ['home', 'home', 'home' ]
+
+        for( let i = 0; i < menuName.length; i++ ) {
+            let menuIdx = sideBarMenu.eq(i);
+
+            menuIdx.find('a').attr('href', menuPath[i]);
+            menuIdx.find('a > i').text(menuIcon[i]);
+            menuIdx.find('a > span').text(menuName[i]);
+        }
+    });
+</script>

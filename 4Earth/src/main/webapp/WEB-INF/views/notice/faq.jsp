@@ -14,6 +14,54 @@
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
+<!-- Channel Plugin Scripts -->
+<script>
+  (function() {
+    var w = window;
+    if (w.ChannelIO) {
+      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
+    }
+    var ch = function() {
+      ch.c(arguments);
+    };
+    ch.q = [];
+    ch.c = function(args) {
+      ch.q.push(args);
+    };
+    w.ChannelIO = ch;
+    function l() {
+      if (w.ChannelIOInitialized) {
+        return;
+      }
+      w.ChannelIOInitialized = true;
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+      s.charset = 'UTF-8';
+      var x = document.getElementsByTagName('script')[0];
+      x.parentNode.insertBefore(s, x);
+    }
+    if (document.readyState === 'complete') {
+      l();
+    } else if (window.attachEvent) {
+      window.attachEvent('onload', l);
+    } else {
+      window.addEventListener('DOMContentLoaded', l, false);
+      window.addEventListener('load', l, false);
+    }
+  })();
+  ChannelIO('boot', {
+    "pluginKey": "2024f0f3-d5dc-4352-85c0-193c9d81b123",
+    "memberId": "ID", //fill with user id
+    "profile": {
+    "name": "NAME", //fill with user name
+    "mobileNumber": "PHONE", //fill with user phone number
+    }
+  });
+</script>
+<!-- End Channel Plugin -->
+
 <div class="container">
 	<div class="contents">
 	<%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
@@ -287,7 +335,7 @@
 						<a href="#" class="btn">채팅문의</a>
 					</div>
 					<div class="check-box">
-						<a href="${ path }/write_qa" class="btn">문의작성</a>
+						<a href="${ path }/notice/qnalist" class="btn">문의작성</a>
 					</div>
 					<div class="check-box">
 						<a href="${ path }/map" class="btn">전화문의</a>
@@ -301,3 +349,19 @@
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
+    <script>
+    $(() => {
+        let sideBarMenu = $('.side-bar ul li');
+        let menuPath = ['list', 'faq','qnalist'];
+        let menuName = ['공지사항', 'FAQ', '1:1 문의'];
+        let menuIcon = ['home', 'home', 'home' ]
+
+        for( let i = 0; i < menuName.length; i++ ) {
+            let menuIdx = sideBarMenu.eq(i);
+
+            menuIdx.find('a').attr('href', menuPath[i]);
+            menuIdx.find('a > i').text(menuIcon[i]);
+            menuIdx.find('a > span').text(menuName[i]);
+        }
+    });
+    </script>

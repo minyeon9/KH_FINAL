@@ -380,3 +380,12 @@ COMMENT ON COLUMN PRODUCT_IMGS.ORIGINAL_FILENAME IS '상세사진원본이름';
 COMMENT ON COLUMN PRODUCT_IMGS.RENAMED_FILENAME IS '상세사진수정이름';
 
 --------------------------------------------------------------------------------------------------------
+-- 수정 사항 (3/15)
+ALTER TABLE PRODUCT MODIFY PRO_RATING DEFAULT 0;
+ALTER TABLE PRODUCT_BIDDING ADD BID_URL VARCHAR2(200);
+ALTER TABLE PRODUCT_BIDDING ADD ORIGINAL_FILENAME VARCHAR2(2000);
+ALTER TABLE PRODUCT_BIDDING ADD RENAMED_FILENAME VARCHAR2(2000);
+--------------------------------------------------------------------------------------------------------
+
+
+
