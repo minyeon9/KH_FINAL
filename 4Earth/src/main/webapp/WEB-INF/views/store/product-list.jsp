@@ -81,6 +81,7 @@
 		                                <input type="hidden" name="arrange" value="${ arrange }">
 	                            	                         
 	                            </div>
+	                            <c:if test="${ category ne '전체' }">
                                 <ul>
                                     <li>
                                         <strong>상세 필터</strong>
@@ -136,6 +137,7 @@
                                         </div>
                                     </li>
                                 </ul>
+                                </c:if>
                             </div>
                             <div class="btn-wrap">
                                 <button class="btn gray" type="reset" onclick="removeChecked()">초기화</button>
@@ -150,10 +152,10 @@
                         <!-- Thumbnail List -->
                         <section>	  
                         	<div style="height:35px; margin-bottom:10px;">
+	                            <form action="${ path }/product_arrange?category=${ category }">
 	                            <strong>
 	                                총 ${ count }개의 상품이 있습니다. 
 	                            </strong>
-	                            <form action="${ path }/product_arrange?category=${ category }">
 		                            <select name="arrange" id="store-arrange" class="store-selectbox" onchange="submit()">
 		                                <option value="신상품순" <c:if test="${arrange eq '신상품순'}">selected</c:if> >신상품순</option>	                            
 		                                <option value="판매순" <c:if test="${arrange eq '판매순'}">selected</c:if>>판매순</option>
@@ -172,9 +174,14 @@
                                 	<c:if test="${ !empty list }">
                                 		<c:forEach var="product" items="${ list }">
                                 			<li>
-		                                        <div class="img-thumb">
+		                                        <div class="img-thumb store-thumb">
 		                                        <a href="${ path }/product_detail?no=${ product.proNo }">
-		                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                        	<c:if test="${ empty product.proModifyImg }">
+		                                        		<img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                        	</c:if>
+		                                        	<c:if test="${ !empty product.proModifyImg }">
+		                                        		<img src="${ path }/resources/upload/store/${ product.proModifyImg }" alt="">
+		                                        	</c:if>		                                            
 		                                        </a>
 		                                        </div>
 		                                        <div class="tag-wrap">
@@ -204,7 +211,14 @@
 		                                        	</c:if>
 		                                        </div>
 		                                        <div class="btn-wrap">
-		                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
+		                                        	<c:choose>
+				                                        <c:when test="${ (loginMember.no eq product.memberNo) && product.wishStat eq 'Y' }">
+			                                            	<a href="javascript:void(0);"><i class="heart fa fa-heart"></i></a>			                                        	
+				                                        </c:when>
+				                                        <c:otherwise>
+			                                            	<a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>			                                        	
+				                                        </c:otherwise>
+		                                        	</c:choose>
 		                                        </div>
 		                                    </li>
                                 		</c:forEach>
@@ -267,7 +281,7 @@
     });
 
     // 찜
-    $(".heart.fa").click(function() {
+    $(document).on("click", ".heart.fa", function() {
         var selected = $(this);
     	var productNo = $(this).parents("li").find("input[type='hidden']").val();
         
@@ -296,6 +310,13 @@
 				
 				console.log(selected);
 				selected.toggleClass("fa-heart fa-heart-o");
+				
+				if(data === "Wish Added" || data === "Wish Again"){
+					alert("찜 성공");
+				}
+				else if(data === "Wish Deleted"){
+					alert("찜 삭제");
+				}
 			}
 		});        
     }); 

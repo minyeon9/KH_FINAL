@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,13 +24,15 @@ import com.kh.earth.common.util.FileProcess;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.member.model.vo.Member;
 import com.kh.earth.store.model.service.StoreService;
-import com.kh.earth.store.model.service.StoreServiceImpl;
+import com.kh.earth.store.model.vo.Application;
+import com.kh.earth.store.model.vo.Bidding;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.CartList;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
 import com.kh.earth.store.model.vo.OrderSum;
 import com.kh.earth.store.model.vo.Product;
+import com.kh.earth.store.model.vo.ProductBidding;
 import com.kh.earth.store.model.vo.ProductImgs;
 import com.kh.earth.store.model.vo.ProductInquiry;
 import com.kh.earth.store.model.vo.ProductOption;
@@ -55,7 +56,8 @@ public class StoreController {
 			ModelAndView model,
 			@RequestParam(defaultValue="1") int page,
 			@RequestParam(value = "category", defaultValue = "전체") String category,
-			@RequestParam(value = "arrange", defaultValue = "신상품순") String arrange
+			@RequestParam(value = "arrange", defaultValue = "신상품순") String arrange,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember
 			) {
 		log.info("product_list() - 호출");
 		
@@ -65,7 +67,16 @@ public class StoreController {
 		
 		PageInfo pageInfo = new PageInfo(page, 10, count, 8);
 		
-		List<Product> list = service.getProductList(pageInfo, arrange);		
+		List<Product> list = null;
+		
+		list = service.getProductList(pageInfo, arrange);	
+		
+		if(loginMember != null) {
+			// 로그인 회원일 경우 찜 상품 여부 확인
+			list = checkWish(list, loginMember.getNo());	
+			
+			model.addObject("loginMember", loginMember);
+		} 		
 		
 		log.info(list.toString());
 		
@@ -87,7 +98,8 @@ public class StoreController {
 			@RequestParam(value = "category", defaultValue = "전체") String category,
 			@RequestParam(value = "category-detail", required = false) List<String> detail,
 			@RequestParam(value = "arrange", defaultValue = "신상품순") String arrange,
-			@RequestParam(defaultValue="1") int page
+			@RequestParam(defaultValue="1") int page,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember
 			) {
 		log.info("productCategory() - 호출");
 		
@@ -100,11 +112,23 @@ public class StoreController {
 		
 		int count = service.getProductCount(category);
 		
+		pageInfo = new PageInfo(page, 10, count, 8);
+
 		// 상세 필터 미선택
-		if(detail == null || detail.isEmpty()) {					
-			pageInfo = new PageInfo(page, 10, count, 8);
+		if(detail == null || detail.isEmpty()) {	
 			
 			list = service.getProductListByCategory(pageInfo, category, arrange);	
+			
+			if(loginMember != null) {
+				// 로그인 회원일 경우 찜 상품 여부 확인
+				log.info("상세 필터 미선택 + 로그인 유저 ");
+				
+				list = checkWish(list, loginMember.getNo());
+				
+				model.addObject("loginMember", loginMember);
+			} else {				
+				log.info("상세 필터 미선택 + 비 로그인 유저 ");
+			}
 			
 		} else {
 			// 상세 필터 선택
@@ -112,9 +136,15 @@ public class StoreController {
 			
 			count = service.getProductCount(detail);
 			
-			pageInfo = new PageInfo(page, 10, count, 8);
-			
 			list = service.getProductListByDetail(pageInfo, detail, arrange);	
+			
+			if(loginMember != null) {
+				log.info("상세 필터 선택 + 로그인 유저 ");
+				
+				list = checkWish(list, loginMember.getNo());
+				
+				model.addObject("loginMember", loginMember);
+			}
 			
 			model.addObject("detail", detail);
 		}
@@ -139,7 +169,8 @@ public class StoreController {
 			@RequestParam(value = "category", defaultValue = "전체") String category,
 			@RequestParam(value = "category-detail", required = false) String detail,
 			@RequestParam(defaultValue="1") int page,
-			@RequestParam(value = "arrange") String arrange
+			@RequestParam(value = "arrange") String arrange,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember
 			) {
 		log.info("productArrange() - 호출");
 		
@@ -156,6 +187,14 @@ public class StoreController {
 			pageInfo = new PageInfo(page, 10, count, 8);
 			
 			list = service.getProductList(pageInfo, arrange);
+			
+			if(loginMember != null) {
+				log.info("카테고리 미적용 + 로그인 유저 ");
+				
+				list = checkWish(list, loginMember.getNo());
+				
+				model.addObject("loginMember", loginMember);
+			}
 		}
 		
 		// 카테고리 적용
@@ -174,6 +213,14 @@ public class StoreController {
 				pageInfo = new PageInfo(page, 10, count, 8);
 				
 				list = service.getProductListByDetail(pageInfo, detailList, arrange);	
+				
+				if(loginMember != null) {
+					log.info("카테고리 적용 + 상세 필터 선택 + 로그인 유저 ");
+					
+					list = checkWish(list, loginMember.getNo());
+					
+					model.addObject("loginMember", loginMember);
+				}
 					
 				model.addObject("detail", detail.replace("[", " ").replace("]", ""));		
 				
@@ -186,6 +233,14 @@ public class StoreController {
 				pageInfo = new PageInfo(page, 10, count, 8);
 				
 				list = service.getProductListByCategory(pageInfo, category, arrange);	
+				
+				if(loginMember != null) {
+					log.info("카테고리 적용 + 상세 필터 선택 + 로그인 유저 ");
+					
+					list = checkWish(list, loginMember.getNo());
+					
+					model.addObject("loginMember", loginMember);
+				}
 			}
 			
 		}				
@@ -211,7 +266,7 @@ public class StoreController {
 			@SessionAttribute(name = "loginMember") Member loginMember
 			) {
 		log.info("addWish() - 호출");
-		log.info(productNo);
+		log.info("productNo : " + productNo);
 
 		int result = 0;
 		int count = 0;
@@ -292,6 +347,17 @@ public class StoreController {
 		
 		log.info("product : " + product.toString());
 		log.info("option : " + option.toString());	
+		
+		// 로그인 회원일 경우 찜 여부 조회
+		if(loginMember != null) {
+			Wish wish = new Wish();
+			
+			wish.setProNo(no);
+			wish.setMemberNo(loginMember.getNo());
+			
+			product.setMemberNo(loginMember.getNo());
+			product.setWishStat(service.getWishStat(wish));
+		}
 		
 		// 상세 사진 가져오기
 		List<ProductImgs> productImgs = service.getProductImgs(no);
@@ -689,7 +755,7 @@ public class StoreController {
 					
 					if(upfile != null && !upfile.isEmpty()) {
 						// 파일 저장
-						String renamedFileName = null;
+						String renamedFileName = null; 
 						String location = null;
 						
 						try {
@@ -809,25 +875,144 @@ public class StoreController {
 		return model;
 	}
 	
+	// 소분샵 입고 신청 - 모집 상품 목록
 	@GetMapping("/bidding_list")
-	public String bidding_list() {
+	public ModelAndView bidding_list(
+			ModelAndView model,
+			@RequestParam(defaultValue="1") int page
+			) {
 		log.info("bidding_list() - 호출");
 		
-		return "store/bidding-list";
+		int count = service.getBiddingCount();
+		
+		PageInfo pageInfo = new PageInfo(page, 10, count, 8);
+		
+		List<ProductBidding> list = null;
+		
+		list = service.getBiddingList(pageInfo);
+		
+		model.addObject("list", list);
+		
+		log.info("list : " + list);
+		
+		model.setViewName("store/bidding-list");
+		
+		return model;
 	}
 	
+	// 소분샵 입고 신청 - 모집 상품 상세
 	@GetMapping("/bidding_detail")
-	public String biddingDetail() {
+	public ModelAndView biddingDetail(
+			ModelAndView model,
+			@RequestParam("no") int no
+			) {
 		log.info("biddingDetail() - 호출");
 		
-		return "store/bidding-detail";
+		ProductBidding productBidding = service.getBiddingDetailByNo(no);
+		
+		log.info("productBidding : " + productBidding.toString());
+		
+		model.addObject("product", productBidding);
+		
+		model.setViewName("store/bidding-detail");
+		
+		return model;
 	}
 	
+	// 소분샵 입고 신청 - 관심있어요
+	@PostMapping("/add_bid")
+	@ResponseBody
+	public String addBid(
+			@RequestBody String bidNo,
+			@SessionAttribute(name = "loginMember") Member loginMember
+			) {
+		log.info("addBid() - 호출");
+		log.info("bidNo : " + bidNo);
+		
+		int result = 0;
+		String data = "";
+		int no = Integer.parseInt(bidNo);
+		
+		if(loginMember != null) {
+			Bidding bidding = new Bidding();
+			
+			bidding.setBidNo(no);
+			bidding.setBidMemberNo(loginMember.getNo());
+			
+			result = service.addBid(bidding);
+			
+			if(result > 0) {
+				// PRODUCT_BIDDING 현재 인원 +1
+				int bidCurr = service.getBidCurr(no);
+				
+				int updateResult = service.updateBidCurr(no, bidCurr + 1);
+				
+				if(updateResult > 0) {
+					data = "Bid Added";					
+				} else {
+					data = "update 오류";		
+				}
+				
+			} else {
+				data = "insert 오류";
+			}
+		} else {
+			log.info("로그인되어있지 않음");
+		}
+		
+		return data;
+	}
+	
+	// 입고 신청하기
 	@GetMapping("/write_application")
-	public String wirteApplication() {
+	public ModelAndView writeApplication(
+			ModelAndView model			
+			) {
+		log.info("writeApplication() - 호출");		
+		
+		model.setViewName("store/write-application");
+		
+		return model;
+	}
+	
+	// 입고 신청하기 작성
+	@PostMapping("/write_application")
+	public ModelAndView writeApplication(
+			ModelAndView model,
+			@SessionAttribute(name = "loginMember") Member loginMember,
+			@ModelAttribute Application application
+			) {
 		log.info("writeApplication() - 호출");
 		
-		return "store/write-application";
+		log.info("application : " + application.toString());
+		
+		if(loginMember != null) {
+			application.setMemberNo(loginMember.getNo());
+			
+			// 카테고리명으로 카테고리 번호 가져오기
+			int catNo = service.getCategoryNo(application.getAppCatName());
+			log.info("catNo : " + catNo);
+			
+			application.setAppCatNo(catNo);
+			
+			int result = service.writeApplication(application);
+			
+			if(result > 0) {
+				model.addObject("msg", "입고 신청이 등록되었습니다.");
+				
+				// 작성 창 닫고, 기존 페이지 새로고침				
+				model.addObject("script", "window.opener.document.location.reload(); window.close();");	
+				model.setViewName("common/msg");	
+			} else {
+				log.info("응안돼");
+			}			
+		} else {
+			model.addObject("msg", "잘못된 접근입니다.");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");				
+			model.setViewName("common/msg");
+		}		
+		
+		return model;		
 	}
 	
 	@GetMapping("/map")
@@ -913,6 +1098,27 @@ public class StoreController {
 		return model;	
 	}
 	
-	
+	// 상품 목록 & 회원 번호로 찜 여부 조회
+	private List<Product> checkWish(List<Product> list, int memberNo) {
+		String wishStat = "";
+		
+		List<Product> listWithWish = new ArrayList<>();
+		Wish wish = new Wish();
+
+		System.out.println("memberNo : " + memberNo);
+		
+		wish.setMemberNo(memberNo);
+		
+		for (Product product : list) {
+			wish.setProNo(product.getProNo());
+			
+			product.setWishStat(service.getWishStat(wish));		
+			product.setMemberNo(memberNo);
+			
+			listWithWish.add(product);
+		}
+		
+		return listWithWish;		
+	}
 
 }

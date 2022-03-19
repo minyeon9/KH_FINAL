@@ -60,9 +60,9 @@
                     </li>
                     <li><a href="#"><i class="material-icons md-36">live_help</i>문의</a>
                         <ul>
-                            <li><a href="${ path }/admin/helpboard">문의 목록</a></li>
-                            <li><a href="${ path }/admin/helpboard_done">문의 완료 목록</a></li>
-                            <li><a href="${ path }/admin/faq">faq</a></li>
+                            <li><a href="${ path }/admin/qna">문의 목록</a></li>
+                            <li><a href="${ path }/admin/qna_done">문의 완료 목록</a></li>
+                            <li><a href="${ path }/admin/echo_qna">상품 문의 목록</a></li>
                         </ul>
                     </li>
                     <li>&nbsp;</li>

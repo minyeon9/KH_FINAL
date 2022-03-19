@@ -131,8 +131,8 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
-		                                                <button id="delete" name="no" value=${ report.reportNo } class="btn btn-s gray">정지</button>
+		                                                <button id="delete" name="no" value=${ report.reportNo } class="btn btn-s">확인</button>
+		                                                <button id="ban" name="no" value=${ report.reportNo } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -208,6 +208,14 @@
 		$(document).on("click","#delete", (e) => {
 			if(confirm("정말로 이 신고를 처리하겠습니까??")) {
 				location.replace("${ path }/admin/report_delete?no=" + e.target.value);
+			}
+		})
+	});
+	
+	$(document).ready(() => {
+		$(document).on("click","#ban", (e) => {
+			if(confirm("정말로 이 신고를 처리하겠습니까??")) {
+				location.replace("${ path }/admin/report_ban?no=" + e.target.value);
 			}
 		})
 	});

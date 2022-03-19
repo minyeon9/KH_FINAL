@@ -50,11 +50,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>발송 완료 목록</h3>
+                        <h3>문의 완료 목록</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <a href="#">에코샵</a>
-                            <span>발송 완료 목록</span>
+                            <a href="#">문의</a>
+                            <span>문의 완료 목록</span>
                         </div>
                     </div>
 
@@ -83,48 +83,87 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>주문 번호</th>
-                                            <th>주문자</th>
-                                            <th>주문일</th>
-                                            <th>주문 목록</th>
-                                            <th>상태</th>
+                                            <th>문의 번호</th>
+                                            <th>문의 제목</th>
+                                            <th>문의자 아이디</th>
+                                            <th>작성일</th>
+                                            <th>내용</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <c:if test="${ empty orderList }">
+                                    <c:if test="${ empty list }">
 	                                    <tbody>
 		                                    <tr>
 		                                    	<td colspan="6">
-												조회된 물품이 없습니다
+												조회된 공지사항이 없습니다
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
-									<c:if test="${ !empty orderList }">
-										<c:forEach var="order" items="${ orderList }" varStatus="vs">
+									<c:if test="${ !empty list }">
+										<c:forEach var="qna" items="${ list }" varStatus="vs">
 		                                    <tbody>
 		                                        <tr>
-		                                            <td>${ order.orderNo }</td>
-		                                            <td>${ order.memberNo }</td>
-		                                            <td>${ order.orderPrice }</td>
-		                                            <td>${ order.orderDate }</td>
+		                                            <td>${ qna.no }</td>
+		                                            <td>${ qna.title }</td>
+		                                            <td>${ qna.categoryNo }</td>
+		                                            <td>${ qna.writerNo }</td>
+		                                            <td>${ qna.createDate }</td>
 		                                            <td>
-		                                            	<button class="btn btn" id="echo_order_detail" value="${ order.orderNo }">보기</button>
+		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+					                                <div class="layer-popup" id="popup${ vs.index }">
+						                                <div class="layer-inner">
+						                                    <div class="pop-head">
+						                                    	${ qna.no }
+						                                        <strong>${ qna.writerNo }</strong>
+						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+						                                    </div>
+						                                    <div class="pop-cont">
+						                                       <table id="view-table">
+													           <colgroup>
+													           		<col style="10%">
+													           		<col style="40%">
+													           		<col style="15%">
+													           		<col style="35%">
+													    		</colgroup>
+													        	<tbody>
+													        		<tr>
+													        			<th>제목</th>
+													        			<td>${ qna.title }</td>
+													        			<th>조회수</th>
+													        			<td>${ qna.readCount }</td>
+													        		</tr>
+													        		<tr>
+													        			<th colspan="2">사진</th>
+													        			<th colspan="2">내용</th>
+													        		</tr>
+													        		<tr>
+													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/notice/${qna.renamedFileName}" /></td>
+													        			<td colspan="2">${ qna.content }</td>
+													        		</tr>
+												        		</tbody>
+													       		</table>
+						                                    </div>
+						                                    <div class="btn-wrap">
+						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button class="btn">저장</button>
+						                                    </div>
+						                                </div>
+						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s" id="echo_update" value="${ order.orderNo }">수정</button>
-		                                                <button id="delete" name="no" value=${ order.orderNo } class="btn btn-s gray">정지</button>
+		                                                <button class="btn btn-s">등록</button>
+		                                                <button type="button" id="delete" name="no" value=${ qna.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -159,9 +198,10 @@
 <script>
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['${ path }/admin/echo_list','${ path }/admin/echo_order','${ path }/admin/echo_delivery','${ path }/admin/echo_cancel','${ path }/admin/echo_bidding'];
-	    let menuName = ['에코샵 물품 목록', '주문 접수 목록', '발송 완료 목록', '주문 취소 목록', '물품 접수 목록'];
-	    let menuIcon = ['home', 'home', 'home', 'home', 'home']
+	    let menuPath = ['${ path }/admin/qna','${ path }/admin/qna_done','${ path }/admin/echo_qna'];
+	    let menuName = ['문의 목록', '문의 완료 목록', 'FAQ'];
+	    let menuIcon = ['home', 'home', 'home']
+	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);
@@ -172,19 +212,11 @@
 	    }
 	
 	    sideBarMenu.each(function(idx, el) {
-	        if(idx == 3) {
+	        if(idx == 1) {
 	            $(this).addClass('current');
 	        }
 	    });
 	});
-	
-	$(document).on("click","#echo_order_detail", (e) => {
-        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
-        var popupY= (window.screen.height / 2) - (800 / 2);
-        const url = "${ path }/admin/echo_order_detail?no="+ e.target.value;
-        
-        open(url, "", 'status=no, height=800, width=1500, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
-    });
 </script>
 
 </html>

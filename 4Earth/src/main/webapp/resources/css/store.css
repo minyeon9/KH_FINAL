@@ -47,6 +47,10 @@
 	font-weight:500;
 }
 
+.store-thumb a img{
+	object-fit: scale-down;
+}
+
 
 
 /* 상품 문의 */
@@ -249,6 +253,11 @@ ul.imgs li img{
 .pro-table tbody tr th{
     width: 100%;
 }
+.wish-added {
+	color: #fff !important;
+    background-color: #669948 !important;
+    border-color: #669948 !important;
+}
 
 .pro-selectbox {
     color: #666;
@@ -376,10 +385,23 @@ input[type=number]
 }
 
 .pro-detail {
-    border: 1px solid #666;
     width: 100%;
-    height: 500px;
+    height: 550px;
 }
+.pro-detail-img {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	height: 450px;
+	vertical-align: middle;	
+	text-align: center;
+}
+.pro-detail-description {
+	width: 100%;
+	height: 100px;
+	text-align: center;
+}
+
 .store-board {
 	width: 100%;
 	height: 50px;	
@@ -394,9 +416,8 @@ input[type=number]
 .prd-option {
 	width: 250px;
 }
-.prd-option small {
-	
-}
+
+
 
 /* 장바구니 */
 .purchase-wrap {
@@ -712,8 +733,24 @@ input[type=number]
     height: 15px;
 }
 
-.bid-table {
-    height: 300px;
+.bid-img {
+	float: left;
+	width: 450px;
+	height: 400px;
+	overflow: hidden;
+	position: relative;
+    margin: 0 auto;
+    margin-left: 0%;
+}
+.bid-detail-img {
+	width: 100%;
+	height: 100%;
+	object-fit: scale-down;
+}
+.bid-detail {
+	width: calc(100% - 500px);
+	height: 400px;
+	float: right;
 }
 .bid-btn {
     width: 120px;
@@ -723,6 +760,8 @@ input[type=number]
     width: 75%;
     text-align: left;
 }
+
+
 
 /* -----------------
     오프라인 매장안내
