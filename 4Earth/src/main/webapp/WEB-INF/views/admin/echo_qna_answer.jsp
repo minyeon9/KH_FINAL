@@ -18,53 +18,55 @@
     <link rel="shortcut icon" href="${ path }/resources/favicon.ico">
     <script src="https://kit.fontawesome.com/da4a2ee2c4.js" crossorigin="anonymous"></script>
     <script src="${ path }/resources/ckeditor5/build/ckeditor.js"></script>
-    <title>신고내용</title>
+    <title>상품 문의 내용</title>
 </head>
 <body>
 	<div class="admin-report">
         <h2 style="text-align: center">문의 답변 하기</h2> <br>
-        <input type="hidden" name="" type="text" value="${ qna.no }" readonly="readonly">
+        <input type="hidden" name="inqNo" type="text" value="${ inq.inqNo }" readonly="readonly">
            	<table class="echo-write">
            		<tr>
            			<th>
-                        번호 : 
+                        문의 번호 : 
                     </th>
                     <td colspan="1">
-                        <input name="" type="text" value="${ qna.no }" readonly="readonly">
+                        <input name="inqNo" type="text" value="${ inq.inqNo }" readonly="readonly">
                     </td>
-           			<th>문의멤버: </th>
+           			<th>문의 회원: </th>
 		       		<td>
-		       			<input name="" type="text" value="${ qna.writerNo }" readonly="readonly">
+		       			<input name="memberNo" type="text" value="${ inq.memberNo }" readonly="readonly">
 		       		</td>
            		</tr>
            		<tr>
-	           		<th>제목: </th>
+	           		<th>문의 상품: </th>
 	        		<td>
-	        			<input name="" type="text" value="${ qna.title }" readonly="readonly">
+	        			<a href="${ path }/product_detail?no=${ inq.proNo }" target="_blank" style="cursor: pointer;">
+	        				<input name="proNo" type="text" value="${ inq.proNo }" readonly="readonly">
+	        			</a>
 	        		</td>
-        			<th>문의일: </th>
+        			<th>작성일: </th>
         			<td>
-        				<fmt:formatDate value="${ qna.createDate }" pattern="yyy-MM-dd hh:mm"/>
+        				<fmt:formatDate value="${ inq.inqDate }" pattern="yyy-MM-dd hh:mm"/>
         			</td>
            		</tr>
            		<tr>
         			<th colspan="1">사진</th>
         			<td colspan="1">
-        				<img id="member-img" src="${ path }/resources/upload/notice/${ qna.renamedFileName }" />
-        				
+        				<img id="member-img" src="${ path }/resources/upload/store/${ product.proModifyImg }" />
         			</td>
         			<th colspan="1">문의 내용</th>
         			<td colspan="1">
-        				<input name="content" type="text" style="width: 90%; height: 300px;" value="${ qna.content }" readonly="readonly">
+        				<input name="content" type="text" style="width: 90%; height: 300px;" value="${ inq.inqContent }" readonly="readonly">
         			</td>
            		</tr>
                 <tr>
         			<th colspan="1">답변</th>
         			<td colspan="3">
-        			<form id="answer" action="${ path }/admin/qna_answer?no=${ qna.no }" name="qnaAnswer" method="post">
-		       			<input name="qnaNo" type="hidden" value="${ qna.no }" readonly="readonly">
-		       			<input name="writerNo" type="hidden" value="${ qna.writerNo }" readonly="readonly">
-        				<input name="answerContent" type="text" style="width: 90%; height: 300px;">
+        			<form id="answer" action="${ path }/admin/echo_qna_answer?no=${ inq.inqNo }" name="qnaAnswer" method="post">
+		       			<input name="proNo" type="hidden" value="${ inq.proNo }" readonly="readonly">
+		       			<input name="memberNo" type="hidden" value="${ inq.memberNo }" readonly="readonly">
+		       			<input name="inqNo" type="hidden" value="${ inq.inqNo }" readonly="readonly">
+        				<input name="inqAns" type="text" style="width: 90%; height: 300px;">
         			</form>
         			</td>
         		</tr>  

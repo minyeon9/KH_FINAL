@@ -59,10 +59,10 @@
 				AND M.ID LIKE '%' || #{writer} || '%'
 			</when>
 			<when test="title != null">
-				AND N.NOTICE_TIT LIKE '%' || #{title} || '%'
+				AND NOTICE_TIT LIKE '%' || #{title} || '%'
 			</when>
 			<when test="content != null">
-				AND N.NOTICE_CONTENT LIKE '%' || #{content} || '%'
+				AND NOTICE_CONTENT LIKE '%' || #{content} || '%'
 			</when>
 		</choose>
 	</select>
@@ -230,10 +230,10 @@ WHERE A.NOTICE_STATUS = 1;
 				AND M.ID LIKE '%' || #{writer} || '%'
 			</when>
 			<when test="title != null">
-				AND Q.QNA_TIT LIKE '%' || #{title} || '%'
+				AND QNA_TIT LIKE '%' || #{title} || '%'
 			</when>
 			<when test="content != null">
-				AND Q.QNA_CONTENT LIKE '%' || #{content} || '%'
+				AND QNA_CONTENT LIKE '%' || #{content} || '%'
 			</when>
 		</choose>
 	</select>

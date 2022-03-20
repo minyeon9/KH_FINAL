@@ -53,14 +53,13 @@
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
-                                            <option value="1" selected>번호순</option>
-                                            <option value="2">신고한순</option>
-                                            <option value="3">신고받은순</option>
+                                            <option value="1" selected>번호검색</option>
+                                            <option value="2">신고회원검색</option>
+                                            <option value="3">신고받은회원검색</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
-                                            <option value="1">n개씩 보기</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10">10개씩 보기</option>
+                                            <option value="10" selected>10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
@@ -117,15 +116,17 @@
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
 						                                    	${ report.reportNo }
-						                                        <strong>${ report.reportTitle }</strong>
+						                                        <strong>신고 보기</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
+						                                    
+						                                    신고 설명 : ${ report.reportTitle }
 						                                    <div class="pop-cont">
-						                                        ${ report.reportContent }
+						                                    	<br>
+						                                       신고받은 내용 : ${ report.reportContent }
 						                                    </div>
 						                                    <div class="btn-wrap">
 						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -141,7 +142,6 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->

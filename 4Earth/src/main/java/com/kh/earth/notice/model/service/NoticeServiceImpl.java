@@ -1,6 +1,7 @@
 package com.kh.earth.notice.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +19,37 @@ public class NoticeServiceImpl implements NoticeService {
 	private NoticeMapper mapper;
 
 	@Override
-	public int getNoticeCount() {
+	public int getNoticeCount(Map<String, String> title) {
 
-		return mapper.getNoticeCount();
+		return mapper.getNoticeCount(title);
+	}
+	
+	@Override
+	public int getQnaCount(Map<String, String> title) {
+		
+		return mapper.getQnaCount(title);
 	}
 
 	@Override
-	public List<Notice> getNoticeList(PageInfo pageInfo) {
+	public List<Notice> getNoticeList(PageInfo pageInfo, Map<String, String> title) {
 		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
 		int limit = pageInfo.getListLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return mapper.findAll(rowBounds);
+		return mapper.findAll(rowBounds, title);
 	}
-
+	
+	@Override
+	public List<Qna> getQnaList(PageInfo pageInfo, Map<String, String> title) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.findAllQna(rowBounds, title);
+	}
+	
 	@Override
 	@Transactional
 	public int save(Notice notice) {
@@ -53,6 +70,12 @@ public class NoticeServiceImpl implements NoticeService {
 		return mapper.selectNoticeByNo(no);
 	}
 	
+	@Override
+	public Qna findQnaByNo(int no) {
+		
+		return mapper.selectQnaByNo(no);
+	}
+	
 
 	@Override
 	@Transactional
@@ -61,22 +84,6 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	
-
-	@Override
-	public List<Qna> getQnaList(PageInfo pageInfo) {
-		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
-		int limit = pageInfo.getListLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return mapper.findAllQna(rowBounds);
-	}
-
-	@Override
-	public int getQnaCount() {
-		return mapper.getQnaCount();
-	}
-
 	@Override
 	@Transactional
 	public int qnaSave(Qna qna) {
@@ -92,17 +99,17 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public Qna findQnaByNo(int no) {
-		
-		return mapper.selectQnaByNo(no);
-	}
-
-	@Override
 	public int getCategoryNo(String category) {
 		
 
 		return mapper.getCategoryNo(category);
 	}
+
+	
+
+	
+
+	
 
 
 

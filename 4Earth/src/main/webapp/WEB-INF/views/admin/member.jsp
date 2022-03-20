@@ -53,14 +53,13 @@
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
-                                            <option value="1" selected>번호순</option>
-                                            <option value="2">이름순</option>
-                                            <option value="3">아이디순</option>
+                                            <option value="1" selected>번호</option>
+                                            <option value="2">이름</option>
+                                            <option value="3">아이디</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
-                                            <option value="1">n개씩 보기</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10">10개씩 보기</option>
+                                            <option value="10" selected="selected">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
@@ -133,27 +132,28 @@
 													        			<th>이름</th>
 													        			<td>${ member.name }</td>
 													        			<th>가입일</th>
-													        			<td>${ member.enrollDate }</td>
+													        			<td>
+													        				<fmt:formatDate value="${ member.enrollDate }" pattern="yyy-MM-dd hh:mm"/>
+													        			</td>
 													        		</tr>
 													        		<tr>
 													        			<th>이메일</th>
 													        			<td>${ member.email }</td>
-													        			<th>신고일</th>
+													        			<th>전화번호</th>
 													        			<td>${ member.phone }</td>
 													        		</tr>
 													        		<tr>
 													        			<th>주소</th>
 													        			<td>${ member.address }</td>
-													        			<th>가입일</th>
-													        			<td>${ member.enrollDate }</td>
+													        			<th>우편번호</th>
+													        			<td>${ member.postcode }</td>
 													        		</tr>
 													        		<tr>
-													        			<th colspan="2">사진</th>
-													        			<th colspan="2">빈칸</th>
+													        			<th colspan="4">사진</th>
 													        		</tr>
 													        		<tr>
-													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/member/${member.modify_img_name}" /></td>
-													        			<td colspan="2">빈칸</td>
+													        			<td colspan="4"><img id="member-img" src="${ path }/resources/upload/member/${member.modify_img_name}" /></td>
+													        			
 													        		</tr>
 												        		</tbody>
 													       		</table>
@@ -166,8 +166,8 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
-		                                                <button type="button" id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
+		                                                <button type="button" id="unban" name="no" value=${ member.no } class="btn btn-s">해제</button>
+		                                                <button type="button" id="ban" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -176,7 +176,6 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         
@@ -239,9 +238,17 @@
 	});
 	
 	$(document).ready(() => {
-		$(document).on('click','#delete', (e) => {
+		$(document).on('click','#ban', (e) => {
 			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
 				location.replace("${ path }/admin/member_delete?no=" + e.target.value);
+			}
+		})
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#unban', (e) => {
+			if(confirm("정말로 이 멤버를 정지 해제시키겠습니까??")) {
+				location.replace("${ path }/admin/member_unban?no=" + e.target.value);
 			}
 		})
 	});

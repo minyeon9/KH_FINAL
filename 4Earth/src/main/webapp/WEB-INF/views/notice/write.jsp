@@ -129,5 +129,10 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 0) {
+                $(this).addClass('current');
+            }
+        })
     });
 </script>

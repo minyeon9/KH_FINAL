@@ -1,34 +1,7 @@
 /* ----------------------------------
-        side bar
----------------------------------- */
-
-$(() => {
-    let sideBarMenu = $('.side-bar ul li');
-    let menuPath = ['/4earth/point', '/4earth/order','/4earth/wishlist', '#', '/4earth/my_ongoing_list', '/4earth/profile_view'];
-    let menuName = ['포인트', '주문·배송', '찜한 상품', '1:1문의', '참여 중인 챌린지', '내정보'];
-    let menuIcon = ['savings', 'local_shipping', 'favorite', 'headset_mic', 'bookmark_border', 'person']
-
-    for( let i = 0; i < menuName.length; i++ ) {
-        let menuIdx = sideBarMenu.eq(i);
-
-        menuIdx.find('a').attr('href', menuPath[i]);
-        menuIdx.find('a > i').text(menuIcon[i]);
-        menuIdx.find('a > span').text(menuName[i]);
-    }
-
-    sideBarMenu.each(function(idx, el) {
-        if(idx == idxNum) {
-            $(this).addClass('current');
-        }
-    });
-});
-
-
-
-/* ----------------------------------
         kakao unlink
 ---------------------------------- */
-// window.Kakao.init("d33d858d13446389bd9ff29763e3a882");
+ window.Kakao.init("d33d858d13446389bd9ff29763e3a882");
  window.Kakao.isInitialized(); 
  function unlinkWithKakao() {
      Kakao.API.request({
@@ -63,6 +36,35 @@ $(() => {
          }
      });
  }
+
+/* ----------------------------------
+        side bar
+---------------------------------- */
+
+$(() => {
+    let sideBarMenu = $('.side-bar ul li');
+    let menuPath = ['/4earth/point', '/4earth/order','/4earth/wishlist', '#', '/4earth/my_ongoing_list', '/4earth/profile_view'];
+    let menuName = ['포인트', '주문·배송', '찜한 상품', '1:1문의', '참여 중인 챌린지', '내정보'];
+    let menuIcon = ['savings', 'local_shipping', 'favorite', 'headset_mic', 'bookmark_border', 'person']
+
+    for( let i = 0; i < menuName.length; i++ ) {
+        let menuIdx = sideBarMenu.eq(i);
+
+        menuIdx.find('a').attr('href', menuPath[i]);
+        menuIdx.find('a > i').text(menuIcon[i]);
+        menuIdx.find('a > span').text(menuName[i]);
+    }
+
+    sideBarMenu.each(function(idx, el) {
+        if(idx == idxNum) {
+            $(this).addClass('current');
+        }
+    });
+});
+
+
+
+
 
 
 /*
@@ -195,7 +197,7 @@ $('#userName').keyup(function() {
 
 
 // 이메일
-let email_result = 'fail';
+let email_result = 'true';
 let emailCheck = RegExp(/^[\w-]+@([\w-]+)\.([A-Za-z\.]{2,3})$/);
 $('#userEmail').change(function () {
 	$('#userEmail').attr("check_result", "fail");
@@ -204,11 +206,12 @@ $('#userEmail').change(function () {
 $('#userEmail').keyup(function() {
 	if (!emailCheck.test($('#userEmail').val())) {
 		$('#member-email').css('color', 'red').text("형식에 맞지 않음");
+		email_result = 'fail';
 		} else {
 		let userEmail = $("#userEmail").val().trim();
 			$.ajax({
 				type: "post",
-				url: "emailCheck",
+				url: "emailCheckForEdit",
 				dataType: "JSON",
 				data: {
 					userEmail
@@ -219,7 +222,7 @@ $('#userEmail').keyup(function() {
 					
 					if(data.duplicate == true) {
 						$('#member-email').css('color', 'red').text("이미 등록된 이메일입니다.");
-
+						email_result = 'fail';
 					}else {
 						$('#member-email').css('color', 'green').text("OK");
 						$('#userEmail').attr("check_result", "true");
@@ -235,7 +238,7 @@ $('#userEmail').keyup(function() {
 
 
 // 전화번호
-let phone_result = 'fail';
+let phone_result = 'true';
 let phoneCheck = RegExp(/^01([0|1|6|7|8|9]?)([0-9]{3,4})([0-9]{4})$/);
 $('#userPhone').change(function () {
 	$('#userPhone').attr("check_result", "fail");
@@ -245,11 +248,12 @@ $('#userPhone').keyup(function() {
 	if (!phoneCheck.test($('#userPhone').val())) {
 		$('#member-phone').css('color', 'red').text("형식에 맞지 않음");
 		$('#userPhone').attr("check_result", "fail");
+		phone_result = 'fail';
 		} else {
 		let userPhone = $("#userPhone").val().trim();
 			$.ajax({
 				type: "post",
-				url: "phoneCheck",
+				url: "phoneCheckForEdit",
 				dataType: "JSON",
 				data: {
 					userPhone
@@ -261,6 +265,7 @@ $('#userPhone').keyup(function() {
 					if(data.duplicate == true) {
 						$('#member-phone').css('color', 'red').text("이미 등록된 번호입니다.");
 						$('#userPhone').attr("check_result", "fail");
+						phone_result = 'fail';
 					}else {
 						$('#member-phone').css('color', 'green').text("OK");
 						$('#userPhone').attr("check_result", "true");

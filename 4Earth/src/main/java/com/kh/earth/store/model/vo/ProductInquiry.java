@@ -31,4 +31,8 @@ public class ProductInquiry {
 	private String inqStat;
 	
 	private String inqSecret; // 비밀글 여부
+	
+	private String inqAns;
+	
+	private Date inqAnsDate;
 }

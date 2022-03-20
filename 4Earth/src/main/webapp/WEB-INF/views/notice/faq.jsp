@@ -331,9 +331,9 @@
 		<ul>
 			<li><strong>1 : 1 문 의</strong>
 				<div class="check-group">
-					<div class="check-box">
+					<!-- <div class="check-box">
 						<a href="#" class="btn">채팅문의</a>
-					</div>
+					</div> -->
 					<div class="check-box">
 						<a href="${ path }/notice/qnalist" class="btn">문의작성</a>
 					</div>
@@ -363,5 +363,10 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 1) {
+                $(this).addClass('current');
+            }
+        })
     });
     </script>

@@ -70,9 +70,8 @@
                                             <option value="3">재고순</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
-                                            <option value="1">n개씩 보기</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10">10개씩 보기</option>
+                                            <option value="10" selected>10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
@@ -121,7 +120,9 @@
 		                                            <td>${ product.proNo }</td>
 		                                            <td>${ product.proName }</td>
 		                                            <td>${ product.proStat }</td>
-		                                            <td>${ product.proModifyDate }</td>
+		                                            <td>
+		                                            	<fmt:formatDate value="${ product.proModifyDate }" pattern="yyy-MM-dd hh:mm"/>
+		                                            </td>
 		                                            <td>${ product.proStock }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
@@ -155,9 +156,13 @@
 													        		</tr>
 													        		<tr>
 													        			<th>등록일</th>
-													        			<td>${ product.proDate }</td>
+													        			<td>
+													        				<fmt:formatDate value="${ product.proDate }" pattern="yyy-MM-dd hh:mm"/>
+													        			</td>
 													        			<th>수정일</th>
-													        			<td>${ product.proModifyDate }</td>
+													        			<td>
+													        				<fmt:formatDate value="${ product.proModifyDate }" pattern="yyy-MM-dd hh:mm"/>
+													        			</td>
 													        		</tr>
 													        		<tr>
 													        			<th>상품상태번호</th>

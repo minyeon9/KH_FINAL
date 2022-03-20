@@ -50,11 +50,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>FAQ</h3>
+                        <h3>상품문의</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">문의</a>
-                            <span>FAQ</span>
+                            <span>상품 문의</span>
                         </div>
                     </div>
 
@@ -64,17 +64,18 @@
                             <div style="margin-bottom: 5px;">
                                 <div class="board-head">
                                     <div class="select-wrap">
-                                        <select name="" id="" class="selectbox">
-                                            <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
+                                        <select name="" id="member-select" class="selectbox">
+                                            <option value="1" selected>번호검색</option>
+                                            <option value="2">상품번호검색</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10" selected="selected">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요.">
-                                            <button><i class="material-icons">search</i></button>
+                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                            <button id="search"><i class="material-icons">search</i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -93,9 +94,10 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>FAQ 번호</th>
-                                            <th>FAQ 분류</th>
-                                            <th>FAQ 제목</th>
+                                            <th>문의 번호</th>
+                                            <th>상품 번호</th>
+                                            <th>회원 번호</th>
+                                        	<th>답변 상태</th>
                                             <th>작성일</th>
                                             <th>내용</th>
                                             <th>관리</th>
@@ -106,7 +108,7 @@
 	                                    <tbody>
 		                                    <tr>
 		                                    	<td colspan="6">
-												조회된 FAQ가 없습니다
+												조회된 상품 문의가 없습니다
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
@@ -115,10 +117,11 @@
 										<c:forEach var="inq" items="${ productInquiry }" varStatus="vs">
 		                                    <tbody>
 		                                        <tr>
+		                                            <td>${ inq.inqNo }</td>
 		                                            <td>${ inq.proNo }</td>
 		                                            <td>${ inq.memberNo }</td>
-		                                            <td>${ inq.inqNo }</td>
-		                                            <td>${ inq.inqDate }</td>
+		                                        	<td>${ inq.inqStat }</td>
+		                                            <td><fmt:formatDate value="${ inq.inqDate }" pattern="yyy-MM-dd hh:mm"/></td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
@@ -160,14 +163,13 @@
 						                                    </div>
 						                                    <div class="btn-wrap">
 						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
+						                                        <button class="btn btn" id="echo_update" value="${ inq.inqNo }">답변</button>
 						                                    </div>
 						                                </div>
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s" id="echo_update" value="${ inq.inqNo }">수정</button>
-		                                                <button id="delete" name="no" value=${ inq.inqNo } class="btn btn-s gray">정지</button>
+		                                                <button class="btn btn-s" id="echo_update" value="${ inq.inqNo }">답변</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -177,18 +179,32 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>                   
+							<!-- 맨 처음으로 -->
+							<a class="prev" href="${ path }/admin_member?page=1"></a>
+				
+							<!-- 이전 페이지로 -->
+							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
+				
+							<!--  10개 페이지 목록 -->
+							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">			
+									<strong>${ status.current }</strong>
+								</c:if>
+								<c:if test="${ status.current != pageInfo.currentPage }">				
+									<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+				
+							<!-- 다음 페이지로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
+				
+							<!-- 맨 끝으로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+						</div>                  
                     </div>
                     
             </section>
@@ -220,6 +236,25 @@ $(() => {
             $(this).addClass('current');
         }
     });
+});
+
+$(document).on("click","#echo_update", (e) => {
+    var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+    var popupY= (window.screen.height / 2) - (800 / 2);
+    const url = "${ path }/admin/echo_qna_answer?no="+ e.target.value;
+    
+    open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+});
+
+$(document).ready(() => {
+	$(document).on('click', '#search', () => {
+		if($("#member-select option:selected").val() == 1) {
+			location.replace("${ path }/admin/echo_qna?no=" + $("#search-val").val());
+		}
+		if($("#member-select option:selected").val() == 2) {
+			location.replace("${ path }/admin/echo_qna?proNo=" + $("#search-val").val());
+		}
+	})
 });
 </script>
 
