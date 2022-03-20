@@ -1,13 +1,9 @@
 @charset "UTF-8";
 .table_bottom {
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   margin-bottom: 20px;
   margin-top: 20px;
-}
-.form-search {
-  display: flex;
-  justify-content: center;
 }
 .write_table_bottom {
   display: flex;
@@ -21,13 +17,9 @@
   margin-bottom: 20px;
   margin-top: 20px;
 }
-.paging {
-  margin-top: 1% !important;
-}
 .ck-editor__editable {
     min-height: 400px;
 }
-
 .notice_editor {
 	margin-top: 10px;
   width: 100%;
