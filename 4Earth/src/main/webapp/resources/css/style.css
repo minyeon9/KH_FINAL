@@ -389,6 +389,9 @@
     color: #333;
     font-weight: 500;
 }
+.board-head .input-with-icon {
+	margin-bottom: 0;
+}
 
 .category {
     border-top: 2px solid #467443;

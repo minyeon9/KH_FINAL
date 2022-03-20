@@ -88,6 +88,7 @@ nav .logo {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #999;
+    background: #fff;
 }
 #view-table thead {
     border: 1px solid #999;

@@ -58,10 +58,9 @@
                         </div>
                     </div>
 
-                    <div class="guide">
                         <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
@@ -74,10 +73,10 @@
                                             <option value="10" selected="selected">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
-                                        <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
-                                            <button id="search"><i class="material-icons">search</i></button>
-                                        </div>
+                                    </div>
+                                    <div class="input-with-icon search-input">
+                                        <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                        <button id="search"><i class="material-icons">search</i></button>
                                     </div>
                                 </div>
                             </div>
@@ -85,19 +84,19 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
+                                        <col width="10%">
                                         <col width="*">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th> 챌린지 번호</th>
+                                            <th>챌린지 번호</th>
                                             <th>챌린지 제목</th>
-                                            <th>챌린지 포인트</th>
+                                            <th>포인트</th>
                                             <th>시작일</th>
                                             <th>상태</th>
                                             <th>내용</th>
@@ -107,15 +106,18 @@
                                     <c:if test="${ empty list }">
 	                                    <tbody>
 		                                    <tr>
-		                                    	<td colspan="6">
-												조회된 내용이 없습니다
+		                                    	<td colspan="7">
+													<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 오늘의 챌린지가 없습니다.</p>
+						                       		</div>
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="today" items="${ list }" varStatus="vs">
-		                                    <tbody>
+	                                    <tbody>
+											<c:forEach var="today" items="${ list }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ today.chalNo }</td>
 		                                            <td>${ today.chalTitle }</td>
@@ -125,7 +127,7 @@
 		                                            </td>
 		                                            <td>${ today.chalStatus }</td>
 		                                            <td>
-		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+		                                            <a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a> 
 					                                 <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
@@ -185,8 +187,8 @@
 		                                                <button id="delete" name="no" value=${ today.chalNo } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+										</tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -195,32 +197,33 @@
                             </div>
                         </section>
                         <!-- // Category -->
-                        <div class="paging">
-							<!-- 맨 처음으로 -->
-							<a class="prev" href="${ path }/admin_challenge_today?page=1"></a>
-				
-							<!-- 이전 페이지로 -->
-							<a class="prev" href="${ path }/admin_challenge_today?page=${ pageInfo.prevPage }"></a>
-				
-							<!--  10개 페이지 목록 -->
-							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == pageInfo.currentPage }">			
-									<strong>${ status.current }</strong>
-								</c:if>
-								<c:if test="${ status.current != pageInfo.currentPage }">				
-									<a href="${ path }/admin/challenge_today?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-				
-							<!-- 다음 페이지로 -->
-							<a class="next" href="${ path }/admin_challenge_today?page=${ pageInfo.nextPage }"></a>
-				
-							<!-- 맨 끝으로 -->
-							<a class="next" href="${ path }/admin_challenge_today?page=${ pageInfo.maxPage }"></a>
-						</div>                     
+                        
+                        <c:if test="${ !empty list }">
+	                        <div class="paging">
+								<!-- 맨 처음으로 -->
+								<a class="first" href="${ path }/admin_challenge_today?page=1"></a>
+					
+								<!-- 이전 페이지로 -->
+								<a class="prev" href="${ path }/admin_challenge_today?page=${ pageInfo.prevPage }"></a>
+					
+								<!--  10개 페이지 목록 -->
+								<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">			
+										<strong>${ status.current }</strong>
+									</c:if>
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/admin/challenge_today?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+					
+								<!-- 다음 페이지로 -->
+								<a class="next" href="${ path }/admin_challenge_today?page=${ pageInfo.nextPage }"></a>
+					
+								<!-- 맨 끝으로 -->
+								<a class="last" href="${ path }/admin_challenge_today?page=${ pageInfo.maxPage }"></a>
+							</div>
+						</c:if>                
                     </div>
-                    
-            </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
@@ -233,7 +236,7 @@
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/challenge_today','${ path }/admin/challenge_month','${ path }/admin/challenge_today_manage','${ path }/admin/challenge_month_manage'];
 	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
-	    let menuIcon = ['home', 'home', 'home', 'home']
+	    let menuIcon = ['task_alt', 'public', 'people', 'people'];
 	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {

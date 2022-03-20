@@ -56,10 +56,10 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>ADMIN</h3>
+                        <h3>4Earth 관리</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <span>ADMIN</span>
+                            <span>4Earth 관리</span>
                         </div>
                     </div>
 

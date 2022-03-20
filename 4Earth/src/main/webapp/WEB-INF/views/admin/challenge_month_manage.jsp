@@ -61,7 +61,7 @@
                     <div class="month-member">
                         <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
@@ -70,14 +70,15 @@
                                             <option value="3">챌린지번호</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
+                                        	<option value="" selected="selected">목록 갯수 선택</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10" selected="selected">10개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
-                                        <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
-                                            <button id="search"><i class="material-icons">search</i></button>
-                                        </div>
+                                    </div>
+                                    <div class="input-with-icon search-input">
+                                        <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                        <button id="search"><i class="material-icons">search</i></button>
                                     </div>
                                 </div>
                             </div>
@@ -96,8 +97,8 @@
                                     <thead>
                                         <tr>
                                             <th>챌린지 번호</th>
-                                            <th>챌린지 참가 번호</th>
-                                            <th>챌린지 참여자</th>
+                                            <th>참여 번호</th>
+                                            <th>참여 회원</th>
                                             <th>확인</th>
                                             <th>포인트</th>
                                             <th>내용</th>
@@ -107,15 +108,18 @@
                                     <c:if test="${ empty list }">
 	                                    <tbody>
 		                                    <tr>
-		                                    	<td colspan="6">
-												조회된 멤버가 없습니다
+		                                    	<td colspan="7">
+													<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 참여 회원이 없습니다.</p>
+						                       		</div>
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="monthMember" items="${ list }" varStatus="vs">
-		                                    <tbody>
+	                                    <tbody>
+											<c:forEach var="monthMember" items="${ list }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ monthMember.chalNo }</td>
 		                                            <td>${ monthMember.no }</td>
@@ -123,7 +127,7 @@
 		                                            <td>${ monthMember.chalPointStatus }</td>
 		                                            <td>${ monthMember.chalPoint }</td>
 		                                            <td>
-		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+		                                            <a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
@@ -177,8 +181,8 @@
 		                                                <button id="delete" name="no" value=${ monthMember.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+	                                    </tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -186,29 +190,32 @@
                             </div>
                         </section>
                         <!-- // Category -->
-                        <div class="paging">
-							<!-- 맨 처음으로 -->
-							<a class="prev" href="${ path }/admin_member?page=1"></a>
-				
-							<!-- 이전 페이지로 -->
-							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
-				
-							<!--  10개 페이지 목록 -->
-							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == pageInfo.currentPage }">			
-									<strong>${ status.current }</strong>
-								</c:if>
-								<c:if test="${ status.current != pageInfo.currentPage }">				
-									<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-				
-							<!-- 다음 페이지로 -->
-							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
-				
-							<!-- 맨 끝으로 -->
-							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
-						</div>                 
+                        
+                        <c:if test="${ !empty list }">
+	                        <div class="paging">
+								<!-- 맨 처음으로 -->
+								<a class="first" href="${ path }/admin_member?page=1"></a>
+					
+								<!-- 이전 페이지로 -->
+								<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
+					
+								<!--  10개 페이지 목록 -->
+								<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">			
+										<strong>${ status.current }</strong>
+									</c:if>
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+					
+								<!-- 다음 페이지로 -->
+								<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
+					
+								<!-- 맨 끝으로 -->
+								<a class="last" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+							</div>
+						</c:if>               
                     </div>
                     
             </section>
@@ -224,7 +231,7 @@
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/challenge_today','${ path }/admin/challenge_month','${ path }/admin/challenge_today_manage','${ path }/admin/challenge_month_manage'];
 	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
-	    let menuIcon = ['home', 'home', 'home', 'home']
+	    let menuIcon = ['task_alt', 'public', 'people', 'people'];
 	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {

@@ -1085,7 +1085,7 @@ CREATE TABLE QNA_ANSWER (
 
 ALTER TABLE QNA_ANSWER ADD ANSWER_CONTENT VARCHAR2(3500);
 
-<<<<<<< HEAD
+
 --------------------------------------------------------
 ------------------------ 공지사항 & 1:1문의 ------------------------
 --------------------------------------------------------
@@ -1201,5 +1201,3 @@ COMMENT ON COLUMN QNA.QNA_STATUS IS '상태';
 CREATE SEQUENCE SEQ_QNA_NO;
 
 COMMIT;
-=======
->>>>>>> cb8e4caf32c9c6ee9f675a2aed80a5af0c03b325

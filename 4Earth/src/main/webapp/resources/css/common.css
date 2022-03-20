@@ -505,10 +505,12 @@ input + .btn {
     border-top: 0;
 }
 .table tbody tr td {
-    color: #666;font-size: 14px;
+    color: #666;
+    font-size: 14px;
     text-align: center;
-    padding: 10px;
     border-top: 1px solid #ddd;
+    padding: 10px;
+    word-break: break-all;
 }
 .table tbody tr td a {
     overflow: hidden;
@@ -529,6 +531,13 @@ input + .btn {
 .table tbody tr td .prd-option b {
     color: #666;
     font-weight: 300;
+}
+.table tbody tr td a.btn {
+	display: inline-block;
+	color: #76b779;
+}
+.table tbody tr td a.btn:hover {
+	color: #fff;
 }
 
 

@@ -38,49 +38,49 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>게시판 관리</h3>
+                        <h3>공지사항</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">게시판</a>
-                            <span>공지사항 게시판 관리</span>
+                            <span>공지사항</span>
                         </div>
                     </div>
 
-                    <div class="guide">
-                        <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="" class="selectbox">
                                             <option value="최신순" selected>최신순</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                        	<option value="" selected>목록 갯수 선택</option>
+                                        	<option value="5">5개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
-                                        <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요.">
-                                            <button><i class="material-icons">search</i></button>
-                                        </div>
+	                                    <!-- <div class="input-with-icon search-input">
+	                                        <input type="text" placeholder="검색어를 입력해주세요.">
+	                                        <button><i class="material-icons">search</i></button>
+	                                    </div> -->
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="board">
+                            <div class="board" style="margin-top: 20px;">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
+                                        <col width="7%">
                                         <col width="*">
+                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>게시글 번호</th>
+                                            <th>번호</th>
                                             <th>제목</th>
                                             <th>작성자</th>
                                             <th>작성일</th>
@@ -92,15 +92,18 @@
                                     <c:if test="${ empty list }">
 	                                    <tbody>
 		                                    <tr>
-		                                    	<td colspan="6">
-												조회된 공지사항이 없습니다
+		                                    	<td colspan="7">
+													<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 공지사항 내역이 없습니다.</p>
+						                       		</div>
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="notice" items="${ list }" varStatus="vs">
-		                                    <tbody>
+	                                    <tbody>
+											<c:forEach var="notice" items="${ list }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ notice.no }</td>
 		                                            <td>${ notice.title }</td>
@@ -110,7 +113,7 @@
 		                                            </td>
 		                                            <td>${ notice.status }</td>
 		                                            <td>
-		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+		                                            <a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
@@ -156,8 +159,8 @@
 		                                                <button type="button" id="delete" name="no" value=${ notice.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+	                                    </tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -166,9 +169,10 @@
                             </div>
                         </section>
                         <!-- // Category -->
+                        
                         <div class="paging">
 							<!-- 맨 처음으로 -->
-							<a class="prev" href="${ path }/admin_notice?page=1"></a>
+							<a class="first" href="${ path }/admin_notice?page=1"></a>
 				
 							<!-- 이전 페이지로 -->
 							<a class="prev" href="${ path }/admin_notice?page=${ pageInfo.prevPage }"></a>
@@ -187,11 +191,11 @@
 							<a class="next" href="${ path }/admin_notice?page=${ pageInfo.nextPage }"></a>
 				
 							<!-- 맨 끝으로 -->
-							<a class="next" href="${ path }/admin_notice?page=${ pageInfo.maxPage }"></a>
+							<a class="last" href="${ path }/admin_notice?page=${ pageInfo.maxPage }"></a>
 						</div>                   
-                    </div>
+                 
                     
-            </section>
+            	</section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
@@ -203,8 +207,8 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/notice'];
-	    let menuName = ['공지사항 게시판'];
-	    let menuIcon = ['home']
+	    let menuName = ['공지사항'];
+	    let menuIcon = ['description']
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);
@@ -219,6 +223,10 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	    
+	    $('#count-select').on('change',  (e) => {
+			location.replace("${ path }/admin/notice?count=" + e.target.value);
+		})
 	});
 	
 	$(document).on("click","#write", (e) => {
@@ -236,14 +244,6 @@
         
         open(url, "", 'status=no, height=800, width=1200, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
-	
-	$(document).ready(() => {
-		$(document).on('click','#delete', (e) => {
-			if(confirm("정말로 이 챌린지를 정지시키겠습니까??")) {
-				location.replace("${ path }/admin/notice_delete?no=" + e.target.value);
-			}
-		})
-	});
 </script>
 
 </html>

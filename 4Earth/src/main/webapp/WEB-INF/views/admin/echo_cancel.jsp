@@ -50,18 +50,17 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>발송 완료 목록</h3>
+                        <h3>주문 취소</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">에코샵</a>
-                            <span>발송 완료 목록</span>
+                            <span>주문 취소</span>
                         </div>
                     </div>
 
-                    <div class="guide">
                         <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
@@ -69,13 +68,15 @@
                                             <option value="2">회원번호</option>
                                         </select>
                                         <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                            <option value="" selected="selected">목록 갯수 선택</option>
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
-                                        <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
-                                            <button id="search"><i class="material-icons">search</i></button>
-                                        </div>
+                                    </div>
+                                    <div class="input-with-icon search-input">
+                                        <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                        <button id="search"><i class="material-icons">search</i></button>
                                     </div>
                                 </div>
                             </div>
@@ -106,14 +107,17 @@
 	                                    <tbody>
 		                                    <tr>
 		                                    	<td colspan="6">
-												조회된 물품이 없습니다
+													<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 주문 취소 내역이 없습니다.</p>
+						                       		</div>
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty orderList }">
-										<c:forEach var="order" items="${ orderList }" varStatus="vs">
-		                                    <tbody>
+	                                    <tbody>
+											<c:forEach var="order" items="${ orderList }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ order.orderNo }</td>
 		                                            <td>${ order.memberNo }</td>
@@ -128,8 +132,8 @@
 		                                                <button type="button" class="btn btn-s" id="echo_reDelivery" value="${ order.orderNo }">취소</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+		                                </tbody>
 									</c:if>
                                     </tbody>
                                 </table>
@@ -138,36 +142,38 @@
                             </div>
                         </section>
                         <!-- // Category -->
-                        <div class="paging">
-							<!-- 맨 처음으로 -->
-							<a class="prev" href="${ path }/admin/echo_cancel?page=1"></a>
-				
-							<!-- 이전 페이지로 -->
-							<a class="prev" href="${ path }/admin/echo_cancel?page=${ pageInfo.prevPage }"></a>
-				
-							<!--  10개 페이지 목록 -->
-							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == pageInfo.currentPage }">			
-									<strong>${ status.current }</strong>
-								</c:if>
-								<c:if test="${ status.current != pageInfo.currentPage }">				
-									<a href="${ path }/admin/echo_cancel?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-				
-							<!-- 다음 페이지로 -->
-							<a class="next" href="${ path }/admin/echo_cancel?page=${ pageInfo.nextPage }"></a>
-				
-							<!-- 맨 끝으로 -->
-							<a class="next" href="${ path }/admin/echo_cancel?page=${ pageInfo.maxPage }"></a>
-						</div>                    
+                        
+                        <c:if test="${ !empty orderList }">
+	                        <div class="paging">
+								<!-- 맨 처음으로 -->
+								<a class="first" href="${ path }/admin/echo_cancel?page=1"></a>
+					
+								<!-- 이전 페이지로 -->
+								<a class="prev" href="${ path }/admin/echo_cancel?page=${ pageInfo.prevPage }"></a>
+					
+								<!--  10개 페이지 목록 -->
+								<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">			
+										<strong>${ status.current }</strong>
+									</c:if>
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/admin/echo_cancel?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+					
+								<!-- 다음 페이지로 -->
+								<a class="next" href="${ path }/admin/echo_cancel?page=${ pageInfo.nextPage }"></a>
+					
+								<!-- 맨 끝으로 -->
+								<a class="last" href="${ path }/admin/echo_cancel?page=${ pageInfo.maxPage }"></a>
+							</div>
+						</c:if>                 
                     </div>
                     
             </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
-        </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
@@ -175,8 +181,8 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/echo_list','${ path }/admin/echo_order','${ path }/admin/echo_delivery','${ path }/admin/echo_cancel','${ path }/admin/echo_bidding'];
-	    let menuName = ['에코샵 물품 목록', '주문 접수 목록', '발송 완료 목록', '주문 취소 목록', '물품 접수 목록'];
-	    let menuIcon = ['home', 'home', 'home', 'home', 'home']
+	    let menuName = ['에코샵 상품', '주문 접수', '발송 완료', '주문 취소', '상품 접수'];
+	    let menuIcon = ['inventory_2', 'app_registration', 'local_shipping', 'remove_circle', 'edit'];
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);

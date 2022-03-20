@@ -38,18 +38,18 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>회원 목록</h3>
+                        <h3>회원</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">회원</a>
-                            <span>회원 목록</span>
+                            <span>회원</span>
                         </div>
                     </div>
 
                     <div class="admin-member">
                         <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
@@ -58,14 +58,15 @@
                                             <option value="3">아이디</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
+                                        	<option value="" selected="selected">목록 갯수 선택</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10" selected="selected">10개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
-                                        <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
-                                            <button id="search"><i class="material-icons">search</i></button>
-                                        </div>
+                                    </div>
+                                    <div class="input-with-icon search-input">
+                                        <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                        <button id="search"><i class="material-icons">search</i></button>
                                     </div>
                                 </div>
                             </div>
@@ -73,13 +74,13 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
+                                        <col width="10%">
                                         <col width="*">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="8%">
+                                        <col width="10%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -102,8 +103,8 @@
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="member" items="${ list }" varStatus="vs">
-		                                    <tbody>
+										<tbody>
+											<c:forEach var="member" items="${ list }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ member.no }</td>
 		                                            <td>${ member.id }</td>
@@ -111,7 +112,7 @@
 		                                            <td>${ member.member_type }</td>
 		                                            <td>${ member.status }</td>
 		                                            <td>
-		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+		                                            <a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
@@ -153,7 +154,6 @@
 													        		</tr>
 													        		<tr>
 													        			<td colspan="4"><img id="member-img" src="${ path }/resources/upload/member/${member.modify_img_name}" /></td>
-													        			
 													        		</tr>
 												        		</tbody>
 													       		</table>
@@ -170,8 +170,8 @@
 		                                                <button type="button" id="ban" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+										</tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -181,7 +181,7 @@
                         
                         <div class="paging">
 							<!-- 맨 처음으로 -->
-							<a class="prev" href="${ path }/admin_member?page=1"></a>
+							<a class="first" href="${ path }/admin_member?page=1"></a>
 				
 							<!-- 이전 페이지로 -->
 							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
@@ -200,7 +200,7 @@
 							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
 				
 							<!-- 맨 끝으로 -->
-							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+							<a class="last" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
 						</div>                
                     </div>
             </section>
@@ -215,8 +215,8 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/member'];
-	    let menuName = ['회원 목록'];
-	    let menuIcon = ['home']
+	    let menuName = ['회원'];
+	    let menuIcon = ['person']
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);

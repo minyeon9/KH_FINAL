@@ -61,7 +61,7 @@
                     <div class="guide">
                         <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
@@ -70,14 +70,15 @@
                                             <option value="3">분류검색</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
+                                            <option value="" selected="selected">목록 갯수 선택</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10" selected="selected">10개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
-                                        <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
-                                            <button id="search"><i class="material-icons">search</i></button>
-                                        </div>
+                                    </div>
+                                    <div class="input-with-icon search-input">
+                                        <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                        <button id="search"><i class="material-icons">search</i></button>
                                     </div>
                                 </div>
                             </div>
@@ -107,8 +108,11 @@
                                     <c:if test="${ empty qna }">
 	                                    <tbody>
 		                                    <tr>
-		                                    	<td colspan="6">
-												완료된 문의가 없습니다
+		                                    	<td colspan="7">
+													<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 완료 문의 내역이 없습니다.</p>
+						                       		</div>
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
@@ -123,7 +127,7 @@
 		                                            <td>${ qna.writerNo }</td>
 		                                            <td><fmt:formatDate value="${ qna.createDate }" pattern="yyy-MM-dd hh:mm"/></td>
 		                                            <td>
-		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+		                                            <a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
@@ -184,29 +188,32 @@
                             </div>
                         </section>
                         <!-- // Category -->
-                        <div class="paging">
-							<!-- 맨 처음으로 -->
-							<a class="prev" href="${ path }/admin_member?page=1"></a>
-				
-							<!-- 이전 페이지로 -->
-							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
-				
-							<!--  10개 페이지 목록 -->
-							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == pageInfo.currentPage }">			
-									<strong>${ status.current }</strong>
-								</c:if>
-								<c:if test="${ status.current != pageInfo.currentPage }">				
-									<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-				
-							<!-- 다음 페이지로 -->
-							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
-				
-							<!-- 맨 끝으로 -->
-							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
-						</div>                 
+                        
+                        <c:if test="${ !empty qna }">
+	                        <div class="paging">
+								<!-- 맨 처음으로 -->
+								<a class="first" href="${ path }/admin_member?page=1"></a>
+					
+								<!-- 이전 페이지로 -->
+								<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
+					
+								<!--  10개 페이지 목록 -->
+								<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">			
+										<strong>${ status.current }</strong>
+									</c:if>
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+					
+								<!-- 다음 페이지로 -->
+								<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
+					
+								<!-- 맨 끝으로 -->
+								<a class="last" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+							</div>
+						</c:if>            
                     </div>
                     
             </section>
@@ -222,7 +229,7 @@
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/qna','${ path }/admin/qna_done','${ path }/admin/echo_qna'];
 	    let menuName = ['문의 목록', '문의 완료 목록', '상품 문의'];
-	    let menuIcon = ['home', 'home', 'home']
+	    let menuIcon = ['help', 'checklist_rtl', 'inventory_2']
 	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
