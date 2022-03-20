@@ -121,7 +121,7 @@
 		                                            <td>${ qna.title }</td>
 		                                            <td>${ qna.category }</td>
 		                                            <td>${ qna.writerNo }</td>
-		                                            <td>${ qna.createDate }</td>
+		                                            <td><fmt:formatDate value="${ qna.createDate }" pattern="yyy-MM-dd hh:mm"/></td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">

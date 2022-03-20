@@ -134,7 +134,7 @@ public class AdminController {
 	
 	@PostMapping("/notice_write")
 	public ModelAndView write(ModelAndView model,
-			@RequestParam("no") int no,
+			@SessionAttribute("loginMember") Member loginMember,
 			@ModelAttribute Notice notice,
 			@RequestParam("upfile") MultipartFile upfile) {
 	
@@ -158,12 +158,12 @@ public class AdminController {
 			}
 		}
 		
-		notice.setWriterNo(no);
+		notice.setWriterNo(loginMember.getNo());
 		result = service.writeNotice(notice);
 		
 		if(result > 0) {
 			model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
-			model.addObject("location", "/admin/notice");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");
 		} else {
 			model.addObject("msg", "게시글 등록이 실패했습니다.");
 			model.addObject("location", "/admin/notice");
@@ -173,6 +173,87 @@ public class AdminController {
 		
 		model.setViewName("common/msg");
 	
+		return model;
+	}
+	
+	@GetMapping("/notice_update")
+	public ModelAndView admin_notice_update(ModelAndView model,
+			@RequestParam("no")int no) {
+		log.info("admin_notice_update() - 호출");
+		Notice notice = service.findNoticeByNo(no);
+		
+		
+		model.addObject("notice", notice);
+		model.setViewName("admin/notice_update");
+		
+		return model;
+	}
+	
+	@GetMapping("/notice_delete")
+	public ModelAndView admin_notice_delete(ModelAndView model,
+			@RequestParam("no")int no) {
+		log.info("admin_notice_delete() - 호출");
+		int result = 0;
+		
+		result = service.deleteNotice(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "공지사항 삭제 완료");
+			model.addObject("location", "/admin/notice");
+		}else {
+			model.addObject("msg", "공지사항 삭제 실패");
+			model.addObject("location", "/admin/notice");
+		}
+			
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@PostMapping("/notice_update")
+	public ModelAndView admin_notice_update(ModelAndView model,
+			@ModelAttribute("notice")Notice notice,
+			@RequestParam("upfile") MultipartFile upfile) {
+		int result;
+		
+		log.info("admin_notice_update() - post 호출");
+		
+		if(upfile != null && !upfile.isEmpty()) {
+			String renamedFileName = null;
+			String location = null;
+			
+			try {
+				location =  resourceLoader.getResource("resources/upload/notice").getFile().getPath();
+				
+				if(notice.getRenamedFileName() != null) {
+					FileProcess.delete(location + "/" + notice.getRenamedFileName());
+				}
+				
+				renamedFileName = FileProcess.save(upfile, location);
+				
+				if(renamedFileName != null) {
+					notice.setOriginalFileName(upfile.getOriginalFilename());
+					notice.setRenamedFileName(renamedFileName);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		result = service.updateNotice(notice);
+					
+		if(result > 0) {
+			model.addObject("msg", "게시글이 정상적으로 수정되었습니다.");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");
+			
+		} else {
+			model.addObject("msg", "게시글 수정에 실패했습니다.");
+			model.addObject("location", "/admin/notice_update?no=" + notice.getNo());
+		}
+		
+		model.setViewName("common/msg");
+		
 		return model;
 	}
 	

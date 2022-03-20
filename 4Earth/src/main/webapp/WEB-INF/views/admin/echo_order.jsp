@@ -119,7 +119,9 @@
 		                                            <td>${ order.orderNo }</td>
 		                                            <td>${ order.memberNo }</td>
 		                                            <td>${ order.orderPrice }</td>
-		                                            <td>${ order.orderDate }</td>
+		                                            <td>
+		                                            	<fmt:formatDate value="${ order.orderDate }" pattern="yyy-MM-dd hh:mm"/>
+		                                            </td>
 		                                            <td>
 		                                            	<button class="btn btn" id="echo_order_detail" value="${ order.orderNo }">보기</button>
                             						</td>

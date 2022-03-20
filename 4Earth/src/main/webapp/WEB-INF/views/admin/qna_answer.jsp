@@ -42,9 +42,9 @@
 	        		<td>
 	        			<input name="" type="text" value="${ qna.title }" readonly="readonly">
 	        		</td>
-        			<th>시작일: </th>
+        			<th>문의일: </th>
         			<td>
-        				<input id="createDate" name="" type="text" value="${ qna.createDate }" readonly="readonly">
+        				<fmt:formatDate value="${ qna.createDate }" pattern="yyy-MM-dd hh:mm"/>
         			</td>
            		</tr>
            		<tr>

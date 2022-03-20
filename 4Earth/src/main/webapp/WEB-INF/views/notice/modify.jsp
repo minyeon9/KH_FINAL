@@ -54,12 +54,12 @@
                 		<label for="upfile">파일첨부 : </label>
                 	</td>
                 	<td>
-										<input type="file" name="upfile"><br>
-											<c:if test="${ !empty notice.originalFileName }">
-												<img src="${ path }/resources/images/common/file.gif" width="20" height="20"/>
-												<c:out value="${ notice.originalFileName }"></c:out>
-											</c:if>
-									</td>
+						<input type="file" name="upfile"><br>
+						<c:if test="${ !empty notice.originalFileName }">
+							<img src="${ path }/resources/images/common/file.gif" width="20" height="20"/>
+							<c:out value="${ notice.originalFileName }"></c:out>
+						</c:if>
+					</td>
                 </tr>
                 <tr>
                 		<td>

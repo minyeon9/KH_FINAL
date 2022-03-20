@@ -120,7 +120,9 @@
 		                                            <td>${ month.chalNo }</td>
 		                                            <td>${ month.chalTitle }</td>
 		                                            <td>${ month.chalPoint }</td>
-		                                            <td>${ month.startDate }</td>
+		                                            <td>
+		                                            	<fmt:formatDate value="${ month.startDate }" pattern="yyy-MM-dd hh:mm"/>
+		                                            </td>
 		                                            <td>${ month.chalStatus }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
@@ -153,9 +155,13 @@
 													        		</tr>
 													        		<tr>
 													        			<th>시작일</th>
-													        			<td>${ month.startDate }</td>
+													        			<td>
+													        				<fmt:formatDate value="${ month.startDate }" pattern="yyy-MM-dd hh:mm"/>
+													        			</td>
 													        			<th>종료일</th>
-													        			<td>${ month.endDate }</td>
+													        			<td>
+													        				<fmt:formatDate value="${ month.endDate }" pattern="yyy-MM-dd hh:mm"/>
+													        			</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="2">사진</th>

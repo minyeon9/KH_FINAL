@@ -145,7 +145,9 @@
 													        			<th>이름</th>
 													        			<td>${ todayMember.memNo }</td>
 													        			<th>참여일</th>
-													        			<td>${ todayMember.chalDate }</td>
+													        			<td>
+													        				<fmt:formatDate value="${ todayMember.chalDate }" pattern="yyy-MM-dd hh:mm"/>
+													        			</td>
 													        		</tr>
 													        		<tr>
 													        			<th>포인트</th>

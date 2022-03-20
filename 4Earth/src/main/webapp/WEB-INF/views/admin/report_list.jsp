@@ -116,15 +116,17 @@
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
 						                                    	${ report.reportNo }
-						                                        <strong>${ report.reportTitle }</strong>
+						                                        <strong>신고 보기</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
+						                                    
+						                                    신고 설명 : ${ report.reportTitle }
 						                                    <div class="pop-cont">
-						                                        ${ report.reportContent }
+						                                    	<br>
+						                                       신고받은 내용 : ${ report.reportContent }
 						                                    </div>
 						                                    <div class="btn-wrap">
 						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
 						                                    </div>
 						                                </div>
 						                            </div>

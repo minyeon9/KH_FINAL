@@ -198,7 +198,7 @@
 	
 	<sql id="selectNoticeSql">
 		SELECT  NOTICE_NO, 
-				WRITER_NO 
+				WRITER_NO, 
 		        NOTICE_TIT, 
 		        NOTICE_CONTENT, 
 		        NOTICE_COUNT, 
@@ -208,8 +208,7 @@
 		        DATE_WRITEN_MODIFY, 
 		        NOTICE_STATUS 
 		FROM NOTICE
-		WHERE NOTICE_STATUS = 'Y'
-		ORDER BY NOTICE_NO DESC
+		ORDER BY DECODE(NOTICE_STATUS, 'Y', 1), NOTICE_NO DESC
 	</sql>
 	
 	<sql id="selectReportSql">
@@ -443,6 +442,48 @@
 		<include refid="selectNoticeSql" />
 	</select>
 	
+	<select id="findNoticeByNo" parameterType="_int" resultMap="noticeListResultMap">
+		SELECT  NOTICE_NO, 
+				WRITER_NO, 
+		        NOTICE_TIT, 
+		        NOTICE_CONTENT, 
+		        NOTICE_COUNT, 
+		        ORIGINAL_FILENAME, 
+		        RENAMED_FILENAME, 
+		        DATE_WRITEN, 
+		        DATE_WRITEN_MODIFY, 
+		        NOTICE_STATUS 
+		FROM NOTICE
+		WHERE NOTICE_NO = #{ no }
+	</select>
+	
+	<update id="deleteNotice" parameterType="_int">
+	UPDATE NOTICE
+	 	SET NOTICE_STATUS = 'N'
+	 	WHERE NOTICE_NO = #{no}
+	 </update>
+	
+	<update id="updateNotice" parameterType="_int">
+	UPDATE NOTICE
+	<trim prefix="SET" suffixOverrides=",">
+	 	<if test="title != null">
+	 		NOTICE_TIT = #{title},
+	 	</if>
+	 	<if test="content != null">
+	 		NOTICE_CONTENT = #{content},
+		</if>
+		<if test="originalFileName != null">
+	 		ORIGINAL_FILENAME = #{originalFileName},
+		</if>
+	 	<if test="renamedFileName != null">
+	 		RENAMED_FILENAME = #{renamedFileName},
+		</if>
+	 		DATE_WRITEN_MODIFY=SYSDATE
+	</trim>
+	 	WHERE
+	 		NOTICE_NO = #{no}
+	 </update>
+	
 	<select id="getQnaList" parameterType="map" resultMap="qnaListResultMap">
 		SELECT      Q.QNA_NO, 
 		            Q.WRITER_NO, 
@@ -552,7 +593,7 @@
 		   		NO LIKE '%' || #{no} || '%'
 			</if>
 		</where>
-		ORDER BY NO DESC
+		ORDER BY DECODE(STATUS, 'Y', 1), NO DESC
 	</select>
 	
 	<select id="getTodayList" parameterType="map" resultMap="TodayListResultMap">
@@ -1227,6 +1268,31 @@
 	 		#{chalPoint},
 	 		#{startDate},
 	 		#{endDate},
+	 		DEFAULT
+	 	)
+	 </insert>
+	 
+	<insert id="writeNotice" parameterType="Notice"
+	 	useGeneratedKeys="true" keyProperty="no" keyColumn="NOTICE_NO">
+	 	INSERT INTO NOTICE(
+	 		NOTICE_NO,
+	 		WRITER_NO,
+	 		NOTICE_TIT,
+	 		NOTICE_CONTENT,
+	 		ORIGINAL_FILENAME,
+	 		RENAMED_FILENAME,
+	 		DATE_WRITEN,
+	 		DATE_WRITEN_MODIFY,
+	 		NOTICE_STATUS
+	 	) VALUES(
+	 		SEQ_NOTICE_NO.NEXTVAL,
+	 		#{writerNo},
+	 		#{title},
+	 		#{content},
+	 		#{originalFileName},
+	 		#{renamedFileName},
+	 		DEFAULT,
+	 		DEFAULT,
 	 		DEFAULT
 	 	)
 	 </insert>

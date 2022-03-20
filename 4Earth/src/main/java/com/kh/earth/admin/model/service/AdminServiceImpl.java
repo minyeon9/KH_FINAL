@@ -537,4 +537,22 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.reDelivery(no);
 	}
 
+	@Override
+	public Notice findNoticeByNo(int no) {
+		
+		return mapper.findNoticeByNo(no);
+	}
+
+	@Override
+	public int updateNotice(Notice notice) {
+		
+		return mapper.updateNotice(notice);
+	}
+
+	@Override
+	public int deleteNotice(int no) {
+		
+		return mapper.deleteNotice(no);
+	}
+
 }

@@ -84,7 +84,7 @@
                                             <th>제목</th>
                                             <th>작성자</th>
                                             <th>작성일</th>
-                                            <th>조회수</th>
+                                            <th>상태</th>
                                             <th>내용</th>
                                             <th>관리</th>
                                         </tr>
@@ -105,8 +105,10 @@
 		                                            <td>${ notice.no }</td>
 		                                            <td>${ notice.title }</td>
 		                                            <td>${ notice.writerNo }</td>
-		                                            <td>${ notice.createDate }</td>
-		                                            <td>${ notice.readCount }</td>
+		                                            <td>
+		                                            	<fmt:formatDate value="${ notice.createDate }" pattern="yyy-MM-dd hh:mm"/>
+		                                            </td>
+		                                            <td>${ notice.status }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
@@ -150,7 +152,7 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
+		                                                <button type="button" id="update" name="no" value=${ notice.no } class="btn btn-s">수정</button>
 		                                                <button type="button" id="delete" name="no" value=${ notice.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
@@ -222,9 +224,25 @@
 	$(document).on("click","#write", (e) => {
 	    var popupX = (document.body.offsetWidth / 2) - (800 / 2);
 	    var popupY= (window.screen.height / 2) - (800 / 2);
-	    const url = "${ path }/admin/notice_write?no="+ e.target.value;
+	    const url = "${ path }/admin/notice_write";
 	    
-	    open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+	    open(url, "", 'status=no, height=800, width=1200, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+	});
+	
+	$(document).on("click","#update", (e) => {
+        var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+        var popupY= (window.screen.height / 2) - (800 / 2);
+        const url = "${ path }/admin/notice_update?no="+ e.target.value;
+        
+        open(url, "", 'status=no, height=800, width=1200, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
+    });
+	
+	$(document).ready(() => {
+		$(document).on('click','#delete', (e) => {
+			if(confirm("정말로 이 챌린지를 정지시키겠습니까??")) {
+				location.replace("${ path }/admin/notice_delete?no=" + e.target.value);
+			}
+		})
 	});
 </script>
 

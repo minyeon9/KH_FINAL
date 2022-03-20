@@ -121,7 +121,9 @@
 		                                            <td>${ qna.title }</td>
 		                                            <td>${ qna.category }</td>
 		                                            <td>${ qna.writerNo }</td>
-		                                            <td>${ qna.createDate }</td>
+		                                            <td>
+		                                            	<fmt:formatDate value="${ qna.createDate }" pattern="yyy-MM-dd hh:mm"/>
+		                                            </td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
@@ -166,7 +168,6 @@
                             						</td>
 		                                            <td>
 		                                                <button type="button" id="qna_answer" name="no" value=${ qna.no } class="btn btn-s">답변</button>
-		                                                <button type="button" id="delete" name="no" value=${ qna.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>

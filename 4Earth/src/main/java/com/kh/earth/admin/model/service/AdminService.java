@@ -166,4 +166,10 @@ public interface AdminService {
 	int deleteBidding(int no);
 
 	int reDelivery(int no);
+
+	Notice findNoticeByNo(int no);
+
+	int updateNotice(Notice notice);
+
+	int deleteNotice(int no);
 }

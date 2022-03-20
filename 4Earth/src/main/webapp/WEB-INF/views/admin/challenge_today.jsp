@@ -120,7 +120,9 @@
 		                                            <td>${ today.chalNo }</td>
 		                                            <td>${ today.chalTitle }</td>
 		                                            <td>${ today.chalPoint }</td>
-		                                            <td>${ today.startDate }</td>
+		                                            <td>
+		                                            	<fmt:formatDate value="${ today.startDate }" pattern="yyy-MM-dd hh:mm"/>
+		                                            </td>
 		                                            <td>${ today.chalStatus }</td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
@@ -153,9 +155,13 @@
 													        		</tr>
 													        		<tr>
 													        			<th>시작일</th>
-													        			<td>${ today.startDate }</td>
+													        			<td>
+													        				<fmt:formatDate value="${ today.startDate }" pattern="yyy-MM-dd hh:mm"/>
+													        			</td>
 													        			<th>종료일</th>
-													        			<td>${ today.endDate }</td>
+													        			<td>
+													        				<fmt:formatDate value="${ today.endDate }" pattern="yyy-MM-dd hh:mm"/>
+													        			</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="2">사진</th>
