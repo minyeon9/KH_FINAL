@@ -161,6 +161,8 @@
 		<result property="proModifyDate" column="PRO_MODIFY_DATE"/>
 		<result property="proVol" column="PRO_VOL"/>
 		<result property="proImg" column="PRO_IMG"/>
+		<result property="proModifyImg" column="PRO_MODIFY_IMG"/>
+		<result property="proImg" column="PRO_IMG"/>
 		<result property="proInfo" column="PRO_INFO"/>
 		<result property="proStat" column="PRO_STAT"/>
 		<result property="proCat" column="PRO_CAT"/>
@@ -612,13 +614,13 @@
 	<select id="findProductBestList" parameterType="arraylist" resultMap="ProductListResultMap">
 		SELECT PRO_NO,
 		       PRO_NAME, 
-		       PRO_IMG,
+		       PRO_MODIFY_IMG,
 		       PRO_INFO,
 		       PRO_STAT,
 		       PRO_SOLD
 		FROM PRODUCT
 		WHERE PRO_STAT = 3
-		ORDER BY PRO_NO DESC
+		ORDER BY PRO_MODIFY_DATE DESC
 		<!-- ORDER BY PRO_SOLD DESC -->
 	</select>
   	

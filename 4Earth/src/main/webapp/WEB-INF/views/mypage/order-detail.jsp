@@ -54,7 +54,7 @@
 	                                            <td style="width: 30%;">
 	                                                <div class="cart-img">
 		                                                <a href="${ path }/product_detail?no=${ list.detailProNo }">
-		                                                    <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                                    <img src="${ path }/resources/upload/store/${ list.proModifyImg }" alt="">
 		                                                </a>
 	                                                </div>
 	                                            </td>

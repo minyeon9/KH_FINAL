@@ -28,17 +28,18 @@
                     </div>
 
                         <section>
-                            <strong></strong>     
-                            <hr style="border: 1px solid #669948;">
-                            <br>                
+                            
+                            
                             <div class="thumb-list">
+                               	<c:if test="${ empty list }">
+                               		<div class="empty-content full">
+		                       			<i class="material-icons">info</i>
+		                       			<p>찜한 상품이 없습니다.</p>
+		                       			<a class="btn" href="${ path }/product_list">쇼핑하러 가기</a>
+		                       		</div>
+	                            <br>                
+                               	</c:if>
                                 <ul>
-                                	<c:if test="${ empty list }">
-                                		<div class="cart-empty">
-	                                		<p>찜한 상품이 없습니다.</p>
-	                        				<a href="${ path }/product_list">쇼핑하러 가기</a>
-                                		</div>
-                                	</c:if>
                                     <c:if test="${ !empty list }">
                                 		<c:forEach var="product" items="${ list }">
                                 			<li>
@@ -152,7 +153,7 @@
 					alert("찜 성공");
 				}
 				else if(data === "Wish Deleted"){
-					alert("찜 삭제");
+					alert("찜 목록에서 삭제되었습니다.");
 				}
 				
 				window.location = "${ path }/wishlist";

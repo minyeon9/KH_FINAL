@@ -22,7 +22,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li class="current">
+                        <li class="">
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -44,6 +44,18 @@
                 </div>
                 
                <section class="content-wrap">
+               		<div class="page-tit">
+                        <h3>
+                        	모집 중인 상품
+                        	<span>소분샵에서 만나보고 싶으신 상품을 신청하고, 모집에 참여해주세요.</span>
+                        </h3>
+                        <div class="bread-crumb">
+                            <a href="../index.html"><i class="material-icons md-16">home</i></a>
+                            <a href="#">에코샵</a>
+                            <span>소분샵 입고 신청</span>
+                        </div>
+                    </div>
+                    
                     <div class="product">
                     <!-- 
                         slide
@@ -122,7 +134,7 @@
                         
                         <div class="board">
                             <table class="table bid-board">
-                                <tbody>
+                                <tbody>                                	
                                 	<c:if test="${ !empty list }">
                                 		<c:forEach var="list" items="${ list }">
                                 			<tr>
@@ -144,7 +156,12 @@
                                 	</c:if>
                                 	<c:if test="${ empty list }">
                                 		<tr>
-                                			<td style="text-align: center;">등록된 게시글이 없습니다.</td>
+                                			<td>
+                                				<div class="empty-content">
+		                                           <i class="material-icons">info</i>
+		                                           <p>조회된 게시글이 없습니다.</p>
+		                                       </div>
+                                			</td>
                                 		</tr>
                                 	</c:if>
                                 </tbody>

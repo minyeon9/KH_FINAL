@@ -61,7 +61,7 @@
 				<c:forEach var="productList" items="${ product }" begin="0" end="0">
 					<div class="best-main">
 						<div class="thumb-img">
-							<img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+							<img src="${ path }/resources/upload/store/${ productList.proModifyImg }" alt="">
 						</div>
 						<div class="cont">
 							<span><i class="material-icons md-36">military_tech</i> 새로 들어온<br>상품을 확인해보세요!</span>
@@ -77,7 +77,7 @@
 						<li>
 							<a href="${ path }/product_detail?no=${ productList.proNo }">
 								<div class="thumb-img">
-									<img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+									<img src="${ path }/resources/upload/store/${ productList.proModifyImg }" alt="">
 								</div>
 								<strong>${ productList.proName }</strong>
 								<p>${ productList.proInfo }</p>

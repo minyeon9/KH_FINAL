@@ -29,4 +29,6 @@ public class OrderDetail {
 	private String orderStat;
 	
 	private Date orderDate;
+	
+	private String proModifyImg;
 }

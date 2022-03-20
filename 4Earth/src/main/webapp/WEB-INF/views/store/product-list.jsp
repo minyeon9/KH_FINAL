@@ -310,10 +310,10 @@
 				selected.toggleClass("fa-heart fa-heart-o");
 				
 				if(data === "Wish Added" || data === "Wish Again"){
-					alert("찜 성공");
+					alert("찜한 상품은 마이페이지 > 찜한 상품에서 확인하실 수 있습니다.");
 				}
 				else if(data === "Wish Deleted"){
-					alert("찜 삭제");
+					alert("찜 목록에서 삭제되었습니다.");
 				}
 			}
 		});        

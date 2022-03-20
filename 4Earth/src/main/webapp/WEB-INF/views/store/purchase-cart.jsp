@@ -37,10 +37,11 @@
 	              	<!--  -->
                   	<c:set var="col_sum" value="0"/> 
                		  <c:if test="${ empty list }">
-                		 <div class="cart-empty">
-                        	<p>장바구니가 비어있습니다.</p>
-                        	<a href="${ path }/product_list">쇼핑하러 가기</a>
-                		 </div>
+                		 <div class="empty-content full">
+                   			<i class="material-icons">info</i>
+                   			<p>장바구니가 비어있습니다.</p>
+                   			<a class="btn" href="${ path }/product_list">쇼핑하러 가기</a>
+                   		</div>
                       </c:if>   
                       <c:if test="${ !empty list }">
                       <table class="cart-table">
@@ -63,7 +64,7 @@
 	                                  <td>
 	                                      <div class="cart-img">
 	                                      	<a href="${ path }/product_detail?no=${ product.proNo }">
-	                                          <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                                          <img src="${ path }/resources/upload/store/${ product.proModifyImg }" alt="">
 	                                      	</a>
 	                                      </div>
 	                                  </td>
@@ -72,6 +73,7 @@
 		                                      <strong>${ product.proName }</strong>
 		                                      <p>${ product.proOpt }</p>
 	                                      </a>
+	                                      <input type="hidden" id="proModifyImg" value="${ product.proModifyImg }" disabled="disabled">
 	                                      <input type="hidden" id="proName" value="${ product.proName }" disabled="disabled">
 	                                      <input type="hidden" id="proNo" value="${ product.proNo }" disabled="disabled">
 	                                      <input type="hidden" id="proOptNo" value="${ product.proOptNo }" disabled="disabled">
@@ -312,13 +314,15 @@
 				let proOpt = checked.parents(".cart-list").find("#proOpt").val();
 				let proPrice = checked.parents(".cart-list").find("#proPrice").val();
 				let cartQty = checked.parents(".cart-list").find("#cartQty").val();
+				let proModifyImg = checked.parents(".cart-list").find("#proModifyImg").val();
 				
 				let input = "<input name='cartList[" + index + "].proName' type='hidden' value='" + proName + "'>"
 						    + "<input name='cartList[" + index + "].proNo' type='hidden' value='" + proNo + "'>"
 							+ "<input name='cartList[" + index + "].proOptNo' type='hidden' value='" + proOptNo + "'>"
 							+ "<input name='cartList[" + index + "].proOpt' type='hidden' value='" + proOpt + "'>"
 							+ "<input name='cartList[" + index + "].proPrice' type='hidden' value='" + proPrice + "'>"
-							+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>";
+							+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>"
+							+ "<input name='cartList[" + index + "].proModifyImg' type='hidden' value='" + proModifyImg + "'>";
 
 				form_content += input;
 				

@@ -66,6 +66,7 @@
 	<resultMap type="Cart" id="CartListResultMap">
 		<id property="memberNo" column="C_MEMBER_NO"/>
 		<result property="proNo" column="C_PRO_NO"/>
+		<result property="proModifyImg" column="P_PRO_MODIFY_IMG"/>
 		<result property="proName" column="P_PRO_NAME"/>
 		<result property="proPrice" column="P_PRO_PRICE"/>
 		<result property="proOpt" column="O_O_NAME"/>
@@ -100,6 +101,7 @@
 		<result property="detailOptName" column="DETAIL_OPT_NAME"/>
 		<result property="detailQty" column="DETAIL_QTY"/>
 		<result property="detailPrice" column="DETAIL_PRICE"/>
+		<result property="proModifyImg" column="PRO_MODIFY_IMG"/>
 	</resultMap>
 	
 	<resultMap type="OrderSum" id="OrderSumResultMap">
@@ -380,6 +382,7 @@
 		SELECT DISTINCT C.MEMBER_NO AS C_MEMBER_NO,
 		       C.PRO_NO AS C_PRO_NO,
 		       P.PRO_NAME AS P_PRO_NAME,
+		       P.PRO_MODIFY_IMG AS P_PRO_MODIFY_IMG,
 		       P.PRO_PRICE AS P_PRO_PRICE,
 		       C.PRO_OPT AS C_PRO_OPT,
 		       O.O_NAME AS O_O_NAME,
@@ -389,7 +392,7 @@
 		       C.CART_DATE AS C_CART_DATE
 		FROM CART C
 		JOIN PRODUCT P ON(C.PRO_NO = P.PRO_NO)
-		JOIN PRODUCT_OPT O ON(C.PRO_OPT = O.O_NO)
+		JOIN PRODUCT_OPT O ON(C.PRO_NO = O.PRO_NO) AND (C.PRO_OPT = O.O_NO)
 		WHERE 
 			C.MEMBER_NO = #{no}
 		    AND C.CART_STAT = 'Y'
@@ -529,7 +532,8 @@
 		    DETAIL_OPT,
 		    DETAIL_OPT_NAME,
 		    DETAIL_QTY,
-		    DETAIL_PRICE
+		    DETAIL_PRICE,
+		    PRO_MODIFY_IMG
 		)
 		VALUES (
 		    #{orderNo},
@@ -539,7 +543,8 @@
 		    #{detailOpt},
 		    #{detailOptName},
 		    #{detailQty},
-		    #{detailPrice}
+		    #{detailPrice},
+		    #{proModifyImg}
 		)
 	</insert>
 	
@@ -557,7 +562,8 @@
 			   DETAIL_OPT, 
 			   DETAIL_QTY, 
 			   DETAIL_PRICE, 
-			   DETAIL_OPT_NAME
+			   DETAIL_OPT_NAME,
+			   PRO_MODIFY_IMG
 		FROM ORDER_DETAIL
 		WHERE ORDER_NO = #{orderNo}
 	</select>
