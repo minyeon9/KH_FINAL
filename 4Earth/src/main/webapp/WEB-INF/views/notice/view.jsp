@@ -36,16 +36,13 @@
             	<table class="store-editor">
                 <tr>
 									<td class="img-thumb">
-										<c:if test="${ empty notice.originalFileName }">
-											<span> - </span>
-										</c:if>
 										<c:if test="${ !empty notice.originalFileName }">
 											<!-- <img src="../resources/images/common/file.gif" width="20" height="20"/> -->
 											<img src="${ path }/resources/upload/notice/${ notice.renamedFileName }" width="800" height="400" alt="">
 										
 											<%-- <a href="javascript:fileDownload('${ notice.originalFileName }', '${notice.renamedFileName}')">
-												<c:out value="${ notice.originalFileName }" /> --%>
-											</a>
+												<c:out value="${ notice.originalFileName }" /> 
+											</a>--%>
 										</c:if>
 									</td>
 								</tr>
@@ -84,15 +81,6 @@
 		                  <i class="fa-solid fa-angle-down"></i>다음글 </a
 		                >
             </div>
-             
-              	<ul>
-		              <li>
-		              	
-		              </li>
-		              <li>
-		                
-		              </li>
-            		</ul>
           </section>
         </div>
       </div>
@@ -112,6 +100,11 @@ $(() => {
         menuIdx.find('a > i').text(menuIcon[i]);
         menuIdx.find('a > span').text(menuName[i]);
     }
+    sideBarMenu.each(function(idx, el) {
+        if(idx == 0) {
+            $(this).addClass('current');
+        }
+    })
 });
 
 
