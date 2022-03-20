@@ -279,7 +279,7 @@
             
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
-let idxNum=5;
+let idxNum=4;
 </script>                 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script src="resources/js/mypage.js"></script>

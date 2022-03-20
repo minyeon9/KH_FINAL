@@ -59,10 +59,9 @@
                     </div>
 
                     
-                    <div class="guide">
                         <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
@@ -75,10 +74,10 @@
                                             <option value="10" selected="selected">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
-                                        <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
-                                            <button id="search"><i class="material-icons">search</i></button>
-                                        </div>
+                                    </div>
+                                    <div class="input-with-icon search-input">
+                                        <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                        <button id="search"><i class="material-icons">search</i></button>
                                     </div>
                                 </div>
                             </div>
@@ -97,8 +96,8 @@
                                     <thead>
                                         <tr>
                                             <th>챌린지 번호</th>
-                                            <th>챌린지 참가 번호</th>
-                                            <th>챌린지 참여자</th>
+                                            <th>참여 번호</th>
+                                            <th>참여 회원</th>
                                             <th>확인</th>
                                             <th>포인트</th>
                                             <th>내용</th>
@@ -108,15 +107,18 @@
                                     <c:if test="${ empty list }">
 	                                    <tbody>
 		                                    <tr>
-		                                    	<td colspan="6">
-												조회된 멤버가 없습니다
+		                                    	<td colspan="7">
+													<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 참여 회원이 없습니다.</p>
+						                       		</div>
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="todayMember" items="${ list }" varStatus="vs">
-		                                    <tbody>
+	                                    <tbody>
+											<c:forEach var="todayMember" items="${ list }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ todayMember.chalNo }</td>
 		                                            <td>${ todayMember.no }</td>
@@ -124,7 +126,7 @@
 		                                            <td>${ todayMember.chalPointStatus }</td>
 		                                            <td>${ todayMember.chalPoint }</td>
 		                                            <td>
-		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+		                                            <a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
@@ -178,8 +180,8 @@
 		                                                <button id="delete" name="no" value=${ todayMember.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+	                                    </tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -189,7 +191,7 @@
                         <!-- // Category -->
                         <div class="paging">
 							<!-- 맨 처음으로 -->
-							<a class="prev" href="${ path }/admin_member?page=1"></a>
+							<a class="first" href="${ path }/admin_member?page=1"></a>
 				
 							<!-- 이전 페이지로 -->
 							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
@@ -208,13 +210,12 @@
 							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
 				
 							<!-- 맨 끝으로 -->
-							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+							<a class="last" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
 						</div>
             </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
-        </div>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
@@ -224,7 +225,7 @@
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/challenge_today','${ path }/admin/challenge_month','${ path }/admin/challenge_today_manage','${ path }/admin/challenge_month_manage'];
 	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
-	    let menuIcon = ['home', 'home', 'home', 'home']
+	    let menuIcon = ['task_alt', 'public', 'people', 'people'];
 	
 	
 	    for( let i = 0; i < menuName.length; i++ ) {

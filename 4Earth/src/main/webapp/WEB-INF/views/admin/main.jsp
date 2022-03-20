@@ -8,9 +8,9 @@
 
 <%@ include file="/WEB-INF/views/common/admin_header.jsp" %>
 
-        <div class="container">
+        <div class="container" style="background: #f9f9f9;">
             <div class="contents">
-                <div class="side-bar is-open">
+                <!-- <div class="side-bar is-open">
                     <button class="btn toggle-nav">
                         <i class="material-icons md-24">last_page</i>
                     </button>
@@ -52,30 +52,28 @@
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div> -->
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>ADMIN MAIN</h3>
+                        <h3>4Earth 관리</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
-                            <span>ADMIN MAIN</span>
+                            <span>4Earth 관리</span>
                         </div>
                     </div>
 
-                    <div class="guide">
-                        <div class="admin-category">
-                            <ul>
-                                <li><a href='${ path }/admin/notice'><i class="material-icons md-36">assignment</i>게시판</a></li>
-                                <li ><a href='${ path }/admin/member'><i class="material-icons md-36">person</i>회원</a></li>
-                                <li><a href="${ path }/admin/helpboard"><i class="material-icons md-36">live_help</i>문의</a></li>
-                                <li><a href="${ path }/admin/report_list"><i class="material-icons md-36">report_problem</i>신고</a></li>
-                                <li><a href="${ path }/admin/challenge_today"><i class="material-icons md-36">checklist</i>챌린지</a></li>
-                                <li><a href="${ path }/admin/echo_list"><i class="material-icons md-36">storefront</i>에코샵</a></li>
-                            </ul>
-                        </div>
+                    <div class="admin-category">
+                        <ul>
+                            <li><a href='${ path }/admin/notice'><i class="material-icons md-36">assignment</i>게시판</a></li>
+                            <li ><a href='${ path }/admin/member'><i class="material-icons md-36">person</i>회원</a></li>
+                            <li><a href="${ path }/admin/helpboard"><i class="material-icons md-36">live_help</i>문의</a></li>
+                            <li><a href="${ path }/admin/report_list"><i class="material-icons md-36">report_problem</i>신고</a></li>
+                            <li><a href="${ path }/admin/challenge_today"><i class="material-icons md-36">checklist</i>챌린지</a></li>
+                            <li><a href="${ path }/admin/echo_list"><i class="material-icons md-36">storefront</i>에코샵</a></li>
+                        </ul>
+                    </div>
                         
-                    </div> <!-- // guide -->
                     
             </section>
 
@@ -85,7 +83,7 @@
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
-<script>
+<!-- <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['${ path }/admin/notice','${ path }/admin/member','${ path }/admin/helpboard','${ path }/admin/report_list','${ path }/admin/challenge_today','${ path }/admin/echo_list'];
@@ -106,6 +104,6 @@
             }
         });
     });
-</script>
+</script> -->
 
 </html>
