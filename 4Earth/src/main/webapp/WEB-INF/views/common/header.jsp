@@ -93,7 +93,6 @@
                             <li><a href="${ path }/point">포인트</a></li>
                             <li><a href="${ path }/order">주문&dot;배송</a></li>
                             <li><a href="${ path }/wishlist">찜한 상품</a></li>
-                            <li><a href="${ path }/">문의</a></li>
                             <li><a href="${ path }/my_ongoing_list">참여 중인 챌린지</a></li>
                             <li><a href="${ path }/profile_view">내정보</a></li>
                         </ul>
