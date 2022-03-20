@@ -85,7 +85,7 @@
 	                                    </td>
 	                                </tr>
 	                                <tr style="border-bottom: 1px solid #999; ">
-	                                    <td colspan="4" ><p>총 <b>${ product.bidCond }</b> 명의 관심이 모이면 에코샵에서 만나볼 수 있습니다.</p></td>
+	                                    <td colspan="4"><p>총 <b class="count-user">${ product.bidCond }</b> 명의 관심이 모이면 에코샵에서 만나볼 수 있습니다.</p></td>
 	                                </tr>
 	                                <tr style="padding-bottom: 15px;">
 	                                    <td colspan="4">
@@ -94,7 +94,7 @@
 	                                </tr> 
 	                                <tr>
 	                                    <td colspan="4" style="border-bottom: 1px solid #999;">
-	                                        <a href="" style="word-break: break-all;">${ product.bidUrl }</a>
+	                                        <a href="${ product.bidUrl }" class="bidding-url" target="_blank">${ product.bidUrl }</a>
 	                                    </td>
 	                                </tr>                             
 	                            </tbody>
@@ -122,7 +122,7 @@
                     <br><br><br><br>
                     
 
-                    <br><br><br><br>
+                    <!-- <br><br><br><br> -->
 
                     <!-- 한마디 게시판 -->
                     <section>

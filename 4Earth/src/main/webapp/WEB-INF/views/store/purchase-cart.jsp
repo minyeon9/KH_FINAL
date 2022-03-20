@@ -46,7 +46,7 @@
                       <c:if test="${ !empty list }">
                       <table class="cart-table">
                           <thead>
-                              <tr style="border-bottom: 2px solid rgb(206, 206, 206);">
+                              <tr style="border-bottom: 1px solid #ccc;">
                                   <th colspan="4">상품정보</th>
                                   <th>구매량</th>
                                   <th>금액</th>
@@ -89,7 +89,7 @@
 			                                  <fmt:formatNumber value="${ product.proPrice * product.cartQty }" pattern="##,###,###"/> 원
 		                                  	  <input type="hidden" value="${ product.proPrice * product.cartQty }" disabled="disabled">
 		                                  </span>
-		                                  <a href="" class="cart-delete"><i class="material-icons md-24" style="font-size: 16px;">close</i></a>
+		                                  <a href="" class="cart-delete"><i class="material-icons md-18">close</i></a>
 	                                  	  <c:set var="col_sum" value="${ col_sum + product.proPrice * product.cartQty }"/>
 	                                  </td>		                                 
 	                              </tr>
@@ -111,7 +111,7 @@
                               <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
                                   총 금액
                               </th>
-                              <th rowspan="2" id="sum-final" style="vertical-align: middle; font-size: 18px;">	                                  
+                              <th rowspan="2" id="sum-final" style="vertical-align: middle; font-size: 18px; color: #76b779;">	                                  
                                                                     		                                  	
                               </th>
                           </tr>
@@ -125,8 +125,8 @@
                           </tr> 
                           <tr>
                               <th colspan="6">
-                                  <button class="cart-btn" onclick="location.href='${ path }/product_list'">계속 쇼핑하기</button>
-                                  <button id="purchase" class="cart-btn">주문하기</button>
+                                  <button class="btn btn-l cart-btn" onclick="location.href='${ path }/product_list'">계속 쇼핑하기</button>
+                                  <button id="purchase" class="btn btn-l cart-btn">주문하기</button>
                               </th>
                           </tr>
                       </table>

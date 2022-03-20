@@ -95,7 +95,7 @@
 						</h2>
 						<ul>
 							<li><a href="${ path }/product_list">소분샵</a></li>
-							<li><a href="${ path }/bidding_list">소분샵 입고 신청</a></li>
+							<li><a href="${ path }/bidding_list">모집 중인 상품</a></li>
 							<li><a href="${ path }/map">오프라인 매장</a></li>
 						</ul>
 					</li>
