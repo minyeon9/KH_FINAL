@@ -43,8 +43,11 @@
 								<div class="thumb-img">
 									<img src="${ path }/resources/upload/challenge/${ challengeList.renamedFilename }" alt="">
 								</div>
-								<strong>${ challengeList.chalTitle }</strong>
-								<p>${ challengeList.chalContent }</p>
+								<div class="bg-thumb"></div>
+								<div class="txt-thumb">
+									<strong>${ challengeList.chalTitle }</strong>
+									<p>${ challengeList.chalContent }</p>
+								</div>
 							</a>
 						</li>
 					</c:forEach>
@@ -79,8 +82,11 @@
 								<div class="thumb-img">
 									<img src="${ path }/resources/upload/store/${ productList.proModifyImg }" alt="">
 								</div>
-								<strong>${ productList.proName }</strong>
-								<p>${ productList.proInfo }</p>
+								<div class="bg-thumb"></div>
+								<div class="txt-thumb">
+									<strong>${ productList.proName }</strong>
+									<p>${ productList.proInfo }</p>
+								</div>
 							</a>
 						</li>
 					</c:forEach>
