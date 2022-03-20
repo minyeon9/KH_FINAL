@@ -439,7 +439,7 @@ INSERT INTO POINT (
     SAVE_STATUS
 ) VALUES (
     SEQ_POINT.NEXTVAL,
-    43,
+    44,
     DEFAULT,
     '챌린지 달성',
     100000,
