@@ -111,7 +111,7 @@
                               <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
                                   총 금액
                               </th>
-                              <th rowspan="2" id="sum-final" style="vertical-align: middle; font-size: 18px;">	                                  
+                              <th rowspan="2" id="sum-final" style="vertical-align: middle; font-size: 18px; color: #76b779;">	                                  
                                                                     		                                  	
                               </th>
                           </tr>

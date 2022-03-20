@@ -115,6 +115,16 @@
     border-top: 2px solid #67b16b;
     border-bottom: 1px solid #ccc;
 }
+.board-head.prd {
+	height:35px;
+	
+}
+.board-head.prd form {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
 .count-prd {
 	color: #5a5a5a;
 	font-weight: 500;
