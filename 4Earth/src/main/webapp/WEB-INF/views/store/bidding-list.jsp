@@ -46,7 +46,10 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>모집중인 상품</h3>
+                        <h3>
+                        	모집 중인 상품
+                        	<span>소분샵에서 만나보고 싶으신 상품을 신청하고, 모집에 참여해주세요.</span>
+                        </h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">에코샵</a>
@@ -57,7 +60,7 @@
                     <div class="store-wrap">
 
                         <section>
-                            <hr style="border: 1px solid #669948;">
+                            
                             <br>
                             <button id="writeApplication" class="btn" style="float: right;">입고 신청하기</button>
                             <br><br><br>
@@ -101,9 +104,10 @@
                             </div>
                         </section>
                         <!-- // Thumbnail List -->
-
+		
                         <c:if test="${ !empty list }">
 	                        <div class="paging">
+	                        	<a href="${ path }/product_bidding?page=1" class="first"><span>맨 앞으로</span></a> 
 	                            <a href="${ path }/product_bidding?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
 	                            <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
 									<c:if test="${ status.current == pageInfo.currentPage }">				
@@ -116,6 +120,7 @@
 								</c:forEach>
 	                            <a href="${ path }/product_bidding?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
 	                        	<input type="hidden" name="no" value="${ product.proNo }">
+	                            <a href="${ path }/product_bidding?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
 	                        </div>
                         </c:if>
                     </div> <!-- // guide -->

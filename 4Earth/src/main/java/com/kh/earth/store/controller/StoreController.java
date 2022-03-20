@@ -552,6 +552,7 @@ public class StoreController {
 					orderDetail.setDetailOptName(c.getProOpt());
 					orderDetail.setDetailQty(c.getCartQty());
 					orderDetail.setDetailPrice(c.getProPrice());
+					orderDetail.setProModifyImg(c.getProModifyImg());
 					
 					log.info("orderDetail : " + orderDetail.toString());
 					
@@ -759,12 +760,6 @@ public class StoreController {
 		int memberNo = loginMember.getNo();
 		
 		int purchaseCount = service.findOrderDetail(memberNo, proNo, optName);
-		
-		System.out.println("purchaseCount " + purchaseCount);
-		System.out.println("memberNo " + memberNo);
-		System.out.println("proNo " + proNo);
-		System.out.println("optName " + optName);
-		System.out.println("proOpt" + review.getProOpt());
 
 		if(purchaseCount > 0) {
 			log.info("시작");
@@ -792,6 +787,8 @@ public class StoreController {
 						
 						try {
 							location = resourceLoader.getResource("resources/upload/review").getFile().getPath();
+							
+							log.info("location : " + location);
 						} catch (IOException e) {
 							e.printStackTrace();
 						} 
@@ -984,6 +981,7 @@ public class StoreController {
 		}
 		
 		model.addObject("list", list);
+		model.addObject("pageInfo", pageInfo);
 		
 		log.info("list : " + list);
 		

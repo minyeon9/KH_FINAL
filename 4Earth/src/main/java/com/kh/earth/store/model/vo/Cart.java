@@ -29,4 +29,6 @@ public class Cart {
 	private Date cartDate;
 	
 	private int proStat;
+	
+	private String proModifyImg;
 }

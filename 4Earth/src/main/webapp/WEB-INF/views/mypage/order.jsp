@@ -31,7 +31,7 @@
 
                         <section> 
                             <br>                         
-                                <table class="cart-table order-table">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th style="width: 32%;">주문번호</th>
