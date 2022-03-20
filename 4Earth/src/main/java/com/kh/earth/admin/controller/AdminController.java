@@ -586,12 +586,12 @@ public class AdminController {
         return model;
     }
 	
-//	@GetMapping("/echo_write")
-//	public String admin_echo_write(ModelAndView model) {
-//		log.info("admin_echo_write() - 호출");
-//		
-//		return "admin/echo_write";
-//	}
+	@GetMapping("/echo_write")
+	public String admin_echo_write(ModelAndView model) {
+		log.info("admin_echo_write() - 호출");
+		
+		return "admin/echo_write";
+	}
 	
 	@GetMapping("/echo_bidding_write")
     public ModelAndView admin_echo_bidding_write(ModelAndView model,

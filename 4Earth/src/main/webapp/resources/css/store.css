@@ -407,6 +407,10 @@ input[type=number]
 	height: 450px;
 	vertical-align: middle;	
 	text-align: center;
+	margin-bottom: 15px;
+}
+.pro-detail-img img {
+	height: 100%;
 }
 .pro-detail-description {
 	width: 100%;
