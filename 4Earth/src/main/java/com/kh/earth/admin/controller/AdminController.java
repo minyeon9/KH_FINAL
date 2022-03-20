@@ -116,6 +116,8 @@ public class AdminController {
 		pageInfo = new PageInfo(page, 10, service.getNoticeCount(name), count);
 		list = service.getNoticeList(pageInfo, name);
 		
+		System.out.println(list);
+		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
 		
@@ -446,10 +448,10 @@ public class AdminController {
 		
 		if (result > 0) {
 			model.addObject("msg", "주문 취소 완료");
-			model.addObject("script", "window.opener.document.location.reload(); window.close();");
+			model.addObject("location", "/admin/echo_delivery");
 		}else {
 			model.addObject("msg", "주문 취소 실패");
-			model.addObject("location", "/admin/echo_order");
+			model.addObject("location", "/admin/echo_delivery");
 		}
 			
 		
@@ -480,10 +482,10 @@ public class AdminController {
 		result = service.orderDelivery(orderDetail.getOrderNo());
 		
 		if (result > 0) {
-			model.addObject("msg", "에코샵  업데이트 성공");
+			model.addObject("msg", "물품 배송 성공");
 			model.addObject("script", "window.opener.document.location.reload(); window.close();");
 		}else {
-			model.addObject("msg", "에코샵 업데이트 실패");
+			model.addObject("msg", "물품 배송 실패");
 			model.addObject("location", "/admin/echo_order_detail?no=" + orderDetail.getOrderNo());
 		}
 		
@@ -511,6 +513,30 @@ public class AdminController {
 		model.addObject("orderList", orderList);
 		
 		model.setViewName("/admin/echo_delivery");
+		
+		return model;
+	}
+	
+	@GetMapping("/order_reDelivery")
+	public ModelAndView admin_order_reDelivery(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_order_reDelivery" + no);
+		
+		int result = 0;
+		
+		result = service.reDelivery(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "물품 배송 완료");
+			model.addObject("location", "/admin/echo_cancel");
+		}else {
+			model.addObject("msg", "물품 배송 실패");
+			model.addObject("location", "/admin/echo_cancel");
+		}
+			
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}
@@ -586,12 +612,12 @@ public class AdminController {
         return model;
     }
 	
-//	@GetMapping("/echo_write")
-//	public String admin_echo_write(ModelAndView model) {
-//		log.info("admin_echo_write() - 호출");
-//		
-//		return "admin/echo_write";
-//	}
+	@GetMapping("/echo_write")
+	public String admin_echo_write(ModelAndView model) {
+		log.info("admin_echo_write() - 호출");
+		
+		return "admin/echo_write";
+	}
 	
 	@GetMapping("/echo_bidding_write")
     public ModelAndView admin_echo_bidding_write(ModelAndView model,
@@ -605,6 +631,29 @@ public class AdminController {
 
         return model;
     }
+	
+	@GetMapping("/bidding_cancel")
+	public ModelAndView admin_echo_bidding_cancel(ModelAndView model,
+			@RequestParam("no") int no) {
+		int result = 0;
+		
+		log.info("admin_echo_bidding_cancel() - 호출");
+		
+		result = service.deleteBidding(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "물품접수 취소 완료");
+			model.addObject("location", "/admin/echo_bidding");
+		}else {
+			model.addObject("msg", "물품접수 취소 실패");
+			model.addObject("location", "/admin/echo_bidding");
+		}
+			
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
 	
 	@PostMapping("/echo_bidding_write")
     public ModelAndView admin_echo_bidding_write(ModelAndView model,

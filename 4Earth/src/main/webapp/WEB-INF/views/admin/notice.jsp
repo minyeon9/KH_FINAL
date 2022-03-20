@@ -42,7 +42,7 @@
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">게시판</a>
-                            <span>게시판 관리</span>
+                            <span>공지사항 게시판 관리</span>
                         </div>
                     </div>
 
@@ -54,7 +54,6 @@
                                     <div class="select-wrap">
                                         <select name="" id="" class="selectbox">
                                             <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
                                         </select>
                                         <select name="" id="" class="selectbox">
                                             <option value="10" selected>10개씩 보기</option>
@@ -202,7 +201,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/notice'];
-	    let menuName = ['게시판 분류1'];
+	    let menuName = ['공지사항 게시판'];
 	    let menuIcon = ['home']
 	
 	    for( let i = 0; i < menuName.length; i++ ) {

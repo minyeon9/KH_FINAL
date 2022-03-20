@@ -525,4 +525,16 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.updateQna(qnaAnswer);
 	}
 
+	@Override
+	public int deleteBidding(int no) {
+		
+		return mapper.deleteBidding(no);
+	}
+
+	@Override
+	public int reDelivery(int no) {
+		
+		return mapper.reDelivery(no);
+	}
+
 }
