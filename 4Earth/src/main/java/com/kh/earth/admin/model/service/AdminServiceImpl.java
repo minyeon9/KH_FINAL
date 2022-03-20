@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.earth.admin.model.dao.AdminMapper;
+import com.kh.earth.admin.model.vo.ProInqAnswer;
 import com.kh.earth.admin.model.vo.QnaAnswer;
 import com.kh.earth.admin.model.vo.Report;
 import com.kh.earth.admin.model.vo.Reported;
@@ -428,6 +429,15 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public List<QnaAnswer> getAnswerByNo(PageInfo pageInfo, Map<String, String> name) {
+		int offset = (pageInfo.getCurrentPage() -1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return mapper.getAnswerByNo(rowBounds, name);
+	}
+	
+	@Override
 	public Qna findQnaByNo(int no) {
 		
 		return mapper.findQnaByNo(no);
@@ -437,6 +447,94 @@ public class AdminServiceImpl implements AdminService {
 	public int answerQna(QnaAnswer qnaAnswer) {
 		
 		return mapper.answerQna(qnaAnswer);
+	}
+
+	@Override
+	public int qnaDone(int no) {
+		
+		return mapper.qnaDone(no);
+	}
+	
+	@Override
+    public ProductInquiry findProInqByNo(int no) {
+
+        return mapper.findProInqByNo(no);
+    }
+
+    @Override
+    public int answerProInq(ProInqAnswer proInqAnswer) {
+
+        return mapper.answerProInq(proInqAnswer);
+    }
+
+    @Override
+    public int updateProInq(int no) {
+
+        return mapper.updateProInq(no);
+    }
+
+	@Override
+	public int deleteToday(int no) {
+		
+		return mapper.deleteToday(no);
+	}
+
+	@Override
+	public int deleteMonth(int no) {
+		
+		return mapper.deleteMonth(no);
+	}
+
+	@Override
+	public int deleteMonthMem(int no) {
+		
+		return mapper.deleteMonthMem(no);
+	}
+
+	@Override
+	public int todayMemPoint(int no) {
+		
+		int result = 0;
+		
+		result = mapper.todayMemPoint(no);
+		
+		return result;
+	}
+
+	@Override
+	public int deleteTodayMem(int no) {
+		
+		return mapper.deleteTodayMem(no);
+	}
+
+	@Override
+	public int unbanMember(int no) {
+		
+		return mapper.unbanMember(no);
+	}
+
+	@Override
+	public int writeNotice(Notice notice) {
+		
+		return mapper.writeNotice(notice);
+	}
+
+	@Override
+	public int updateQna(QnaAnswer qnaAnswer) {
+		
+		return mapper.updateQna(qnaAnswer);
+	}
+
+	@Override
+	public int deleteBidding(int no) {
+		
+		return mapper.deleteBidding(no);
+	}
+
+	@Override
+	public int reDelivery(int no) {
+		
+		return mapper.reDelivery(no);
 	}
 
 }

@@ -64,17 +64,19 @@
                             <div style="margin-bottom: 5px;">
                                 <div class="board-head">
                                     <div class="select-wrap">
-                                        <select name="" id="" class="selectbox">
-                                            <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
+                                        <select name="" id="member-select" class="selectbox">
+                                            <option value="1" selected>번호검색</option>
+                                            <option value="2">제목검색</option>
+                                            <option value="3">분류검색</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10" selected="selected">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요.">
-                                            <button><i class="material-icons">search</i></button>
+                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                            <button id="search"><i class="material-icons">search</i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -83,40 +85,41 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th>문의 번호</th>
                                             <th>문의 제목</th>
+                                            <th>문의 분류</th>
                                             <th>문의자 아이디</th>
                                             <th>작성일</th>
                                             <th>내용</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
-                                    <c:if test="${ empty list }">
+                                    <c:if test="${ empty qna }">
 	                                    <tbody>
 		                                    <tr>
 		                                    	<td colspan="6">
-												조회된 공지사항이 없습니다
+												완료된 문의가 없습니다
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
-									<c:if test="${ !empty list }">
-										<c:forEach var="qna" items="${ list }" varStatus="vs">
+									<c:if test="${ !empty qna }">
+										<c:forEach var="qna" items="${ qna }" varStatus="vs">
 		                                    <tbody>
 		                                        <tr>
 		                                            <td>${ qna.no }</td>
 		                                            <td>${ qna.title }</td>
-		                                            <td>${ qna.categoryNo }</td>
+		                                            <td>${ qna.category }</td>
 		                                            <td>${ qna.writerNo }</td>
 		                                            <td>${ qna.createDate }</td>
 		                                            <td>
@@ -124,8 +127,8 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ qna.no }
-						                                        <strong>${ qna.writerNo }</strong>
+						                                    	문의 번호 : ${ qna.no }
+						                                        <strong>문의 답변 완료</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -140,8 +143,8 @@
 													        		<tr>
 													        			<th>제목</th>
 													        			<td>${ qna.title }</td>
-													        			<th>조회수</th>
-													        			<td>${ qna.readCount }</td>
+													        			<th>멤버 번호</th>
+													        			<td>${ qna.writerNo }</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="2">사진</th>
@@ -150,6 +153,12 @@
 													        		<tr>
 													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/notice/${qna.renamedFileName}" /></td>
 													        			<td colspan="2">${ qna.content }</td>
+													        		</tr>
+													        		<tr >
+													        			<td colspan="4">문의답변</td>
+													        		</tr>
+													        		<tr>
+													        			<td colspan="4">${ answer[vs.index].answerContent }</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>
@@ -162,8 +171,7 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
-		                                                <button type="button" id="delete" name="no" value=${ qna.no } class="btn btn-s gray">정지</button>
+		                                                <button id="qna_answer" name="no" value=${ qna.no } class="btn btn-s">수정</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -173,18 +181,32 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
                         <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#" class="next"><span>다음</span></a>
-                        </div>                   
+							<!-- 맨 처음으로 -->
+							<a class="prev" href="${ path }/admin_member?page=1"></a>
+				
+							<!-- 이전 페이지로 -->
+							<a class="prev" href="${ path }/admin_member?page=${ pageInfo.prevPage }"></a>
+				
+							<!--  10개 페이지 목록 -->
+							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+								<c:if test="${ status.current == pageInfo.currentPage }">			
+									<strong>${ status.current }</strong>
+								</c:if>
+								<c:if test="${ status.current != pageInfo.currentPage }">				
+									<a href="${ path }/admin/member?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+								</c:if>
+							</c:forEach>
+				
+							<!-- 다음 페이지로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.nextPage }"></a>
+				
+							<!-- 맨 끝으로 -->
+							<a class="next" href="${ path }/admin_member?page=${ pageInfo.maxPage }"></a>
+						</div>                 
                     </div>
                     
             </section>
@@ -199,7 +221,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/qna','${ path }/admin/qna_done','${ path }/admin/echo_qna'];
-	    let menuName = ['문의 목록', '문의 완료 목록', 'FAQ'];
+	    let menuName = ['문의 목록', '문의 완료 목록', '상품 문의'];
 	    let menuIcon = ['home', 'home', 'home']
 	
 	
@@ -216,6 +238,28 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click', '#search', () => {
+			if($("#member-select option:selected").val() == 1) {
+				location.replace("${ path }/admin/qna_done?no=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 2) {
+				location.replace("${ path }/admin/qna_done?name=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 3) {
+				location.replace("${ path }/admin/qna_done?category=" + $("#search-val").val());
+			}
+		})
+	});
+	
+	$(document).on("click","#qna_answer", (e) => {
+	    var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+	    var popupY= (window.screen.height / 2) - (800 / 2);
+	    const url = "${ path }/admin/qna_answer?no="+ e.target.value;
+	    
+	    open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 	});
 </script>
 

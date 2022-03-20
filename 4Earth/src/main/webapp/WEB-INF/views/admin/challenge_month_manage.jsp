@@ -64,17 +64,19 @@
                             <div style="margin-bottom: 5px;">
                                 <div class="board-head">
                                     <div class="select-wrap">
-                                        <select name="" id="" class="selectbox">
-                                            <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
+                                        <select name="" id="member-select" class="selectbox">
+                                            <option value="1" selected>참가번호</option>
+                                            <option value="2">회원번호</option>
+                                            <option value="3">챌린지번호</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10" selected="selected">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요.">
-                                            <button><i class="material-icons">search</i></button>
+                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                            <button id="search"><i class="material-icons">search</i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -93,10 +95,10 @@
                                     </colgroup>
                                     <thead>
                                         <tr>
+                                            <th>챌린지 번호</th>
                                             <th>챌린지 참가 번호</th>
                                             <th>챌린지 참여자</th>
-                                            <th>챌린지 번호</th>
-                                            <th>지급상황</th>
+                                            <th>확인</th>
                                             <th>포인트</th>
                                             <th>내용</th>
                                             <th>관리</th>
@@ -115,9 +117,9 @@
 										<c:forEach var="monthMember" items="${ list }" varStatus="vs">
 		                                    <tbody>
 		                                        <tr>
+		                                            <td>${ monthMember.chalNo }</td>
 		                                            <td>${ monthMember.no }</td>
 		                                            <td>${ monthMember.memNo }</td>
-		                                            <td>${ monthMember.chalNo }</td>
 		                                            <td>${ monthMember.chalPointStatus }</td>
 		                                            <td>${ monthMember.chalPoint }</td>
 		                                            <td>
@@ -169,7 +171,7 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button id="point" name="no" value=${ monthMember.no } class="btn btn-s">지급</button>
+		                                                <button id="point" name="no" value=${ monthMember.no } class="btn btn-s">확인</button>
 		                                                <button id="delete" name="no" value=${ monthMember.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
@@ -179,7 +181,6 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
@@ -240,9 +241,31 @@
 	});
 	
 	$(document).ready(() => {
+		$(document).on('click', '#search', () => {
+			if($("#member-select option:selected").val() == 1) {
+				location.replace("${ path }/admin/challenge_month_manage?no=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 2) {
+				location.replace("${ path }/admin/challenge_month_manage?memberNo=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 3) {
+				location.replace("${ path }/admin/challenge_month_manage?chalNo=" + $("#search-val").val());
+			}
+		})
+	});
+	
+	$(document).ready(() => {
 		$(document).on('click','#point', (e) => {
-			if(confirm("정말로 포인트를 지급하겠습니까??")) {
+			if(confirm("정말로 확인 하셨습니까??")) {
 				location.replace("${ path }/admin/month_point?no=" + e.target.value);
+			}
+		})
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#delete', (e) => {
+			if(confirm("정말로 이 챌린지 참여를 취소 시키겠습니까??")) {
+				location.replace("${ path }/admin/month_mem_delete?no=" + e.target.value);
 			}
 		})
 	});

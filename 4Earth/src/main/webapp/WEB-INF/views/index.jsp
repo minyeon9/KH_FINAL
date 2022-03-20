@@ -21,7 +21,7 @@
 				<button class="btn-visual">버튼</button>
 				<button class="btn-visual-undo">뒤로</button>
 				
-				<c:forEach var="challengeList" items="${ month }" begin="1" end="4">
+				<c:forEach var="challengeList" items="${ month }" begin="0" end="0">
 					<div class="best-main">
 						<div class="thumb-img">
 							<img src="${ path }/resources/upload/challenge/${ challengeList.renamedFilename }"alt="">

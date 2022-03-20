@@ -56,9 +56,8 @@
                                             <option value="최신순" selected>최신순</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
-                                            <option value="1">n개씩 보기</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10">10개씩 보기</option>
+                                            <option value="10" selected>10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
@@ -72,11 +71,12 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="15%">
-                                        <col width="15%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
@@ -86,6 +86,7 @@
                                             <th>가입일</th>
                                             <th>회원등급</th>
                                             <th>신고회수</th>
+                                            <th>상태</th>
                                             <th>관리</th>
                                         </tr>
                                     </thead>
@@ -107,9 +108,10 @@
 		                                            <td>${ reported.enrollDate }</td>
 		                                            <td>${ reported.member_type }</td>
 		                                            <td>${ reported.reportedTimes }</td>
+		                                            <td>${ reported.status }</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
-		                                                <button id="delete" name="no" value=${ reported.no } class="btn btn-s gray">정지</button>
+		                                                <button id="unban" name="no" value=${ reported.no } class="btn btn-s">해제</button>
+		                                                <button id="ban" name="no" value=${ reported.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -118,7 +120,6 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
@@ -186,6 +187,22 @@
 				location.replace("${ path }/admin/reported_list?name=" + $("#search-val").val());
 			})
 		});
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#ban', (e) => {
+			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
+				location.replace("${ path }/admin/member_delete?no=" + e.target.value);
+			}
+		})
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#unban', (e) => {
+			if(confirm("정말로 이 멤버를 정지 해제시키겠습니까??")) {
+				location.replace("${ path }/admin/member_unban?no=" + e.target.value);
+			}
+		})
 	});
 </script>
 

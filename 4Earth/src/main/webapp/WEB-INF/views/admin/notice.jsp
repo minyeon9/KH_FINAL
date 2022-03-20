@@ -42,7 +42,7 @@
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">게시판</a>
-                            <span>게시판 관리</span>
+                            <span>공지사항 게시판 관리</span>
                         </div>
                     </div>
 
@@ -54,7 +54,6 @@
                                     <div class="select-wrap">
                                         <select name="" id="" class="selectbox">
                                             <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
                                         </select>
                                         <select name="" id="" class="selectbox">
                                             <option value="10" selected>10개씩 보기</option>
@@ -161,7 +160,7 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
+                                <button id="write" type="button" class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
@@ -202,7 +201,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/notice'];
-	    let menuName = ['게시판 분류1'];
+	    let menuName = ['공지사항 게시판'];
 	    let menuIcon = ['home']
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
@@ -218,6 +217,14 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).on("click","#write", (e) => {
+	    var popupX = (document.body.offsetWidth / 2) - (800 / 2);
+	    var popupY= (window.screen.height / 2) - (800 / 2);
+	    const url = "${ path }/admin/notice_write?no="+ e.target.value;
+	    
+	    open(url, "", 'status=no, height=800, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
 	});
 </script>
 

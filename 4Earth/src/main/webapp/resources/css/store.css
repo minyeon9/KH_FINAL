@@ -90,9 +90,21 @@
     transform: translate(-50%, -50%);
 }
 .inqContent-wrap {
-	width: 95%;
+	width: 93%;
 	min-height: 40px;	
 	border: 1px solid #ddd;
+	float: left;
+}
+.inqContent-btn-wrap {
+	border-top: none !important;
+	background-color : #808080;
+	width: 5%;
+	height: 26px;
+	padding: 0 !important;
+	float: right;
+}
+.inqContent-btn-wrap a {
+	padding: 0 !important;
 }
 
 .store-selectbox {
@@ -416,7 +428,20 @@ input[type=number]
 .prd-option {
 	width: 250px;
 }
-
+.prd-date {
+	font-size: 14px;
+}
+.rev-img-container {
+	text-align: center;	
+	border-top: none !important;
+}
+.delete-rev {
+	color: #bbb;
+	font-size: 10px;
+}
+.delete-rev:hover {
+	color: #5CB65A;
+}
 
 
 /* 장바구니 */
@@ -754,14 +779,30 @@ input[type=number]
 }
 .bid-btn {
     width: 120px;
-    padding: 8px 18px;    
+    padding: 8px 10px;  
+}
+.bid-board {
+	margin-bottom: 15px;
 }
 .bid-board td:first-child{
     width: 75%;
     text-align: left;
 }
-
-
+.wish-added:disabled {
+	cursor: not-allowed;
+}
+.bid-write {
+	margin-bottom: 15px;
+}
+.bid-write form {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.bid-write form textarea {
+    width: calc(100% - 125px);
+    height: 45px;
+}
 
 /* -----------------
     오프라인 매장안내

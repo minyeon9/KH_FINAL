@@ -23,7 +23,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li class="current">
+                        <li class="">
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -72,7 +72,9 @@
 											<li>
 												<input type="hidden" value="${ list.bidNo }">
 		                                        <div class="img-thumb">
-		                                            <img src="${ path }/resources/upload/store/${ list.renamedFileName }" alt="">
+		                                        	<a href="${ path }/bidding_detail?no=${ list.bidNo }">
+			                                            <img src="${ path }/resources/upload/store/${ list.renamedFileName }" alt="">
+		                                        	</a>
 		                                        </div>
 		                                        <strong><a href="${ path }/bidding_detail?no=${ list.bidNo }">${ list.bidName }</a></strong>
 		                                        <div class="price">
@@ -83,7 +85,14 @@
 		                                        <div class="review"><small>달성률 <fmt:formatNumber value="${ list.bidCurr div list.bidCond * 100 }" pattern="0.0"/>%</small></div>
 		                                        
 		                                        <div class="btn-wrap">
-		                                            <a href="javascript:void(0);"><i class="heart fa fa-heart-o"></i></a>
+		                                            <c:choose>
+				                                        <c:when test="${ (loginMember.no eq list.bidMemberNo) && list.bidStat eq 'Y' }">
+			                                            	<i class="heart fa fa-heart"></i>			                                        	
+				                                        </c:when>
+				                                        <c:otherwise>
+			                                            	<i class="heart fa fa-heart-o"></i>	                                        	
+				                                        </c:otherwise>
+		                                        	</c:choose>
 		                                        </div>
 		                                    </li>
                                 		</c:forEach>                                		
@@ -180,17 +189,19 @@
 				console.log(data);
 				
 				console.log(selected);
-				selected.toggleClass("fa-heart fa-heart-o");
+				selected.toggleClass("fa-heart-o fa-heart");
 				
 				if(data === "Bid Added" || data === "Bid Again"){
 					alert("참여 성공");
+					location.reload();
 				}
 				else if(data === "Bid Deleted"){
 					alert("참여 취소");
+					location.reload();
 				}
 			}
 		});  
-    }); 
+    });
     
     // 입고 신청하기 팝업
     $("#writeApplication").on("click", () => {

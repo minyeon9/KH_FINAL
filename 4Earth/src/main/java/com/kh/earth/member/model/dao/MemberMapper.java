@@ -19,7 +19,11 @@ public interface MemberMapper {
 	
 	Member findMemberByPhone(String phone);
 	
+	Member findMemberByPhoneForEdit(Map<String, String> map);
+	
 	Member findMemberByEmail(String userEmail);
+	
+	Member findMemberByEmail_forEdit(Map<String, String> map);
 
 	int insertMember(Member member);
 
@@ -32,6 +36,10 @@ public interface MemberMapper {
 	int reSignup(String id);
 
 	int updatePassword(Map<String, String> map);
+
+
+
+
 
 
 

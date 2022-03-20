@@ -23,7 +23,7 @@
                         <i class="material-icons md-24">last_page</i>
                     </button>
                     <ul>
-                        <li class="current">
+                        <li class="">
                             <a href="">
                                 <i class="material-icons md-16"></i>
                                 <span></span>
@@ -152,7 +152,7 @@
 	                                 </c:when>
 	                                 <c:otherwise>
                                     	<button class="btn pro-btn" id="addWish">
-                                    		찜
+                                    		<i class="material-icons" id="wish-done" style="display: none;">done</i>찜
                                     	</button>			                                        	
 	                                 </c:otherwise>
                                	</c:choose>
@@ -206,22 +206,46 @@
 		                                            <i class="fill" style="width: ${ rev.revRating * 20 }%"></i>
 		                                        </span>
 		                                       	<span class="prd-option">
-		                                       		<small>구매 옵션 : ${ rev.proOptName } </small>
+		                                       		<small>구매 옵션 : ${ rev.proOptName }</small>
 		                                       		<br>
 		                                       		<p style="width: 300px;">${ rev.revTitle }</p>
 		                                   		</span>
 		                                        <span class="prd-date">
-		                                        	<fmt:formatDate value="${ rev.revDate }" pattern="yyy-MM-dd"/>
+		                                        	<fmt:formatDate value="${ rev.revDate }" pattern="yyy-MM-dd hh:mm"/>
 		                                        </span>
-		                                        <span class="inquiry-writerId">
+		                                        <span class="inquiry-writerId" style="color: #67b16b; width: 80px;">
 		                                        	${ rev.memberId }
 		                                        </span>
+		                                        <c:if test="${ !empty loginMember && loginMember.no eq rev.memberNo }">
+		                                        	<form id="rev-delete-form" action="${ path }/delete_review" method="post" onsubmit="return confirm('리뷰를 삭제하시겠습니까?');">
+		                                        		<button type="submit" class="material-icons md-22 delete-rev">delete_outline</button>
+		                                        		<input name="orderNo" value="${ rev.orderNo }" type="hidden">
+		                                        		<input name="proNo" value="${ rev.proNo }" type="hidden">
+		                                        		<input name="proOpt" value="${ rev.proOpt }" type="hidden">
+		                                        		<input name="memberNo" value="${ rev.memberNo }" type="hidden">
+		                                        	</form>
+		                                        </c:if> 		                                        	                                                                             		
 		                                    </a>
-		                                    <c:if test="${ rev.renamedFileName }"></c:if>
 		                                    <div>
-		                                        <div class="inqContent-wrap" style="padding: 10px 5px;">
+		                                    	<c:if test="${ !empty rev.renamedFileName }">
+		                                    		<div class="rev-img-container">
+		                                    			<img src="${ path }/resources/upload/store/${ rev.renamedFileName }">
+		                                    		</div>
+		                                    	</c:if>	                                        
+		                                    	<div style="border-top: none; padding: 10px; display: inline-block; width: 85%;">
 			                                    	${ rev.revContent }
 		                                    	</div>
+		                                    	<div style="border-top: none; padding: 0px; display: inline-block; width: 10%; float: right;">
+		                                    		<c:if test="${ !empty loginMember && loginMember.no ne rev.memberNo }">
+		                                    			<a href="#report" class="material-icons md-18 btn-report-reply btn-open-pop delete-rev report-store" 
+		                                    				title="신고" style="padding: 30px 0px 0px 15px; justify-content: flex-end;">report_problem</a>
+		                                    			<input name="memberId" value="${ rev.memberId }" type="hidden">
+		                                    			<input name="orderNo" value="${ rev.orderNo }" type="hidden">
+		                                    			<input name="proNo" value="${ rev.proNo }" type="hidden">
+		                                    			<input name="proOpt" value="${ rev.proOpt }" type="hidden">
+		                                    			<input name="revContent" value="${ rev.revContent }" type="hidden">
+		                                    		</c:if>
+		                                    	</div>		                                    			                                    	                                    	
 		                                    </div>
 		                                </li> 
 	                            	</c:forEach>
@@ -270,32 +294,53 @@
 		                            	<li class="inquiry-li">
 		                                    <a href="javascript:void(0);">		                                        
 		                                        <c:if test="${ inq.inqStat eq 'N' }">
-		                                        	<p></p>
+		                                        	<p style="color: #888;">&lt;답변예정&gt;</p>
 		                                        </c:if>
 		                                        <c:if test="${ inq.inqStat eq 'Y' }">
-		                                        	<p>답변완료</p>
+		                                        	<p>&lt;답변완료&gt;</p>
 		                                        </c:if>		                                        
-		                                        <p>
+		                                        <p style="padding-left: 50px">
 		                                        	<c:if test="${ inq.inqSecret eq 'Y' }">
 		                                        		<i class="material-icons md-16">lock</i>
 		                                        	</c:if>		                                            
 		                                            ${ inq.inqTitle }
 		                                        </p>
-		                                        <p>
-		                                        	<fmt:formatDate value="${ inq.inqDate }" pattern="yyy-MM-dd"/>
+		                                        <p class="prd-date" style="width: 165px;">
+		                                        	<fmt:formatDate value="${ inq.inqDate }" pattern="yyy-MM-dd hh:mm"/>
 		                                        </p>
-		                                        <p class="inquiry-writerId">${ inq.memberId }</p>
+		                                        <p class="inquiry-writerId" style="color: #67b16b;">${ inq.memberId }</p>
+		                                        <c:if test="${ !empty loginMember && loginMember.no eq inq.memberNo }">
+		                                        	<form id="qna-delete-form" action="${ path }/delete_qna" method="post" onsubmit="return confirm('상품 문의를 삭제하시겠습니까?');">
+		                                        		<button type="submit" class="material-icons md-22 delete-rev">delete_outline</button>
+		                                        		<input name="inqNo" value="${ inq.inqNo }" type="hidden">
+		                                        		<input name="proNo" value="${ inq.proNo }" type="hidden">
+		                                        		<input name="memberNo" value="${ inq.memberNo }" type="hidden">
+		                                        	</form>
+		                                        </c:if>   
 		                                    </a>
 		                                    <div>
-		                                        <i class="icon-question"></i>
-		                                        <div class="inqContent-wrap" style="padding: 10px 5px;">
-			                                    	${ inq.inqContent }
+		                                    	<i class="icon-question"></i>
+		                                        <div style="border-top: none; padding: 10px; display: inline-block; width: 85%;">
+		                                    		${ inq.inqContent }
 		                                    	</div>
+		                                    	<div style="border-top: none; padding: 0px; display: inline-block; width: 10%; float: right;">
+		                                    		<c:if test="${ !empty loginMember && loginMember.no ne inq.memberNo }">
+		                                    			<a href="#report" class="material-icons md-18 btn-report-reply btn-open-pop delete-rev report-store" 
+		                                    				title="신고" style="padding: 30px 0px 0px 15px; justify-content: flex-end;">report_problem</a>
+		                                    			<input name="memberId" value="${ inq.memberId }" type="hidden">
+		                                    			<input name="inqNo" value="${ inq.inqNo }" type="hidden">
+		                                    			<input name="revContent" value="${ inq.inqContent }" type="hidden">
+		                                    		</c:if>
+		                                    	</div>			                                    	
 		                                    </div>
-		                                    <div>
-		                                        <i class="icon-answer"></i>
-		                                        <p>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br>안녕하세요. Eco5 입니다. 어쩌고 저쩌고 합니다.<br></p>
-		                                    </div>
+		                                    <c:if test="${ inq.inqStat eq 'Y' }">
+			                                    <div>
+			                                        <i class="icon-answer"></i>
+			                                        <p>
+			                                        	${ inq.inqAns }
+			                                        </p>
+			                                    </div>
+		                                    </c:if>
 		                                </li>
 	                            	</c:forEach>
                             	</c:if>                                
@@ -325,6 +370,99 @@
                       <form:form id="form" modelAttribute="cartList" onsubmit="return false;"> 
                      
                       </form:form>
+                    
+                    <!-- layer popup -->
+			        <div class="layer-popup" id="report">
+			            <div class="layer-inner">
+			                <div class="pop-head">
+			                    <strong>댓글 신고하기</strong>
+			                    <a href="javascript:void(0);" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
+			                </div>
+			                
+			               	<form action="report_reply?chalNo=${ month.chalNo }" method="post">
+			                	<div class="pop-cont">
+				                    <div class="report-cont">
+			                    		<!-- 서버로 보낼 회원번호/댓글 내용 -->
+			                    		<input type="text" name="reportedMemberNo" class="blind"> <!-- 신고 받은 회원 -->
+			                    		<input type="text" name="reportTitle" class="blind">
+			                    		
+				                    	<p class="notice">신고 접수 후 관리자가 확인 후 조치하고 있습니다.<br>처리까지 신고일 기준 1-3일 정도 소요될 수 있습니다.</p>
+				                    	
+			                    		<ul class="report-info">
+			                    			<li>
+			                    				<strong>신고 아이디</strong>
+			                    				<p class="reply-user-id"></p>
+			                    			</li>
+			                    		</ul>
+			                    		
+			                    		<div class="report-category">
+			                    			<strong>
+			                    				신고 사유
+			                    				<span>* 여러 사유에 해당하는 경우 대표적인 사유 1개를 선택해주세요.</span>
+			                    			</strong>
+											<div class="radio-wrap">
+												<label class="radio-group">
+													영리목적 / 홍보성
+													<input type="radio" name="report-category" value="0" checked>
+													<span class="checkmark"></span>
+												</label>
+												<label class="radio-group">
+													불법 정보
+													<input type="radio" name="report-category" value="1">
+													<span class="checkmark"></span>
+												</label>
+												<label class="radio-group">
+													욕설 / 인신 공격	
+													<input type="radio" name="report-category" value="2">
+													<span class="checkmark"></span>
+												</label>
+												<label class="radio-group">
+													개인정보 노출
+													<input type="radio" name="report-category" value="3">
+													<span class="checkmark"></span>
+												</label>
+												<label class="radio-group">
+													음란성 / 선정성
+													<input type="radio" name="report-category" value="4">
+													<span class="checkmark"></span>
+												</label>
+												<label class="radio-group">
+													아이디 / DB 거래
+													<input type="radio" name="report-category" value="5">
+													<span class="checkmark"></span>
+												</label>
+												<label class="radio-group">
+													동일 내용 반복(도배)
+													<input type="radio" name="report-category" value="6">
+													<span class="checkmark"></span>
+												</label>
+												<label class="radio-group">
+													기타
+													<input type="radio" name="report-category" value="7">
+													<span class="checkmark"></span>
+												</label>
+											</div>
+											<input type="hidden" name="reportCategory" />
+											
+											<div class="report-detail">
+												<strong>상세 내용(선택)</strong>
+												<textarea name="reportContent"></textarea>
+											</div>
+										</div> <!-- // report-category -->
+										
+				                    </div> <!-- // report-cont -->
+			                	</div> <!-- // pop-cont -->
+			                	
+				                <div class="btn-wrap">
+				                    <button type="button" class="btn gray btn-close-pop">취소</button>
+			                    	<button type="submit" class="btn">신고</button>
+				                </div>
+							</form>
+		            	</div>
+			        </div>
+		        <div class="dimed"></div>
+		        <!-- // layer popup -->
+                    
                     
                    </section>
 
@@ -481,95 +619,107 @@
    		let form_content = '';
    		let index = 0;
    		
-   		$(".selected-wrap ul").find(".selectedProduct").each(function(i, element) {
-   			var selected = $(element);
-			
-   			var proOptNo = selected.find("input[type='hidden']").val();
-   			var proOptName = selected.find(".selectedOption").text();
-   			var cartQty = selected.find("input[type='number']").val();
-   			
-   			console.log(proOptNo);
-   			console.log(proOptName);
-   			console.log(cartQty);
-   			
-   			let input = "<input name='cartList[" + index + "].proName' type='hidden' value='" + `${ product.proName }` + "'>"
-					    + "<input name='cartList[" + index + "].proNo' type='hidden' value='" + `${ product.proNo }` + "'>"
-						+ "<input name='cartList[" + index + "].proOptNo' type='hidden' value='" + proOptNo + "'>"
-						+ "<input name='cartList[" + index + "].proOpt' type='hidden' value='" + proOptName + "'>"
-						+ "<input name='cartList[" + index + "].proPrice' type='hidden' value='" + `${ product.proPrice }` + "'>"
-						+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>";
-					
-			form_content += input;
-			
-			index += 1;	
-   		});
+   		let optionRequired = document.getElementsByClassName("selectedProduct").length;
    		
-   		$("#form").html(form_content);
-		
-		form.action = "${ path }/purchase_payment"
-		form.method = "POST";
-		form.submit();
+   		if(optionRequired == 0){
+   			alert("옵션을 선택해주세요.");
+   		} else{   			
+	   		$(".selected-wrap ul").find(".selectedProduct").each(function(i, element) {
+	   			var selected = $(element);
+				
+	   			var proOptNo = selected.find("input[type='hidden']").val();
+	   			var proOptName = selected.find(".selectedOption").text();
+	   			var cartQty = selected.find("input[type='number']").val();
+	   			
+	   			console.log(proOptNo);
+	   			console.log(proOptName);
+	   			console.log(cartQty);
+	   			
+	   			let input = "<input name='cartList[" + index + "].proName' type='hidden' value='" + `${ product.proName }` + "'>"
+						    + "<input name='cartList[" + index + "].proNo' type='hidden' value='" + `${ product.proNo }` + "'>"
+							+ "<input name='cartList[" + index + "].proOptNo' type='hidden' value='" + proOptNo + "'>"
+							+ "<input name='cartList[" + index + "].proOpt' type='hidden' value='" + proOptName + "'>"
+							+ "<input name='cartList[" + index + "].proPrice' type='hidden' value='" + `${ product.proPrice }` + "'>"
+							+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>";
+						
+				form_content += input;
+				
+				index += 1;	
+	   		});
+	   		
+	   		$("#form").html(form_content);
+			
+			form.action = "${ path }/purchase_payment"
+			form.method = "POST";
+			form.submit();
+   		}
+   		
    	});
    	
 	// 장바구니	
 	$(document).on("click", "#addCart", function() {	
 		let itemArr = new Array();
-		
-		$(".selected-wrap ul").find(".selectedOption").each(function() {
-			console.log($(this));
-			console.log($(this).next);
-			
-			var product = `${ product.proName }`;	
-			var productNumber = `${ product.proNo }`;
-			var optionNumber = $(this).next().val();
-			var option = $(this).text();			
-			var quantity = $(this).siblings(".quantity").children("input[type='number']").val(); // 수량
-			
-			console.log("option : " + option);
-			console.log("optionNumber : " + optionNumber);
-			console.log("quantity : " + quantity);
-			
-			let item = {
-					proNo : productNumber,
-					proName : product,
-					proOptNo : optionNumber,
-					proOpt : option,
-					cartQty : quantity
-			}
-			
-			console.log("item : " + item);
-			
-			itemArr.push(item);
-		});
-		
-		console.log(itemArr);	
-		console.log(JSON.stringify(itemArr));
-		
-		$.ajax({
-		    type : "post",
-		    url : "${ path }/add_cart", 
-		    data : 
-		    	JSON.stringify(itemArr)
-		    ,
-		    contentType : 'application/json; charset=UTF-8',
-		    error : function(request, error) {
-		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-		    	
-		    	if(request.status === 500){
-		    		alert("장바구니에 동일한 상품이 있습니다.")
-		    	}
-		    	else if(request.status === 400){		    		
-			    	alert("우선 로그인해주세요");
-			    	window.location = "${ path }/login";
-		    	}
-		    },
-		    success : function(data) {
-				console.log("ajax success");
-				console.log("data : " + data);
+		let optionRequired = document.getElementsByClassName("selectedProduct").length;
+   		
+   		if(optionRequired == 0){
+   			alert("옵션을 선택해주세요.");
+   		} else {
+			$(".selected-wrap ul").find(".selectedOption").each(function() {
+				console.log($(this));
+				console.log($(this).next);
 				
-				alert("장바구니에 담았습니다.");	
-		    }
-		});
+				var product = `${ product.proName }`;	
+				var productNumber = `${ product.proNo }`;
+				var optionNumber = $(this).next().val();
+				var option = $(this).text();			
+				var quantity = $(this).siblings(".quantity").children("input[type='number']").val(); // 수량
+				
+				console.log("option : " + option);
+				console.log("optionNumber : " + optionNumber);
+				console.log("quantity : " + quantity);
+				
+				let item = {
+						proNo : productNumber,
+						proName : product,
+						proOptNo : optionNumber,
+						proOpt : option,
+						cartQty : quantity
+				}
+				
+				console.log("item : " + item);
+				
+				itemArr.push(item);
+			});
+			
+			console.log(itemArr);	
+			console.log(JSON.stringify(itemArr));
+			
+			$.ajax({
+			    type : "post",
+			    url : "${ path }/add_cart", 
+			    data : 
+			    	JSON.stringify(itemArr)
+			    ,
+			    contentType : 'application/json; charset=UTF-8',
+			    error : function(request, error) {
+			    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+			    	
+			    	if(request.status === 500){
+			    		alert("장바구니에 동일한 상품이 있습니다.")
+			    	}
+			    	else if(request.status === 400){		    		
+				    	alert("우선 로그인해주세요");
+				    	window.location = "${ path }/login";
+			    	}
+			    },
+			    success : function(data) {
+					console.log("ajax success");
+					console.log("data : " + data);
+					
+					alert("장바구니에 담았습니다.");	
+			    }
+			});   			
+   		}
 	});
 	
 	// 찜
@@ -605,7 +755,6 @@
 				
 				selected.toggleClass("wish-added");
 				
-				
 				if(data === "Wish Added" || data === "Wish Again"){
 					$("#wish-done").show();
 					alert("찜 성공");
@@ -636,7 +785,7 @@
         	open(url, "", 'status=no, height=800, width=800, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
         }               
     });
-
+    
     // 문의 작성
     $("#writeQnA").on("click", () => {
         var popupX = (document.body.offsetWidth / 2) - (800 / 2);
@@ -663,7 +812,7 @@
     	var loginMemberId = `${ memberId }`;
 		var inquiryMemberId = $(this).find(".inquiry-writerId").text();		
 		
-		if(loginMemberId != inquiryMemberId && loginMemberId != "admin1" && $(this).find(".material-icons").length == 1){
+		if(loginMemberId != inquiryMemberId && loginMemberId != "admin1" && $(this).find(".md-16").length == 1){
 			alert("비밀글입니다.");
 			
 			// .accordian is not a function 에러가 나는데, 원하는대로 동작됨..
@@ -672,6 +821,49 @@
 			});
 		}		
     });
+    
+ 	// 신고하기
+	$('.report-store').each(function(idx, el){
+		$(el).on('click', (e) => {
+			console.log("신고");
+			
+			let $this = $(e.currentTarget); 
+			let popup = $('.layer-popup');
+			
+			// 팝업에 출력
+			// 신고 받은 회원 아이디
+			let userIdEl = $this.siblings("input[name=memberId]"); 
+			let userId = userIdEl.val();
+			
+			// 신고 댓글 내용
+			let replyTxtEl = $this.siblings("input[name=revContent]"); 
+			let replyTxt = replyTxtEl.val();
+			
+			userIdEl.css('border', '1px solid red');
+			replyTxtEl.css('border', '1px solid blue');
+			
+			
+			// 컨트롤러에 전달
+			// 신고 받은 회원 번호
+			let reportedUserNo = $this.find("input[name=memberNo]");
+			
+			// 팝업 출력용
+			popup.find('.reply-user-id').text(userId); // 신고 받은 회원 아이디
+			popup.find('.reply-content').text(replyTxt); // 신고 댓글 내용
+			
+			// 컨드롤러에 전달
+			$("input[name=reportedMemberNo]").val(reportedUserNo); // 신고 받은 회원 번호
+			$("input[name=reportTitle]").val(replyTxt); // 신고 사유 작성 내용
+			
+			console.log(reportedUserNo);
+			
+			// 신고 사유 라디오 버튼 선택
+			$("input[type=radio]").on('change', () => {
+				let reportChecked = $("input[type=radio]:checked").val();
+				$("input[name=reportCategory]").val(reportChecked);
+			});
+		});
+	});
 </script>
 
 </html>

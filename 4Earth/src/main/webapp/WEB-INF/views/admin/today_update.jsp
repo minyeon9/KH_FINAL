@@ -27,14 +27,15 @@
            	<form action="${ path }/admin/today_update?no=${ today.chalNo }" name="today" method="post" enctype="multipart/form-data">
            	<table class="echo-write">
            		<tr>
-           			<th>카테고리: </th>
+           			<th>카테고리: 
+           			</th>
         		<td>
         			<input name="category" type="text" value="${ today.category }">
         		</td>
            			<th>
                         번호 : 
                     </th>
-                    <td colspan="1">
+                    <td>
                         <input name="chalNo" type="text" value="${ today.chalNo }" readonly="readonly">
                     </td>
            		</tr>
@@ -47,7 +48,6 @@
                     <td colspan="1">
                         <input name="chalPoint" type="text" value="${ today.chalPoint }">
                     </td>
-           		</tr>
                 <tr>
         			<th>시작일: </th>
         			<td>

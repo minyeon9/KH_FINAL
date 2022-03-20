@@ -12,6 +12,7 @@ import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.dao.StoreMapper;
 import com.kh.earth.store.model.vo.Application;
 import com.kh.earth.store.model.vo.Bidding;
+import com.kh.earth.store.model.vo.BiddingBoard;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
@@ -471,6 +472,109 @@ public class StoreServiceImpl implements StoreService {
 		map.put("bidCurrPlusOne", bidCurrPlusOne);
 		
 		return mapper.updateBidCurr(map);
+	}
+
+	// 주문 번호로 구매된 상품 번호, 구매 개수 조회
+	@Override
+	public List<OrderDetail> getPurchaseList(int orderNo) {
+		
+		return mapper.getPurchaseList(orderNo);
+	}
+
+	// 구매된 상품 재고 차감, 판매량 증가
+	@Override
+	public int calcQty(int proNo, int qty) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("proNo", proNo);
+		map.put("qty", qty);
+		
+		return mapper.calcQty(map);
+	}
+
+	// 모집 참여 상태 조회
+	@Override
+	public String getBidStat(Bidding bidding) {
+		
+		return mapper.getBidStat(bidding);
+	}
+
+	// 모집 참여 이력 조회
+	@Override
+	public int getBid(Bidding bidding) {
+		
+		return mapper.getBid(bidding);
+	}
+
+	// 참여 취소 & 재참여
+	@Override
+	public int updateBid(Bidding bidding) {
+		
+		return mapper.updateBid(bidding);
+	}
+
+	// 입고 신청 - 한마디 게시판 작성
+	@Override
+	public int writeBiddingBoard(BiddingBoard biddingBoard) {
+		
+		return mapper.writeBiddingBoard(biddingBoard);
+	}
+
+	// 입고 신청 - 한마디 게시판 게시글 수 조회
+	@Override
+	public int getBiddingBoardCount(int no) {
+		
+		return mapper.getBiddingBoardCount(no);
+	}
+	
+	// 입고 신청 - 한마디 게시판 게시글 목록 조회
+	@Override
+	public List<BiddingBoard> getBiddingBoardList(PageInfo pageInfo, int no) {
+		int offset = (pageInfo.getCurrentPage() - 1) * pageInfo.getListLimit();
+		int limit = pageInfo.getListLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);	
+		
+		return mapper.getBiddingBoardList(rowBounds, no);
+	}
+
+	// 입고 신청 - 한마디 게시판 삭제
+	@Override
+	public int updateBiddingBoard(int boardNo) {
+		
+		return mapper.updateBiddingBoard(boardNo);
+	}
+
+	// 리뷰 삭제
+	@Override
+	public int deleteReview(Review review) {
+		
+		return mapper.deleteReview(review);
+	}
+
+	// 문의 삭제
+	@Override
+	public int deleteQna(ProductInquiry productInquiry) {
+		
+		return mapper.deleteQna(productInquiry);
+	}
+
+	// 회원번호로 포인트 조회
+	@Override
+	public int getPoint(int no) {
+		
+		return mapper.getPoint(no);
+	}
+
+	// 결제 - 포인트 사용량만큼 차감
+	@Override
+	public int calcPoint(int memberNo, int pointUsage) {
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("memberNo", memberNo);
+		map.put("pointUsage", pointUsage);
+		
+		return mapper.calcPoint(map);
 	}
 
 

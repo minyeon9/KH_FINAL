@@ -2,6 +2,8 @@ package com.kh.earth.member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -337,7 +339,16 @@ public class MemberController {
 				Member loginMember = service.login(id, member.getPassword());
 				session.setAttribute("loginMember", loginMember);
 				
-				url = "signup_finish?name="+member.getName();
+				// 한글깨짐현상 해결
+				String rname;
+				try {
+					rname = URLEncoder.encode(loginMember.getName(), "UTF-8");
+					url = "signup_finish?name="+rname;
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} 
+
+				// url = "signup_finish?name="+member.getName();
 				System.out.println("새 가입시 이름 : "+member.getName());
 				
 	    	} else if(resultM.getStatus().equals("N")){
@@ -348,9 +359,17 @@ public class MemberController {
 	    			// 소셜 로그인의 경우 가입과 동시에 로그인 진행
 	    			Member loginMember = service.login(id, member.getPassword());	
 	    			session.setAttribute("loginMember", loginMember);
-	    			
-					url = "signup_finish?name="+resultM.getName();
-					System.out.println("재 가입시 이름 : "+resultM.getName());
+	
+					// 한글깨짐현상 해결
+					String rname;
+					try {
+						rname = URLEncoder.encode(loginMember.getName(), "UTF-8");
+						url = "signup_finish?name="+rname;
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					} 
+//					url = "signup_finish?name="+resultM.getName();
+//					System.out.println("재 가입시 이름 : "+resultM.getName());
 	    			
 	    		}else {
 	    			// 가입 실패시 메인으로 이동
@@ -396,7 +415,7 @@ public class MemberController {
 	
 	// 네이버 연동정보 조회
 //	@ResponseBody
-	@RequestMapping(value = "/login/oauth_naver")
+	@RequestMapping(value = "/login/oauth_naver", produces="application/json;charset=UTF-8")
 	public String oauthNaver(HttpServletRequest request, Member member, HttpServletResponse response)throws Exception{
 		System.out.println("여기까지 왔니?");
 	    JSONParser parser = new JSONParser();
@@ -465,7 +484,8 @@ public class MemberController {
 				Member loginMember = service.login(id, member.getPassword());
 				session.setAttribute("loginMember", loginMember);
 				
-				url = "signup_finish?name="+member.getName();
+				String rname= URLEncoder.encode(loginMember.getName(), "UTF-8"); //redirect 한글깨짐현상 해결
+				url = "signup_finish?name="+rname;
 				
 	    	} else if(resultM.getStatus().equals("N")){
 	    		// 2. 탈퇴했다가 재가입하는것이라면 상태값을 바꾸어준다. 
@@ -475,8 +495,9 @@ public class MemberController {
 	    			// 소셜 로그인의 경우 가입과 동시에 로그인 진행
 	    			Member loginMember = service.login(id, member.getPassword());	
 	    			session.setAttribute("loginMember", loginMember);
-	    			
-					url = "signup_finish?name="+resultM.getName();
+//					url = "signup_finish?name="+loginMember.getName();
+					String rname= URLEncoder.encode(loginMember.getName(), "UTF-8"); //redirect 한글깨짐현상 해결
+					url = "signup_finish?name="+rname;
 	    			
 	    		}else {
 	    			// 가입 실패시 메인으로 이동
@@ -538,12 +559,38 @@ public class MemberController {
 		return map;
 	}
 	
+	@PostMapping(value = "/emailCheckForEdit")
+	@ResponseBody
+	public Object emailCheck_forEdit(@RequestParam("userEmail") String userEmail,
+			@SessionAttribute(name="loginMember") Member loginMember) {
+		Map<String, Boolean> map = new HashMap<>();
+
+		map.put("duplicate", service.isDuplicateEmail_forEdit(loginMember.getId(), userEmail));
+		
+		return map;
+	}
+	
 	@PostMapping(value = "/phoneCheck")
 	@ResponseBody
 	public Object phoneCheck(@RequestParam("userPhone") String userPhone) {
 		Map<String, Boolean> map = new HashMap<>();
 
 		Member resultM = service.findMemberByPhone(userPhone);
+		
+		if(resultM != null) {			
+			map.put("duplicate", true);
+		}
+		
+		return map;
+	}
+	
+	@PostMapping(value = "/phoneCheckForEdit")
+	@ResponseBody
+	public Object phoneCheckForEdit(@SessionAttribute(name="loginMember") Member loginMember,
+			@RequestParam("userPhone") String userPhone) {
+		Map<String, Boolean> map = new HashMap<>();
+
+		Member resultM = service.findMemberByPhoneForEdit(loginMember.getId(), userPhone);
 		
 		if(resultM != null) {			
 			map.put("duplicate", true);

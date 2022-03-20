@@ -55,12 +55,11 @@
                                         <select name="" id="member-select" class="selectbox">
                                             <option value="1" selected>번호순</option>
                                             <option value="2">이름순</option>
-                                            <option value="3">아이디순</option>
+                                            <option value="3">분류</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
-                                            <option value="1">n개씩 보기</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10">10개씩 보기</option>
+                                            <option value="10" selected="selected">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
@@ -166,8 +165,8 @@
 						                            </div>
                             						</td>
 		                                            <td>
-		                                                <button class="btn btn-s">등록</button>
-		                                                <button type="button" id="delete" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
+		                                                <button type="button" id="unban" name="no" value=${ member.no } class="btn btn-s">해제</button>
+		                                                <button type="button" id="ban" name="no" value=${ member.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
 		                                    </tbody>
@@ -176,7 +175,6 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         
@@ -239,9 +237,17 @@
 	});
 	
 	$(document).ready(() => {
-		$(document).on('click','#delete', (e) => {
+		$(document).on('click','#ban', (e) => {
 			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
 				location.replace("${ path }/admin/member_delete?no=" + e.target.value);
+			}
+		})
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click','#unban', (e) => {
+			if(confirm("정말로 이 멤버를 정지 해제시키겠습니까??")) {
+				location.replace("${ path }/admin/member_unban?no=" + e.target.value);
 			}
 		})
 	});
