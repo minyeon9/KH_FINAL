@@ -153,8 +153,8 @@
                         <section>	  
                         	<div style="height:35px; margin-bottom:10px;">
 	                            <form action="${ path }/product_arrange?category=${ category }">
-	                            <strong>
-	                                총 ${ count }개의 상품이 있습니다. 
+	                            <strong class="count-prd">
+	                                총 <b>${ count }</b>개의 상품이 있습니다. 
 	                            </strong>
 		                            <select name="arrange" id="store-arrange" class="store-selectbox" onchange="submit()">
 		                                <option value="신상품순" <c:if test="${arrange eq '신상품순'}">selected</c:if> >신상품순</option>	                            

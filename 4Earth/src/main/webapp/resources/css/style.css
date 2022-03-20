@@ -413,8 +413,8 @@
 }
 
 .category {
-    border-top: 2px solid #467443;
-    border-bottom: 1px solid #666;
+    border-top: 2px solid #67b16b;
+    border-bottom: 1px solid #ccc;
 }
 .category ul li {
     display: flex;
