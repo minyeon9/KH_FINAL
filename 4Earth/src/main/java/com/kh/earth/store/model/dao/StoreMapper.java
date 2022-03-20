@@ -10,6 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.vo.Application;
 import com.kh.earth.store.model.vo.Bidding;
+import com.kh.earth.store.model.vo.BiddingBoard;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
@@ -122,6 +123,32 @@ public interface StoreMapper {
 	int getBidCurr(int no);
 
 	int updateBidCurr(Map<String, Object> map);
+
+	List<OrderDetail> getPurchaseList(int orderNo);
+
+	int calcQty(Map<String, Object> map);
+
+	String getBidStat(Bidding bidding);
+
+	int getBid(Bidding bidding);
+
+	int updateBid(Bidding bidding);
+
+	int writeBiddingBoard(BiddingBoard biddingBoard);
+
+	int getBiddingBoardCount(int no);
+
+	List<BiddingBoard> getBiddingBoardList(RowBounds rowBounds, int no);
+
+	int updateBiddingBoard(int boardNo);
+
+	int deleteReview(Review review);
+
+	int deleteQna(ProductInquiry productInquiry);
+
+	int getPoint(int no);
+
+	int calcPoint(Map<String, Object> map);
 	
 
 

@@ -27,4 +27,9 @@ public class ProductBidding {
 	private String originalFileName;
 	
 	private String renamedFileName;
+	
+	// 로그인 유저의 상품 찜 여부 표시를 위한 정보
+	private int bidMemberNo;
+	
+	private String bidStat;
 }

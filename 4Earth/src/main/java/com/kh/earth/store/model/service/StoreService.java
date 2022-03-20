@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.earth.common.util.PageInfo;
 import com.kh.earth.store.model.vo.Application;
 import com.kh.earth.store.model.vo.Bidding;
+import com.kh.earth.store.model.vo.BiddingBoard;
 import com.kh.earth.store.model.vo.Cart;
 import com.kh.earth.store.model.vo.Delivery;
 import com.kh.earth.store.model.vo.OrderDetail;
@@ -120,6 +121,32 @@ public interface StoreService {
 	int getBidCurr(int no);
 
 	int updateBidCurr(int no, int bidCurrPlusOne);
+
+	List<OrderDetail> getPurchaseList(int orderNo);
+
+	int calcQty(int proNo, int qty);
+
+	String getBidStat(Bidding bidding);
+
+	int getBid(Bidding bidding);
+
+	int updateBid(Bidding bidding);
+
+	int writeBiddingBoard(BiddingBoard biddingBoard);
+
+	int getBiddingBoardCount(int no);
+
+	List<BiddingBoard> getBiddingBoardList(PageInfo pageInfo, int no);
+
+	int updateBiddingBoard(int boardNo);
+
+	int deleteReview(Review review);
+
+	int deleteQna(ProductInquiry productInquiry);
+
+	int getPoint(int no);
+
+	int calcPoint(int memberNo, int pointUsage);
 
 	
 

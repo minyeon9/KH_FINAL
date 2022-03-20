@@ -113,7 +113,7 @@
                                     <input type="text" name="address" id="userAddress" placeholder="주소" required/>
                                      -->
                                     <br>
-                                    <input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" required>
+                                    <input type="text" name="postcode" id="sample5_postcode" placeholder="우편번호" required>
                                     <button class="btn" id="find_post_btn" onclick="execution_daum_address()">주소찾기</button>
                                     <br>
                                     <input type="text" name="address" id="sample6_address" placeholder="주소" required>

@@ -37,6 +37,15 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.findMemberByPhone(phone);
 	}
 	
+	@Override
+	public Member findMemberByPhoneForEdit(String id, String userPhone) {
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("id", String.valueOf(id));
+		map.put("phone", String.valueOf(userPhone));
+		return mapper.findMemberByPhoneForEdit(map);
+	}
+	
 	
 	@Override
 	public Member login(String id, String password) {
@@ -88,6 +97,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Boolean isDuplicateEmail_forEdit(String userId, String userEmail) {
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("id", String.valueOf(userId));
+		map.put("email", String.valueOf(userEmail));
+		
+		return mapper.findMemberByEmail_forEdit(map) != null;
+	}
+	
+	@Override
 	public int delete(int no) {	
 		return mapper.deleteMember(no);
 	}
@@ -106,11 +125,6 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mapper.updatePassword(map);
 	}
-
-
-
-
-
 
 
 }

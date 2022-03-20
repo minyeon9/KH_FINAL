@@ -221,11 +221,14 @@
                                   <tr>
                                       <td colspan="5">
                                           <b>포인트 사용</b>                                                 
-                                          <input type="text" name="point-usage" class="point-usage" onkeyup="this.value = this.value.replace(/[^0-9]/g,'');" pattern="[0-9]+" style="margin-left: 15%;">
+                                          <input type="text" name="point-usage" id="point-input" class="point-usage" 
+                                          	pattern="[0-9]+" style="margin-left: 15%;" min="0" max="${ point }">
                                           point
                                       </td>
                                       <td>
-                                          <small style="float: right; color: rgb(153, 153, 153);">(보유 포인트 : 2,000 point )</small>
+                                          <small style="float: right; color: rgb(153, 153, 153);">
+                                          	(보유 포인트 : <fmt:formatNumber value="${ point }" pattern="##,###,###"/> point )
+                                          </small>
                                       </td>
                                   </tr>
                                   <tr id="sum-result1" style="border-bottom: none;">
@@ -421,6 +424,32 @@
 	    }).open();  
 	}
 	
+	// 포인트 사용
+	$('#point-input').on('keyup', function() {
+		let maxPoint = ${ point };
+		let orderPrice = parseInt(${ orderSum.orderPrice });
+
+		if (orderPrice < 30000) {
+			orderPrice += 2500;
+		}
+		
+		// 숫자만 입력 가능
+	    if (/[^0-9]/g.test(this.value)) {
+	        this.value = this.value.replace(/[^0-9]/g, '');
+	        alert("숫자만 입력가능합니다.");
+	    }
+		// 보유 포인트 이상 사용 불가능
+		if (this.value > maxPoint) {
+		    this.value = maxPoint;
+		    alert("보유하신 포인트 이상은 사용하실 수 없습니다.");
+		}
+		// 주문 금액 이상 사용 불가능
+		if(this.value > orderPrice){
+			this.value = orderPrice;
+			alert("주문 금액 이상은 사용하실 수 없습니다.");
+		}
+	});
+	
 	// 결제 예정 금액
 	$(document).ready(() => {	
 		var orderPrice = parseInt(${ orderSum.orderPrice });
@@ -433,7 +462,7 @@
 		$("#sum-result2-final").text(toCommas(orderPrice));
 	});
 	
-	// 포인트 사용란 숫자만 입력
+	// 최종 결제 금액
 	$("input[name=point-usage]").on("change", () => {
 		$("#sum-result2-final").empty();
 		var point = $(event.target).val();

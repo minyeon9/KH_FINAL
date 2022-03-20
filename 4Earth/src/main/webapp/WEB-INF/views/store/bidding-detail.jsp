@@ -73,7 +73,7 @@
 	                                    </td>
 	                                </tr>
 	                                <tr style="border-bottom: 1px solid #999; ">
-	                                    <td colspan="4" ><p><b>${ product.bidCond }</b> 명의 관심이 모이면 에코샵에서 만나볼 수 있습니다.</p></td>
+	                                    <td colspan="4" ><p>총 <b>${ product.bidCond }</b> 명의 관심이 모이면 에코샵에서 만나볼 수 있습니다.</p></td>
 	                                </tr>
 	                                <tr style="padding-bottom: 15px;">
 	                                    <td colspan="4">
@@ -88,7 +88,18 @@
 	                            </tbody>
 	                            <tr class="pro-result">
 	                                <th colspan="4">
-	                                    <button class="btn bid-btn" id="addBid">관심있어요</button>
+	                                 <c:choose>
+		                                 <c:when test="${ (loginMember.no eq product.bidMemberNo) && product.bidStat eq 'Y' }">
+	                                    	<button class="btn bid-btn wish-added" id="addWish" disabled="disabled">
+	                                    		<i class="material-icons" id="wish-done">done</i>관심있어요
+	                                    	</button>			                                        	
+		                                 </c:when>
+		                                 <c:otherwise>
+	                                    	<button class="btn bid-btn" id="addWish">
+	                                    		<i class="material-icons" id="wish-done" style="display: none;">done</i>관심있어요
+	                                    	</button>			                                        	
+		                                 </c:otherwise>
+	                               	</c:choose>
 	                                    <button class="btn bid-btn"><i class="material-icons md-24">share</i></button>
 	                                </th>
 	                            </tr>                            
@@ -107,42 +118,65 @@
 	                        <p>
 	                            관심있는 회원들의 한마디
 	                        </p>
-                            <button class="btn" id="writeReview" style="float: right;">작성하기</button>
                         </div>
+                        
                         <div class="board">
                             <table class="table bid-board">
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <p>10명만 더..!</p>
-                                        </td>
-                                        <td>2021.00.00</td>
-                                        <td>홍길동</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>입고 제발</p>
-                                        </td>
-                                        <td>2021.00.00</td>
-                                        <td>홍길동</td>
-                                    </tr>
+                                	<c:if test="${ !empty list }">
+                                		<c:forEach var="list" items="${ list }">
+                                			<tr>
+		                                        <td style="padding-left: 20px;">
+		                                            <p>${ list.boardContent }</p>
+		                                        </td>
+		                                        <td><fmt:formatDate value="${ list.boardDate }" pattern="yyy-MM-dd hh:mm"/></td>
+		                                        <td style="color: #67b16b;">${ list.memberId }</td>
+		                                        <c:if test="${ !empty loginMember && loginMember.no eq list.memberNo }">
+		                                        	<td>
+		                                        		<a href="javascript:void(0);" class="btn-delete-img">
+			                                        		<i class="material-icons md-22">delete_outline</i>
+			                                        		<input type="hidden" value="${ list.boardNo }">
+		                                        		</a>
+		                                        	</td>
+		                                        </c:if>
+		                                    </tr>
+                                		</c:forEach>                                		
+                                	</c:if>
+                                	<c:if test="${ empty list }">
+                                		<tr>
+                                			<td style="text-align: center;">등록된 게시글이 없습니다.</td>
+                                		</tr>
+                                	</c:if>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="paging">
-                            <a href="#" class="prev"><span>이전</span></a>
-                            <strong>1</strong>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
-                            <a href="#">8</a>
-                            <a href="#">9</a>
-                            <a href="#">10</a>
-                            <a href="#" class="next"><span>다음</span></a>
+                        <div class="bid-write">
+                            <c:if test="${ (loginMember.no eq product.bidMemberNo) && product.bidStat eq 'Y' }">
+                          		<form action="${ path }/write_bidding_board" method="post">
+                          			<input name="bidNo" type="hidden" value="${ product.bidNo }">
+									<textarea name="boardContent" class="write-reply-textarea" required></textarea>
+									<button class="btn btn-write-reply">작성하기</button>
+								</form>	                                        	
+                            </c:if>
                         </div>
+                        
+                        <c:if test="${ !empty list }">
+	                        <div class="paging">
+	                        	<a href="${ path }/bidding_detail?no=${ product.bidNo }&page=1" class="first"><span>맨 앞으로</span></a> 
+	                            <a href="${ path }/bidding_detail?no=${ product.bidNo }&page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+	                            <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">				
+										<strong>${ status.current }</strong>
+									</c:if>
+									
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/bidding_detail?no=${ product.bidNo }&page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+	                            <a href="${ path }/bidding_detail?no=${ product.bidNo }&page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+	                            <a href="${ path }/bidding_detail?no=${ product.bidNo }&page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+	                        </div>
+						</c:if>
                     </section>
                     <!-- // Board -->
 
@@ -179,7 +213,7 @@
     });
     
  	// 관심있어요
-	$("#addBid").click(function() {
+	$("#addWish").click(function() {
 		var selected = $(this);
 		var bidNo = ${ product.bidNo };
         
@@ -210,16 +244,53 @@
 				console.log("ajax success");
 				console.log(data);
 				
+				selected.toggleClass("wish-added");
+				
 				if(data === "Bid Added" || data === "Bid Again"){
+					$("#wish-done").show();
 					alert("참여 성공");
 					
 					location.reload();
 				}
 				else if(data === "Bid Deleted"){
+					$("#wish-done").hide();
 					alert("참여 취소");
+					location.reload();
 				}
 				
 			}
+		});
+	});
+ 	
+	// 게시글 삭제
+	$(document).on("click", ".btn-delete-img", (e) => {
+		let selected = e.currentTarget;
+		
+		let boardNo = $(selected).find("input[type=hidden]").val();
+		console.log(boardNo);
+		
+		selected.closest("tr").remove();
+		
+		$.ajax({
+			type : "post",
+			url : "${ path }/delete_bidding_board",
+			data : 
+				boardNo,
+			contentType : 'application/json; charset=UTF-8',
+			error : function(request, error) {
+		    	console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+		    },
+		    success : function(data) {
+				console.log("ajax success");
+				console.log("data : " + data);
+				
+				if(data === "Successfully Deleted"){
+					alert("게시글을 삭제했습니다.");
+				}
+				else if(data === "Delete Failed"){
+					alert("다시 시도해주세요.");
+				}
+		    }
 		});
 	});
 </script>
