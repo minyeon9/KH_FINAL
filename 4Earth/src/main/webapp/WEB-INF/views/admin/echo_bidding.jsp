@@ -70,10 +70,11 @@
 	                                            <option value="모집중">모집 중</option>
 	                                            <option value="모집대기">모집 대기</option>
 	                                        </select>
-	                                        <select name="" id="" class="selectbox">
-	                                            <option value="10" selected>10개씩 보기</option>
-	                                            <option value="30">30개씩 보기</option>
-	                                        </select>
+	                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10" selected="selected">10개씩 보기</option>
+                                            <option value="30">30개씩 보기</option>
+                                        </select>
 	                                        <div class="input-with-icon search-input">
 	                                            <input type="text" placeholder="검색어를 입력해주세요.">
 	                                            <button><i class="material-icons">search</i></button>
@@ -86,12 +87,12 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
                                         <col width="*">
                                     </colgroup>
                                     <thead>
@@ -181,7 +182,7 @@
 		                                            </td>
 		                                            <td>
 		                                                <button class="btn btn-s" id="echo_bidding_write" value="${ list.appNo }">등록</button>
-		                                                <button class="btn btn-s gray">정지</button>
+		                                                <button id="cancel" value="${ list.appNo }" class="btn btn-s gray">취소</button>
 		                                            </td>
 		                                        </tr>
                                         	</c:forEach>                                        	
@@ -190,7 +191,6 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button class="btn">작성</button>
                             </div>
                         </section>
                         <!-- // Category -->
@@ -248,6 +248,14 @@
         
         open(url, "", 'status=no, height=500, width=900, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
+	
+	$(document).ready(() => {
+		$(document).on('click','#cancel', (e) => {
+			if(confirm("정말로 이 접수를 취소시키겠습니까??")) {
+				location.replace("${ path }/admin/bidding_cancel?no=" + e.target.value);
+			}
+		})
+	});
 </script>
 
 </html>

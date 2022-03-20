@@ -64,17 +64,19 @@
                             <div style="margin-bottom: 5px;">
                                 <div class="board-head">
                                     <div class="select-wrap">
-                                        <select name="" id="" class="selectbox">
-                                            <option value="최신순" selected>최신순</option>
-                                            <option value="댓글순">댓글순</option>
+                                        <select name="" id="member-select" class="selectbox">
+                                            <option value="1" selected>번호</option>
+                                            <option value="2">챌린지 이름</option>
+                                            <option value="3">포인트</option>
                                         </select>
-                                        <select name="" id="" class="selectbox">
-                                            <option value="10" selected>10개씩 보기</option>
+                                        <select name="" id="count-select" class="selectbox">
+                                            <option value="5">5개씩 보기</option>
+                                            <option value="10" selected="selected">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
                                         <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요.">
-                                            <button><i class="material-icons">search</i></button>
+                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                            <button id="search"><i class="material-icons">search</i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -241,6 +243,20 @@
 	            $(this).addClass('current');
 	        }
 	    });
+	});
+	
+	$(document).ready(() => {
+		$(document).on('click', '#search', () => {
+			if($("#member-select option:selected").val() == 1) {
+				location.replace("${ path }/admin/challenge_today?no=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 2) {
+				location.replace("${ path }/admin/challenge_today?name=" + $("#search-val").val());
+			}
+			if($("#member-select option:selected").val() == 3) {
+				location.replace("${ path }/admin/challenge_today?point=" + $("#search-val").val());
+			}
+		})
 	});
 	
 	$(document).on("click","#today_write", (e) => {

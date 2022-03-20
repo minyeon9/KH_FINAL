@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>main</title>
+    <title>공지사항</title>
 </head>
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -73,19 +73,17 @@
               </tbody>
             </table>
             <div class="table_bottom">
-              <a class="btn" href="${ path }/notice/write" role="button">
+              
+              <div class="input-with-icon search-input">
+	              <input type="text" placeholder="검색어를 입력해주세요." id="search-val"/>
+	              <button id="search"><i class="material-icons">search</i></button>
+	            </div>
+	            
+	            <a class="btn" href="${ path }/notice/write" role="button">
                 글쓰기
               </a>
-
-         
-              
             </div>
-            <form action="#" method="GET" class="form-search">
-              <div class="input-with-icon search-input">
-                <input type="text" placeholder="검색어를 입력해주세요." />
-                <button><i class="material-icons">search</i></button>
-              </div>
-            </form>
+	            
             <div class="paging">
               <!-- 맨 처음으로 -->
               <a
@@ -141,7 +139,7 @@
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
     <script src="../resources/js/notice.js"></script>
-    <script>
+<script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['list', 'faq','qnalist'];
@@ -155,5 +153,16 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 0) {
+                $(this).addClass('current');
+            }
+        })
     });
+    
+    $("#search").ready(() => {
+			$("#search").on('click', () => {
+				location.replace("${ path }/notice/list?title=" + $("#search-val").val());
+			})
+		});
 </script>

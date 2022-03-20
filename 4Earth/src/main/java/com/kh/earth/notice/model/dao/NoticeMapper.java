@@ -1,6 +1,7 @@
 package com.kh.earth.notice.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -13,13 +14,13 @@ import com.kh.earth.notice.model.vo.Qna;
 public interface NoticeMapper {
 
 
-	int getNoticeCount();
+	int getNoticeCount(Map<String, String> title);
 	
-	int getQnaCount();
+	int getQnaCount(Map<String, String> title);
 
-	List<Notice> findAll(RowBounds rowBounds);
+	List<Notice> findAll(RowBounds rowBounds, Map<String, String> title);
 	
-	List<Qna> findAllQna(RowBounds rowBounds);
+	List<Qna> findAllQna(RowBounds rowBounds, Map<String, String> title);
 
 	int insertNotice(Notice notice);
 	
@@ -36,5 +37,7 @@ public interface NoticeMapper {
 	int modifyStatus(@Param("no") int no, @Param("status") String status);
 
 	int getCategoryNo(String category);
+
+	int getMemberCount(Map<String, String> name);
 
 }

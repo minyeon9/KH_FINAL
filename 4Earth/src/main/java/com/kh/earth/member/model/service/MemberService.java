@@ -10,6 +10,8 @@ public interface MemberService {
 	Member findMemberById_forSNS(String id);
 	
 	Member findMemberByPhone(String phone);
+	
+	Member findMemberByPhoneForEdit(String id, String userPhone);
 
 	Member login(String id, String password);
 
@@ -19,14 +21,12 @@ public interface MemberService {
 	
 	Boolean isDuplicateEmail(String userEmail);
 	
+	Boolean isDuplicateEmail_forEdit(String userId, String userEmail);
+	
 	int delete(int no);
 
 	int reSignup(String id);
 
 	int updatePassword(int no, String password);
-
-
-
-
 
 }

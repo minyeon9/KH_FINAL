@@ -164,4 +164,8 @@ public interface AdminMapper {
 	int writeNotice(Notice notice);
 
 	int updateQna(QnaAnswer qnaAnswer);
+
+	int deleteBidding(int no);
+
+	int reDelivery(int no);
 }

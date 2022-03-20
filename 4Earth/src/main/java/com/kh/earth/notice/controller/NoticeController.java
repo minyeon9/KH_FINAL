@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -50,23 +51,46 @@ public class NoticeController {
 	
 	@GetMapping("/list")
 	public ModelAndView list(ModelAndView model, 
+			@RequestParam Map<String, String> title,
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int count) {
 
 		PageInfo pageInfo = null;
 		List<Notice> list = null;
+		System.out.println(title);
 
-		pageInfo = new PageInfo(page, 10, service.getNoticeCount(), count);
-		list = service.getNoticeList(pageInfo);
+		pageInfo = new PageInfo(page, 10, service.getNoticeCount(title), count);
+		list = service.getNoticeList(pageInfo, title);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
 		model.setViewName("notice/list");
 		
-		System.out.println(list.toString());
+		return model;
+	}
+	
+	@GetMapping("/qnalist")
+	public ModelAndView qnalist(ModelAndView model, 
+			@RequestParam Map<String, String> title,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10") int count) {
+
+		PageInfo pageInfo = null;
+		List<Qna> list = null;
+		pageInfo = new PageInfo(page, 10, service.getQnaCount(title), count);
+		list = service.getQnaList(pageInfo, title);
+		
+		System.out.println("LIST: " + list);
+
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		model.addObject("name", title.get("title"));
+		
+		model.setViewName("notice/qnalist");
 		
 		return model;
 	}
+	
 	
 	@GetMapping("/write")
 	public String write() {
@@ -151,6 +175,17 @@ public class NoticeController {
 		
 		model.addObject("notice", notice);
 		model.setViewName("notice/view");
+		
+		return model;
+	}
+	
+	@GetMapping("/qnaView")
+	public ModelAndView qnaView(HttpServletRequest request, HttpServletResponse response, ModelAndView model, @RequestParam("no") int no) {
+		
+		Qna qna = service.findQnaByNo(no);
+		
+		model.addObject("qna", qna);
+		model.setViewName("notice/qnaView");
 		
 		return model;
 	}
@@ -301,31 +336,6 @@ public class NoticeController {
 	
 	
 	
-	
-	
-	
-	
-	
-	@GetMapping("/qnalist")
-	public ModelAndView qnalist(ModelAndView model, 
-			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10") int count) {
-
-		PageInfo pageInfo = null;
-		List<Qna> list = null;
-
-		pageInfo = new PageInfo(page, 10, service.getQnaCount(), count);
-		list = service.getQnaList(pageInfo);
-		
-		model.addObject("pageInfo", pageInfo);
-		model.addObject("list", list);
-		model.setViewName("notice/qnalist");
-		
-		System.out.println(list.toString());
-		
-		return model;
-	}
-	
 	@GetMapping("/qnaWrite")
 	public String qnawrite() {
 		
@@ -381,75 +391,6 @@ public class NoticeController {
 		model.setViewName("common/msg");
 	
 		return model;
-	}
-	
-	@GetMapping("/qnaView")
-	public ModelAndView qnaView(HttpServletRequest request, HttpServletResponse response, ModelAndView model, @RequestParam("no") int no) {
-		
-		Qna qna = service.findQnaByNo(no);
-		
-		Cookie[] cookies = request.getCookies();
-		String boardHistory = ""; //이력을 저장하는 변수
-		
-		if(cookies != null) {
-			String name = null;
-			String value = null;
-			
-			for(Cookie cookie : cookies) {
-				name = cookie.getName();
-				value = cookie.getValue();
-				
-				//boardHistory인 쿠키 값을 찾기
-				if("boardHistory".equals(name)) {
-					boardHistory = value;//현재 저장된 값 대입
-					if(value.contains("|" + no + "|")) {
-						 
-						break;
-					}
-				}
-			}
-		}
-		
-		model.addObject("qna", qna);
-		model.setViewName("notice/qnaView");
-		
-		return model;
-	}
-	
-	@GetMapping("/qnaFileDown")
-	public ResponseEntity<Resource> qnaFileDown(
-			@RequestHeader(name = "user-agent") String userAgent, 
-			@RequestParam("oname") String oname, 
-			@RequestParam("rname") String rname) {
-		
-		try {
-			Resource resource = resourceLoader.getResource("/resources/upload/notice/" + rname);
-			System.out.println(oname);
-			System.out.println(rname);
-			
-			String downName = null;
-			boolean isMSIE = userAgent.indexOf("MSIE") != -1 || userAgent.indexOf("Trident") != -1;
-		
-			if(isMSIE) {
-				downName = URLEncoder.encode(oname, "UTF-8").replaceAll("\\+", "%20");
-			
-			} else {
-				downName = new String(oname.getBytes("UTF-8"), "ISO-8859-1");			
-			}
-			
-			System.out.println(downName);
-			
-			return ResponseEntity.ok()
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
-					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename\"" + downName + "\"")
-					.body(resource);
-			
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-		
 	}
 	
 	@GetMapping("/qnaModify")

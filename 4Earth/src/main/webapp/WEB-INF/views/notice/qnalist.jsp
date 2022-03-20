@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>main</title>
+    <title>1:1문의</title>
 </head>
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -19,13 +19,13 @@
 <%@ include file="/WEB-INF/views/common/sideBar.jsp" %>  
           <section class="content-wrap">
             <div class="page-tit">
-              <h3>공지사항</h3>
+              <h3>1:1 문의</h3>
               <div class="bread-crumb">
                 <a href="${ path }"
                   ><i class="material-icons md-16">home</i></a
                 >
                 <a href="#">About Us</a>
-                <span>공지사항</span>
+                <span>1:1 문의</span>
               </div>
             </div>
             <br />
@@ -52,7 +52,7 @@
 			<c:forEach var="qna" items="${ list }">
 				<tr>
 					<td>${ qna.no }</td>
-					<td colspan="8">
+					<td>
 						<a href="${ path }/notice/qnaView?no=${ qna.no }">
 							${ qna.title }
 						</a>
@@ -65,7 +65,7 @@
 							<span> - </span>
 						</c:if>
 						<c:if test="${ !empty qna.originalFileName }">
-							<img src="${ path }/resources/images/file.png" width="20" height="20"/>
+							<img src="../resources/images/common/file.gif" width="20" height="20"/>
 						</c:if>
 					</td>
 				</tr>
@@ -75,19 +75,15 @@
               </tbody>
             </table>
             <div class="table_bottom">
+            	<div class="input-with-icon search-input">
+                <input type="text" placeholder="검색어를 입력해주세요." id="search-val"/>
+                <button id="search"><i class="material-icons">search</i></button>
+            	</div>
               <a class="btn" href="${ path }/notice/qnaWrite" role="button">
                 글쓰기
               </a>
-
-         
-              
             </div>
-            <form action="#" method="GET" class="form-search">
-              <div class="input-with-icon search-input">
-                <input type="text" placeholder="검색어를 입력해주세요." />
-                <button><i class="material-icons">search</i></button>
-              </div>
-            </form>
+              
             <div class="paging">
               <!-- 맨 처음으로 -->
               <a
@@ -157,5 +153,16 @@
             menuIdx.find('a > i').text(menuIcon[i]);
             menuIdx.find('a > span').text(menuName[i]);
         }
+        sideBarMenu.each(function(idx, el) {
+            if(idx == 2) {
+                $(this).addClass('current');
+            }
+        })
     });
+    
+    $("#search").ready(() => {
+			$("#search").on('click', () => {
+				location.replace("${ path }/notice/qnalist?title=" + $("#search-val").val());
+		})
+	});
 </script>
