@@ -68,7 +68,7 @@
                                             <option value="2">회원번호</option>
                                         </select>
                                         <select name="" id="" class="selectbox">
-                                            <option value="" selected="selected">목록 갯수 선택</option>
+                                            <option value="" selected="selected">목록 개수 선택</option>
                                             <option value="5">5개씩 보기</option>
                                             <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
