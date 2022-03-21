@@ -17,7 +17,7 @@
     <script src="${ path }/resources/js/ui.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="shortcut icon" href="${ path }/resources/favicon.ico">
-    <title>4Earth 관리자</title>
+    <title>4Earth 관리</title>
 </head>
 <body>
     <div class="wrap">
@@ -40,6 +40,7 @@
                     
     				<c:if test="${ !empty loginMember }">
                     <div class="after-login">
+                    	<a href="${ path }/admin/main"><i class="material-icons md-18">manage_accounts</i> Admin</a>
                         <a href="${ path }"><i class="material-icons md-18">manage_accounts</i> User</a>
                         <a href="${ path }/profile_view"><i class="material-icons md-18">account_circle</i> 
                             ${ loginMember.name }</b>님</a>
