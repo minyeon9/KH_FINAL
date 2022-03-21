@@ -43,6 +43,7 @@
 	 		<mapping path="/month_write"/>
 	 		<mapping path="/month_complete"/>
 	 		<mapping path="/ongoing_list"/>
+	 		<mapping path="/point"/>
 	 		<mapping path="/my_ongoing_list"/>
 	 		<mapping path="/wishlist"/>
 	 		<mapping path="/purchase_cart"/>
