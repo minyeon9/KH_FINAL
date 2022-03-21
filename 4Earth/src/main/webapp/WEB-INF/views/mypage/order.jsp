@@ -31,7 +31,7 @@
 
                         <section> 
                             <br>                         
-                                <table class="cart-table order-table">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th style="width: 32%;">주문번호</th>
@@ -101,8 +101,8 @@
 <script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
-        let menuPath = ['/4earth/point', '/4earth/order','/4earth/wishlist', '#', '/4earth/my_ongoing_list', '/4earth/profile_view'];
-        let menuName = ['포인트 내역', '주문/배송 내역', '찜한 상품', '1:1문의 내역', '참여 중인 챌린지', '내정보'];
+        let menuPath = ['/4earth/point', '/4earth/order','/4earth/wishlist', '/4earth/my_ongoing_list', '/4earth/profile_view'];
+        let menuName = ['포인트 내역', '주문/배송 내역', '찜한 상품', '참여 중인 챌린지', '내정보'];
         let menuIcon = ['savings', 'local_shipping', 'favorite', 'headset_mic', 'bookmark_border', 'person']
 
         for( let i = 0; i < menuName.length; i++ ) {

@@ -1,11 +1,5 @@
 @charset "UTF-8";
 
-.store-wrap {
-    margin-top: 20px;
-}
-.store-wrap section {
-    padding: 20px 0 30px;
-}
 .store-wrap section + section {
     padding-top: 80px;
     border-top: 1px solid #ddd;
@@ -20,7 +14,6 @@
 /* 상품 목록 */
 .store-category {
     width: 100%;
-    border-bottom: 1px solid #b6b6b6;
     display: flex;
 }
 .store-category strong {
@@ -61,10 +54,10 @@
     padding-right: 80px;
 }
 .accordian.inquiry ul li a p {
-    width: 80px;
+    width: 90px;
 }
 .accordian.inquiry ul li a p:nth-of-type(2) {
-    width: 400px;
+    width: 500px;
 }
 
 .accordian .icon-question {
@@ -118,19 +111,40 @@
 .product {
     width: 100%;
     min-height: 400px;
+    padding: 20px 0;
+    border-top: 2px solid #67b16b;
+    border-bottom: 1px solid #ccc;
+}
+.board-head.prd {
+	height:35px;
+	
+}
+.board-head.prd form {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.count-prd {
+	color: #5a5a5a;
+	font-weight: 500;
+}
+.count-prd b {
+	color: #67b16b;
 }
 
 
 
 /* 상품 상세 - slider */
 .slider{
-    width: 500px;
+    width:450px;
     height: 400px;
     position: relative;
     margin: 0 auto;
     margin-left: 0%;
     overflow: hidden;
     float: left;
+    margin-right: 50px;
 }
 .slider input[type=radio]{
     display: none;
@@ -147,10 +161,13 @@ ul.imgs li{
     list-style: none;
     padding: 0;
     margin: 0;
+	border: 1px solid #ccc;
+	overflow: hidden;
+	box-sizing: border-box;
 }
 ul.imgs li img{
-    width: 450px;
-    height: 400px;
+    width: 448px;
+    height: 394px;
     object-fit: scale-down;
     overflow: hidden;
 }
@@ -172,6 +189,9 @@ ul.imgs li img{
     height: 15px;
     cursor: pointer;
 }
+.bullets label + label {
+	margin-left: 5px;
+}
 
 .slider input[type=radio]:nth-child(1):checked~.bullets>label:nth-child(1){
     background-color: #fff;
@@ -185,7 +205,6 @@ ul.imgs li img{
 .slider input[type=radio]:nth-child(4):checked~.bullets>label:nth-child(4){
     background-color: #fff;
 }
-
 .slider input[type=radio]:nth-child(1):checked~ul.imgs>li:nth-child(1){
     left: 0;
     transition: 0.5s;
@@ -227,8 +246,11 @@ ul.imgs li img{
 }
 .pro-table thead tr td {
     font-size: 18px;
-    font-weight: bolder;
+    font-weight: 500;
     padding: 10px 0;
+}
+.pro-table .count-user {
+	color: #67b16b;
 }
 
 .tbody1 tr:first-child td {
@@ -297,6 +319,7 @@ ul.imgs li img{
 }
 .pro-result {
 	width: 100%;
+	margin-top: 10px;
 }
 .selected-price {
 	margin-top: 3px;
@@ -332,6 +355,7 @@ input[type=number]
   margin: 0;
   padding-left: 8px;
   border: 1px solid #eee;
+  border-radius: 0;
 }
 
 .quantity input:focus {
@@ -381,12 +405,12 @@ input[type=number]
     width: 88px;
     height: 34px;
     min-height: 34px;
-    color: #669948;
+    color: #67b16b;
     font-weight: 400;
     line-height: 16px;
     background: #fff;
     padding: 7px 15px 9px;
-    border: 2px solid #669948;
+    border: 2px solid #67b16b;
     box-sizing: border-box;
     transition: all 0.2s ease-out;
     vertical-align: top;
@@ -399,6 +423,9 @@ input[type=number]
 .pro-detail {
     width: 100%;
     height: 550px;
+    border-bottom: 1px solid #ccc;
+    margin: 40px 0 20px;
+    padding: 20px 0;
 }
 .pro-detail-img {
 	margin-left: auto;
@@ -427,7 +454,7 @@ input[type=number]
 	margin-top: 12px;
 	float: left;
 	font-size: 16px;
-	font-weight: 600;
+	font-weight: 500;
 }
 .prd-option {
 	width: 250px;
@@ -437,7 +464,12 @@ input[type=number]
 }
 .rev-img-container {
 	text-align: center;	
-	border-top: none !important;
+	padding: 0 !important;
+	width: 500px;
+	overflow: hidden;
+}
+.rev-img-container img {
+	width: 100%;
 }
 .delete-rev {
 	color: #bbb;
@@ -469,11 +501,11 @@ input[type=number]
     border-collapse: collapse;
 }
 .cart-table thead tr {
-    border-top: 2px solid #467443;    
+    border-top: 2px solid #67b16b;    
 }
 .cart-table thead tr th {
-    font-size: 15px;
-    font-weight: bolder;
+    font-size: 16px;
+    font-weight: 500;
     padding: 10px 0;
 }
 .cart-table thead th:first-of-type {
@@ -487,7 +519,7 @@ input[type=number]
 
 .cart-table tbody tr td {
     padding: 10px 0;
-    border-bottom: 1px solid rgb(228, 228, 228);
+    border-bottom: 1px solid #ccc;
 }
 
 .cart-table tbody tr td:first-of-type {
@@ -518,12 +550,12 @@ input[type=number]
 }
 #cart-result1 {
     border-collapse: collapse;
-    border-top: 2px solid rgb(206, 206, 206);
+    border-top: 1px solid rgb(206, 206, 206);
     height: 50px;
 }
 #cart-result2 {
     border-collapse: collapse;
-    border-bottom: 2px solid rgb(206, 206, 206);
+    border-bottom: 1px solid rgb(206, 206, 206);
     height: 50px;
 }
 #cart-result2 th {
@@ -531,27 +563,27 @@ input[type=number]
 }
 
 .cart-btn {
-    font-size: 18px;
+    /* font-size: 18px;
     height: 50px;
     width: 170px;
     min-height: 50px;
     color: #669948;
     font-weight: bolder;
-    line-height: 16px;
+    line-height: 16px; */
     background: #fff;
     padding: 9px 25px 9px;
     margin: 70px;
     margin-top: 30px;
-    border: 2px solid #669948;
+    /* border: 2px solid #669948; */
     box-sizing: border-box;
     transition: all 0.2s ease-out;
     vertical-align: top;
 }
-.cart-btn:hover {
+/* .cart-btn:hover {
     color: #fff;
     background: #669948;
     border: 2px solid #669948;
-}
+} */
 
 /* delivery */
 .delivery {
@@ -770,6 +802,7 @@ input[type=number]
 	position: relative;
     margin: 0 auto;
     margin-left: 0%;
+    border: 1px solid #ccc;
 }
 .bid-detail-img {
 	width: 100%;
@@ -811,17 +844,49 @@ input[type=number]
 /* -----------------
     오프라인 매장안내
 ------------------ */
-.map-list ul li{
-	border-bottom: 2px solid #ddd;
-	padding-bottom: 18px;
-	margin-bottom: 18px;
-	line-height: 25px;
+.store-map {
+	overflow: hidden;
+	border: 1px solid #ccc;
 }
-.map-list ul li strong{
+.store-map + .notice-txt {
+	display: block;
+	color: #999;
+	font-size: 12px;
+	text-align: right;
+	margin-top: 5px;
+}
+.map-list {
+	border-top: 2px solid #67b16b;
+}
+.map-list ul li{
+	border-bottom: 1px solid #ccc;
+	line-height: 25px;
+	padding: 20px;
+}
+.map-list ul li:hover {
+	background: #fafdfa;
+}
+.map-list ul li strong {
 	font-size: 18px;
+	font-weight: 500;
+}
+.map-list ul li:hover strong {
+	color: #67b16b;
+}
+.map-list ul li div {
+	display: flex;
+	justify-content: space-between;
+}
+.map-list ul li p {
+	color: #5a5a5a;
+}
+.map-list ul li p:last-child {
+	color: #999;
+	min-width: 120px;
+	margin-left: auto;
 }
 .map-list ul li i{
-	font-size: 16px;
+	font-size: 21px;
 }
 
 /*--------
@@ -862,6 +927,30 @@ input[type=number]
     text-decoration: underline;
     color: #467443;
 }
+
+
+
+/*-----------
+    모집 중인 상품
+-----------*/
+.bidding-url {
+	word-break: break-all;
+    font-weight: 500;
+}
+.bidding-url:hover {
+	color: #67b16b;
+    text-decoration: underline;
+}
+
+
+
+/* 구매 후기 */
+.accordian.inquiry ul li a:before {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+
 
 /*-----------
     마이페이지

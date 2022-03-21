@@ -45,6 +45,15 @@
                 </div>
                 
                 <section class="content-wrap">
+                	<div class="page-tit">
+                        <h3>소분샵</h3>
+                        <div class="bread-crumb">
+                            <a href="../index.html"><i class="material-icons md-16">home</i></a>
+                            <a href="#">에코샵</a>
+                            <span>소분샵</span>
+                        </div>
+                    </div>
+                
                     <div class="product">
                     <!-- 
                         slide
@@ -160,8 +169,6 @@
                             </div>                            
                         </div>
                     </div>
-
-                    <br><br><br><br><br>
                     
                     <!-- 상품설명 -->
                     <div class="pro-detail">
@@ -192,11 +199,11 @@
                         <div class="accordian inquiry">
                             <ul>
                             	<c:if test="${ empty revList }">
-                            		<p style="text-align: center;">
-	                            		<br>등록된 리뷰가 없습니다.
-                            		</p>
-                            		<br>
-                            	</c:if>
+                                    <div class="empty-content">
+                                           <i class="material-icons">info</i>
+                                           <p>조회된 상품 후기가 없습니다.</p>
+                                       </div>
+                                </c:if>
                             	<c:if test="${ !empty revList }">
 	                            	<c:forEach var="rev" items="${ revList }">
 		                            	<li class="inquiry-li">
@@ -208,7 +215,7 @@
 		                                       	<span class="prd-option">
 		                                       		<small>구매 옵션 : ${ rev.proOptName }</small>
 		                                       		<br>
-		                                       		<p style="width: 300px;">${ rev.revTitle }</p>
+		                                       		<p style="width: 100%;">${ rev.revTitle }</p>
 		                                   		</span>
 		                                        <span class="prd-date">
 		                                        	<fmt:formatDate value="${ rev.revDate }" pattern="yyy-MM-dd hh:mm"/>
@@ -216,6 +223,9 @@
 		                                        <span class="inquiry-writerId" style="color: #67b16b; width: 80px;">
 		                                        	${ rev.memberId }
 		                                        </span>
+		                                        <c:if test="${ loginMember.no ne rev.memberNo }">
+                                                    <span style="display: inline-block; width: 24px;">&nbsp;</span>
+                                                </c:if>
 		                                        <c:if test="${ !empty loginMember && loginMember.no eq rev.memberNo }">
 		                                        	<form id="rev-delete-form" action="${ path }/delete_review" method="post" onsubmit="return confirm('리뷰를 삭제하시겠습니까?');">
 		                                        		<button type="submit" class="material-icons md-22 delete-rev">delete_outline</button>
@@ -229,7 +239,7 @@
 		                                    <div>
 		                                    	<c:if test="${ !empty rev.renamedFileName }">
 		                                    		<div class="rev-img-container">
-		                                    			<img src="${ path }/resources/upload/store/${ rev.renamedFileName }">
+		                                    			<img src="${ path }/resources/upload/review/${ rev.renamedFileName }">
 		                                    		</div>
 		                                    	</c:if>	                                        
 		                                    	<div style="border-top: none; padding: 10px; display: inline-block; width: 85%;">
@@ -254,17 +264,19 @@
                         </div>
                         <c:if test="${ !empty revList }">
 	                        <div class="paging">
+	                        	<a href="${ path }/product_detail?no=${ product.proNo }&revPage=1" class="first"><span>맨 앞으로</span></a> 
 	                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.prevPage }" class="prev"><span>이전</span></a>
 	                            <c:forEach begin="${ revPageInfo.startPage }" end="${ revPageInfo.endPage }" varStatus="status">
-									<c:if test="${ status.current == revPageInfo.currentPage }">				
+									<c:if test="${ status.current == revPageInfo.currentPage }">			
 										<strong>${ status.current }</strong>
 									</c:if>
 									
-									<c:if test="${ status.current != revPageInfo.currentPage }">				
+									<c:if test="${ status.current != revPageInfo.currentPage }">			
 										<a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ status.current }&count=${ revPageInfo.listLimit }">${ status.current }</a>
 									</c:if>
 								</c:forEach>
 	                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.nextPage }" class="next"><span>다음</span></a>
+	                            <a href="${ path }/product_detail?no=${ product.proNo }&revPage=${ revPageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
 	                        	<input type="hidden" name="no" value="${ product.proNo }">
 	                        </div>
                         </c:if>
@@ -284,11 +296,11 @@
                         <div class="accordian inquiry">
                             <ul>
                             	<c:if test="${ empty inqList }">
-                            		<p style="text-align: center;">
-                            			<br>등록된 문의가 없습니다.
-                            		</p>
-                            		<br>
-                            	</c:if>
+                                    <div class="empty-content">
+                                           <i class="material-icons">info</i>
+                                           <p>조회된 상품 문의가 없습니다.</p>
+                                       </div>
+                                </c:if>
                             	<c:if test="${ !empty inqList }">
 	                            	<c:forEach var="inq" items="${ inqList }">
 		                            	<li class="inquiry-li">
@@ -348,6 +360,7 @@
                         </div>
                         <c:if test="${ !empty inqList }">
 	                        <div class="paging">
+	                        	<a href="${ path }/product_detail?no=${ product.proNo }&inqpage=1" class="first"><span>맨 앞으로</span></a> 
 	                            <a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ inqPageInfo.prevPage }" class="prev"><span>이전</span></a>
 	                            <c:forEach begin="${ inqPageInfo.startPage }" end="${ inqPageInfo.endPage }" varStatus="status">
 									<c:if test="${ status.current == inqPageInfo.currentPage }">				
@@ -359,6 +372,7 @@
 									</c:if>
 								</c:forEach>
 	                            <a href="${ path }/product_detail?no=${ product.proNo }&inqPage=${ inqPageInfo.nextPage }" class="next"><span>다음</span></a>
+	                            <a href="${ path }/product_detail?no=${ product.proNo }&inqpage=${ inqPageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
 	                        	<input type="hidden" name="no" value="${ product.proNo }">
 	                        </div>
                         </c:if>
@@ -757,11 +771,11 @@
 				
 				if(data === "Wish Added" || data === "Wish Again"){
 					$("#wish-done").show();
-					alert("찜 성공");
+					alert("찜한 상품은 마이페이지 > 찜한 상품에서 확인하실 수 있습니다.");
 				}
 				else if(data === "Wish Deleted"){
 					$("#wish-done").hide();
-					alert("찜 삭제");
+					alert("찜 목록에서 삭제되었습니다.");
 				}
 				
 			}

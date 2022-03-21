@@ -40,6 +40,7 @@ COMMENT ON COLUMN PRODUCT_STATUS.S_NO IS '상태번호';
 COMMENT ON COLUMN PRODUCT_STATUS.S_NAME IS '상태명';
 
 -- 상품 상태 데이터
+INSERT INTO PRODUCT_STATUS VALUES (0, '모집대기');
 INSERT INTO PRODUCT_STATUS VALUES (1, '모집중');
 INSERT INTO PRODUCT_STATUS VALUES (2, '모집성공');
 INSERT INTO PRODUCT_STATUS VALUES (3, '판매중');
@@ -418,5 +419,34 @@ COMMENT ON COLUMN REVIEW.ORIGINAL_FILENAME IS '리뷰사진원본이름';
 COMMENT ON COLUMN REVIEW.RENAMED_FILENAME IS '리뷰사진수정이름';
 
 COMMIT;
+
+----------------------------------------------------------------
+-- 03/21 수정 사항
+INSERT INTO PRODUCT_STATUS VALUES (0, '모집대기');
+ALTER TABLE ORDER_DETAIL ADD PRO_MODIFY_IMG VARCHAR2(1000);
+----------------------------------------------------------------
+
+
+-- 테스트용 포인트 10만원 지급
+INSERT INTO POINT (
+    POINT_NO,
+    MEM_NO,
+    SAVE_DATE,
+    SAVE_CONTENT,
+    SAVE_POINT,
+    SPEND_DATE,
+    DISAPEAR_DATE,
+    SAVE_STATUS
+) VALUES (
+    SEQ_POINT.NEXTVAL,
+    43,
+    DEFAULT,
+    '챌린지 달성',
+    100000,
+    NULL,
+    '22/09/01',
+    DEFAULT
+);
+
 
 

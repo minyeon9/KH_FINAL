@@ -37,15 +37,16 @@
 	              	<!--  -->
                   	<c:set var="col_sum" value="0"/> 
                		  <c:if test="${ empty list }">
-                		 <div class="cart-empty">
-                        	<p>장바구니가 비어있습니다.</p>
-                        	<a href="${ path }/product_list">쇼핑하러 가기</a>
-                		 </div>
+                		 <div class="empty-content full">
+                   			<i class="material-icons">info</i>
+                   			<p>장바구니가 비어있습니다.</p>
+                   			<a class="btn" href="${ path }/product_list">쇼핑하러 가기</a>
+                   		</div>
                       </c:if>   
                       <c:if test="${ !empty list }">
                       <table class="cart-table">
                           <thead>
-                              <tr style="border-bottom: 2px solid rgb(206, 206, 206);">
+                              <tr style="border-bottom: 1px solid #ccc;">
                                   <th colspan="4">상품정보</th>
                                   <th>구매량</th>
                                   <th>금액</th>
@@ -63,7 +64,7 @@
 	                                  <td>
 	                                      <div class="cart-img">
 	                                      	<a href="${ path }/product_detail?no=${ product.proNo }">
-	                                          <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                                          <img src="${ path }/resources/upload/store/${ product.proModifyImg }" alt="">
 	                                      	</a>
 	                                      </div>
 	                                  </td>
@@ -72,6 +73,7 @@
 		                                      <strong>${ product.proName }</strong>
 		                                      <p>${ product.proOpt }</p>
 	                                      </a>
+	                                      <input type="hidden" id="proModifyImg" value="${ product.proModifyImg }" disabled="disabled">
 	                                      <input type="hidden" id="proName" value="${ product.proName }" disabled="disabled">
 	                                      <input type="hidden" id="proNo" value="${ product.proNo }" disabled="disabled">
 	                                      <input type="hidden" id="proOptNo" value="${ product.proOptNo }" disabled="disabled">
@@ -87,7 +89,7 @@
 			                                  <fmt:formatNumber value="${ product.proPrice * product.cartQty }" pattern="##,###,###"/> 원
 		                                  	  <input type="hidden" value="${ product.proPrice * product.cartQty }" disabled="disabled">
 		                                  </span>
-		                                  <a href="" class="cart-delete"><i class="material-icons md-24" style="font-size: 16px;">close</i></a>
+		                                  <a href="" class="cart-delete"><i class="material-icons md-18">close</i></a>
 	                                  	  <c:set var="col_sum" value="${ col_sum + product.proPrice * product.cartQty }"/>
 	                                  </td>		                                 
 	                              </tr>
@@ -109,7 +111,7 @@
                               <th rowspan="2" style="vertical-align: middle; font-size: 18px;">
                                   총 금액
                               </th>
-                              <th rowspan="2" id="sum-final" style="vertical-align: middle; font-size: 18px;">	                                  
+                              <th rowspan="2" id="sum-final" style="vertical-align: middle; font-size: 18px; color: #76b779;">	                                  
                                                                     		                                  	
                               </th>
                           </tr>
@@ -123,8 +125,8 @@
                           </tr> 
                           <tr>
                               <th colspan="6">
-                                  <button class="cart-btn" onclick="location.href='${ path }/product_list'">계속 쇼핑하기</button>
-                                  <button id="purchase" class="cart-btn">주문하기</button>
+                                  <button class="btn btn-l cart-btn" onclick="location.href='${ path }/product_list'">계속 쇼핑하기</button>
+                                  <button id="purchase" class="btn btn-l cart-btn">주문하기</button>
                               </th>
                           </tr>
                       </table>
@@ -312,13 +314,15 @@
 				let proOpt = checked.parents(".cart-list").find("#proOpt").val();
 				let proPrice = checked.parents(".cart-list").find("#proPrice").val();
 				let cartQty = checked.parents(".cart-list").find("#cartQty").val();
+				let proModifyImg = checked.parents(".cart-list").find("#proModifyImg").val();
 				
 				let input = "<input name='cartList[" + index + "].proName' type='hidden' value='" + proName + "'>"
 						    + "<input name='cartList[" + index + "].proNo' type='hidden' value='" + proNo + "'>"
 							+ "<input name='cartList[" + index + "].proOptNo' type='hidden' value='" + proOptNo + "'>"
 							+ "<input name='cartList[" + index + "].proOpt' type='hidden' value='" + proOpt + "'>"
 							+ "<input name='cartList[" + index + "].proPrice' type='hidden' value='" + proPrice + "'>"
-							+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>";
+							+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>"
+							+ "<input name='cartList[" + index + "].proModifyImg' type='hidden' value='" + proModifyImg + "'>";
 
 				form_content += input;
 				

@@ -50,7 +50,7 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>물품 접수 목록</h3>
+                        <h3>물품 접수</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">에코샵</a>
@@ -58,10 +58,9 @@
                         </div>
                     </div>
                     
-                    <div class="guide">
                         <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                     	<form action="${ path }/admin/echo_bidding_select">
@@ -71,15 +70,16 @@
 	                                            <option value="모집대기">모집 대기</option>
 	                                        </select>
 	                                        <select name="" id="count-select" class="selectbox">
-                                            <option value="5">5개씩 보기</option>
-                                            <option value="10" selected="selected">10개씩 보기</option>
-                                            <option value="30">30개씩 보기</option>
-                                        </select>
-	                                        <div class="input-with-icon search-input">
-	                                            <input type="text" placeholder="검색어를 입력해주세요.">
-	                                            <button><i class="material-icons">search</i></button>
-	                                        </div>
+	                                            <option value="" selected="selected">목록 갯수 선택</option>
+	                                            <option value="5">5개씩 보기</option>
+	                                            <option value="10">10개씩 보기</option>
+	                                            <option value="30">30개씩 보기</option>
+	                                        </select>
                                     	</form>
+                                    </div>
+                                    <div class="input-with-icon search-input">
+                                        <input type="text" placeholder="검색어를 입력해주세요.">
+                                        <button><i class="material-icons">search</i></button>
                                     </div>
                                 </div>
                             </div>
@@ -89,17 +89,17 @@
                                     <colgroup>
                                         <col width="10%">
                                         <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
-                                        <col width="10%">
                                         <col width="*">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th>모집 번호</th>
                                             <th>상태</th>
-                                            <th style="width: 25%;">물품 이름</th>
+                                            <th>물품 이름</th>
                                             <th>필요인원</th>
                                             <th>현재인원</th>
                                             <th>내용</th>
@@ -109,8 +109,11 @@
                                     <tbody>
                                         <c:if test="${ empty list }">
                                         	<tr>
-		                                    	<td colspan="6">
-												조회된 물품 접수가 없습니다
+		                                    	<td colspan="7">
+													<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 상품 접수 내역이 없습니다.</p>
+						                       		</div>
 		                                    	</td>
 		                                    </tr>
                                         </c:if>
@@ -131,11 +134,11 @@
 		                                            	<c:if test="${ list.appStatNo eq 1 }"></c:if>	
 		                                            </td>
 		                                            <td>
-		                                            	<a href="#popup${ vs.index }" class="btn btn-open-pop btn-s gray">보기</a>
+		                                            	<a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a>
 		                                            	<div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ list.appNo }
+						                                    	<%-- ${ list.appNo } --%>
 						                                        <strong>${ list.appName }</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
@@ -194,27 +197,29 @@
                             </div>
                         </section>
                         <!-- // Category -->
-                        <div class="paging">
-                        	<input type="hidden" name="select" value="${ select }">
-							<a class="prev" href="${ path }/admin/echo_bidding_select?page=1"></a>
-							<a class="prev" href="${ path }/admin/echo_bidding_select?page=${ pageInfo.prevPage }&select=${ select }"><span>이전</span></a>
-							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == pageInfo.currentPage }">			
-									<strong>${ status.current }</strong>
-								</c:if>
-								<c:if test="${ status.current != pageInfo.currentPage }">				
-									<a href="${ path }/admin/echo_bidding_select?page=${ status.current }&count=${ pageInfo.listLimit }&select=${ select }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-							<a class="next" href="${ path }/admin/echo_bidding_select?page=${ pageInfo.nextPage }&select=${ select }"><span>다음</span></a>
-							<a class="next" href="${ path }/admin/echo_bidding_select?page=${ pageInfo.maxPage }&select=${ select }"></a>
-						</div>                    
+                        
+                        <c:if test="${ !empty list }">
+	                        <div class="paging">
+	                        	<input type="hidden" name="select" value="${ select }">
+								<a class="first" href="${ path }/admin/echo_bidding_select?page=1"></a>
+								<a class="prev" href="${ path }/admin/echo_bidding_select?page=${ pageInfo.prevPage }&select=${ select }"><span>이전</span></a>
+								<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">			
+										<strong>${ status.current }</strong>
+									</c:if>
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/admin/echo_bidding_select?page=${ status.current }&count=${ pageInfo.listLimit }&select=${ select }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+								<a class="next" href="${ path }/admin/echo_bidding_select?page=${ pageInfo.nextPage }&select=${ select }"><span>다음</span></a>
+								<a class="last" href="${ path }/admin/echo_bidding_select?page=${ pageInfo.maxPage }&select=${ select }"></a>
+							</div>   
+						</c:if>                 
                     </div>
             </section>
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
-        </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
@@ -222,8 +227,8 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/echo_list','${ path }/admin/echo_order','${ path }/admin/echo_delivery','${ path }/admin/echo_cancel','${ path }/admin/echo_bidding'];
-	    let menuName = ['에코샵 물품 목록', '주문 접수 목록', '발송 완료 목록', '주문 취소 목록', '물품 접수 목록'];
-	    let menuIcon = ['home', 'home', 'home', 'home', 'home']
+	    let menuName = ['에코샵 상품', '주문 접수', '발송 완료', '주문 취소', '물품 접수'];
+	    let menuIcon = ['inventory_2', 'app_registration', 'local_shipping', 'remove_circle', 'edit'];
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);

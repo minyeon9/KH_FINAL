@@ -51,7 +51,7 @@
 	                                      <td>
 	                                          <div class="cart-img">
 	                                          <a href="${ path }/product_detail?no=${ product.proNo }">
-	                                              <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+	                                              <img src="${ path }/resources/upload/store/${ orderDetail.proModifyImg }" alt="">
 	                                          </a>
 	                                          </div>
 	                                      </td>
@@ -135,7 +135,7 @@
                                   <tr style="border-bottom: none; height: 17%;">
                                       <td rowspan="2" class="del-item" style="height: 95px;">주소</td>
                                       <td colspan="2">
-                                          <input type="text" name="del-postcode" readonly="readonly">
+                                          <input type="text" name="del-postcode" readonly="readonly" value="${ loginMember.postcode }">
                                       </td>
                                   </tr>
                                   <tr style="height: 17%;">
@@ -143,8 +143,8 @@
                                           <input type="text" size="40px" name="del-address" readonly="readonly" value="${ loginMember.address }">
                                       </td>
                                       <td>
-                                          <input type="text" size="30px" name="del-extraAddress" readonly="readonly" value="">
-                                          <input type="text" name="del-detailAddress" readonly="readonly" value="">
+                                          <input type="text" size="30px" name="del-extraAddress" readonly="readonly" value="${ loginMember.extra_address }">
+                                          <input type="text" name="del-detailAddress" readonly="readonly" value="${ loginMember.detail_address }">
                                       </td>
                                   </tr>
                                   <tr>
@@ -569,11 +569,11 @@
 			pm = "";
 		}
 		*/
-		else if(method == "radio3"){
+		else if(method == "카카오페이"){
 			pg = "kakao";
 			pm = "kakaopay";
 		}
-		else if(method == "radio4"){
+		else if(method == "휴대폰결제"){
 			pg = "danal";
 			pm = "phone";
 		}

@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>찜 목록</title>
+    <title>찜한 상품</title>
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
@@ -28,17 +28,18 @@
                     </div>
 
                         <section>
-                            <strong></strong>     
-                            <hr style="border: 1px solid #669948;">
-                            <br>                
+                            
+                            
                             <div class="thumb-list">
+                               	<c:if test="${ empty list }">
+                               		<div class="empty-content full">
+		                       			<i class="material-icons">info</i>
+		                       			<p>찜한 상품이 없습니다.</p>
+		                       			<a class="btn" href="${ path }/product_list">쇼핑하러 가기</a>
+		                       		</div>
+	                            <br>                
+                               	</c:if>
                                 <ul>
-                                	<c:if test="${ empty list }">
-                                		<div class="cart-empty">
-	                                		<p>찜한 상품이 없습니다.</p>
-	                        				<a href="${ path }/product_list">쇼핑하러 가기</a>
-                                		</div>
-                                	</c:if>
                                     <c:if test="${ !empty list }">
                                 		<c:forEach var="product" items="${ list }">
                                 			<li>
@@ -105,20 +106,20 @@
 
 <script>
 	$(() => {
-	    let sideBarMenu = $('.side-bar ul li');
-	    let menuPath = ['/4earth/point', '/4earth/order','/4earth/wishlist', '#', '/4earth/my_ongoing_list', '/4earth/profile_view'];
-	    let menuName = ['포인트 내역', '주문/배송 내역', '찜한 상품', '1:1문의 내역', '참여 중인 챌린지', '내정보'];
-	    let menuIcon = ['savings', 'local_shipping', 'favorite', 'headset_mic', 'bookmark_border', 'person']
-	
-	    for( let i = 0; i < menuName.length; i++ ) {
-	        let menuIdx = sideBarMenu.eq(i);
-	
-	        menuIdx.find('a').attr('href', menuPath[i]);
-	        menuIdx.find('a > i').text(menuIcon[i]);
-	        menuIdx.find('a > span').text(menuName[i]);
-	    }
-	    
-	    sideBarMenu.each(function(idx, el) {
+		let sideBarMenu = $('.side-bar ul li');
+        let menuPath = ['/4earth/point', '/4earth/order','/4earth/wishlist', '/4earth/my_ongoing_list', '/4earth/profile_view'];
+        let menuName = ['포인트 내역', '주문/배송 내역', '찜한 상품', '참여 중인 챌린지', '내정보'];
+        let menuIcon = ['savings', 'local_shipping', 'favorite', 'headset_mic', 'bookmark_border', 'person']
+
+        for( let i = 0; i < menuName.length; i++ ) {
+            let menuIdx = sideBarMenu.eq(i);
+
+            menuIdx.find('a').attr('href', menuPath[i]);
+            menuIdx.find('a > i').text(menuIcon[i]);
+            menuIdx.find('a > span').text(menuName[i]);
+        }
+        
+        sideBarMenu.each(function(idx, el) {
             if(idx == 2) {
                 $(this).addClass('current');
             }
@@ -152,7 +153,7 @@
 					alert("찜 성공");
 				}
 				else if(data === "Wish Deleted"){
-					alert("찜 삭제");
+					alert("찜 목록에서 삭제되었습니다.");
 				}
 				
 				window.location = "${ path }/wishlist";

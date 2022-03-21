@@ -151,11 +151,11 @@
 
                         <!-- Thumbnail List -->
                         <section>	  
-                        	<div style="height:35px; margin-bottom:10px;">
+                        	<div class="board-head prd">
 	                            <form action="${ path }/product_arrange?category=${ category }">
-	                            <strong>
-	                                총 ${ count }개의 상품이 있습니다. 
-	                            </strong>
+		                            <strong class="count-prd">
+		                                총 <b>${ count }</b>개의 상품이 있습니다. 
+		                            </strong>
 		                            <select name="arrange" id="store-arrange" class="store-selectbox" onchange="submit()">
 		                                <option value="신상품순" <c:if test="${arrange eq '신상품순'}">selected</c:if> >신상품순</option>	                            
 		                                <option value="판매순" <c:if test="${arrange eq '판매순'}">selected</c:if>>판매순</option>
@@ -310,10 +310,10 @@
 				selected.toggleClass("fa-heart fa-heart-o");
 				
 				if(data === "Wish Added" || data === "Wish Again"){
-					alert("찜 성공");
+					alert("찜한 상품은 마이페이지 > 찜한 상품에서 확인하실 수 있습니다.");
 				}
 				else if(data === "Wish Deleted"){
-					alert("찜 삭제");
+					alert("찜 목록에서 삭제되었습니다.");
 				}
 			}
 		});        

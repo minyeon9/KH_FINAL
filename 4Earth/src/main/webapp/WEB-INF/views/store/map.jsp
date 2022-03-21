@@ -53,10 +53,14 @@
                     </div>
                     
                     <!-- 카카오맵 API -->
-                    <section>
+                    <section class="store-map">
                         <div id="map" style="width:810px;height:500px;"></div>
                         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a2ebb212d45b3614404dcda8f6bda928"></script>
                     </section>
+                    <span class="notice-txt">
+                    	- 지도에서 <i class="material-icons md-16">place</i> 아이콘을 클릭하시면 카카오맵으로 이동합니다.
+                    </span>
+                    
 
 					<br><br>
 
@@ -66,23 +70,29 @@
                                 <li>
                                     <a href="javascript:void(0);" onclick="setCenter1()">
                                         <strong>서울 남부터미널 본점</strong>
+	                                    <div>
+		                                	<p><i class="material-icons md-16">place</i>서울특별시 서초구 효령로 292</p>
+		                                    <p><i class="material-icons">call</i> 02-4738-3092</p>
+	                                    </div>
                                     </a>
-                                	<p>서울특별시 서초구 효령로 292</p>
-                                    <p><i class="material-icons">call</i> 000-0000-0000</p>
                                 </li>                            
                                 <li>
                                     <a href="javascript:void(0);" onclick="setCenter2()">
                                         <strong>강남 KH정보교육원 지점</strong>
+	                                    <div>
+		                                    <p><i class="material-icons md-16">place</i>서울특별시 강남구 테헤란로 14길</p>
+		                                    <p><i class="material-icons">call</i> 070-399-2540</p>
+		                                </div>
                                     </a>
-                                    <p>서울특별시 강남구 테헤란로 14길</p>
-                                    <p><i class="material-icons">call</i> 111-1111-1111</p>
                                 </li>                            
                                 <li>
                                     <a href="javascript:void(0);" onclick="setCenter3()">
                                         <strong>송도 현대프리미엄아울렛 지점</strong>
+	                                    <div>
+		                                    <p><i class="material-icons md-16">place</i>인천시 연수구 송도국제대로 123</p>
+		                                    <p><i class="material-icons">call</i> 031-2307-7119</p>
+		                                </div>
                                     </a>
-                                    <p>인천시 연수구 송도국제대로 123</p>
-                                    <p><i class="material-icons">call</i> 123-4567-8901</p>
                                 </li>
                             </ul>
                         </div>

@@ -54,7 +54,9 @@ input:-webkit-autofill,
 input[type="text"],
 input[type="password"],
 input[type="tel"],
-input[type="mail"] {
+input[type="mail"],
+input[type="url"],
+input[type="number"] {
     height: 40px;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -490,7 +492,7 @@ input + .btn {
 .table {
     width: 100%;
     border-collapse: collapse;
-    border-top: 2px solid #76b779;
+    border-top: 2px solid #67b16b;
     border-bottom: 1px solid #999;
 }
 .table thead {
@@ -505,10 +507,12 @@ input + .btn {
     border-top: 0;
 }
 .table tbody tr td {
-    color: #666;font-size: 14px;
+    color: #666;
+    font-size: 14px;
     text-align: center;
-    padding: 10px;
     border-top: 1px solid #ddd;
+    padding: 10px;
+    word-break: break-all;
 }
 .table tbody tr td a {
     overflow: hidden;
@@ -529,6 +533,13 @@ input + .btn {
 .table tbody tr td .prd-option b {
     color: #666;
     font-weight: 300;
+}
+.table tbody tr td a.btn {
+	display: inline-block;
+	color: #76b779;
+}
+.table tbody tr td a.btn:hover {
+	color: #fff;
 }
 
 
@@ -902,6 +913,9 @@ input + .btn {
 	color: #666;
     font-size: 16px;
     margin-top: 20px;
+}
+.empty-content .btn {
+	margin-top: 30px;
 }
 
 

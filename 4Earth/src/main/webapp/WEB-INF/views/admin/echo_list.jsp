@@ -50,18 +50,18 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>에코샵 물품 목록</h3>
+                        <h3>에코샵 상품</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">에코샵</a>
-                            <span>에코샵 물품 목록</span>
+                            <span>에코샵 상품</span>
                         </div>
                     </div>
 
                     <div class="admin">
                         <!-- Category -->
                         <section>
-                            <div style="margin-bottom: 5px;">
+                            <div>
                                 <div class="board-head">
                                     <div class="select-wrap">
                                         <select name="" id="member-select" class="selectbox">
@@ -70,14 +70,15 @@
                                             <option value="3">재고순</option>
                                         </select>
                                         <select name="" id="count-select" class="selectbox">
+                                            <option value="" selected="selected">목록 갯수 선택</option>
                                             <option value="5">5개씩 보기</option>
-                                            <option value="10" selected>10개씩 보기</option>
+                                            <option value="10">10개씩 보기</option>
                                             <option value="30">30개씩 보기</option>
                                         </select>
-                                        <div class="input-with-icon search-input">
-                                            <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
-                                            <button id="search"><i class="material-icons">search</i></button>
-                                        </div>
+                                    </div>
+                                    <div class="input-with-icon search-input">
+                                        <input type="text" placeholder="검색어를 입력해주세요." id="search-val">
+                                        <button id="search"><i class="material-icons">search</i></button>
                                     </div>
                                 </div>
                             </div>
@@ -86,17 +87,17 @@
                                 <table class="table">
                                     <colgroup>
                                         <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
                                         <col width="*">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                         <tr>
-                                            <th>물품 번호</th>
-                                            <th>물품 이름</th>
+                                            <th>상품 번호</th>
+                                            <th>상품 이름</th>
                                             <th>상태</th>
                                             <th>등록일</th>
                                             <th>재고 수</th>
@@ -107,15 +108,18 @@
                                     <c:if test="${ empty list }">
 	                                    <tbody>
 		                                    <tr>
-		                                    	<td colspan="6">
-												조회된 물품이 없습니다
+		                                    	<td colspan="7">
+													<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 상품 내역이 없습니다.</p>
+						                       		</div>
 		                                    	</td>
 		                                    </tr>
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="product" items="${ list }" varStatus="vs">
-		                                    <tbody>
+	                                    <tbody>
+											<c:forEach var="product" items="${ list }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ product.proNo }</td>
 		                                            <td>${ product.proName }</td>
@@ -125,7 +129,7 @@
 		                                            </td>
 		                                            <td>${ product.proStock }</td>
 		                                            <td>
-		                                            <a href="#popup${ vs.index }" class="btn btn-open-pop">보기</a> 
+		                                            <a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
@@ -201,8 +205,8 @@
 		                                                <button id="delete" name="no" value=${ product.proNo } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+		                                </tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -212,23 +216,23 @@
                         </section>
                         <!-- // Category -->
                         
-                        <div class="paging">
-							<a class="prev" href="${ path }/admin/echo_list?page=1"></a>
-							<a class="prev" href="${ path }/admin/echo_list?page=${ pageInfo.prevPage }"><span>이전</span></a>
-				
-							<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
-								<c:if test="${ status.current == pageInfo.currentPage }">			
-									<strong>${ status.current }</strong>
-								</c:if>
-								<c:if test="${ status.current != pageInfo.currentPage }">				
-									<a href="${ path }/admin/echo_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-								</c:if>
-							</c:forEach>
-							<a class="next" href="${ path }/admin/echo_list?page=${ pageInfo.nextPage }"><span>다음</span></a>
-							<a class="next" href="${ path }/admin/echo_list?page=${ pageInfo.maxPage }"></a>
-                         
-				
-						</div>                   
+                        <c:if test="${ !empty list }">
+	                        <div class="paging">
+								<a class="first" href="${ path }/admin/echo_list?page=1"></a>
+								<a class="prev" href="${ path }/admin/echo_list?page=${ pageInfo.prevPage }"><span>이전</span></a>
+					
+								<c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">			
+										<strong>${ status.current }</strong>
+									</c:if>
+									<c:if test="${ status.current != pageInfo.currentPage }">				
+										<a href="${ path }/admin/echo_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+								<a class="next" href="${ path }/admin/echo_list?page=${ pageInfo.nextPage }"><span>다음</span></a>
+								<a class="last" href="${ path }/admin/echo_list?page=${ pageInfo.maxPage }"></a>
+							</div>
+						</c:if>                 
                     </div>
                     
             </section>
@@ -243,8 +247,8 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/echo_list','${ path }/admin/echo_order','${ path }/admin/echo_delivery','${ path }/admin/echo_cancel','${ path }/admin/echo_bidding'];
-	    let menuName = ['에코샵 물품 목록', '주문 접수 목록', '발송 완료 목록', '주문 취소 목록', '물품 접수 목록'];
-	    let menuIcon = ['home', 'home', 'home', 'home', 'home']
+	    let menuName = ['에코샵 상품', '주문 접수', '발송 완료', '주문 취소', '상품 접수'];
+	    let menuIcon = ['inventory_2', 'app_registration', 'local_shipping', 'remove_circle', 'edit'];
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
 	        let menuIdx = sideBarMenu.eq(i);
@@ -260,6 +264,8 @@
 	        }
 	    });
 	    
+	    $('#count-select').on('change',  (e) => {
+			location.replace("${ path }/admin/echo_list?count=" + e.target.value);
 		})
 	});
 	
