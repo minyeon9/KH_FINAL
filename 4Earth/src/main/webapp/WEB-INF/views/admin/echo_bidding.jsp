@@ -139,7 +139,7 @@
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
 						                                    	<%-- ${ list.appNo } --%>
-						                                        <strong>${ list.appName }</strong>
+						                                        <strong>상품 접수</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">

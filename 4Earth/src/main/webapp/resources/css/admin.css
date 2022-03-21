@@ -99,6 +99,9 @@ nav .logo {
     padding: 10px;
     border: 1px solid #ddd;
 }
+#view-table tbody tr td.left {
+	text-align: left;
+}
 #view-table tbody tr th {
     color: #666;font-size: 14px;
     text-align: center;

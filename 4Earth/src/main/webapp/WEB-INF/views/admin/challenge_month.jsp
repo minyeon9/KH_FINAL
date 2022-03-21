@@ -39,22 +39,16 @@
                                 <span></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>이달의 챌린지 목록</h3>
+                        <h3>이달의 챌린지</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">챌린지</a>
-                            <span>이달의 챌린지 목록</span>
+                            <span>이달의 챌린지</span>
                         </div>
                     </div>
 
@@ -121,7 +115,7 @@
 		                                        <tr>
 		                                            <td>${ month.chalNo }</td>
 		                                            <td>${ month.chalTitle }</td>
-		                                            <td>${ month.chalPoint }</td>
+		                                            <td><fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" /></td>
 		                                            <td>
 		                                            	<fmt:formatDate value="${ month.startDate }" pattern="yyy-MM-dd hh:mm"/>
 		                                            </td>
@@ -131,53 +125,53 @@
 					                                 <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ month.chalNo }
-						                                        <strong>${ month.chalTitle }</strong>
+						                                        <strong>이달의 챌린지</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
-						                                    <table id="view-table">
-													           <colgroup>
-													           		<col style="10%">
-													           		<col style="40%">
-													           		<col style="15%">
-													           		<col style="35%">
-													    		</colgroup>
-													        	<tbody>
-													        		<tr>
-													        			<th>번호</th>
-													        			<td>${ month.chalNo }</td>
-													        			<th>제목</th>
-													        			<td>${ month.chalTitle }</td>
-													        		</tr>
-													        		<tr>
-													        			<th>포인트</th>
-													        			<td>${ month.chalPoint }</td>
-													        			<th>필요참여수</th>
-													        			<td>${ month.chalCount }</td>
-													        		</tr>
-													        		<tr>
-													        			<th>시작일</th>
-													        			<td>
-													        				<fmt:formatDate value="${ month.startDate }" pattern="yyy-MM-dd hh:mm"/>
-													        			</td>
-													        			<th>종료일</th>
-													        			<td>
-													        				<fmt:formatDate value="${ month.endDate }" pattern="yyy-MM-dd hh:mm"/>
-													        			</td>
-													        		</tr>
-													        		<tr>
-													        			<th colspan="2">사진</th>
-													        			<th colspan="2">내용</th>
-													        		</tr>
-													        		<tr>
-													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/challenge/${month.renamedFilename}" /></td>
-													        			<td colspan="2">${ month.chalContent }</td>
-													        		</tr>
-												        		</tbody>
-													       		</table>
+						                                    <div class="pop-cont">
+							                                    <table id="view-table">
+														           <colgroup>
+														           		<col style="10%">
+														           		<col style="40%">
+														           		<col style="15%">
+														           		<col style="35%">
+														    		</colgroup>
+														        	<tbody>
+														        		<tr>
+														        			<th>챌린지 번호</th>
+														        			<td>${ month.chalNo }</td>
+														        			<th>제목</th>
+														        			<td>${ month.chalTitle }</td>
+														        		</tr>
+														        		<tr>
+														        			<th>포인트</th>
+														        			<td><fmt:formatNumber pattern="##,###" value="${ month.chalPoint }" /></td>
+														        			<th>필요 참여수</th>
+														        			<td>${ month.chalCount }</td>
+														        		</tr>
+														        		<tr>
+														        			<th>시작일</th>
+														        			<td>
+														        				<fmt:formatDate value="${ month.startDate }" pattern="yyy-MM-dd hh:mm"/>
+														        			</td>
+														        			<th>종료일</th>
+														        			<td>
+														        				<fmt:formatDate value="${ month.endDate }" pattern="yyy-MM-dd hh:mm"/>
+														        			</td>
+														        		</tr>
+														        		<tr>
+														        			<th colspan="2">사진</th>
+														        			<th colspan="2">내용</th>
+														        		</tr>
+														        		<tr>
+														        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/challenge/${month.renamedFilename}" /></td>
+														        			<td colspan="2" class="left">${ month.chalContent }</td>
+														        		</tr>
+													        		</tbody>
+														       		</table>
+														       	</div>
 						                                    <div class="btn-wrap">
-						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
+						                                        <button class="btn gray btn-close-pop">확인</button>
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -235,7 +229,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/challenge_today','${ path }/admin/challenge_month','${ path }/admin/challenge_today_manage','${ path }/admin/challenge_month_manage'];
-	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
+	    let menuName = ['오늘의 챌린지', '이달의 챌린지', '오늘의 챌린지 참여 회원', '이달의 챌린지 참여 회원'];
 	    let menuIcon = ['task_alt', 'public', 'people', 'people'];
 	
 	

@@ -27,12 +27,6 @@
                                 <span></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 
@@ -105,8 +99,8 @@
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="report" items="${ list }" varStatus="vs">
-		                                    <tbody>
+		                                <tbody>
+											<c:forEach var="report" items="${ list }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ report.reportNo }</td>
 		                                            <td>${ report.reportedMemberName }</td>
@@ -120,18 +114,33 @@
 					                                 <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ report.reportNo }
-						                                        <strong>신고 보기</strong>
+						                                        <strong>신고 내역</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
-						                                    
-						                                    신고 설명 : ${ report.reportTitle }
 						                                    <div class="pop-cont">
-						                                    	<br>
-						                                       신고받은 내용 : ${ report.reportContent }
+																<table id="view-table">
+														           <colgroup>
+														           		<col width="30%">
+														           		<col width="70%">
+														    		</colgroup>
+														        	<tbody>
+														        		<tr>
+														        			<th>신고 번호</th>
+														        			<td colspan="3">${ report.reportNo }</td>
+														        		</tr>
+														        		<tr>
+														        			<th>신고 상세 내용</th>
+														        			<td>${ report.reportTitle }</td>
+														        		</tr>
+														        		<tr>
+														        			<th>신고 댓글 내용</th>
+														        			<td>${ report.reportContent }</td>
+														        		</tr>
+													        		</tbody>
+													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
-						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button class="btn gray btn-close-pop">확인</button>
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -141,8 +150,8 @@
 		                                                <button id="ban" name="no" value=${ report.reportNo } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+		                                </tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -189,7 +198,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/report_list','${ path }/admin/reported_list' ];
-	    let menuName = ['신고 목록', '신고받은 회원 목록'];
+	    let menuName = ['신고', '신고 받은 회원'];
 	    let menuIcon = ['report_problem', 'people'];
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
@@ -213,7 +222,7 @@
 	
 	$(document).ready(() => {
 		$(document).on("click","#delete", (e) => {
-			if(confirm("정말로 이 신고를 처리하겠습니까??")) {
+			if(confirm("신고를 처리 하시겠습니까?")) {
 				location.replace("${ path }/admin/report_delete?no=" + e.target.value);
 			}
 		})
@@ -221,7 +230,7 @@
 	
 	$(document).ready(() => {
 		$(document).on("click","#ban", (e) => {
-			if(confirm("정말로 이 신고를 처리하겠습니까??")) {
+			if(confirm("회원을 정지 하시겠습니까?")) {
 				location.replace("${ path }/admin/report_ban?no=" + e.target.value);
 			}
 		})

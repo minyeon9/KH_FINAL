@@ -33,18 +33,6 @@
                                 <span></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 
@@ -117,8 +105,8 @@
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="qna" items="${ list }" varStatus="vs">
-		                                    <tbody>
+		                                <tbody>
+											<c:forEach var="qna" items="${ list }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ qna.no }</td>
 		                                            <td>${ qna.title }</td>
@@ -132,8 +120,7 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ qna.no }
-						                                        <strong>${ qna.writerNo }</strong>
+						                                        <strong>문의</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -146,6 +133,12 @@
 													    		</colgroup>
 													        	<tbody>
 													        		<tr>
+													        			<th>문의 번호</th>
+													        			<td>${ qna.no }</td>
+													        			<th>문의 회원 번호</th>
+													        			<td>${ qna.writerNo }</td>
+													        		</tr>
+													        		<tr>
 													        			<th>제목</th>
 													        			<td>${ qna.title }</td>
 													        			<th>문의 분류</th>
@@ -157,14 +150,14 @@
 													        		</tr>
 													        		<tr>
 													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/notice/${qna.renamedFileName}" /></td>
-													        			<td colspan="2">${ qna.content }</td>
+													        			<td colspan="2" class="left">${ qna.content }</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
-						                                        <button type="button" id="qna_answer" name="no" value=${ qna.no } class="btn btn">답변</button>
 						                                        <button class="btn gray btn-close-pop">취소</button>
+						                                        <button type="button" id="qna_answer" name="no" value=${ qna.no } class="btn btn">답변</button>
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -173,8 +166,8 @@
 		                                                <button type="button" id="qna_answer" name="no" value=${ qna.no } class="btn btn-s">답변</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+		                                </tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -221,7 +214,7 @@
 $(() => {
     let sideBarMenu = $('.side-bar ul li');
     let menuPath = ['${ path }/admin/qna','${ path }/admin/qna_done','${ path }/admin/echo_qna'];
-    let menuName = ['문의 목록', '문의 완료 목록', '상품 문의'];
+    let menuName = ['문의', '문의 완료', '상품 문의'];
     let menuIcon = ['help', 'checklist_rtl', 'inventory_2']
 
 

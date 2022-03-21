@@ -865,6 +865,7 @@ input + .btn {
     box-sizing: border-box;
 }
 .layer-popup .pop-head strong {
+	color: #333 !important;
     font-size: 16px;
     font-weight: 500;
 }

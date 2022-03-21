@@ -33,18 +33,6 @@
                                 <span></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 
@@ -58,7 +46,6 @@
                         </div>
                     </div>
 
-                    <div class="guide">
                         <!-- Category -->
                         <section>
                             <div>
@@ -88,9 +75,9 @@
                                         <col width="13%">
                                         <col width="13%">
                                         <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
                                         <col width="*">
+                                        <col width="13%">
+                                        <col width="15%">
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -117,8 +104,8 @@
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty productInquiry }">
-										<c:forEach var="inq" items="${ productInquiry }" varStatus="vs">
-		                                    <tbody>
+	                                    <tbody>
+											<c:forEach var="inq" items="${ productInquiry }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ inq.inqNo }</td>
 		                                            <td>${ inq.proNo }</td>
@@ -130,8 +117,7 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ inq.proNo }
-						                                        <strong>${ inq.inqTitle }</strong>
+						                                        <strong>상품 문의</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -144,22 +130,24 @@
 													    		</colgroup>
 													        	<tbody>
 													        		<tr>
-													        			<th>문의번호</th>
+													        			<th>문의 번호</th>
 													        			<td>${ inq.inqNo }</td>
-													        			<th>문의멤버번호</th>
+													        			<th>문의 회원 번호</th>
 													        			<td>${ inq.memberNo }</td>
 													        		</tr>
 													        		<tr>
+													        			<th>상품 번호</th>
+													        			<td>${ inq.proNo }</td>
 													        			<th>문의일자</th>
 													        			<td>${ inq.inqDate }</td>
-													        			<th>빈칸</th>
-													        			<td>빈칸내용</td>
 													        		</tr>
 													        		<tr>
-													        			<th colspan="4">내용</th>
+													        			<th colspan="4">문의 내용</th>
 													        		</tr>
 													        		<tr>
-													        			<td colspan="4">${ inq.inqContent }</td>
+													        			<td colspan="4"">
+													        				${ inq.inqContent }
+													        			</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>
@@ -175,8 +163,8 @@
 		                                                <button class="btn btn-s" id="echo_update" value="${ inq.inqNo }">답변</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+		                                 </tbody>
 									</c:if>
                                     </tbody>
                                 </table>
@@ -217,7 +205,6 @@
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
-        </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
@@ -225,7 +212,7 @@
 $(() => {
     let sideBarMenu = $('.side-bar ul li');
     let menuPath = ['${ path }/admin/qna','${ path }/admin/qna_done','${ path }/admin/echo_qna'];
-    let menuName = ['문의 목록', '문의 완료 목록', '상품 문의'];
+    let menuName = ['문의', '문의 완료', '상품 문의'];
     let menuIcon = ['help', 'checklist_rtl', 'inventory_2']
 
 
