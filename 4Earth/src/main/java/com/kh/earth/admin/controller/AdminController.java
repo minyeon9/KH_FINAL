@@ -506,7 +506,7 @@ public class AdminController {
 		
 		log.info("admin_echo_order() - 호출");
 		
-		pageInfo = new PageInfo(page, 10, service.getOrderCountAll(name), count);
+		pageInfo = new PageInfo(page, 10, service.getOrderCount(name), count);
 		orderList = service.getOrderListAll(pageInfo, name);
 		
 		model.addObject("pageInfo", pageInfo);
