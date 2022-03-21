@@ -509,6 +509,9 @@ input + .btn {
 .table tbody tr:hover td {
 	background: #f2fcf2;
 }
+.table tbody tr td:hover td {
+	background: #fff;
+}
 .table tbody tr td {
     color: #666;
     font-size: 14px;

@@ -67,7 +67,8 @@
 							<span> - </span>
 						</c:if>
 						<c:if test="${ !empty qna.originalFileName }">
-							<img src="../resources/images/common/file.gif" width="20" height="20"/>
+							<!-- <img src="../resources/images/common/file.gif" width="20" height="20"/> -->
+							<i class="material-icons md-22">save</i>
 						</c:if>
 					</td>
 				</tr>
