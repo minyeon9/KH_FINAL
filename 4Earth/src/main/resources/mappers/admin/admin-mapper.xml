@@ -1104,6 +1104,20 @@
 			</if>
 		</where>
 	</select>
+	
+	<select id="getOrderCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		<where>
+			ORDER_STAT = '결제완료'
+			<if test="no != null">
+		   		AND ORDER_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND MEMBER_NO LIKE '%' || #{name} || '%'
+			</if>
+		</where>
+	</select>
 
 	<select id="getOrderDeliveryCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
