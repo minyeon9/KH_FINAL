@@ -105,6 +105,12 @@ public class NoticeServiceImpl implements NoticeService {
 		return mapper.getCategoryNo(category);
 	}
 
+	@Override
+	public int qnaDelete(int no) {
+		
+		return mapper.qnaModifyStatus(no, "N");
+	}
+
 	
 
 	

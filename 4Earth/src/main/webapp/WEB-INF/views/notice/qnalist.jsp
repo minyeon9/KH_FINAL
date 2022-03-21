@@ -55,9 +55,16 @@
 				<tr>
 					<td>${ qna.no }</td>
 					<td>
+					<c:if test="${ ! empty loginMember && loginMember.id == qna.writerId }">
 						<a href="${ path }/notice/qnaView?no=${ qna.no }">
 							${ qna.title }
 						</a>
+					</c:if>	
+					<c:if test="${  empty loginMember && loginMember.id != qna.writerId }">
+						
+							${ qna.title }
+						
+					</c:if>	
 					</td>
 					<td>${ qna.category }</td>
 					<td>${ qna.writerId }</td>
@@ -67,7 +74,8 @@
 							<span> - </span>
 						</c:if>
 						<c:if test="${ !empty qna.originalFileName }">
-							<img src="../resources/images/common/file.gif" width="20" height="20"/>
+							<!-- <img src="../resources/images/common/file.gif" width="20" height="20"/> -->
+							<i class="material-icons md-22">save</i>
 						</c:if>
 					</td>
 				</tr>

@@ -155,7 +155,7 @@ public class NoticeController {
 		Notice notice = service.findNoticeByNo(no);
 		
 		Cookie[] cookies = request.getCookies();
-		String boardHistory = ""; //이력을 저장하는 변수
+		String boardHistory = ""; //�씠�젰�쓣 ���옣�븯�뒗 蹂��닔
 		
 		if(cookies != null) {
 			String name = null;
@@ -165,9 +165,9 @@ public class NoticeController {
 				name = cookie.getName();
 				value = cookie.getValue();
 				
-				//boardHistory인 쿠키 값을 찾기
+				//boardHistory�씤 荑좏궎 媛믪쓣 李얘린
 				if("boardHistory".equals(name)) {
-					boardHistory = value;//현재 저장된 값 대입
+					boardHistory = value;//�쁽�옱 ���옣�맂 媛� ���엯
 					if(value.contains("|" + no + "|")) {
 						 
 						break;
@@ -240,7 +240,7 @@ public class NoticeController {
 			model.setViewName("notice/modify");
 						
 		} else {
-			model.addObject("msg","잘못된 접근입니다.");
+			model.addObject("msg","정상정으로 수정되었습니다.");
 			model.addObject("location", "/notice/list");
 			model.setViewName("common/msg");
 		}
@@ -285,12 +285,12 @@ public class NoticeController {
 				model.addObject("location", "/notice/view?no=" + notice.getNo());
 				
 			} else {
-				model.addObject("msg", "게시글 수정에 실패했습니다.");
+				model.addObject("msg", "게시글이 수정되지 않았습니다.");
 				model.addObject("location", "/notice/view?no=" + notice.getNo());
 			}
 		} else {
 			
-			model.addObject("msg","잘못된 접근입니다.");
+			model.addObject("msg","비정상적 호출입니다.");
 			model.addObject("location", "/notice/list");
 		}
 		
@@ -319,7 +319,7 @@ public class NoticeController {
 			
 			
 			if(result > 0) {
-				model.addObject("msg", "게시글이 정상적으로 삭제되었습니다.");
+				model.addObject("msg", "해당 게시글 삭제가 정상적으로 처리되었습니다.");
 				model.addObject("location", "/notice/list");
 			} else {
 				model.addObject("msg", "게시글 삭제에 실패하였습니다.");
@@ -327,8 +327,45 @@ public class NoticeController {
 			}
 			
 		} else {
-			model.addObject("msg","잘못된 접근입니다.");
+			model.addObject("msg","비정상적 호출입니다.");
 			model.addObject("location", "/notice/list");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@GetMapping("/qnaDelete")
+	public ModelAndView qnaDelete(ModelAndView model,
+			@SessionAttribute("loginMember") Member loginMember,
+			@RequestParam("no") int no) {
+		
+		int result = 0;
+		Qna qna = service.findQnaByNo(no);
+		
+		System.out.println(qna.getWriterNo());
+		System.out.println(loginMember.getNo());
+		
+		
+		if(qna.getWriterNo() == loginMember.getNo()) {
+			result = service.qnaDelete(qna.getNo());
+			
+			
+			System.out.println(result);
+			
+			
+			if(result > 0) {
+				model.addObject("msg", "해당 게시글 삭제가 정상적으로 처리되었습니다.");
+				model.addObject("location", "/notice/qnalist");
+			} else {
+				model.addObject("msg", "게시글 삭제에 실패했습니다.");
+				model.addObject("location", "/notice/qnaView?no=" + qna.getNo());
+			}
+			
+		} else {
+			model.addObject("msg","비정상적 호출입니다.");
+			model.addObject("location", "/notice/qnalist");
 		}
 		
 		model.setViewName("common/msg");
@@ -408,7 +445,7 @@ public class NoticeController {
 			model.setViewName("notice/qnaModify");
 						
 		} else {
-			model.addObject("msg","잘못된 접근입니다.");
+			model.addObject("msg","비정상적 호출입니다.");
 			model.addObject("location", "/notice/qnalist");
 			model.setViewName("common/msg");
 		}
@@ -423,23 +460,20 @@ public class NoticeController {
 		
 		int result;
 		
-		System.out.println(loginMember);
-		System.out.println("notice.getwriterid: "+qna.getWriterId());
-		
 		if(loginMember.getId().equals(qna.getWriterId())) {
 			result = service.qnaSave(qna);
 						
 			if(result > 0) {
 				model.addObject("msg", "게시글이 정상적으로 수정되었습니다.");
-				model.addObject("location", "/notice/qnaview?no=" + qna.getNo());
+				model.addObject("location", "/notice/qnaView?no=" + qna.getNo());
 				
 			} else {
-				model.addObject("msg", "게시글 수정에 실패했습니다.");
-				model.addObject("location", "/notice/qnaview?no=" + qna.getNo());
+				model.addObject("msg", "게시글이 수정되지 않았습니다.");
+				model.addObject("location", "/notice/qnaView?no=" + qna.getNo());
 			}
 		} else {
 			
-			model.addObject("msg","잘못된 접근입니다.");
+			model.addObject("msg","비정상적 호출입니다.");
 			model.addObject("location", "/notice/qnalist");
 		}
 		
