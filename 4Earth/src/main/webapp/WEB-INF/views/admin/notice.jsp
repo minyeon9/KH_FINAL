@@ -118,7 +118,7 @@
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
 						                                    	${ notice.no }
-						                                        <strong>${ notice.writerNo }</strong>
+						                                        <strong>공지사항 내용</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -244,6 +244,14 @@
         
         open(url, "", 'status=no, height=800, width=1200, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
+	
+	$(document).ready(() => {
+		$(document).on('click','#delete', (e) => {
+			if(confirm("정말로 이 공지사항을 내리시겠습니까??")) {
+				location.replace("${ path }/admin/notice_delete?no=" + e.target.value);
+			}
+		})
+	});
 </script>
 
 </html>
