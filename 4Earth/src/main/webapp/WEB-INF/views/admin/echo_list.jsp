@@ -260,8 +260,6 @@
 	        }
 	    });
 	    
-	    $('#count-select').on('change',  (e) => {
-			location.replace("${ path }/admin/member?count=" + e.target.value);
 		})
 	});
 	
