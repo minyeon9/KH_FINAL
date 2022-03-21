@@ -42,6 +42,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    	<c:if test="${ empty orderSum }">
+                                    		<tr>
+	                                            <td colspan="5">
+	                                            	<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 주문·배송 내역이 없습니다.</p>
+						                       		</div>
+	                                            </td>
+	                                        </tr>
+                                    	</c:if>
                                     	<c:if test="${ !empty orderSum }">
                                     		<c:forEach var="orderSum" items="${ orderSum }">
                                     			<tr>

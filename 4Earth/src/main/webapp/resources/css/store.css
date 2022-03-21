@@ -16,6 +16,9 @@
     width: 100%;
     display: flex;
 }
+.store-category + ul {
+	border-top: 1px solid #ccc;
+}
 .store-category strong {
 	padding: 20px;
 	width: 80px;
