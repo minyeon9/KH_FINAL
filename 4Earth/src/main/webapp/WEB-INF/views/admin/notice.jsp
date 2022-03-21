@@ -249,6 +249,14 @@
         
         open(url, "", 'status=no, height=800, width=1200, left='+ popupX + ', top='+ popupY + ', screenX='+ popupX + ', screenY= '+ popupY);
     });
+	
+	$(document).ready(() => {
+        $(document).on('click','#delete', (e) => {
+            if(confirm("공지사항을 비공개 하시겠습니까?")) {
+                location.replace("${ path }/admin/notice_delete?no=" + e.target.value);
+            }
+        })
+    });
 </script>
 
 </html>
