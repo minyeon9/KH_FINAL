@@ -53,11 +53,11 @@
 			<beans:bean class="com.kh.earth.common.interceptor.LoginCheckInterceptor" id="LoginCheckInterceptor"/>
 			
 		</interceptor>
-	<!--  	<interceptor>
+		<interceptor>
 	 		<mapping path="/admin/**"/>
 	 		
 	 		<beans:bean id="AdminCheckInterceptor" class="com.kh.earth.common.interceptor.AdminCheckInterceptor" />
-	 	</interceptor> -->
+	 	</interceptor>
 	 	<interceptor>
 	 		<mapping path="/pw_reset"/>
 	 		<beans:bean id="VericifationCheckInterceptor" class="com.kh.earth.common.interceptor.VerificationCheckInterceptor" />

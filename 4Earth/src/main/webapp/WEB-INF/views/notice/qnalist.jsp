@@ -55,9 +55,16 @@
 				<tr>
 					<td>${ qna.no }</td>
 					<td>
+					<c:if test="${ ! empty loginMember && loginMember.id == qna.writerId }">
 						<a href="${ path }/notice/qnaView?no=${ qna.no }">
 							${ qna.title }
 						</a>
+					</c:if>	
+					<c:if test="${  empty loginMember && loginMember.id != qna.writerId }">
+						
+							${ qna.title }
+						
+					</c:if>	
 					</td>
 					<td>${ qna.category }</td>
 					<td>${ qna.writerId }</td>

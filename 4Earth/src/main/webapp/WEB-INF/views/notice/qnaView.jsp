@@ -14,7 +14,7 @@
 }
 </style>
     <script src="../resources/ckeditor5/build/ckeditor.js"></script>
-    <title>1:1 문의</title>
+    <title>공지사항</title>
     <link rel="shortcut icon" href="${ path }/resources/favicon.ico">
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -24,9 +24,9 @@
         <%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
           <section class="content-wrap">
             <div class="page-tit">
-              <h3> ${ qna.title } </h3>
+              <h3>${ qna.title }</h3>
               <div class="bread-crumb">
-                <a href="${ path }" ><i class="material-icons md-16">home</i></a>
+                <a href="${ path }"><i class="material-icons md-16">home</i></a>
                 <a href="${ path }/notice/list">About Us</a>
                 <span>1:1 문의</span>
               </div>
@@ -41,7 +41,7 @@
 										
 											<%-- <a href="javascript:fileDownload('${ notice.originalFileName }', '${notice.renamedFileName}')">
 												<c:out value="${ notice.originalFileName }" /> 
-											</a> --%>
+											</a>--%>
 										</c:if>
 									</td>
 								</tr>
@@ -53,47 +53,38 @@
             	</table>
             	
             <div class="view_table_bottom">
-            <c:choose> 
-							<c:when test="${qna.no > 0}">
-								<a href="${ path }/notice/qnaView?no=${ qna.no - 1 }" class="angle">
-		                  	<i class="fa-solid fa-angle-up"></i> 이전글 </a
-		                	>
-							</c:when>
-							<c:otherwise>
-								<c:redirect url="/notice/qnaView?" context="/earth">
-					        <c:param name="no" value="1"/>
-								</c:redirect>
-							</c:otherwise>
-						</c:choose>
+	        	<c:choose> 
+								<c:when test="${qna.no > 0}">
+									<a href="${ path }/notice/view?no=${ qna.no - 1 }" class="btn">
+			                  	<i class="fa-solid fa-angle-up"></i> 이전글 </a
+			                	>
+								</c:when>
+								<c:otherwise>
+									<c:redirect url="/notice/qnaView?" context="/earth">
+						        <c:param name="no" value="1"/>
+									</c:redirect>
+								</c:otherwise>
+							</c:choose>
               <a class="btn" href="${ path }/notice/qnalist" role="button"> 목록 </a>
+              
               <c:if test="${ ! empty loginMember && loginMember.id == qna.writerId }">
-  							<a class="btn" href="${ path }/notice/modify?no=${ qna.no }" role="button">
+  							<a class="btn" href="${ path }/notice/qnaModify?no=${ qna.no }" role="button">
                 수정
               	</a>
-  							<a class="btn" id="btnDelete" href="${ path }/notice/delete?no=${ qna.no }" role="button">
+  							<a class="btn" id="btnDelete" href="${ path }/notice/qnaDelete?no=${ qna.no }" role="button">
                 삭제
               	</a>
 							</c:if>
+              
+              <a href="${ path }/notice/qnaView?no=${ qna.no + 1 }" class="btn">
+		                  <i class="fa-solid fa-angle-down"></i>다음글 </a
+		                >
             </div>
-              <a href="${ path }/notice/qnaView?no=${ qna.no + 1 }" class="angle">
-                <i class="fa-solid fa-angle-down"></i>다음글 </a
-              >
           </section>
         </div>
       </div>
 
 
-<script>
-$(document).ready(() => {
-	$("#btnDelete").on("click", () => {
-		if(confirm("정말로 게시글을 삭제 하시겠습니까?")) {
-			location.replace("${ path }/notice/qnaDelete?no=${ qna.no }");
-		}
-	})
-});
-
-</script>
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 <script>
 $(() => {
     let sideBarMenu = $('.side-bar ul li');
@@ -114,4 +105,21 @@ $(() => {
         }
     })
 });
+
+
+$(document).ready(() => {
+	$("#btnDelete").on("click", () => {
+		if(confirm("정말로 게시글을 삭제 하시겠습니까?")) {
+			location.replace("${ path }/notice/qnaDelete?no=${ qna.no }");
+		}
+	})
+});
+
+function fileDownload(oname, rname) {
+	
+	// encodeURIComponent()
+	//  - 아스키문자(a~z, A~Z, 1~9, ... )는 그대로 전달하고 기타 문자(한글, 특수 문자 등)만 %XX(16진수 2자리)와 같이 변환된다.
+	location.assign("${ path }/notice/fileDown?oname=" + encodeURIComponent(oname) + "&rname=" + encodeURIComponent(rname));
+}
 </script>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
