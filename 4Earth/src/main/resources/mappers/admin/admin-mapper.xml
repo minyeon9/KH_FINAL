@@ -514,7 +514,7 @@
 		ORDER BY Q.QNA_NO DESC
 	</select>
 	
-	<select id="getQnaDoneList" parameterType="map" resultMap="qnaListResultMap">
+	<select id="getQnaDoneList" parameterType="map" resultMap="qnaAnswerListResultMap">
 		SELECT      Q.QNA_NO, 
 		            Q.WRITER_NO, 
 		            Q.QNA_TIT, 
@@ -526,9 +526,12 @@
 		            Q.DATE_WRITEN, 
 		            Q.DATE_WRITEN_MODIFY, 
 		            Q.QNA_STATUS,
-		            QC.C_NAME
+		            QC.C_NAME,
+                    QA.ANSWER_CONTENT,
+                    QA.ANSWER_DATE
 		FROM QNA Q
-        JOIN QNA_CATEGORY QC ON(QNA_CAT = QC.C_NO)
+        JOIN QNA_CATEGORY QC ON(Q.QNA_CAT = QC.C_NO)
+        JOIN QNA_ANSWER QA ON(QA.QNA_NO = Q.QNA_NO)
 		<where>
 		Q.QNA_STATUS = 'N'
 			<if test="no != null">

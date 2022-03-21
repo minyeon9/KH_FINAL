@@ -300,7 +300,6 @@ public class AdminController {
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("qna", qna);
-		model.addObject("answer", answer);
 		
 		
 		model.setViewName("/admin/qna_done");
