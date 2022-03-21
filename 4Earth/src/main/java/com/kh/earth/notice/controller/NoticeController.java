@@ -53,15 +53,18 @@ public class NoticeController {
 	public ModelAndView list(ModelAndView model, 
 			@RequestParam Map<String, String> title,
 			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10") int count) {
+			@RequestParam(defaultValue = "10") int count,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 
 		PageInfo pageInfo = null;
 		List<Notice> list = null;
 		System.out.println(title);
+		System.out.println(loginMember);
 
 		pageInfo = new PageInfo(page, 10, service.getNoticeCount(title), count);
 		list = service.getNoticeList(pageInfo, title);
 		
+		model.addObject("loginMember", loginMember);
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
 		model.setViewName("notice/list");
