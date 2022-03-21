@@ -38,7 +38,7 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>상품문의</h3>
+                        <h3>상품 문의</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">문의</a>

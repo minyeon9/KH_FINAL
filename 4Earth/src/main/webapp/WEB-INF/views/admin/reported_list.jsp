@@ -38,11 +38,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>신고받은 회원 목록</h3>
+                        <h3>신고받은 회원</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">신고</a>
-                            <span>신고받은 회원 목록</span>
+                            <span>신고받은 회원</span>
                         </div>
                     </div>
 

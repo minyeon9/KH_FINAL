@@ -38,11 +38,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>문의 완료 목록</h3>
+                        <h3>문의 완료</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">문의</a>
-                            <span>문의 완료 목록</span>
+                            <span>문의 완료</span>
                         </div>
                     </div>
 
