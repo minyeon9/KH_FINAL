@@ -150,6 +150,9 @@
     width: 60%;
     padding-left: 30px;
 }
+.thumb-list.vertical ul li:hover strong {
+	color: #67b16b;
+}
 .thumb-list.vertical ul li strong {
     min-height: auto;
     font-size: 18px;
@@ -229,6 +232,9 @@
 .thumb-list.col-2 ul li strong {
     font-size: 16px;
     margin: 0 0 5px;
+}
+.thumb-list.col-2 ul li:hover strong {
+	color: #67b16b;
 }
 .thumb-list.col-2 ul li p {
     overflow: hidden;
@@ -767,7 +773,7 @@
 
 /* 진행 중인 챌린지 */
 .challenge .thumb-list.ongoing ul li:hover {
-    border: 1px solid #5CB65A;
+    border: 1px solid #67b16b;
 }
 .challenge .thumb-list .my-count {
     display: block;
@@ -776,6 +782,9 @@
     border-top: 1px dashed #ccc;
     padding: 10px 10px 0 0;
     margin-bottom: 10px;
+}
+.challenge .thumb-list.ongoing ul li:hover strong {
+	color: #67b16b;
 }
 .challenge .thumb-list .my-count em {
     color: #5CB65A;

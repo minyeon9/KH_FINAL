@@ -864,7 +864,7 @@ input[type=number]
 	padding: 20px;
 }
 .map-list ul li:hover {
-	background: #fafdfa;
+	background: #f2fcf2;
 }
 .map-list ul li strong {
 	font-size: 18px;

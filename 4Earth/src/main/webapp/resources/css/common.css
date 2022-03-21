@@ -506,6 +506,9 @@ input + .btn {
 .table tbody tr:first-child td {
     border-top: 0;
 }
+.table tbody tr:hover td {
+	background: #f2fcf2;
+}
 .table tbody tr td {
     color: #666;
     font-size: 14px;
@@ -619,7 +622,7 @@ input + .btn {
     border-top: 1px solid #ddd;
 }
 .accordian ul li.active {
-    background: #fafdfa;
+    background: #f2fcf2;
 }
 .accordian ul li a { /* question */
     position: relative;
@@ -745,6 +748,9 @@ input + .btn {
     font-weight: 400;
     margin: 5px 0 10px;
     padding: 0 10px;
+}
+.thumb-list ul li:hover strong a {
+	color: #67b16b;
 }
 .thumb-list ul li p {
     width: 95%;
