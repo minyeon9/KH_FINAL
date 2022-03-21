@@ -117,8 +117,7 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ notice.no }
-						                                        <strong>${ notice.writerNo }</strong>
+						                                        <strong>공지 사항</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -135,6 +134,12 @@
 													        			<td>${ notice.title }</td>
 													        			<th>조회수</th>
 													        			<td>${ notice.readCount }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>작성 회원 번호</th>
+													        			<td>${ notice.writerNo }</td>
+													        			<th>게시글 번호</th>
+													        			<td>${ notice.no }</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="2">사진</th>
