@@ -117,8 +117,7 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ notice.no }
-						                                        <strong>공지사항 내용</strong>
+						                                        <strong>공지 사항</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -135,6 +134,12 @@
 													        			<td>${ notice.title }</td>
 													        			<th>조회수</th>
 													        			<td>${ notice.readCount }</td>
+													        		</tr>
+													        		<tr>
+													        			<th>작성 회원 번호</th>
+													        			<td>${ notice.writerNo }</td>
+													        			<th>게시글 번호</th>
+													        			<td>${ notice.no }</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="2">사진</th>
@@ -246,12 +251,12 @@
     });
 	
 	$(document).ready(() => {
-		$(document).on('click','#delete', (e) => {
-			if(confirm("정말로 이 공지사항을 내리시겠습니까??")) {
-				location.replace("${ path }/admin/notice_delete?no=" + e.target.value);
-			}
-		})
-	});
+        $(document).on('click','#delete', (e) => {
+            if(confirm("공지사항을 비공개 하시겠습니까?")) {
+                location.replace("${ path }/admin/notice_delete?no=" + e.target.value);
+            }
+        })
+    });
 </script>
 
 </html>

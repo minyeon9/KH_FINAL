@@ -31,6 +31,7 @@
 						<div class="empty-content full">
 							<i class="material-icons">info</i>
 							<p>참여 중인 챌린지가 없습니다.</p>
+							<a class="btn" href="${ path }/month_list">챌린지 참여하러 가기</a>
 						</div>
 					</c:if>
 					

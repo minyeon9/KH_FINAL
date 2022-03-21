@@ -16,6 +16,9 @@
     width: 100%;
     display: flex;
 }
+.store-category + ul {
+	border-top: 1px solid #ccc;
+}
 .store-category strong {
 	padding: 20px;
 	width: 80px;
@@ -864,7 +867,7 @@ input[type=number]
 	padding: 20px;
 }
 .map-list ul li:hover {
-	background: #fafdfa;
+	background: #f2fcf2;
 }
 .map-list ul li strong {
 	font-size: 18px;
@@ -917,7 +920,7 @@ input[type=number]
 .store-editor {
 	margin-top: 10px;
     width: 100%;
-    border-top: 2px solid #467443;
+    border-top: 2px solid #67b16b;
     border-bottom: 1px solid #999;
     padding: 0 10px;
     border-collapse: separate;

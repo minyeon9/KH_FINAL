@@ -39,22 +39,16 @@
                                 <span></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>오늘의 챌린지 목록</h3>
+                        <h3>오늘의 챌린지 참여 회원</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">챌린지</a>
-                            <span>이달의 챌린지 목록</span>
+                            <span>이달의 챌린지 목록 참여 회원</span>
                         </div>
                     </div>
 
@@ -124,14 +118,13 @@
 		                                            <td>${ todayMember.no }</td>
 		                                            <td>${ todayMember.memNo }</td>
 		                                            <td>${ todayMember.chalPointStatus }</td>
-		                                            <td>${ todayMember.chalPoint }</td>
+		                                            <td><fmt:formatNumber pattern="##,###" value="${ todayMember.chalPoint }" /></td>
 		                                            <td>
 		                                            <a href="#popup${ vs.index }" class="btn btn-s btn-open-pop">보기</a> 
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ todayMember.no }
-						                                        <strong>${ todayMember.chalNo }</strong>
+						                                        <strong>오늘의 챌린지 참여 회원</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -144,7 +137,7 @@
 													    		</colgroup>
 													        	<tbody>
 													        		<tr>
-													        			<th>이름</th>
+													        			<th>참여 회원 번호</th>
 													        			<td>${ todayMember.memNo }</td>
 													        			<th>참여일</th>
 													        			<td>
@@ -153,9 +146,11 @@
 													        		</tr>
 													        		<tr>
 													        			<th>포인트</th>
-													        			<td>${ todayMember.chalPoint }</td>
-													        			<th>빈칸</th>
-													        			<td>빈칸</td>
+													        			<td>
+													        				<fmt:formatNumber pattern="##,###" value="${ todayMember.chalPoint }" />
+													        			</td>
+													        			<th>챌린지 번호</th>
+													        			<td>${ todayMember.chalNo }</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="4">사진</th>
@@ -169,8 +164,7 @@
 													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
-						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
+						                                        <button class="btn gray btn-close-pop">확인</button>
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -216,6 +210,7 @@
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
+           </div>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
@@ -224,7 +219,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/challenge_today','${ path }/admin/challenge_month','${ path }/admin/challenge_today_manage','${ path }/admin/challenge_month_manage'];
-	    let menuName = ['오늘의 챌린지 목록', '이달의 챌린지 목록', '오늘의 챌린지 관리', '이달의 챌린지 관리'];
+	    let menuName = ['오늘의 챌린지', '이달의 챌린지', '오늘의 챌린지 참여 회원', '이달의 챌린지 참여 회원'];
 	    let menuIcon = ['task_alt', 'public', 'people', 'people'];
 	
 	

@@ -11,6 +11,7 @@
 <head>
     <title>main</title>
     <script src="../resources/js/notice.js"></script>
+    <link rel="shortcut icon" href="${ path }/resources/favicon.ico">
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
@@ -69,8 +70,8 @@
 			<div class="page-tit">
 				<h3>FAQ</h3>
 				<div class="bread-crumb">
-					<a href="../index.html"><i class="material-icons md-16">home</i></a>
-					<a href="#">About Us</a> <span>FAQ</span>
+					<a href="${ path }"><i class="material-icons md-16">home</i></a>
+					<a href="${ path }/notice/list">About Us</a> <span>FAQ</span>
 				</div>
 			</div>
 			<div class="tab">
@@ -354,7 +355,7 @@
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['list', 'faq','qnalist'];
         let menuName = ['공지사항', 'FAQ', '1:1 문의'];
-        let menuIcon = ['home', 'home', 'home' ]
+        let menuIcon = ['description', 'quiz', 'headset_mic' ];
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);

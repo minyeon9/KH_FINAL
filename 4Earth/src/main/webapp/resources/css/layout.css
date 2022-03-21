@@ -323,7 +323,7 @@ footer .icon.icon-tell { background-position: 0 -30px; }
 footer .icon.icon-report { background-position: -40px -30px; }
 footer .icon.icon-inquiry { background-position: -80px -30px; }
 .footer-copy .footer-inner {
-    padding-left: 185px;
+    padding-left: 210px;
     justify-content: flex-start;
 }
 .footer-copy .terms a {
@@ -333,7 +333,7 @@ footer .icon.icon-inquiry { background-position: -80px -30px; }
     margin-left: 10px;
 }
 .footer-copy .copy {
-    margin-left: 165px;
+    margin-left: 190px;
 }
 .footer-copy .copy strong {
 	font-weight: 500;

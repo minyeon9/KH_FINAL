@@ -38,11 +38,11 @@
                 
                 <section class="content-wrap">
                     <div class="page-tit">
-                        <h3>신고받은 회원 목록</h3>
+                        <h3>신고받은 회원</h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">신고</a>
-                            <span>신고받은 회원 목록</span>
+                            <span>신고받은 회원</span>
                         </div>
                     </div>
 
@@ -71,13 +71,13 @@
                             <div class="board">
                                 <table class="table">
                                     <colgroup>
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
+                                        <col width="10%">
                                         <col width="13%">
                                         <col width="*">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="20%">
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -103,22 +103,23 @@
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty list }">
-										<c:forEach var="reported" items="${ list }">
-		                                    <tbody>
+		                                <tbody>
+											<c:forEach var="reported" items="${ list }">
 		                                        <tr>
 		                                            <td>${ reported.no }</td>
 		                                            <td>${ reported.name }</td>
 		                                            <td>${ reported.enrollDate }</td>
 		                                            <td>${ reported.member_type }</td>
-		                                            <td>${ reported.reportedTimes }</td>
+		                                            <td>${ reported.member_type }</td>
+		                                            <%-- <td><fmt:formatDate value="${ reported.reportDate }" pattern="yyy-MM-dd hh:mm"/></td> --%>
 		                                            <td>${ reported.status }</td>
 		                                            <td>
 		                                                <button id="unban" name="no" value=${ reported.no } class="btn btn-s">해제</button>
 		                                                <button id="ban" name="no" value=${ reported.no } class="btn btn-s gray">정지</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+		                                </tbody>
 									</c:if>
                                 </table>
                             </div>
@@ -165,7 +166,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/report_list','${ path }/admin/reported_list' ];
-	    let menuName = ['신고 목록', '신고받은 회원 목록'];
+	    let menuName = ['신고', '신고 받은 회원'];
 	    let menuIcon = ['report_problem', 'people'];
 	
 	    for( let i = 0; i < menuName.length; i++ ) {
@@ -196,7 +197,7 @@
 	
 	$(document).ready(() => {
 		$(document).on('click','#ban', (e) => {
-			if(confirm("정말로 이 멤버를 정지시키겠습니까??")) {
+			if(confirm("회원을 정지 하시겠습니까?")) {
 				location.replace("${ path }/admin/member_delete?no=" + e.target.value);
 			}
 		})
@@ -204,7 +205,7 @@
 	
 	$(document).ready(() => {
 		$(document).on('click','#unban', (e) => {
-			if(confirm("정말로 이 멤버를 정지 해제시키겠습니까??")) {
+			if(confirm("회원 정지를 해제 하시겠습니까?")) {
 				location.replace("${ path }/admin/member_unban?no=" + e.target.value);
 			}
 		})
