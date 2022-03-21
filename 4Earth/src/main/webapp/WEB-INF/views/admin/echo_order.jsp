@@ -170,7 +170,6 @@
 
                 <button class="btn scroll-top"><i class="material-icons md-24">vertical_align_top</i></button>
             </div>
-        </div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
@@ -206,7 +205,7 @@
 	
 	$(document).ready(() => {
 		$(document).on('click','#cancel', (e) => {
-			if(confirm("정말로 이 주문을 취소 시키겠습니까??")) {
+			if(confirm("주문을 취소 처리 하시겠습니까?")) {
 				location.replace("${ path }/admin/order_cancel?no=" + e.target.value);
 			}
 		})

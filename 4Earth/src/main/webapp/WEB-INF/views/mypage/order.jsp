@@ -42,6 +42,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    	<c:if test="${ empty orderSum }">
+                                    		<tr>
+	                                            <td colspan="5">
+	                                            	<div class="empty-content">
+						                       			<i class="material-icons">info</i>
+						                       			<p>조회된 주문·배송 내역이 없습니다.</p>
+						                       		</div>
+	                                            </td>
+	                                        </tr>
+                                    	</c:if>
                                     	<c:if test="${ !empty orderSum }">
                                     		<c:forEach var="orderSum" items="${ orderSum }">
                                     			<tr>
@@ -66,23 +76,25 @@
                                 
                             </div>
                         </section>
-
-						<div class="paging">
-						<a href="${ path }/order?page=1" class="first"><span>맨 앞으로</span></a> 
-						<a href="${ path }/order?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
-						<c:forEach begin="${ pageInfo.startPage }"
-							end="${ pageInfo.endPage }" varStatus="status">
-							<c:if test="${ status.current == pageInfo.currentPage }">
-								<strong>${ status.current }</strong>
-							</c:if>
-
-							<c:if test="${ status.current != pageInfo.currentPage }">
-								<a href="${ path }/order?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
-							</c:if>
-						</c:forEach>
-						<a href="${ path }/order?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a> 
-						<a href="${ path }/order?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
-					</div>
+						
+						<c:if test="${ !empty orderSum }">
+							<div class="paging">
+								<a href="${ path }/order?page=1" class="first"><span>맨 앞으로</span></a> 
+								<a href="${ path }/order?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+								<c:forEach begin="${ pageInfo.startPage }"
+									end="${ pageInfo.endPage }" varStatus="status">
+									<c:if test="${ status.current == pageInfo.currentPage }">
+										<strong>${ status.current }</strong>
+									</c:if>
+		
+									<c:if test="${ status.current != pageInfo.currentPage }">
+										<a href="${ path }/order?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+									</c:if>
+								</c:forEach>
+								<a href="${ path }/order?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a> 
+								<a href="${ path }/order?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+							</div>
+						</c:if>
 
                         
 

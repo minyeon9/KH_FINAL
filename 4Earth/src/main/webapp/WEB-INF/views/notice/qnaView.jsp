@@ -15,6 +15,7 @@
 </style>
     <script src="../resources/ckeditor5/build/ckeditor.js"></script>
     <title>1:1 문의</title>
+    <link rel="shortcut icon" href="${ path }/resources/favicon.ico">
 </head>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
@@ -25,10 +26,8 @@
             <div class="page-tit">
               <h3> ${ qna.title } </h3>
               <div class="bread-crumb">
-                <a href="${ path }"
-                  ><i class="material-icons md-16">home</i></a
-                >
-                <a href="#">About Us</a>
+                <a href="${ path }" ><i class="material-icons md-16">home</i></a>
+                <a href="${ path }/notice/list">About Us</a>
                 <span>1:1 문의</span>
               </div>
             </div>

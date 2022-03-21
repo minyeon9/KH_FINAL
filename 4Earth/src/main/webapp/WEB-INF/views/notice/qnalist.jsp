@@ -9,7 +9,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>1:1문의</title>
+    <title>1:1 문의</title>
+    <link rel="shortcut icon" href="${ path }/resources/favicon.ico">
 </head>
 
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -21,10 +22,8 @@
             <div class="page-tit">
               <h3>1:1 문의</h3>
               <div class="bread-crumb">
-                <a href="${ path }"
-                  ><i class="material-icons md-16">home</i></a
-                >
-                <a href="#">About Us</a>
+                <a href="${ path }" ><i class="material-icons md-16">home</i></a>
+                <a href="${ path }/notice/list">About Us</a>
                 <span>1:1 문의</span>
               </div>
             </div>
@@ -44,7 +43,10 @@
                 	<c:if test="${ empty list }">			
 			<tr>
 				<td colspan="6">
-					조회된 게시글이 없습니다.
+					<div class="empty-content">
+              			<i class="material-icons">info</i>
+              			<p>조회된 1:1 문의 내역이 없습니다.</p>
+              		</div>
 				</td>
 			</tr>	
 		</c:if>
@@ -86,17 +88,11 @@
               
             <div class="paging">
               <!-- 맨 처음으로 -->
-              <a
-                class="first"
-                onclick="location.href='${ path }/notice/qnalist?page=1'"
-              >
+              <a class="first" href="${ path }/notice/qnalist?page=1">
               </a>
 
               <!-- 이전 페이지로 -->
-              <a
-                class="prev"
-                onclick="location.href='${ path }/notice/qnalist?page=${ pageInfo.prevPage }'"
-              >
+              <a class="prev" href="${ path }/notice/qnalist?page=${ pageInfo.prevPage }">
               </a>
 
               <!--  10개 페이지 목록 -->
@@ -106,30 +102,22 @@
                 varStatus="status"
               >
                 <c:if test="${ status.current == pageInfo.currentPage}">
-                  <a disabled>${ status.current }</a>
+                  <strong>${ status.current }</strong>
                 </c:if>
 
                 <c:if test="${ status.current != pageInfo.currentPage }">
-                  <a
-                    onclick="location.href='${ path }/notice/qnalist?page=${ status.current }&count=${ pageInfo.listLimit }'"
-                  >
+                  <a href="${ path }/notice/qnalist?page=${ status.current }&count=${ pageInfo.listLimit }">
                     ${ status.current }
                   </a>
                 </c:if>
               </c:forEach>
 
               <!-- 다음 페이지로 -->
-              <a
-                class="next"
-                onclick="location.href='${ path }/notice/qnalist?page=${ pageInfo.nextPage }'"
-              >
+              <a class="next" href="${ path }/notice/qnalist?page=${ pageInfo.nextPage }">
               </a>
 
               <!-- 맨 끝으로 -->
-              <a
-                class="last"
-                onclick="location.href='${ path }/notice/qnalist?page=${ pageInfo.maxPage }'"
-              >
+              <a class="last" href="${ path }/notice/qnalist?page=${ pageInfo.maxPage }">
               </a>
             </div>
                       
@@ -144,7 +132,7 @@
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['list', 'faq','qnalist'];
         let menuName = ['공지사항', 'FAQ', '1:1 문의'];
-        let menuIcon = ['home', 'home', 'home' ]
+        let menuIcon = ['description', 'quiz', 'headset_mic' ];
 
         for( let i = 0; i < menuName.length; i++ ) {
             let menuIdx = sideBarMenu.eq(i);

@@ -506,6 +506,12 @@ input + .btn {
 .table tbody tr:first-child td {
     border-top: 0;
 }
+.table tbody tr:hover td {
+	background: #f2fcf2;
+}
+.table tbody tr td:hover td {
+	background: #fff;
+}
 .table tbody tr td {
     color: #666;
     font-size: 14px;
@@ -619,7 +625,7 @@ input + .btn {
     border-top: 1px solid #ddd;
 }
 .accordian ul li.active {
-    background: #fafdfa;
+    background: #f2fcf2;
 }
 .accordian ul li a { /* question */
     position: relative;
@@ -746,6 +752,9 @@ input + .btn {
     margin: 5px 0 10px;
     padding: 0 10px;
 }
+.thumb-list ul li:hover strong a {
+	color: #67b16b;
+}
 .thumb-list ul li p {
     width: 95%;
     color: #868686;
@@ -865,6 +874,7 @@ input + .btn {
     box-sizing: border-box;
 }
 .layer-popup .pop-head strong {
+	color: #333 !important;
     font-size: 16px;
     font-weight: 500;
 }

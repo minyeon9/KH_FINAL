@@ -32,7 +32,7 @@
                     <td colspan="1">
                         <input name="" type="text" value="${ qna.no }" readonly="readonly">
                     </td>
-           			<th>문의멤버: </th>
+           			<th>문의 회원 번호: </th>
 		       		<td>
 		       			<input name="" type="text" value="${ qna.writerNo }" readonly="readonly">
 		       		</td>
