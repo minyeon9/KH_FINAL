@@ -33,7 +33,7 @@
 			<h4>상품 문의 안내</h4>
             <p>
                 <i class="material-icons md-24">navigate_next</i>
-                 주문 후 주문/배송/취소 등에 관한 문의는 <a href="">마이페이지</a> > <a href="">1:1 문의하기</a>를 이용해주시기 바랍니다.
+                 주문 후 주문/배송/취소 등에 관한 문의는 <a href="">About Us</a> > <a href="${ path }/notice/qnalist">1:1 문의</a>를 이용해주시기 바랍니다.
             </p>
             <p>
             	<i class="material-icons md-24">navigate_next</i>

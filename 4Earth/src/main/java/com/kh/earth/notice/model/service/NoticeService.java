@@ -26,7 +26,10 @@ public interface NoticeService {
 	Qna findQnaByNo(int no);
 
 	int delete(int no);
+	
+	int qnaDelete(int no);
 
 	int getCategoryNo(String category);
+
 
 }

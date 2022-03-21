@@ -94,7 +94,7 @@
 							<a href="#">에코샵</a>
 						</h2>
 						<ul>
-							<li><a href="${ path }/product_list">소분샵</a></li>
+							<li><a href="${ path }/product_list">에코샵</a></li>
 							<li><a href="${ path }/bidding_list">모집 중인 상품</a></li>
 							<li><a href="${ path }/map">오프라인 매장</a></li>
 						</ul>

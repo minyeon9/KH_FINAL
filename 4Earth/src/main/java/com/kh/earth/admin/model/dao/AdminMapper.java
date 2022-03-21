@@ -174,6 +174,6 @@ public interface AdminMapper {
 	int updateNotice(Notice notice);
 
 	int deleteNotice(int no);
-
+	
 	int getOrderCount(Map<String, String> name);
 }
