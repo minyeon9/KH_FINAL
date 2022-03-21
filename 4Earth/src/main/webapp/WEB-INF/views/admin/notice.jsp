@@ -21,18 +21,6 @@
                                 <span></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 
@@ -117,8 +105,7 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ notice.no }
-						                                        <strong>${ notice.writerNo }</strong>
+						                                        <strong>공지사항</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -131,6 +118,12 @@
 													    		</colgroup>
 													        	<tbody>
 													        		<tr>
+													        			<th>게시글 번호</th>
+													        			<td>${ notice.no }</td>
+													        			<th>작성자 번호</th>
+													        			<td>${ notice.writerNo }</td>
+													        		</tr>
+													        		<tr>
 													        			<th>제목</th>
 													        			<td>${ notice.title }</td>
 													        			<th>조회수</th>
@@ -142,14 +135,13 @@
 													        		</tr>
 													        		<tr>
 													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/notice/${notice.renamedFileName}" /></td>
-													        			<td colspan="2">${ notice.content }</td>
+													        			<td colspan="2" class="left">${ notice.content }</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
-						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
+						                                        <button class="btn gray btn-close-pop">확인</button>
 						                                    </div>
 						                                </div>
 						                            </div>

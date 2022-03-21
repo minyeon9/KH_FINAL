@@ -139,7 +139,7 @@
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
 						                                    	<%-- ${ list.appNo } --%>
-						                                        <strong>${ list.appName }</strong>
+						                                        <strong>상품 접수</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -227,7 +227,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/echo_list','${ path }/admin/echo_order','${ path }/admin/echo_delivery','${ path }/admin/echo_cancel','${ path }/admin/echo_bidding'];
-	    let menuName = ['에코샵 상품', '주문 접수', '발송 완료', '주문 취소', '물품 접수'];
+	    let menuName = ['에코샵 상품', '주문 접수', '발송 완료', '주문 취소', '상품 접수'];
 	    let menuIcon = ['inventory_2', 'app_registration', 'local_shipping', 'remove_circle', 'edit'];
 	
 	    for( let i = 0; i < menuName.length; i++ ) {

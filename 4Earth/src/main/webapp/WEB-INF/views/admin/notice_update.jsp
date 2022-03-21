@@ -24,10 +24,10 @@
 <body>
 	<div class="container">
         <div class="contents">
-          <section class="content-wrap">
+          <section class="content-wrap" style="padding-left: 0;">
             <div class="page-tit">
-              <h3>공지사항 글 수정</h3>
-              <p>${ notice.no }</p>
+              <h3>공지사항 수정</h3>
+              <p>게시글 번호 : ${ notice.no }</p>
             </div>
             <br />
             <form action="${ path }/admin/notice_update" method="post" enctype="multipart/form-data">
@@ -68,8 +68,8 @@
                 </tr>
             	</table>
             
-            	<div class="write_table_bottom">
-              	<input type="submit" class="btn" value="작성하기">
+            	<div class="write_table_bottom" style="display: block; text-align: right;">
+              		<input type="submit" class="btn" value="수정">
             	</div>
             </form>
           </section>

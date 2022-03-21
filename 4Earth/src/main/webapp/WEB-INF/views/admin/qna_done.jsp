@@ -33,18 +33,6 @@
                                 <span></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 
@@ -87,19 +75,19 @@
                                 <table class="table">
                                     <colgroup>
                                         <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
-                                        <col width="13%">
                                         <col width="*">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="13%">
+                                        <col width="10%">
+                                        <col width="10%">
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th>문의 번호</th>
                                             <th>문의 제목</th>
                                             <th>문의 분류</th>
-                                            <th>문의자 아이디</th>
+                                            <th>문의 회원 번호</th>
                                             <th>작성일</th>
                                             <th>내용</th>
                                             <th>관리</th>
@@ -118,8 +106,8 @@
 	                                    </tbody>
 									</c:if>
 									<c:if test="${ !empty qna }">
-										<c:forEach var="qna" items="${ qna }" varStatus="vs">
-		                                    <tbody>
+	                                    <tbody>
+											<c:forEach var="qna" items="${ qna }" varStatus="vs">
 		                                        <tr>
 		                                            <td>${ qna.no }</td>
 		                                            <td>${ qna.title }</td>
@@ -131,8 +119,7 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	문의 번호 : ${ qna.no }
-						                                        <strong>문의 답변 완료</strong>
+						                                        <strong>문의 답변</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -145,21 +132,25 @@
 													    		</colgroup>
 													        	<tbody>
 													        		<tr>
+													        			<th>문의 번호</th>
+													        			<td colspan="3">${ qna.no }</td>
+													        		</tr>
+													        		<tr>
 													        			<th>제목</th>
 													        			<td>${ qna.title }</td>
-													        			<th>멤버 번호</th>
+													        			<th>문의 회원 번호</th>
 													        			<td>${ qna.writerNo }</td>
 													        		</tr>
 													        		<tr>
 													        			<th colspan="2">사진</th>
-													        			<th colspan="2">내용</th>
+													        			<th colspan="2">문의 내용</th>
 													        		</tr>
 													        		<tr>
 													        			<td colspan="2"><img id="member-img" src="${ path }/resources/upload/notice/${qna.renamedFileName}" /></td>
 													        			<td colspan="2">${ qna.content }</td>
 													        		</tr>
 													        		<tr >
-													        			<td colspan="4">문의답변</td>
+													        			<td colspan="4">문의 답변</td>
 													        		</tr>
 													        		<tr>
 													        			<td colspan="4">${ answer[vs.index].answerContent }</td>
@@ -168,8 +159,7 @@
 													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
-						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
+						                                        <button class="btn gray btn-close-pop">확인</button>
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -178,8 +168,8 @@
 		                                                <button id="qna_answer" name="no" value=${ qna.no } class="btn btn-s">수정</button>
 		                                            </td>
 		                                        </tr>
-		                                    </tbody>
-										</c:forEach>
+											</c:forEach>
+		                                </tbody>
 									</c:if>
                                     </tbody>
                                 </table>
@@ -228,7 +218,7 @@
 	$(() => {
 	    let sideBarMenu = $('.side-bar ul li');
 	    let menuPath = ['${ path }/admin/qna','${ path }/admin/qna_done','${ path }/admin/echo_qna'];
-	    let menuName = ['문의 목록', '문의 완료 목록', '상품 문의'];
+	    let menuName = ['문의', '문의 완료', '상품 문의'];
 	    let menuIcon = ['help', 'checklist_rtl', 'inventory_2']
 	
 	

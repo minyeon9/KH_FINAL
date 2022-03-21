@@ -21,18 +21,6 @@
                                 <span></span>
                             </a>
                         </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <i class="material-icons md-16"></i>
-                                <span></span>
-                            </a>
-                        </li>
                     </ul>
                 </div>
                 
@@ -116,8 +104,7 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ member.no }
-						                                        <strong>${ member.id }</strong>
+						                                        <strong>회원</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -129,6 +116,12 @@
 													           		<col style="35%">
 													    		</colgroup>
 													        	<tbody>
+													        		<tr>
+													        			<th>회원 번호</th>
+													        			<td>${ member.no }</td>
+													        			<th>회원 아이디</th>
+													        			<td>${ member.id }</td>
+													        		</tr>
 													        		<tr>
 													        			<th>이름</th>
 													        			<td>${ member.name }</td>
@@ -159,8 +152,7 @@
 													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
-						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
+						                                        <button class="btn gray btn-close-pop">확인</button>
 						                                    </div>
 						                                </div>
 						                            </div>

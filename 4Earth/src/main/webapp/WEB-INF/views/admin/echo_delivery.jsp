@@ -95,9 +95,9 @@
                                     <thead>
                                         <tr>
                                             <th>주문 번호</th>
-                                            <th>주문자</th>
+                                            <th>주문 회원 번호</th>
+                                            <th>주문 금액</th>
                                             <th>주문일</th>
-                                            <th>주문 목록</th>
                                             <th>상태</th>
                                             <th>관리</th>
                                         </tr>
@@ -126,7 +126,7 @@
 		                                            	<fmt:formatDate value="${ order.orderDate }" pattern="yyy-MM-dd hh:mm"/>
 		                                            </td>
 		                                            <td>
-		                                            	<button class="btn btn" id="echo_order_detail" value="${ order.orderNo }">보기</button>
+		                                            	<button class="btn btn-s" id="echo_order_detail" value="${ order.orderNo }">보기</button>
                             						</td>
 		                                            <td>
 		                                                <button id="cancel" name="no" value=${ order.orderNo } class="btn btn-s gray">주문취소</button>
@@ -209,7 +209,7 @@
 	
 	$(document).ready(() => {
 		$(document).on('click','#cancel', (e) => {
-			if(confirm("정말로 이 주문을 취소 시키겠습니까??")) {
+			if(confirm("주문을 취소 처리 하시겠습니까?")) {
 				location.replace("${ path }/admin/order_cancel?no=" + e.target.value);
 			}
 		})

@@ -133,8 +133,7 @@
 					                                <div class="layer-popup" id="popup${ vs.index }">
 						                                <div class="layer-inner">
 						                                    <div class="pop-head">
-						                                    	${ product.proNo }
-						                                        <strong>${ product.proName }</strong>
+						                                        <strong>에코샵 상품</strong>
 						                                        <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
 						                                    </div>
 						                                    <div class="pop-cont">
@@ -146,6 +145,12 @@
 													           		<col style="35%">
 													    		</colgroup>
 													        	<tbody>
+													        		<tr>
+													        			<th>상품 번호</th>
+													        			<td>${ product.proNo }</td>
+													        			<th>상품 이름</th>
+													        			<td>${ product.proName }</td>
+													        		</tr>
 													        		<tr>
 													        			<th>가격</th>
 													        			<td>${ product.proPrice }</td>
@@ -188,14 +193,13 @@
 													        			<td colspan="2" style="height: 300px">
 													        				<img id="member-img" src="${ path }/resources/upload/store/${ product.proModifyImg }" />
 													        			</td>
-													        			<td colspan="2">${ product.proInfo }</td>
+													        			<td colspan="2" class="left">${ product.proInfo }</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>
 						                                    </div>
 						                                    <div class="btn-wrap">
-						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
+						                                        <button class="btn gray btn-close-pop">확인</button>
 						                                    </div>
 						                                </div>
 						                            </div>
@@ -211,7 +215,7 @@
                                 </table>
                             </div>
                             <div class="btn-wrap">
-                                <button id="echo_write" class="btn">작성</button>
+                                <button id="echo_write" class="btn">상품 등록</button>
                             </div>
                         </section>
                         <!-- // Category -->
@@ -287,7 +291,7 @@
 	
 	$(document).ready(() => {
 		$("#delete").on("click", (e) => {
-			if(confirm("정말로 이 물품 판매를 중지시키겠습니까??")) {
+			if(confirm("상품 판매를 중지 하시겠습니까?")) {
 				location.replace("${ path }/admin/echo_pro_delete?no=" + e.target.value);
 			}
 		})
