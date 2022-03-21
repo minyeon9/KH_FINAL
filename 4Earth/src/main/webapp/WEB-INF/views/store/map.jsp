@@ -111,7 +111,7 @@
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['${ path }/product_list', '${ path }/bidding_list','${ path }/map'];
-        let menuName = ['소분샵', '소분샵 입고 신청', '오프라인 매장 안내'];
+        let menuName = ['에코샵', '모집 중인 상품', '오프라인 매장 안내'];
         let menuIcon = ['storefront', 'edit', 'location_on' ]
 
         for( let i = 0; i < menuName.length; i++ ) {

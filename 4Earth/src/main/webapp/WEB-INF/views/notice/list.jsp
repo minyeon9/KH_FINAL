@@ -82,9 +82,11 @@
 	              <button id="search"><i class="material-icons">search</i></button>
 	            </div>
 	            
+	            <c:if test="${ loginMember.member_type eq 'ADMIN' }">
 	            <a class="btn" href="${ path }/notice/write" role="button">
                 글쓰기
               </a>
+	            </c:if>
             </div>
 	            
             <div class="paging">

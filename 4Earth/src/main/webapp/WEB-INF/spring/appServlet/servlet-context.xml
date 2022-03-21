@@ -49,6 +49,8 @@
 	 		<mapping path="/purchase_cart"/>
 	 		<mapping path="/order"/>
 			<mapping path="/order_detail"/>
+			<mapping path="/purchase_payment"/>
+			<mapping path="/write_application"/>
 			
 			<beans:bean class="com.kh.earth.common.interceptor.LoginCheckInterceptor" id="LoginCheckInterceptor"/>
 			

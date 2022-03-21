@@ -51,7 +51,7 @@
                             <strong>Layer Popup</strong>
 
                             <a href="#popup01" class="btn btn-open-pop">게시판 관리</a>
-                            <a href="#popup02" class="btn btn-open-pop">소분샵 관리</a>
+                            <a href="#popup02" class="btn btn-open-pop">에코샵 관리</a>
 
                             <div class="layer-popup" id="popup01">
                                 <div class="layer-inner">
@@ -72,7 +72,7 @@
                             <div class="layer-popup" id="popup02">
                                 <div class="layer-inner">
                                     <div class="pop-head">
-                                        <strong>소분샵 관리</strong>
+                                        <strong>에코샵 관리</strong>
                                         <a href="#" class="btn-close-pop"><i class="material-icons md-24">close</i></a>
                                     </div>
                                     <div class="pop-cont">

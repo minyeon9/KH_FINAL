@@ -47,12 +47,12 @@
                		<div class="page-tit">
                         <h3>
                         	모집 중인 상품
-                        	<span>소분샵에서 만나보고 싶으신 상품을 신청하고, 모집에 참여해주세요.</span>
+                        	<span>에코샵에서 만나보고 싶으신 상품을 신청하고, 모집에 참여해주세요.</span>
                         </h3>
                         <div class="bread-crumb">
                             <a href="../index.html"><i class="material-icons md-16">home</i></a>
                             <a href="#">에코샵</a>
-                            <span>소분샵 입고 신청</span>
+                            <span>에코샵 입고 신청</span>
                         </div>
                     </div>
                     
@@ -211,7 +211,7 @@
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['${ path }/product_list', '${ path }/bidding_list','${ path }/map'];
-        let menuName = ['소분샵', '소분샵 입고 신청', '오프라인 매장 안내'];
+        let menuName = ['에코샵', '모집 중인 상품', '오프라인 매장 안내'];
         let menuIcon = ['storefront', 'edit', 'location_on' ]
 
         for( let i = 0; i < menuName.length; i++ ) {

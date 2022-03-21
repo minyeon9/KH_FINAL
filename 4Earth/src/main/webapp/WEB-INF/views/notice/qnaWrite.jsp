@@ -52,7 +52,7 @@
                         <select name="category-upper" id="" class="c1">
                             <option value="대분류" selected>대분류</option>
                             <option value="챌린지">챌린지</option>
-                            <option value="소분샵">소분샵</option>
+                            <option value="소분샵">에코샵</option>
                             <option value="회원">회원가입/정보</option>
                             <option value="기타">기타</option>
                         </select>
