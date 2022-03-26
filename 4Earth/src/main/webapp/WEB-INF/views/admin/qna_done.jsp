@@ -153,7 +153,7 @@
 													        			<td colspan="4">문의 답변</td>
 													        		</tr>
 													        		<tr>
-													        			<td colspan="4">${ answer[vs.index].answerContent }</td>
+													        			<td colspan="4" style="height: 170px">${ qna.answerContent }</td>
 													        		</tr>
 												        		</tbody>
 													       		</table>

@@ -21,4 +21,32 @@ public class QnaAnswer {
 	private Date answerDate;
 	
 	private char answerStatus;
+	
+	private int no;
+	
+	private String writerId;
+	
+	private int cat;
+	
+	private String category;
+	
+	private int categoryNo;
+	
+	private String title;
+	
+	private String content;
+	
+	private String originalFileName;
+	
+	private String renamedFileName;
+	
+	private int readCount;
+	
+	private String status;
+	
+	private String qnaAnswer;
+	
+	private Date createDate;
+	
+	private Date modifyDate;
 }
