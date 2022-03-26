@@ -444,6 +444,7 @@
 	<select id="getWishList" parameterType="_int" resultMap="ProductListResultMap">
 		SELECT W.PRO_NO,
 		       P.PRO_NAME,
+		       P.PRO_MODIFY_IMG,
 		       P.PRO_PRICE,
 		       P.PRO_RATING
 		FROM WISH W

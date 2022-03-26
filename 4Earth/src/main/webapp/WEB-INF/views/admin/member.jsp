@@ -224,6 +224,7 @@
 	        }
 	    });
 	    
+	    // 셀렉트박스 선택 시 url에 count 값을 넘김
 	    $('#count-select').on('change',  (e) => {
 			location.replace("${ path }/admin/member?count=" + e.target.value);
 		})
@@ -245,6 +246,7 @@
 		})
 	});
 	
+	// 검색버튼 클릭 시 선택된 선택창의 value에 따라서 다른 값을 url로 검색함
 	$(document).ready(() => {
 		$(document).on('click', '#search', () => {
 			if($("#member-select option:selected").val() == 1) {

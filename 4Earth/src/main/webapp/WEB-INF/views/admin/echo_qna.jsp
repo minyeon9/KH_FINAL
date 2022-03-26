@@ -145,7 +145,7 @@
 													        			<th colspan="4">문의 내용</th>
 													        		</tr>
 													        		<tr>
-													        			<td colspan="4"">
+													        			<td colspan="4" style="height: 300px">
 													        				${ inq.inqContent }
 													        			</td>
 													        		</tr>

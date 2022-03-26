@@ -139,6 +139,8 @@ public class StoreController {
 			
 			count = service.getProductCount(detail);
 			
+			log.info("카테고리&필터 적용 count : " + count);
+			
 			list = service.getProductListByDetail(pageInfo, detail, arrange);	
 			
 			if(loginMember != null) {
@@ -150,9 +152,7 @@ public class StoreController {
 			}
 			
 			model.addObject("detail", detail);
-		}
-		
-		log.info("카테고리&필터 적용 count : " + count);
+		}		
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
