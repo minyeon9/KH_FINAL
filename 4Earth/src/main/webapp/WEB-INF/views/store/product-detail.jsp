@@ -306,7 +306,7 @@
 		                            	<li class="inquiry-li">
 		                                    <a href="javascript:void(0);">		                                        
 		                                        <c:if test="${ inq.inqStat eq 'N' }">
-		                                        	<p style="color: #888;">&lt;답변예정&gt;</p>
+		                                        	<p style="color: #888; font-size: 12px;">&lt;답변예정&gt;</p>
 		                                        </c:if>
 		                                        <c:if test="${ inq.inqStat eq 'Y' }">
 		                                        	<p>&lt;답변완료&gt;</p>
@@ -328,7 +328,10 @@
 		                                        		<input name="proNo" value="${ inq.proNo }" type="hidden">
 		                                        		<input name="memberNo" value="${ inq.memberNo }" type="hidden">
 		                                        	</form>
-		                                        </c:if>   
+		                                        </c:if>
+		                                        <c:if test="${ loginMember.no ne inq.memberNo }">
+                                                    <span style="display: inline-block; width: 24px;">&nbsp;</span>
+                                                </c:if>   
 		                                    </a>
 		                                    <div>
 		                                    	<i class="icon-question"></i>
@@ -653,6 +656,7 @@
 						    + "<input name='cartList[" + index + "].proNo' type='hidden' value='" + `${ product.proNo }` + "'>"
 							+ "<input name='cartList[" + index + "].proOptNo' type='hidden' value='" + proOptNo + "'>"
 							+ "<input name='cartList[" + index + "].proOpt' type='hidden' value='" + proOptName + "'>"
+							+ "<input name='cartList[" + index + "].proModifyImg' type='hidden' value='" + `${ product.proModifyImg }` + "'>"
 							+ "<input name='cartList[" + index + "].proPrice' type='hidden' value='" + `${ product.proPrice }` + "'>"
 							+ "<input name='cartList[" + index + "].cartQty' type='hidden' value='" + cartQty + "'>";
 						
