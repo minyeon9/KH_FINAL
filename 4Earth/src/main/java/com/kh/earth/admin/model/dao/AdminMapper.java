@@ -41,8 +41,6 @@ public interface AdminMapper {
 
 	List<Product> getProductList(RowBounds rowBounds, Map<String, String> name);
 
-	List<Member> findMember(RowBounds rowBounds, Map<String, String> name);
-
 	List<Reported> getReportedList(RowBounds rowBounds, Map<String, String> name);
 
 	Report getReportDetail(int no);
@@ -176,4 +174,8 @@ public interface AdminMapper {
 	int deleteNotice(int no);
 	
 	int getOrderCount(Map<String, String> name);
+
+	int deleteProduct(int no);
+
+	List<Member> getMemberList(RowBounds rowBounds, Map<String, String> name);
 }

@@ -26,22 +26,18 @@ import com.kh.earth.store.model.vo.ProductInquiry;
 import com.twilio.rest.api.v2010.account.Application;
 
 public interface AdminService {
-
-	int getReportCount(Map<String, String> name);
-
-	List<Report> getReportList(PageInfo pageInfo, Map<String, String> name);
-
-	int deleteReport(int no);
 	
 	int getMemberCount(Map<String, String> name);
 	
 	List<Member> getMemberList(PageInfo pageInfo, Map<String, String> name);
 	
 	int deleteMember(int no);
-	
-	int getProductCount(Map<String, String> name);
 
-	List<Product> getProductList(PageInfo pageInfo, Map<String, String> name);
+	int getReportCount(Map<String, String> name);
+
+	List<Report> getReportList(PageInfo pageInfo, Map<String, String> name);
+
+	int deleteReport(int no);
 
 	List<Reported> getReportedList(PageInfo pageInfo, Map<String, String> name);
 
@@ -49,81 +45,19 @@ public interface AdminService {
 
 	int getReportedCount();
 
-	int getTodayCount();
-
-	List<Today> getTodayList(PageInfo pageInfo, Map<String, String> name);
-
-	int getMonthCount();
-
-	List<Month> getMonthList(PageInfo pageInfo, Map<String, String> name);
-
-	int getMonthMemCount();
-
-	List<MonthMember> getMonthMemList(PageInfo pageInfo, Map<String, String> name);
-
-	int getTodayMemCount();
-
-	List<TodayMember> getTodayMemList(PageInfo pageInfo, Map<String, String> name);
-
-	int productSave(Product product);
-
-	Product findProductByNo(int no);
-
-	int productUpdate(Product product);
+	int banMember(int no);
 
 	int getNoticeCount(Map<String, String> name);
 
 	List<Notice> getNoticeList(PageInfo pageInfo, Map<String, String> name);
 
-	int todaySave(Today today);
+	int writeNotice(Notice notice);
 
-	int productImgsSave(ProductImgs productImgs);
+	Notice findNoticeByNo(int no);
 
-	int monthSave(Month month);
+	int updateNotice(Notice notice);
 
-	Today findTodayByNo(int no);
-
-	int updateToday(Today today);
-
-	Month findMonthByNo(int no);
-
-	int updateMonth(Month month);
-
-	int monthMemPoint(int no);
-
-	int getOrderCountAll(Map<String, String> name);
-
-	List<OrderSum> getOrderListAll(PageInfo pageInfo, Map<String, String> name);
-
-	List<OrderDetail> getDetailList(int no);
-
-	List<OrderDetail> findDetailByNo(int no);
-
-	int orderDelivery(int no);
-
-	int banMember(int no);
-
-	int getOrderDeliveryCount(Map<String, String> name);
-
-	List<OrderSum> getOrderDeliveryList(PageInfo pageInfo, Map<String, String> name);
-
-	int getProInqCount(Map<String, String> name);
-
-	List<ProductInquiry> getProInqList(PageInfo pageInfo, Map<String, String> name);
-
-	int getApplicationCount();
-
-	List<Application> getApplicationList(PageInfo pageInfo, String select);
-
-	int updateApplication(int appNo);
-
-	int biddingSave(ProductBidding productBidding);
-
-	int cancelOrder(int no);
-
-	int getOrderCancelCount(Map<String, String> name);
-
-	List<OrderSum> getOrderCancelList(PageInfo pageInfo, Map<String, String> name);
+	int deleteNotice(int no);
 
 	int getQnaCount(Map<String, String> name);
 
@@ -139,39 +73,107 @@ public interface AdminService {
 
 	int qnaDone(int qnaNo);
 
+	int getTodayCount();
+
+	List<Today> getTodayList(PageInfo pageInfo, Map<String, String> name);
+
+	int todaySave(Today today);
+
+	Today findTodayByNo(int no);
+
+	int updateToday(Today today);
+
+	int deleteToday(int no);
+
+	int getTodayMemCount();
+
+	List<TodayMember> getTodayMemList(PageInfo pageInfo, Map<String, String> name);
+
+	int deleteTodayMem(int no);
+
+	int todayMemPoint(int no);
+
+	int getMonthCount();
+
+	List<Month> getMonthList(PageInfo pageInfo, Map<String, String> name);
+
+	int monthSave(Month month);
+
+	Month findMonthByNo(int no);
+
+	int updateMonth(Month month);
+
+	int deleteMonth(int no);
+
+	int getMonthMemCount();
+
+	List<MonthMember> getMonthMemList(PageInfo pageInfo, Map<String, String> name);
+
+	int monthMemPoint(int no);
+
+	int deleteMonthMem(int no);
+	
+	int getProductCount(Map<String, String> name);
+
+	List<Product> getProductList(PageInfo pageInfo, Map<String, String> name);
+
+	int productSave(Product product);
+
+	Product findProductByNo(int no);
+
+	int productUpdate(Product product);
+
+	int productImgsSave(ProductImgs productImgs);
+	
+	int deleteProduct(int no);
+
+	int biddingSave(ProductBidding productBidding);
+
+	int getOrderCountAll(Map<String, String> name);
+
+	List<OrderSum> getOrderListAll(PageInfo pageInfo, Map<String, String> name);
+
+	List<OrderDetail> getDetailList(int no);
+
+	List<OrderDetail> findDetailByNo(int no);
+
+	int orderDelivery(int no);
+
+	int getOrderDeliveryCount(Map<String, String> name);
+
+	List<OrderSum> getOrderDeliveryList(PageInfo pageInfo, Map<String, String> name);
+
+	int getProInqCount(Map<String, String> name);
+
+	List<ProductInquiry> getProInqList(PageInfo pageInfo, Map<String, String> name);
+
+	int getApplicationCount();
+
+	List<Application> getApplicationList(PageInfo pageInfo, String select);
+
+	int updateApplication(int appNo);
+
+	int cancelOrder(int no);
+
+	int getOrderCancelCount(Map<String, String> name);
+
+	List<OrderSum> getOrderCancelList(PageInfo pageInfo, Map<String, String> name);
+
+	List<QnaAnswer> getAnswerByNo(PageInfo pageInfo, Map<String, String> name);
+
+	int updateQna(QnaAnswer qnaAnswer);
+
 	ProductInquiry findProInqByNo(int no); 
 
     int answerProInq(ProInqAnswer proInqAnswer); 
 
     int updateProInq(int no);
 
-	List<QnaAnswer> getAnswerByNo(PageInfo pageInfo, Map<String, String> name);
-
-	int deleteToday(int no);
-
-	int deleteMonth(int no);
-
-	int deleteMonthMem(int no);
-
-	int todayMemPoint(int no);
-
-	int deleteTodayMem(int no);
-
 	int unbanMember(int no);
-
-	int writeNotice(Notice notice);
-
-	int updateQna(QnaAnswer qnaAnswer);
 
 	int deleteBidding(int no);
 
 	int reDelivery(int no);
-
-	Notice findNoticeByNo(int no);
-
-	int updateNotice(Notice notice);
-
-	int deleteNotice(int no);
 	
 	int getOrderCount(Map<String, String> name);
 }
