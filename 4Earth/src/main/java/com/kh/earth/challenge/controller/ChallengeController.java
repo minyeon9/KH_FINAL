@@ -58,6 +58,7 @@ public class ChallengeController {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd"); // 날짜 포멧 정의
 		String formatedNow = now.format(formatter); // 포맷 적용
 			
+		// 오늘 날짜 챌린지 조회
 		List<Today> todayMain = service.getTodayList(formatedNow);
 		
 		model.addObject("todayMain", todayMain);
@@ -81,13 +82,18 @@ public class ChallengeController {
 		// 오늘 날짜 챌린지 목록 조회
 		List<Today> todayList = service.getTodayList(formatedNow);
 		
-		 // 로그인한 사용자 참여 완료 목록 조회
+		// 로그인한 사용자 참여 완료 목록 조회
 		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo());
-		List<Integer> myListNumber = new ArrayList<>(); // 참여 완료한 챌린지 번호 저장
 		
-		int mapLength = todayMemberList.size(); // 참여 완료한 챌린지 갯수
+		// 로그인한 사용자의 참여 완료 챌린지 번호를 저장할 ArrayList
+		List<Integer> myListNumber = new ArrayList<>(); 
 		
-		for( int i = 0; i < mapLength; i++ ) {  // 참여 완료한 챌린지 번호 저장
+		// 참여 완료한 챌린지 갯수
+		int mapLength = todayMemberList.size();
+		
+		// 참여 완료한 챌린지 번호 저장
+		for( int i = 0; i < mapLength; i++ ) {
+			// myListNumber에 완료한 챌린지 번호 저장
 			myListNumber.add(todayMemberList.get(i).getChalNo());
 		}
 		
@@ -103,6 +109,7 @@ public class ChallengeController {
 		model.addObject("todayList", todayList);
 		model.addObject("mapLength", mapLength);
 		model.addObject("myListNumber", myListNumber);
+		
 		model.setViewName("challenge/today_list");
 
 		return model;
@@ -118,22 +125,17 @@ public class ChallengeController {
 		// 오늘의 챌린지 목록 조회
 		Today today = service.findTodayListByNo(chalNo);
 		
-		// 인증 완료 챌린지 상세 접근 제한
-		LocalDate now = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd"); // 날짜 포멧 정의
-		String formatedNow = now.format(formatter); // 포맷 적용
-		
-		List<TodayMember> completeList = service.findTodayCompleteList(loginMember.getNo());
+		// 로그인한 사용자 참여 완료 목록 조회
+		List<TodayMember> todayMemberList = service.findTodayMemberListByNo(loginMember.getNo());
 		List<Integer> myListNumber = new ArrayList<>();
 		
-		int mapLength = completeList.size(); // 참여 완료한 챌린지 갯수
+		int mapLength = todayMemberList.size();
 		
-		for( int i = 0; i < mapLength; i++ ) {  // 참여 완료한 챌린지 번호 저장
-			myListNumber.add(completeList.get(i).getChalNo());
+		for( int i = 0; i < mapLength; i++ ) {
+			myListNumber.add(todayMemberList.get(i).getChalNo());
 		}
 		
 		model.addObject("today", today);
-		model.addObject("completeList", completeList);
 		model.addObject("myListNumber", myListNumber);
 		
 		model.setViewName("challenge/today_view");
@@ -228,7 +230,7 @@ public class ChallengeController {
 		Date time = new Date();	//현재 날짜
 		Calendar cal = Calendar.getInstance(); // 날짜 계산	
 		cal.setTime(time);	
-		cal.add(Calendar.MONTH, 1); // + 6개월
+		cal.add(Calendar.MONTH, 6); // + 6개월
 		String date = simpleDate.format(cal.getTime());
 		
         try {
@@ -476,7 +478,7 @@ public class ChallengeController {
 		Date time = new Date();	//현재 날짜
 		Calendar cal = Calendar.getInstance(); // 날짜 계산	
 		cal.setTime(time);	
-		cal.add(Calendar.MONTH, 6); // + 1달
+		cal.add(Calendar.MONTH, 6); // + 6달
 		String date = simpleDate.format(cal.getTime());
 		
         try {
@@ -826,7 +828,6 @@ public class ChallengeController {
 		List<Point> spendPoint = service.findSpendPointByNo(loginMember.getNo());
 		// 소멸예정 내역
 		List<Point> disapearPoint = service.findDisapearPointByNo(loginMember.getNo());
-		
 
 		// 적립 포인트 합계
 		int saveTotal = 0;

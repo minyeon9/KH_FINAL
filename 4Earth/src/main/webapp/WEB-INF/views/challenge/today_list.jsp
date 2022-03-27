@@ -83,7 +83,7 @@
 													<button class="btn" onclick="location.href='${ path }/today_view?chalNo=${ todayList.chalNo }'">참여하기</button>
 												</div>
 											</div>
-											</li>
+										</li>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>

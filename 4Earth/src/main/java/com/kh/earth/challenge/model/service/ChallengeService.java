@@ -92,10 +92,6 @@ public interface ChallengeService {
 	List<Product> findProductList();
 
 	
-	// 오늘의 챌린지 - 인증 완료 챌린지 상세 접근 제한
-	List<TodayMember> findTodayCompleteList(int no);
-
-	
 	// 대댓글 저장
 	int saveNestedReply(NestedReply nestedReply);
 	// 대댓글 삭제

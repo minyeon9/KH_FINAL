@@ -97,8 +97,6 @@ public interface ChallengeMapper {
 	// 메인 - 상품 목록
 	List<Product> findProductBestList();
 
-	List<TodayMember> findTodayCompleteList(int no);
-
 	
 	
 	// 대댓글 작성

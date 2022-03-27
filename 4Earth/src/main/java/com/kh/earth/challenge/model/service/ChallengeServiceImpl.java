@@ -211,11 +211,6 @@ public class ChallengeServiceImpl implements ChallengeService {
 		return mapper.findProductBestList();
 	}
 
-	@Override
-	public List<TodayMember> findTodayCompleteList(int no) {
-		return mapper.findTodayCompleteList(no);
-	}
-
 	
 	// 대댓글 저장
 	@Override

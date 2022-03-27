@@ -189,13 +189,13 @@
 	</select>
 	
 	<!-- 오늘의 챌린지 상세 조회(인증 완료 챌린지) -->
-	<select id="findTodayCompleteList" parameterType="_int" resultMap="todayMemberResultMap">
+	<!-- <select id="findTodayCompleteList" parameterType="_int" resultMap="todayMemberResultMap">
 		SELECT 
 			CHAL_NO,
 			CHAL_DATE
 		FROM CHAL_TODAY_MEM
 		WHERE MEM_NO = #{ no } AND TO_CHAR(CHAL_DATE, 'YYYY/MM/DD') = TO_CHAR(SYSDATE, 'YYYY/MM/DD')
-	</select>
+	</select> -->
 	
 	<!-- 오늘의 챌린지 인증 완료 시, 완료 챌린지명 / 파일명 조회 -->
 	<select id="findChalTitle" parameterType="map" resultMap="todayMemberResultMap">
