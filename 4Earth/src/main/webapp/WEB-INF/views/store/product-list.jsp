@@ -95,7 +95,7 @@
                                                 <label for="checkbox2">디저트/간식</label>
                                             </div>    
                                             <div class="check-box food">
-                                                <input type="checkbox" class="cb-category" id="checkbox3" name="category-detail" value="건조 식품"> 
+                                                <input type="checkbox" class="cb-category" id="checkbox3" name="category-detail" value="건조식품"> 
                                                 <label for="checkbox3">건조 식품</label>
                                             </div>   
                                             <div class="check-box living">
@@ -185,7 +185,7 @@
 		                                        </a>
 		                                        </div>
 		                                        <div class="tag-wrap">
-		                                        	<c:if test="${ product.isNew lt 7 }">
+		                                        	<c:if test="${ product.isNew lt 3 }">
 			                                            <span class="tag tag-orange">
 			                                            	NEW
 			                                            </span>

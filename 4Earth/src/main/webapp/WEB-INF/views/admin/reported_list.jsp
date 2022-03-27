@@ -110,7 +110,7 @@
 		                                            <td>${ reported.name }</td>
 		                                            <td>${ reported.enrollDate }</td>
 		                                            <td>${ reported.member_type }</td>
-		                                            <td>${ reported.member_type }</td>
+		                                            <td>${ reported.reportedTimes }</td>
 		                                            <%-- <td><fmt:formatDate value="${ reported.reportDate }" pattern="yyy-MM-dd hh:mm"/></td> --%>
 		                                            <td>${ reported.status }</td>
 		                                            <td>

@@ -107,20 +107,20 @@
 		
                         <c:if test="${ !empty list }">
 	                        <div class="paging">
-	                        	<a href="${ path }/product_bidding?page=1" class="first"><span>맨 앞으로</span></a> 
-	                            <a href="${ path }/product_bidding?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
+	                        	<a href="${ path }/bidding_list?page=1" class="first"><span>맨 앞으로</span></a> 
+	                            <a href="${ path }/bidding_list?page=${ pageInfo.prevPage }" class="prev"><span>이전</span></a>
 	                            <c:forEach begin="${ pageInfo.startPage }" end="${ pageInfo.endPage }" varStatus="status">
 									<c:if test="${ status.current == pageInfo.currentPage }">				
 										<strong>${ status.current }</strong>
 									</c:if>
 									
 									<c:if test="${ status.current != pageInfo.currentPage }">				
-										<a href="${ path }product_bidding?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
+										<a href="${ path }/bidding_list?page=${ status.current }&count=${ pageInfo.listLimit }">${ status.current }</a>
 									</c:if>
 								</c:forEach>
-	                            <a href="${ path }/product_bidding?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
+	                            <a href="${ path }/bidding_list?page=${ pageInfo.nextPage }" class="next"><span>다음</span></a>
 	                        	<input type="hidden" name="no" value="${ product.proNo }">
-	                            <a href="${ path }/product_bidding?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
+	                            <a href="${ path }/bidding_list?page=${ pageInfo.maxPage }" class="last"><span>맨 뒤로</span></a>
 	                        </div>
                         </c:if>
                     </div> <!-- // guide -->

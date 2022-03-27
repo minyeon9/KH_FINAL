@@ -44,9 +44,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-//	@Autowired
-//	private MemberService service;
-	
 	@Autowired
 	private AdminService service;
 	
@@ -59,7 +56,82 @@ public class AdminController {
 		
 		return "admin/main";
 	}
+	// 회원관련
+	// 검색기능 - @RequestParam Map<String, String> name을 통해서 <키워드, 내용>형식으로 데이터를 받아옴
+	// ex) <no, "11"> ?no=11
+	// 그다음에 service에 map형식으로 데이터를 보내서 mapper에서 키워드와 값으로 받음
+	@GetMapping("/member")
+	public ModelAndView admin_member(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Member> list = null;
+		System.out.println(name);
+
+		
+		log.info("admin_member() - 호출", page);
+		
+		pageInfo = new PageInfo(page, 10, service.getMemberCount(name), count);
+		list = service.getMemberList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		
+		
+		model.setViewName("/admin/member");
+		
+		return model;
+	}
 	
+	@GetMapping("/member_delete")
+	public ModelAndView admin_member_delete(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_member_delete" + no);
+		
+		int result = 0;
+		
+		result = service.deleteMember(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "멤버 정지 완료");
+			model.addObject("location", "/admin/member");
+		}else {
+			model.addObject("msg", "멤버 정지 실패");
+			model.addObject("location", "/admin/member");
+		}
+			
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@GetMapping("/member_unban")
+	public ModelAndView admin_member_unban(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_member_delete" + no);
+		
+		int result = 0;
+		
+		result = service.unbanMember(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "멤버 정지 해제완료");
+			model.addObject("location", "/admin/member");
+		}else {
+			model.addObject("msg", "멤버 정지 해제실패");
+			model.addObject("location", "/admin/member");
+		}
+		
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	// 신고관련
 	@GetMapping("/report_list")
 	public ModelAndView admin_report_list(ModelAndView model,
 			@RequestParam Map<String, String> name,
@@ -102,6 +174,54 @@ public class AdminController {
 		return model;
 	}
 	
+	@GetMapping("/report_delete")
+	public ModelAndView admin_report_delete(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_report_delete" + no);
+		
+		int result = 0;
+		
+		result = service.deleteReport(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "신고 처리 완료");
+			model.addObject("location", "/admin/report_list");
+		}else {
+			model.addObject("msg", "신고 처리 실패");
+			model.addObject("location", "/admin/report_list");
+		}
+			
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@GetMapping("/report_ban")
+	public ModelAndView admin_report_ban(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_report_ban" + no);
+		
+		int result = 0;
+		
+		result = service.banMember(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "멤버 정지 완료");
+			model.addObject("location", "/admin/report_list");
+		}else {
+			model.addObject("msg", "신고 처리 실패");
+			model.addObject("location", "/admin/report_list");
+		}
+		
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	// 공지사항관련
 	@GetMapping("/notice")
 	public ModelAndView admin_notice(ModelAndView model,
 			@RequestParam Map<String, String> name,
@@ -256,27 +376,26 @@ public class AdminController {
 		
 		return model;
 	}
-	
-	@GetMapping("/member")
-	public ModelAndView admin_member(ModelAndView model,
+	// 문의관련
+	@GetMapping("/qna")
+	public ModelAndView admin_qna(ModelAndView model,
 			@RequestParam Map<String, String> name,
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10")int count) {
 		PageInfo pageInfo = null;
-		List<Member> list = null;
-		System.out.println(name);
+		List<Qna> list = null;
 
 		
-		log.info("admin_member() - 호출", page);
+		log.info("admin_qna() - 호출", page);
 		
-		pageInfo = new PageInfo(page, 10, service.getMemberCount(name), count);
-		list = service.getMemberList(pageInfo, name);
+		pageInfo = new PageInfo(page, 10, service.getQnaCount(name), count);
+		list = service.getQnaList(pageInfo, name);
 		
 		model.addObject("pageInfo", pageInfo);
 		model.addObject("list", list);
 		
 		
-		model.setViewName("/admin/member");
+		model.setViewName("/admin/qna");
 		
 		return model;
 	}
@@ -303,29 +422,6 @@ public class AdminController {
 		
 		
 		model.setViewName("/admin/qna_done");
-		
-		return model;
-	}
-	
-	@GetMapping("/qna")
-	public ModelAndView admin_qna(ModelAndView model,
-			@RequestParam Map<String, String> name,
-			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10")int count) {
-		PageInfo pageInfo = null;
-		List<Qna> list = null;
-
-		
-		log.info("admin_qna() - 호출", page);
-		
-		pageInfo = new PageInfo(page, 10, service.getQnaCount(name), count);
-		list = service.getQnaList(pageInfo, name);
-		
-		model.addObject("pageInfo", pageInfo);
-		model.addObject("list", list);
-		
-		
-		model.setViewName("/admin/qna");
 		
 		return model;
 	}
@@ -405,7 +501,7 @@ public class AdminController {
 		
 		return model;
 	}
-	
+	// 상품문의관련
 	@GetMapping("/echo_qna")
     public ModelAndView admin_echo_qna(ModelAndView model,
             @RequestParam Map<String, String> name,
@@ -471,7 +567,7 @@ public class AdminController {
         
         return model;
     }
-	
+	// 상품관련
 	@GetMapping("/echo_list")
 	public ModelAndView admin_echo_list(ModelAndView model,
 			@RequestParam Map<String, String> name,
@@ -491,6 +587,177 @@ public class AdminController {
 		model.addObject("list", list);
 		
 		model.setViewName("/admin/echo_list");
+		
+		return model;
+	}
+	
+	@GetMapping("/echo_write")
+	public String admin_echo_write(ModelAndView model) {
+		log.info("admin_echo_write() - 호출");
+		
+		return "admin/echo_write";
+	}
+	
+	@PostMapping("/echo_write")
+    public ModelAndView admin_echo_write(ModelAndView model,
+            @ModelAttribute("product")Product product,
+            @RequestParam("imgname") MultipartFile imgname, // 썸네일 사진
+            @RequestParam("upfile") MultipartFile[] upfile // 상세 사진
+            ) {
+        int result = 0;
+        
+        log.info("admin_echo_write() - post 호출");
+        
+        
+        if(imgname != null && !imgname.isEmpty()) {
+            String location = null;
+            String renamedFileName = null;
+            try {
+                location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+                renamedFileName = FileProcess.save(imgname, location);
+                System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+                System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+             
+             if(renamedFileName != null) {
+                 product.setProImg(imgname.getOriginalFilename());
+                 product.setProModifyImg(renamedFileName);
+             }
+         }        
+        
+        result = service.productSave(product);
+        
+        // 상세 사진(4장) 받기
+        if(upfile != null && upfile.length != 0) {
+            
+            for (int i = 0; i < upfile.length; i++) {
+                log.info("upfile [" + i + "] originalFileName : " + upfile[i].getOriginalFilename());
+                
+                String location = null;
+                String renamedFileName = null;
+                
+                try {
+                    location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                
+                renamedFileName = FileProcess.save(upfile[i], location);
+                
+                log.info("upfile [" + i + "] renamedFileName : " + renamedFileName);
+                
+                if(renamedFileName != null) {
+                    ProductImgs productImgs = new ProductImgs();
+                    
+                    productImgs.setProNo(product.getProNo());
+                    productImgs.setOriginalFileName(upfile[i].getOriginalFilename());
+                    productImgs.setRenamedFileName(renamedFileName);
+                    
+                    int resultImgs = service.productImgsSave(productImgs);
+                    
+                    if(resultImgs > 0) {
+                        log.info("upfile [" + i + "] 등록 성공");
+                    } else {
+                        log.info("upfile [" + i + "] 등록 실패");
+                    }
+                }
+            }
+        }
+        
+        if (result > 0) {
+            model.addObject("msg", "에코샵 등록 성공");
+            model.addObject("location", "/admin/echo_write");
+        }else {
+            model.addObject("msg", "에코샵 등록 실패");
+            model.addObject("location", "/admin/echo_write");
+        }
+        
+        model.setViewName("common/msg");
+        
+        return model;
+    }
+	
+	@GetMapping("/echo_delete")
+	public ModelAndView admin_echo_delete(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_today_delete" + no);
+		
+		int result = 0;
+		
+		result = service.deleteProduct(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "챌린지 정지 완료");
+			model.addObject("location", "/admin/echo_list");
+		}else {
+			model.addObject("msg", "챌린지 정지 실패");
+			model.addObject("location", "/admin/echo_list");
+		}
+			
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@GetMapping("/echo_update")
+	public ModelAndView admin_echo_update(ModelAndView model,
+			@RequestParam("no")int no) {
+		log.info("admin_echo_update() - 호출");
+		Product product = service.findProductByNo(no);
+		
+		System.out.println(product);
+		
+		model.addObject("product", product);
+		model.setViewName("admin/echo_update");
+		
+		return model;
+	}
+	
+	@PostMapping("/echo_update")
+	public ModelAndView admin_echo_update(ModelAndView model,
+			@RequestParam("no")int no,
+			@ModelAttribute("product")Product product,
+			@RequestParam("imgname") MultipartFile imgname) {
+		int result;
+		
+		log.info("admin_echo_update() - post 호출");
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
+				renamedFileName = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			 
+			 if(renamedFileName != null) {
+				 product.setProImg(imgname.getOriginalFilename());
+				 product.setProModifyImg(renamedFileName);
+			 }
+		 }
+
+		result = service.productUpdate(product);
+		System.out.println(result);
+		
+		if (result > 0) {
+			model.addObject("msg", "에코샵  업데이트 성공");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");
+		}else {
+			model.addObject("msg", "에코샵 업데이트 실패");
+			model.addObject("location", "/admin/echo_update?no=" + product.getProNo());
+		}
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}
@@ -666,6 +933,19 @@ public class AdminController {
         return model;
     }
 	
+	@GetMapping("/echo_bidding_write")
+    public ModelAndView admin_echo_bidding_write(ModelAndView model,
+            @RequestParam("no") int appNo) {
+
+        log.info("admin_echo_bidding_write() - 호출");
+
+        model.addObject("appNo", appNo);
+
+        model.setViewName("admin/echo_bidding_write");
+
+        return model;
+    }
+	
 	@GetMapping("/echo_bidding_select")
     public ModelAndView admin_echo_bidding_select(ModelAndView model,
             @RequestParam(defaultValue = "1") int page,
@@ -688,26 +968,6 @@ public class AdminController {
         model.addObject("list", list);
 
         model.setViewName("admin/echo_bidding");
-
-        return model;
-    }
-	
-	@GetMapping("/echo_write")
-	public String admin_echo_write(ModelAndView model) {
-		log.info("admin_echo_write() - 호출");
-		
-		return "admin/echo_write";
-	}
-	
-	@GetMapping("/echo_bidding_write")
-    public ModelAndView admin_echo_bidding_write(ModelAndView model,
-            @RequestParam("no") int appNo) {
-
-        log.info("admin_echo_bidding_write() - 호출");
-
-        model.addObject("appNo", appNo);
-
-        model.setViewName("admin/echo_bidding_write");
 
         return model;
     }
@@ -781,147 +1041,7 @@ public class AdminController {
 
         return model;
     }
-	
-	@GetMapping("/echo_update")
-	public ModelAndView admin_echo_update(ModelAndView model,
-			@RequestParam("no")int no) {
-		log.info("admin_echo_update() - 호출");
-		Product product = service.findProductByNo(no);
-		
-		System.out.println(product);
-		
-		model.addObject("product", product);
-		model.setViewName("admin/echo_update");
-		
-		return model;
-	}
-	
-	@PostMapping("/echo_write")
-    public ModelAndView admin_echo_write(ModelAndView model,
-            @ModelAttribute("product")Product product,
-            @RequestParam("imgname") MultipartFile imgname, // 썸네일 사진
-            @RequestParam("upfile") MultipartFile[] upfile // 상세 사진
-            ) {
-        int result = 0;
-        
-        log.info("admin_echo_write() - post 호출");
-        
-        
-        if(imgname != null && !imgname.isEmpty()) {
-            String location = null;
-            String renamedFileName = null;
-            try {
-                location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
-                renamedFileName = FileProcess.save(imgname, location);
-                System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
-                System.out.println("컨트롤러에서 location 찍어봄 : "+location);
-                
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-             
-             if(renamedFileName != null) {
-                 product.setProImg(imgname.getOriginalFilename());
-                 product.setProModifyImg(renamedFileName);
-             }
-         }        
-        
-        result = service.productSave(product);
-        
-        // 상세 사진(4장) 받기
-        if(upfile != null && upfile.length != 0) {
-            
-            for (int i = 0; i < upfile.length; i++) {
-                log.info("upfile [" + i + "] originalFileName : " + upfile[i].getOriginalFilename());
-                
-                String location = null;
-                String renamedFileName = null;
-                
-                try {
-                    location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                
-                renamedFileName = FileProcess.save(upfile[i], location);
-                
-                log.info("upfile [" + i + "] renamedFileName : " + renamedFileName);
-                
-                if(renamedFileName != null) {
-                    ProductImgs productImgs = new ProductImgs();
-                    
-                    productImgs.setProNo(product.getProNo());
-                    productImgs.setOriginalFileName(upfile[i].getOriginalFilename());
-                    productImgs.setRenamedFileName(renamedFileName);
-                    
-                    int resultImgs = service.productImgsSave(productImgs);
-                    
-                    if(resultImgs > 0) {
-                        log.info("upfile [" + i + "] 등록 성공");
-                    } else {
-                        log.info("upfile [" + i + "] 등록 실패");
-                    }
-                }
-            }
-        }
-        
-        if (result > 0) {
-            model.addObject("msg", "에코샵 등록 성공");
-            model.addObject("location", "/admin/echo_write");
-        }else {
-            model.addObject("msg", "에코샵 등록 실패");
-            model.addObject("location", "/admin/echo_write");
-        }
-        
-        model.setViewName("common/msg");
-        
-        return model;
-    }
-	
-	@PostMapping("/echo_update")
-	public ModelAndView admin_echo_update(ModelAndView model,
-			@RequestParam("no")int no,
-			@ModelAttribute("product")Product product,
-			@RequestParam("imgname") MultipartFile imgname) {
-		int result;
-		
-		log.info("admin_echo_update() - post 호출");
-		
-		if(imgname != null && !imgname.isEmpty()) {
-			String location = null;
-			String renamedFileName = null;
-			try {
-				location = resourceLoader.getResource("resources/upload/store").getFile().getPath();
-				renamedFileName = FileProcess.save(imgname, location);
-				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
-				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			 
-			 if(renamedFileName != null) {
-				 product.setProImg(imgname.getOriginalFilename());
-				 product.setProModifyImg(renamedFileName);
-			 }
-		 }
-
-		result = service.productUpdate(product);
-		System.out.println(result);
-		
-		if (result > 0) {
-			model.addObject("msg", "에코샵  업데이트 성공");
-			model.addObject("script", "window.opener.document.location.reload(); window.close();");
-		}else {
-			model.addObject("msg", "에코샵 업데이트 실패");
-			model.addObject("location", "/admin/echo_update?no=" + product.getProNo());
-		}
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
-	
+	// 오늘의챌린지관련
 	@GetMapping("/challenge_today")
 	public ModelAndView admin_challenge_today(ModelAndView model,
 			@RequestParam Map<String, String> name,
@@ -945,107 +1065,55 @@ public class AdminController {
 		return model;
 	}
 	
-	@GetMapping("/today_delete")
-	public ModelAndView admin_today_delete(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		log.info("admin_today_delete" + no);
-		
-		int result = 0;
-		
-		result = service.deleteToday(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "챌린지 정지 완료");
-			model.addObject("location", "/admin/challenge_today");
-		}else {
-			model.addObject("msg", "챌린지 정지 실패");
-			model.addObject("location", "/admin/challenge_today");
-		}
-			
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
-	
-	@GetMapping("/month_delete")
-	public ModelAndView admin_month_delete(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		log.info("admin_today_delete" + no);
-		
-		int result = 0;
-		
-		result = service.deleteMonth(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "챌린지 정지 완료");
-			model.addObject("location", "/admin/challenge_month");
-		}else {
-			model.addObject("msg", "챌린지 정지 실패");
-			model.addObject("location", "/admin/challenge_month");
-		}
-		
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
-	
-	@GetMapping("/month_mem_delete")
-	public ModelAndView admin_month_mem_delete(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		log.info("admin_month_mem_delete" + no);
-		
-		int result = 0;
-		
-		result = service.deleteMonthMem(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "챌린지 참여 취소 완료");
-			model.addObject("location", "/admin/challenge_month_manage");
-		}else {
-			model.addObject("msg", "챌린지 참여 취소 실패");
-			model.addObject("location", "/admin/challenge_month_manage");
-		}
-		
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
-	
-	@GetMapping("/today_mem_delete")
-	public ModelAndView admin_today_mem_delete(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		log.info("admin_today_mem_delete" + no);
-		
-		int result = 0;
-		
-		result = service.deleteTodayMem(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "챌린지 참여 취소 완료");
-			model.addObject("location", "/admin/challenge_today_manage");
-		}else {
-			model.addObject("msg", "챌린지 참여 취소  실패");
-			model.addObject("location", "/admin/challenge_today_manage");
-		}
-		
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
-	
 	@GetMapping("/today_write")
 	public String admin_today_write(ModelAndView model) {
 		log.info("admin_today_write() - 호출");
 		
 		return "admin/today_write";
+	}
+	
+	@PostMapping("/today_write")
+	public ModelAndView admin_today_write(ModelAndView model,
+			@ModelAttribute("today")Today today,
+			@RequestParam("imgname") MultipartFile imgname) {
+		int result = 0;
+		
+		log.info("admin_echo_write() - post 호출");
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				renamedFileName = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			 
+			 if(renamedFileName != null) {
+				 today.setOriginalFilename(imgname.getOriginalFilename());
+				 today.setRenamedFilename(renamedFileName);
+			 }
+		 }
+		
+		System.out.println(today);
+		result = service.todaySave(today);
+		System.out.println(result);
+		
+		if (result > 0) {
+			model.addObject("msg", "챌린지 등록 성공");
+			model.addObject("location", "/admin/today_write");
+		}else {
+			model.addObject("msg", "챌린지 등록 실패");
+			model.addObject("location", "/admin/today_write");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
 	}
 	
 	@GetMapping("/today_update")
@@ -1107,58 +1175,121 @@ public class AdminController {
 		return model;
 	}
 	
-	@GetMapping("/month_update")
-	public ModelAndView admin_month_update(ModelAndView model,
+	@GetMapping("/today_delete")
+	public ModelAndView admin_today_delete(ModelAndView model,
 			@RequestParam("no")int no) {
-		log.info("admin_month_update() - 호출");
-		Month month = service.findMonthByNo(no);
 		
+		log.info("admin_today_delete" + no);
 		
-		model.addObject("month", month);
-		model.setViewName("admin/month_update");
+		int result = 0;
+		
+		result = service.deleteToday(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "챌린지 정지 완료");
+			model.addObject("location", "/admin/challenge_today");
+		}else {
+			model.addObject("msg", "챌린지 정지 실패");
+			model.addObject("location", "/admin/challenge_today");
+		}
+			
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}
 	
-	@PostMapping("/month_update")
-	public ModelAndView admin_month_update(ModelAndView model,
-			@RequestParam("no")int no,
-			@ModelAttribute("month")Month month,
-			@RequestParam("imgname") MultipartFile imgname) {
-		int result;
+	@GetMapping("/challenge_today_manage")
+	public ModelAndView admin_challenge_today_manage(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<TodayMember> list = null;
 		
-		log.info("admin_month_update() - post 호출");
+		log.info("admin_challenge_today_manage() - 호출");
 		
-		if(imgname != null && !imgname.isEmpty()) {
-			String location = null;
-			String renamedFileName = null;
-			try {
-				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
-				renamedFileName = FileProcess.save(imgname, location);
-				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
-				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			 
-			 if(renamedFileName != null) {
-				 month.setOriginalFilename(imgname.getOriginalFilename());
-				 month.setRenamedFilename(renamedFileName);
-			 }
-		 }
+		pageInfo = new PageInfo(page, 10, service.getTodayMemCount(), count);
+		list = service.getTodayMemList(pageInfo, name);
 		
-		result = service.updateMonth(month);
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		System.out.println(list);
+		
+		model.setViewName("admin/challenge_today_manage");
+		
+		return model;
+	}
+	
+	@GetMapping("/today_mem_delete")
+	public ModelAndView admin_today_mem_delete(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_today_mem_delete" + no);
+		
+		int result = 0;
+		
+		result = service.deleteTodayMem(no);
 		
 		if (result > 0) {
-			model.addObject("msg", "오늘의 챌린지 업데이트 성공");
-			model.addObject("script", "window.opener.document.location.reload(); window.close();");
+			model.addObject("msg", "챌린지 참여 취소 완료");
+			model.addObject("location", "/admin/challenge_today_manage");
 		}else {
-			model.addObject("msg", "오늘의 챌린지 업데이트 실패");
-			model.addObject("location", "/admin/today_update?no=" + month.getChalNo());
+			model.addObject("msg", "챌린지 참여 취소  실패");
+			model.addObject("location", "/admin/challenge_today_manage");
 		}
 		
+		
 		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@GetMapping("/today_point")
+	public ModelAndView admin_challenge_today_point(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		int result = 0;
+		
+		log.info("month_point() - 호출");
+		
+		result = service.todayMemPoint(no);
+		
+		System.out.println(result);
+		System.out.println(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "포인트 지급 완료");
+			model.addObject("location", "/admin/challenge_today_manage");
+		}else {
+			model.addObject("msg", "포인트 지급 실패");
+			model.addObject("location", "/admin/challenge_today_manage");
+		}
+		
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	// 이달의챌린지관련
+	@GetMapping("/challenge_month")
+	public ModelAndView admin_challenge_month(ModelAndView model,
+			@RequestParam Map<String, String> name,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "10")int count) {
+		PageInfo pageInfo = null;
+		List<Month> list = null;
+		
+		log.info("admin_challenge_month() - 호출", page);
+		
+		pageInfo = new PageInfo(page, 10, service.getMonthCount(), count);
+		list = service.getMonthList(pageInfo, name);
+		
+		model.addObject("pageInfo", pageInfo);
+		model.addObject("list", list);
+		System.out.println(list);
+		
+		model.setViewName("admin/challenge_month");
 		
 		return model;
 	}
@@ -1168,50 +1299,6 @@ public class AdminController {
 		log.info("admin_month_write() - 호출");
 		
 		return "admin/month_write";
-	}
-	
-	@PostMapping("/today_write")
-	public ModelAndView admin_today_write(ModelAndView model,
-			@ModelAttribute("today")Today today,
-			@RequestParam("imgname") MultipartFile imgname) {
-		int result = 0;
-		
-		log.info("admin_echo_write() - post 호출");
-		
-		if(imgname != null && !imgname.isEmpty()) {
-			String location = null;
-			String renamedFileName = null;
-			try {
-				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
-				renamedFileName = FileProcess.save(imgname, location);
-				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFileName);
-				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			 
-			 if(renamedFileName != null) {
-				 today.setOriginalFilename(imgname.getOriginalFilename());
-				 today.setRenamedFilename(renamedFileName);
-			 }
-		 }
-		
-		System.out.println(today);
-		result = service.todaySave(today);
-		System.out.println(result);
-		
-		if (result > 0) {
-			model.addObject("msg", "챌린지 등록 성공");
-			model.addObject("location", "/admin/today_write");
-		}else {
-			model.addObject("msg", "챌린지 등록 실패");
-			model.addObject("location", "/admin/today_write");
-		}
-		
-		model.setViewName("common/msg");
-		
-		return model;
 	}
 
 	@PostMapping("/month_write")
@@ -1256,24 +1343,82 @@ public class AdminController {
 		return model;
 	}
 	
-	@GetMapping("/challenge_month")
-	public ModelAndView admin_challenge_month(ModelAndView model,
-			@RequestParam Map<String, String> name,
-			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10")int count) {
-		PageInfo pageInfo = null;
-		List<Month> list = null;
+	@GetMapping("/month_delete")
+	public ModelAndView admin_month_delete(ModelAndView model,
+			@RequestParam("no")int no) {
 		
-		log.info("admin_challenge_month() - 호출", page);
+		log.info("admin_today_delete" + no);
 		
-		pageInfo = new PageInfo(page, 10, service.getMonthCount(), count);
-		list = service.getMonthList(pageInfo, name);
+		int result = 0;
 		
-		model.addObject("pageInfo", pageInfo);
-		model.addObject("list", list);
-		System.out.println(list);
+		result = service.deleteMonth(no);
 		
-		model.setViewName("admin/challenge_month");
+		if (result > 0) {
+			model.addObject("msg", "챌린지 정지 완료");
+			model.addObject("location", "/admin/challenge_month");
+		}else {
+			model.addObject("msg", "챌린지 정지 실패");
+			model.addObject("location", "/admin/challenge_month");
+		}
+		
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
+	@GetMapping("/month_update")
+	public ModelAndView admin_month_update(ModelAndView model,
+			@RequestParam("no")int no) {
+		log.info("admin_month_update() - 호출");
+		Month month = service.findMonthByNo(no);
+		
+		
+		model.addObject("month", month);
+		model.setViewName("admin/month_update");
+		
+		return model;
+	}
+	
+	@PostMapping("/month_update")
+	public ModelAndView admin_month_update(ModelAndView model,
+			@RequestParam("no")int no,
+			@ModelAttribute("month")Month month,
+			@RequestParam("imgname") MultipartFile imgname) {
+		int result;
+		
+		log.info("admin_month_update() - post 호출");
+		
+		if(imgname != null && !imgname.isEmpty()) {
+			String location = null;
+			String renamedFilename = null;
+			try {
+				location = resourceLoader.getResource("resources/upload/challenge").getFile().getPath();
+				renamedFilename = FileProcess.save(imgname, location);
+				System.out.println("컨트롤러에서 리네임드 찍어봄 : "+renamedFilename);
+				System.out.println("컨트롤러에서 location 찍어봄 : "+location);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			 
+			 if(renamedFilename != null) {
+				 month.setOriginalFilename(imgname.getOriginalFilename());
+				 month.setRenamedFilename(renamedFilename);
+			 }
+		 }
+		
+		result = service.updateMonth(month);
+		
+		if (result > 0) {
+			model.addObject("msg", "오늘의 챌린지 업데이트 성공");
+			model.addObject("script", "window.opener.document.location.reload(); window.close();");
+		}else {
+			model.addObject("msg", "오늘의 챌린지 업데이트 실패");
+			model.addObject("location", "/admin/today_update?no=" + month.getChalNo());
+		}
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}
@@ -1296,6 +1441,30 @@ public class AdminController {
 		System.out.println(list);
 		
 		model.setViewName("admin/challenge_month_manage");
+		
+		return model;
+	}
+	
+	@GetMapping("/month_mem_delete")
+	public ModelAndView admin_month_mem_delete(ModelAndView model,
+			@RequestParam("no")int no) {
+		
+		log.info("admin_month_mem_delete" + no);
+		
+		int result = 0;
+		
+		result = service.deleteMonthMem(no);
+		
+		if (result > 0) {
+			model.addObject("msg", "챌린지 참여 취소 완료");
+			model.addObject("location", "/admin/challenge_month_manage");
+		}else {
+			model.addObject("msg", "챌린지 참여 취소 실패");
+			model.addObject("location", "/admin/challenge_month_manage");
+		}
+		
+		
+		model.setViewName("common/msg");
 		
 		return model;
 	}
@@ -1327,150 +1496,10 @@ public class AdminController {
 		return model;
 	}
 	
-	@GetMapping("/today_point")
-	public ModelAndView admin_challenge_today_point(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		int result = 0;
-		
-		log.info("month_point() - 호출");
-		
-		result = service.todayMemPoint(no);
-		
-		System.out.println(result);
-		System.out.println(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "포인트 지급 완료");
-			model.addObject("location", "/admin/challenge_today_manage");
-		}else {
-			model.addObject("msg", "포인트 지급 실패");
-			model.addObject("location", "/admin/challenge_today_manage");
-		}
-		
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
 	
-	@GetMapping("/challenge_today_manage")
-	public ModelAndView admin_challenge_today_manage(ModelAndView model,
-			@RequestParam Map<String, String> name,
-			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10")int count) {
-		PageInfo pageInfo = null;
-		List<TodayMember> list = null;
-		
-		log.info("admin_challenge_today_manage() - 호출");
-		
-		pageInfo = new PageInfo(page, 10, service.getTodayMemCount(), count);
-		list = service.getTodayMemList(pageInfo, name);
-		
-		model.addObject("pageInfo", pageInfo);
-		model.addObject("list", list);
-		System.out.println(list);
-		
-		model.setViewName("admin/challenge_today_manage");
-		
-		return model;
-	}
+
 	
-	@GetMapping("/member_delete")
-	public ModelAndView admin_member_delete(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		log.info("admin_member_delete" + no);
-		
-		int result = 0;
-		
-		result = service.deleteMember(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "멤버 정지 완료");
-			model.addObject("location", "/admin/member");
-		}else {
-			model.addObject("msg", "멤버 정지 실패");
-			model.addObject("location", "/admin/member");
-		}
-			
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
 	
-	@GetMapping("/member_unban")
-	public ModelAndView admin_member_unban(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		log.info("admin_member_delete" + no);
-		
-		int result = 0;
-		
-		result = service.unbanMember(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "멤버 정지 해제완료");
-			model.addObject("location", "/admin/member");
-		}else {
-			model.addObject("msg", "멤버 정지 해제실패");
-			model.addObject("location", "/admin/member");
-		}
-		
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
-	
-	@GetMapping("/report_delete")
-	public ModelAndView admin_report_delete(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		log.info("admin_report_delete" + no);
-		
-		int result = 0;
-		
-		result = service.deleteReport(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "신고 처리 완료");
-			model.addObject("location", "/admin/report_list");
-		}else {
-			model.addObject("msg", "신고 처리 실패");
-			model.addObject("location", "/admin/report_list");
-		}
-			
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
-	
-	@GetMapping("/report_ban")
-	public ModelAndView admin_report_ban(ModelAndView model,
-			@RequestParam("no")int no) {
-		
-		log.info("admin_report_ban" + no);
-		
-		int result = 0;
-		
-		result = service.banMember(no);
-		
-		if (result > 0) {
-			model.addObject("msg", "멤버 정지 완료");
-			model.addObject("location", "/admin/report_list");
-		}else {
-			model.addObject("msg", "신고 처리 실패");
-			model.addObject("location", "/admin/report_list");
-		}
-		
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
 	
 	
 	

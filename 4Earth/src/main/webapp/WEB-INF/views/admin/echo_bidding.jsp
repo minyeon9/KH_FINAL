@@ -178,7 +178,6 @@
 						                                    </div>
 						                                    <div class="btn-wrap">
 						                                        <button class="btn gray btn-close-pop">취소</button>
-						                                        <button class="btn">저장</button>
 						                                    </div>
 						                                </div>
 						                            </div>

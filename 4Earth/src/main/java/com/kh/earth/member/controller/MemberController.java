@@ -1,10 +1,8 @@
 package com.kh.earth.member.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -36,7 +34,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.google.gson.Gson;
 import com.kh.earth.common.util.FileProcess;
 import com.kh.earth.common.util.GoogleOAuthRequest;
 import com.kh.earth.common.util.MailUtil;
@@ -48,7 +45,6 @@ import com.kh.earth.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
-import net.minidev.json.parser.ParseException;
 
 @Slf4j
 @Controller
@@ -76,8 +72,7 @@ public class MemberController {
 		
 		if(member != null) {
 			session.setAttribute("loginMember", member);
-//			session.setAttribute("test1", "dfdfd");
-//			System.out.println(session.getAttribute("test1"));
+			
 			return "redirect:/";
 		}else {    
 			model.addAttribute("msg", "아이디나 비밀번호가 일치하지 않습니다.");
@@ -188,10 +183,9 @@ public class MemberController {
 		member.setEmail(email);
 		member.setImg_name(image);
 		member.setPlatform_type("KAKAO");
-    	// System.out.println("저장 전 memeber값 : "+member);
     	
+		// 동일한 id의 회원정보가 있는지 검색
     	Member resultM = service.findMemberById_forSNS(id);
-    	// System.out.println("DB에서 조회한 회원값 : "+resultM);
     	
     	if(resultM == null) {
     		// 1. 회원정보가 없다면 회원가입을 시킨다.
@@ -228,7 +222,6 @@ public class MemberController {
     	
 		// 3. (신규가입X, 재가입X 일 경우) 로그인을 시킨다.
     	Member loginMember = service.login(id, member.getPassword());	
-       	// System.out.println("sns회원가입으로 정보가 있는 사람 로긴 : "+loginMember);
        	
     	if( loginMember != null ) {
     		// 로그인 성공
@@ -244,7 +237,7 @@ public class MemberController {
     	return map;
 	}
 	
-	// 구글 관련 properties값 불러오기(config.properties) 
+	// 구글 관련 properties값 불러오기(google.properties) 
 	@Value("${google.auth.url}")
 	private String googleAuthUrl;
 	
@@ -414,10 +407,8 @@ public class MemberController {
 	}
 	
 	// 네이버 연동정보 조회
-//	@ResponseBody
 	@RequestMapping(value = "/login/oauth_naver", produces="application/json;charset=UTF-8")
 	public String oauthNaver(HttpServletRequest request, Member member, HttpServletResponse response)throws Exception{
-		System.out.println("여기까지 왔니?");
 	    JSONParser parser = new JSONParser();
 	    String url = "";
 
@@ -549,6 +540,7 @@ public class MemberController {
 		return map;
 	}
 	
+	// 회원가입 - 이메일 중복 체크
 	@PostMapping(value = "/emailCheck")
 	@ResponseBody
 	public Object emailCheck(@RequestParam("userEmail") String userEmail) {
@@ -559,6 +551,7 @@ public class MemberController {
 		return map;
 	}
 	
+	// 내 정보 - 이메일 수정 시 중복체크
 	@PostMapping(value = "/emailCheckForEdit")
 	@ResponseBody
 	public Object emailCheck_forEdit(@RequestParam("userEmail") String userEmail,
@@ -570,6 +563,7 @@ public class MemberController {
 		return map;
 	}
 	
+	// 회원가입 - 전화번호 중복 체크
 	@PostMapping(value = "/phoneCheck")
 	@ResponseBody
 	public Object phoneCheck(@RequestParam("userPhone") String userPhone) {
@@ -584,6 +578,7 @@ public class MemberController {
 		return map;
 	}
 	
+	// 내 정보 - 전화번호 중복 체크
 	@PostMapping(value = "/phoneCheckForEdit")
 	@ResponseBody
 	public Object phoneCheckForEdit(@SessionAttribute(name="loginMember") Member loginMember,
@@ -600,6 +595,7 @@ public class MemberController {
 	}
 	
 	
+	// 회원가입 완료 창 호출
 	@GetMapping("/signup_finish")
 	public String signup_finish() {
 		log.info("signup_finish() - 호출");
@@ -608,6 +604,7 @@ public class MemberController {
 	}
 	
 	
+	// 회원탈퇴
 	@PostMapping("/member_delete")
 	public ModelAndView member_delete(ModelAndView model, @RequestParam String password,
 			@SessionAttribute(name="loginMember")Member loginMember) {
@@ -641,6 +638,8 @@ public class MemberController {
 		}
 	}	
 	
+	
+	// SNS 회원 탈퇴
 	@GetMapping("/member_delete_SNS")
 	public ModelAndView member_delete_SNS(ModelAndView model,
 			@SessionAttribute(name="loginMember")Member loginMember) {
@@ -675,6 +674,8 @@ public class MemberController {
 	}	
 	
 	
+	
+	// 카카오 회원 탈퇴(+연결해제)
 	@PostMapping("/kakao_unlink")
 	@ResponseBody
 	public Object kakao_unlink(ModelAndView model,
@@ -696,6 +697,8 @@ public class MemberController {
 			return map;
 	};
 	
+	
+	// 비밀번호 변경
 	@PostMapping("/pw_change")
 	public ModelAndView pw_change(ModelAndView model,
 			String userPwd1, String userPwd2, String userPwCheck2, 
@@ -725,6 +728,8 @@ public class MemberController {
 		return model;
 	}
 	
+	
+	// 아이디 찾기 화면 호출
 	@GetMapping("/find_id")
 	public String find_id() {
 		log.info("find_id() - 호출");
@@ -732,6 +737,8 @@ public class MemberController {
 		return "member/find-id";
 	}
 	
+	
+	// 아이디 찾기
 	@PostMapping("/find_id")
 	@ResponseBody
 	public Object find_if(ModelAndView model, HttpSession session,
@@ -777,7 +784,7 @@ public class MemberController {
 	
 	
 	
-	
+	// 비밀번호 찾기 화면 호출
 	@GetMapping("/find_pw")
 	public String find_pw() {
 		log.info("find_pw() - 호출");
@@ -786,7 +793,7 @@ public class MemberController {
 	}
 	
 	
-	
+	// 비밀번호 찾기 
 	@PostMapping("/find_pw")
 	@ResponseBody
 	public Object find_pw(ModelAndView model,
@@ -866,6 +873,8 @@ public class MemberController {
 		return map;
 	}
 	
+	
+	// 인증
 	@PostMapping("/verification")
 	public ModelAndView verification(ModelAndView model, 
 			HttpSession session, String vf_code) {
@@ -893,12 +902,16 @@ public class MemberController {
 		return model;
 	}
 	
+	
+	// 비밀번호 재설정 화면 호출
 	@GetMapping("/pw_reset")
 	public String pw_reset(HttpSession session) {
 		
 		return "member/find-pw-reset";
 	}
 	
+	
+	// 비밀번호 재설정
 	@PostMapping("/pw_reset")
 	public ModelAndView pw_reset(ModelAndView model, SessionStatus status,
 			String userPwd2, String userPwCheck, HttpSession session) {
