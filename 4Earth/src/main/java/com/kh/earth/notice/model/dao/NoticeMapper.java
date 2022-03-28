@@ -39,8 +39,4 @@ public interface NoticeMapper {
 	int qnaModifyStatus(@Param("no") int no, @Param("status") String status);
 	
 	int getCategoryNo(String category);
-
-	int getMemberCount(Map<String, String> name);
-
-
 }

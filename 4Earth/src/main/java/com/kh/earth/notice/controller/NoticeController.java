@@ -58,6 +58,7 @@ public class NoticeController {
 
 		PageInfo pageInfo = null;
 		List<Notice> list = null;
+		
 		System.out.println(title);
 		System.out.println(loginMember);
 
@@ -142,7 +143,62 @@ public class NoticeController {
 			model.addObject("location", "/notice/write");
 		}
 		
+		model.setViewName("common/msg");
+	
+		return model;
+	}
+	
+	@GetMapping("/qnaWrite")
+	public String qnawrite() {
 		
+		return "notice/qnaWrite";
+	}
+	
+	@PostMapping("/qnaWrite")
+	public ModelAndView qnaWrite(ModelAndView model,
+//			HttpServletRequest request,
+			@ModelAttribute Qna qna,
+			@RequestParam("upfile") MultipartFile upfile,
+			@SessionAttribute(name="loginMember") Member loginMember) {
+	
+		int result = 0;
+		
+		System.out.println(qna.toString());
+		
+		if(upfile != null && !upfile.isEmpty()) {
+			String location = null;
+			String renamedFileName = null;
+//			String location = request.getSession().getServletContext().getRealPath("/resources/upload/notice/");
+			
+			try {
+				location = resourceLoader.getResource("resources/upload/notice").getFile().getPath();
+				renamedFileName = FileProcess.save(upfile, location);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+			
+			if(renamedFileName != null) {
+				qna.setOriginalFileName(upfile.getOriginalFilename());
+				qna.setRenamedFileName(renamedFileName);
+			}
+		}
+		
+		int catNo = service.getCategoryNo(qna.getCategory());
+		qna.setCategoryNo(catNo);
+		
+		qna.setWriterNo(loginMember.getNo());
+		result = service.qnaSave(qna);
+
+//		System.out.println("tostring:" + notice.toString());
+		
+		if(result > 0) {
+			model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
+			model.addObject("location", "/notice/qnalist");
+		} else {
+			model.addObject("msg", "게시글 등록이 실패했습니다.");
+			model.addObject("location", "/notice/qnaWrite");
+		}
 		
 		model.setViewName("common/msg");
 	
@@ -155,7 +211,7 @@ public class NoticeController {
 		Notice notice = service.findNoticeByNo(no);
 		
 		Cookie[] cookies = request.getCookies();
-		String boardHistory = ""; //�씠�젰�쓣 ���옣�븯�뒗 蹂��닔
+		String boardHistory = "";
 		
 		if(cookies != null) {
 			String name = null;
@@ -165,9 +221,8 @@ public class NoticeController {
 				name = cookie.getName();
 				value = cookie.getValue();
 				
-				//boardHistory�씤 荑좏궎 媛믪쓣 李얘린
 				if("boardHistory".equals(name)) {
-					boardHistory = value;//�쁽�옱 ���옣�맂 媛� ���엯
+					boardHistory = value;
 					if(value.contains("|" + no + "|")) {
 						 
 						break;
@@ -299,6 +354,55 @@ public class NoticeController {
 		return model;
 	}
 	
+	@GetMapping("/qnaModify")
+	public ModelAndView qnaModify(
+			@SessionAttribute("loginMember") Member loginMember,
+			ModelAndView model, @RequestParam("no") int no) {
+		
+		Qna qna = service.findQnaByNo(no);
+		
+		if(loginMember.getNo() == qna.getWriterNo()) {
+			model.addObject("qna", qna);
+			model.setViewName("notice/qnaModify");
+						
+		} else {
+			model.addObject("msg","비정상적 호출입니다.");
+			model.addObject("location", "/notice/qnalist");
+			model.setViewName("common/msg");
+		}
+		
+		return model;
+	}
+	
+	@PostMapping("/qnaModify")
+	public ModelAndView qnaModify(ModelAndView model,
+			@SessionAttribute("loginMember") Member loginMember,
+			@ModelAttribute Qna qna, @RequestParam("upfile") MultipartFile upfile) {
+		
+		int result;
+		
+		if(loginMember.getId().equals(qna.getWriterId())) {
+			result = service.qnaSave(qna);
+						
+			if(result > 0) {
+				model.addObject("msg", "게시글이 정상적으로 수정되었습니다.");
+				model.addObject("location", "/notice/qnaView?no=" + qna.getNo());
+				
+			} else {
+				model.addObject("msg", "게시글이 수정되지 않았습니다.");
+				model.addObject("location", "/notice/qnaView?no=" + qna.getNo());
+			}
+		} else {
+			
+			model.addObject("msg","비정상적 호출입니다.");
+			model.addObject("location", "/notice/qnalist");
+		}
+		
+		model.setViewName("common/msg");
+		
+		return model;
+	}
+	
 	@GetMapping("/delete")
 	public ModelAndView delete(ModelAndView model,
 			@SessionAttribute("loginMember") Member loginMember,
@@ -372,118 +476,6 @@ public class NoticeController {
 		
 		return model;
 	}
-	
-	
-	
-	
-	@GetMapping("/qnaWrite")
-	public String qnawrite() {
-		
-		return "notice/qnaWrite";
-	}
-	
-	@PostMapping("/qnaWrite")
-	public ModelAndView qnaWrite(ModelAndView model,
-//			HttpServletRequest request,
-			@ModelAttribute Qna qna,
-			@RequestParam("upfile") MultipartFile upfile,
-			@SessionAttribute(name="loginMember") Member loginMember) {
-	
-		int result = 0;
-		
-		System.out.println(qna.toString());
-		
-		if(upfile != null && !upfile.isEmpty()) {
-			String location = null;
-			String renamedFileName = null;
-//			String location = request.getSession().getServletContext().getRealPath("/resources/upload/notice/");
-			
-			try {
-				location = resourceLoader.getResource("resources/upload/notice").getFile().getPath();
-				renamedFileName = FileProcess.save(upfile, location);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		
-			
-			if(renamedFileName != null) {
-				qna.setOriginalFileName(upfile.getOriginalFilename());
-				qna.setRenamedFileName(renamedFileName);
-			}
-		}
-		
-		int catNo = service.getCategoryNo(qna.getCategory());
-		qna.setCategoryNo(catNo);
-		
-		qna.setWriterNo(loginMember.getNo());
-		result = service.qnaSave(qna);
-
-//		System.out.println("tostring:" + notice.toString());
-		
-		if(result > 0) {
-			model.addObject("msg", "게시글이 정상적으로 등록되었습니다.");
-			model.addObject("location", "/notice/qnalist");
-		} else {
-			model.addObject("msg", "게시글 등록이 실패했습니다.");
-			model.addObject("location", "/notice/qnaWrite");
-		}
-		
-		model.setViewName("common/msg");
-	
-		return model;
-	}
-	
-	@GetMapping("/qnaModify")
-	public ModelAndView qnaModify(
-			@SessionAttribute("loginMember") Member loginMember,
-			ModelAndView model, @RequestParam("no") int no) {
-		
-		Qna qna = service.findQnaByNo(no);
-		
-		if(loginMember.getNo() == qna.getWriterNo()) {
-			model.addObject("qna", qna);
-			model.setViewName("notice/qnaModify");
-						
-		} else {
-			model.addObject("msg","비정상적 호출입니다.");
-			model.addObject("location", "/notice/qnalist");
-			model.setViewName("common/msg");
-		}
-		
-		return model;
-	}
-	
-	@PostMapping("/qnaModify")
-	public ModelAndView qnaModify(ModelAndView model,
-			@SessionAttribute("loginMember") Member loginMember,
-			@ModelAttribute Qna qna, @RequestParam("upfile") MultipartFile upfile) {
-		
-		int result;
-		
-		if(loginMember.getId().equals(qna.getWriterId())) {
-			result = service.qnaSave(qna);
-						
-			if(result > 0) {
-				model.addObject("msg", "게시글이 정상적으로 수정되었습니다.");
-				model.addObject("location", "/notice/qnaView?no=" + qna.getNo());
-				
-			} else {
-				model.addObject("msg", "게시글이 수정되지 않았습니다.");
-				model.addObject("location", "/notice/qnaView?no=" + qna.getNo());
-			}
-		} else {
-			
-			model.addObject("msg","비정상적 호출입니다.");
-			model.addObject("location", "/notice/qnalist");
-		}
-		
-		model.setViewName("common/msg");
-		
-		return model;
-	}
-	
-
-	
 	
 	@GetMapping("/faq")
 	public String faq() {

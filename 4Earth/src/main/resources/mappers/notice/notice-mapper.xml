@@ -114,30 +114,18 @@
 	<select id="writeMove" parameterType="map" resultMap="noticeListResultMap">
 		<include refid="noticeListSql"/>
 		SELECT A.*
-
 		FROM (
-		
 		    SELECT
-		
 		        NOTICE_NO,
-		
 		        NOTICE_TIT,
-		
 		        NOTICE_STATUS,
-		
 		        LEAD(NOTICE_NO, 1) OVER (ORDER BY NOTICE_NO DESC) AS NEXT_NO,
-		
 		        LEAD(NOTICE_TIT, 1, '다음글이 없습니다') OVER (ORDER BY NOTICE_NO DESC) AS NEXT_TITLE,
-		
 		        LAG(NOTICE_NO, 1) OVER (ORDER BY NOTICE_NO DESC) AS PRE_NO,
-		
 		        LAG(NOTICE_TIT, 1, '이전글이 없습니다') OVER (ORDER BY NOTICE_NO DESC) AS PRE_TITLE
-		
-		    FROM NOTICE
-		
-		) A
+		    FROM NOTICE) A
 
-WHERE A.NOTICE_STATUS = 1;
+		WHERE A.NOTICE_STATUS = 1;
 	</select>
 	
 	<update id="modifyNotice" parameterType="Notice">
@@ -166,7 +154,7 @@ WHERE A.NOTICE_STATUS = 1;
 	</update>
 	
 	
-	
+	<!-- QNA --> 
 	<sql id="noticeQnaListSql">
 		SELECT  Q.QNA_NO, 
 		        M.ID, 
@@ -295,30 +283,17 @@ WHERE A.NOTICE_STATUS = 1;
 	<select id="qnaWriteMove" parameterType="map" resultMap="noticeQnaListResultMap">
 		<include refid="noticeQnaListSql"/>
 		SELECT A.*
-
 		FROM (
-		
 		    SELECT
-		
-		        NOTICE_NO,
-		
-		        NOTICE_TIT,
-		
-		        NOTICE_STATUS,
-		
-		        LEAD(NOTICE_NO, 1) OVER (ORDER BY NOTICE_NO DESC) AS NEXT_NO,
-		
-		        LEAD(NOTICE_TIT, 1, '다음글이 없습니다') OVER (ORDER BY NOTICE_NO DESC) AS NEXT_TITLE,
-		
-		        LAG(NOTICE_NO, 1) OVER (ORDER BY NOTICE_NO DESC) AS PRE_NO,
-		
-		        LAG(NOTICE_TIT, 1, '이전글이 없습니다') OVER (ORDER BY NOTICE_NO DESC) AS PRE_TITLE
-		
-		    FROM NOTICE
-		
-		) A
-
-WHERE A.NOTICE_STATUS = 1;
+		        QNA_NO,
+		        QNA_TIT,
+		        QNA_STATUS,
+		        LEAD(QNA_NO, 1) OVER (ORDER BY QNA_NO DESC) AS NEXT_NO,
+		        LEAD(QNA_TIT, 1, '다음글이 없습니다') OVER (ORDER BY QNA_NO DESC) AS NEXT_TITLE,
+		        LAG(QNA_NO, 1) OVER (ORDER BY QNA_NO DESC) AS PRE_NO,
+		        LAG(QNA_TIT, 1, '이전글이 없습니다') OVER (ORDER BY QNA_NO DESC) AS PRE_TITLE
+		    FROM NOTICE) A
+		WHERE A.NOTICE_STATUS = 1;
 	</select>
 	
 	<update id="qnaModify" parameterType="Qna">
@@ -345,7 +320,4 @@ WHERE A.NOTICE_STATUS = 1;
 	<update id="qnaModifyStatus" parameterType="map">
 		UPDATE QNA SET QNA_STATUS = #{status} WHERE QNA_NO = #{no}
 	</update>
-	
-	
-
 </mapper>

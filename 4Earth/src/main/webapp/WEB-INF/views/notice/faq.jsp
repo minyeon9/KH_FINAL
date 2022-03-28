@@ -9,11 +9,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <title>main</title>
-    <script src="../resources/js/notice.js"></script>
-    <link rel="shortcut icon" href="${ path }/resources/favicon.ico">
+<title>main</title>
+<script src="../resources/js/notice.js"></script>
+<link rel="shortcut icon" href="${ path }/resources/favicon.ico">
 </head>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <!-- Channel Plugin Scripts -->
 <script>
@@ -65,13 +65,13 @@
 
 <div class="container">
 	<div class="contents">
-	<%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
+		<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
 		<section class="content-wrap">
 			<div class="page-tit">
 				<h3>FAQ</h3>
 				<div class="bread-crumb">
-					<a href="${ path }"><i class="material-icons md-16">home</i></a>
-					<a href="${ path }/notice/list">About Us</a> <span>FAQ</span>
+					<a href="${ path }"><i class="material-icons md-16">home</i></a> <a
+						href="${ path }/notice/list">About Us</a> <span>FAQ</span>
 				</div>
 			</div>
 			<div class="tab">
@@ -325,32 +325,31 @@
 					</div>
 				</div>
 			</div>
-
-	<h1>아직 답을 찾지 못하셨나요?</h1>
-	<br />
-	<div class="category">
-		<ul>
-			<li><strong>1 : 1 문 의</strong>
-				<div class="check-group">
-					<!-- <div class="check-box">
+			<h1>아직 답을 찾지 못하셨나요?</h1>
+			<br />
+			<div class="category">
+				<ul>
+					<li><strong>1 : 1 문 의</strong>
+						<div class="check-group">
+							<!-- <div class="check-box">
 						<a href="#" class="btn">채팅문의</a>
 					</div> -->
-					<div class="check-box">
-						<a href="${ path }/notice/qnalist" class="btn">문의작성</a>
-					</div>
-					<div class="check-box">
-						<a href="${ path }/map" class="btn">전화문의</a>
-					</div>
-				</div></li>
-		</ul>
+							<div class="check-box">
+								<a href="${ path }/notice/qnalist" class="btn">문의작성</a>
+							</div>
+							<div class="check-box">
+								<a href="${ path }/map" class="btn">전화문의</a>
+							</div>
+						</div></li>
+				</ul>
+			</div>
+		</section>
 	</div>
-	</section>
-</div>
 </div>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
-    <script>
+<script>
     $(() => {
         let sideBarMenu = $('.side-bar ul li');
         let menuPath = ['list', 'faq','qnalist'];
@@ -370,4 +369,6 @@
             }
         })
     });
-    </script>
+    
+    
+</script>

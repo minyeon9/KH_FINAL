@@ -63,6 +63,20 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		return result;
 	}
+	
+	@Override
+	@Transactional
+	public int qnaSave(Qna qna) {
+		int result = 0;
+				
+		if(qna.getNo() != 0) {
+			result = mapper.qnaModify(qna);
+		} else {
+			result = mapper.qnaInsert(qna);
+		}
+		
+		return result;
+	}
 
 	@Override
 	public Notice findNoticeByNo(int no) {
@@ -82,20 +96,11 @@ public class NoticeServiceImpl implements NoticeService {
 	public int delete(int no) {
 		return mapper.modifyStatus(no, "N");
 	}
-	
-	
+
 	@Override
-	@Transactional
-	public int qnaSave(Qna qna) {
-		int result = 0;
-				
-		if(qna.getNo() != 0) {
-			result = mapper.qnaModify(qna);
-		} else {
-			result = mapper.qnaInsert(qna);
-		}
+	public int qnaDelete(int no) {
 		
-		return result;
+		return mapper.qnaModifyStatus(no, "N");
 	}
 
 	@Override
@@ -104,19 +109,4 @@ public class NoticeServiceImpl implements NoticeService {
 
 		return mapper.getCategoryNo(category);
 	}
-
-	@Override
-	public int qnaDelete(int no) {
-		
-		return mapper.qnaModifyStatus(no, "N");
-	}
-
-	
-
-	
-
-	
-
-
-
 }

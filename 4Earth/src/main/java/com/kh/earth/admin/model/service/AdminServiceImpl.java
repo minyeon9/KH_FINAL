@@ -561,10 +561,5 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.getOrderCount(name);
 	}
 
-	@Override
-	public int getOrderCount(Map<String, String> name) {
-		
-		return mapper.getOrderCount(name);
-	}
 
 }

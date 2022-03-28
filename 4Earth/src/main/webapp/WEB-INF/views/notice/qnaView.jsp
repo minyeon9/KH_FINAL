@@ -1,88 +1,87 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<c:set var="path" value="${ pageContext.request.contextPath }"/> 
+<c:set var="path" value="${ pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <style>
 .ck-editor__editable {
-    min-height: 400px;
+	min-height: 400px;
 }
 </style>
-    <script src="../resources/ckeditor5/build/ckeditor.js"></script>
-    <title>공지사항</title>
-    <link rel="shortcut icon" href="${ path }/resources/favicon.ico">
+<script src="../resources/ckeditor5/build/ckeditor.js"></script>
+<title>공지사항</title>
+<link rel="shortcut icon" href="${ path }/resources/favicon.ico">
 </head>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-      <div class="container">
-        <div class="contents">
-        <%@ include file="/WEB-INF/views/common/sideBar.jsp" %> 
-          <section class="content-wrap">
-            <div class="page-tit">
-              <h3>${ qna.title }</h3>
-              <div class="bread-crumb">
-                <a href="${ path }"><i class="material-icons md-16">home</i></a>
-                <a href="${ path }/notice/list">About Us</a>
-                <span>1:1 문의</span>
-              </div>
-            </div>
-            <br />
-            	<table class="store-editor">
-                <tr>
-									<td class="img-thumb">
-										<c:if test="${ !empty qna.originalFileName }">
-											<!-- <img src="../resources/images/common/file.gif" width="20" height="20"/> -->
-											<img src="${ path }/resources/upload/notice/${ qna.renamedFileName }" width="800" height="400" alt="">
-										
-											<%-- <a href="javascript:fileDownload('${ notice.originalFileName }', '${notice.renamedFileName}')">
+<div class="container">
+	<div class="contents">
+		<%@ include file="/WEB-INF/views/common/sideBar.jsp"%>
+		<section class="content-wrap">
+			<div class="page-tit">
+				<h3>${ qna.title }</h3>
+				<div class="bread-crumb">
+					<a href="${ path }"><i class="material-icons md-16">home</i></a> <a
+						href="${ path }/notice/list">About Us</a> <span>1:1 문의</span>
+				</div>
+			</div>
+			<br />
+			<table class="store-editor">
+				<tr>
+					<td class="img-thumb"><c:if
+							test="${ !empty qna.originalFileName }">
+							<!-- <img src="../resources/images/common/file.gif" width="20" height="20"/> -->
+							<img
+								src="${ path }/resources/upload/notice/${ qna.renamedFileName }"
+								width="800" height="400" alt="">
+
+							<%-- <a href="javascript:fileDownload('${ notice.originalFileName }', '${notice.renamedFileName}')">
 												<c:out value="${ notice.originalFileName }" /> 
 											</a>--%>
-										</c:if>
-									</td>
-								</tr>
-                <tr>
-                    <td>
-                        ${ qna.content }
-                    </td>
-                </tr>
-            	</table>
-            	
-            <div class="view_table_bottom">
-	        	<c:choose> 
-								<c:when test="${qna.no > 0}">
-									<a href="${ path }/notice/view?no=${ qna.no - 1 }" class="btn">
-			                  	<i class="fa-solid fa-angle-up"></i> 이전글 </a
-			                	>
-								</c:when>
-								<c:otherwise>
-									<c:redirect url="/notice/qnaView?" context="/earth">
-						        <c:param name="no" value="1"/>
-									</c:redirect>
-								</c:otherwise>
-							</c:choose>
-              <a class="btn" href="${ path }/notice/qnalist" role="button"> 목록 </a>
-              
-              <c:if test="${ ! empty loginMember && loginMember.id == qna.writerId }">
-  							<a class="btn" href="${ path }/notice/qnaModify?no=${ qna.no }" role="button">
-                수정
-              	</a>
-  							<a class="btn" id="btnDelete" href="${ path }/notice/qnaDelete?no=${ qna.no }" role="button">
-                삭제
-              	</a>
-							</c:if>
-              
-              <a href="${ path }/notice/qnaView?no=${ qna.no + 1 }" class="btn">
-		                  <i class="fa-solid fa-angle-down"></i>다음글 </a
-		                >
-            </div>
-          </section>
-        </div>
-      </div>
+						</c:if></td>
+				</tr>
+				<tr>
+					<td>${ qna.content }</td>
+				</tr>
+			</table>
+
+			<div class="view_table_bottom">
+				<c:choose>
+					<c:when test="${qna.no > 0}">
+						<a href="${ path }/notice/view?no=${ qna.no - 1 }" class="btn">
+							<i class="fa-solid fa-angle-up"></i> 이전글
+						</a>
+					</c:when>
+					<c:otherwise>
+						<c:redirect url="/notice/qnaView?" context="/earth">
+							<c:param name="no" value="1" />
+						</c:redirect>
+					</c:otherwise>
+				</c:choose>
+				<a class="btn" href="${ path }/notice/qnalist" role="button"> 목록
+				</a>
+
+				<c:if
+					test="${ ! empty loginMember && loginMember.id == qna.writerId }">
+					<a class="btn" href="${ path }/notice/qnaModify?no=${ qna.no }"
+						role="button"> 수정 </a>
+					<a class="btn" id="btnDelete"
+						href="${ path }/notice/qnaDelete?no=${ qna.no }" role="button">
+						삭제 </a>
+				</c:if>
+
+				<a href="${ path }/notice/qnaView?no=${ qna.no + 1 }" class="btn">
+					<i class="fa-solid fa-angle-down"></i>다음글
+				</a>
+			</div>
+		</section>
+	</div>
+</div>
 
 
 <script>
@@ -122,4 +121,4 @@ function fileDownload(oname, rname) {
 	location.assign("${ path }/notice/fileDown?oname=" + encodeURIComponent(oname) + "&rname=" + encodeURIComponent(rname));
 }
 </script>
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
