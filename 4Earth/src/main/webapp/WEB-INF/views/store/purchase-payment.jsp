@@ -271,11 +271,11 @@
                                       <td>
                                           <input type="radio" class="btn-check" name="options-outlined" value="일반결제" id="raio1">
                                           <label class="btn btn-radio" for="raio1">일반 결제</label>
-                                          <input type="radio" class="btn-check" name="options-outlined" value="radio2" id="radio2">
+                                          <input type="radio" class="btn-check" name="options-outlined" value="네이버페이" id="radio2">
                                           <label class="btn btn-radio" for="radio2">네이버 페이</label>
-                                          <input type="radio" class="btn-check" name="options-outlined" value="radio3" id="radio3">
+                                          <input type="radio" class="btn-check" name="options-outlined" value="카카오페이" id="radio3">
                                           <label class="btn btn-radio" for="radio3">카카오 페이</label>
-                                          <input type="radio" class="btn-check" name="options-outlined" value="radio4" id="radio4">
+                                          <input type="radio" class="btn-check" name="options-outlined" value="휴대폰결제" id="radio4">
                                           <label class="btn btn-radio" for="radio4">휴대폰 결제</label>
                                       </td>
                                   </tr>

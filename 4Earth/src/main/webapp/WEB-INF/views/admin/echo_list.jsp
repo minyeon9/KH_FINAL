@@ -292,7 +292,7 @@
 	$(document).ready(() => {
 		$("#delete").on("click", (e) => {
 			if(confirm("상품 판매를 중지 하시겠습니까?")) {
-				location.replace("${ path }/admin/echo_pro_delete?no=" + e.target.value);
+				location.replace("${ path }/admin/echo_delete?no=" + e.target.value);
 			}
 		})
 	});

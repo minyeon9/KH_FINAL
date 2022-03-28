@@ -74,7 +74,7 @@ public class AdminServiceImpl implements AdminService {
 		int limit = pageInfo.getListLimit();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return mapper.findMember(rowBounds, name);
+		return mapper.getMemberList(rowBounds, name);
 	}
 	
 	@Override
@@ -561,5 +561,13 @@ public class AdminServiceImpl implements AdminService {
 		return mapper.getOrderCount(name);
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public int deleteProduct(int no) {
+		
+		return mapper.deleteProduct(no);
+	}
+>>>>>>> 55942bd64bf01dbf60f9dfa0d267fe734ba077cd
 
 }

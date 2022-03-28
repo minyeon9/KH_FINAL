@@ -44,7 +44,7 @@
                                 		<c:forEach var="product" items="${ list }">
                                 			<li>
 		                                        <div class="img-thumb">
-		                                            <img src="${ path }/resources/images/@temp/@thumbnail01.jpg" alt="">
+		                                            <img src="${ path }/resources/upload/store/${ product.proModifyImg }" alt="">
 		                                        </div>		                                        
 		                                        <strong><a href="${ path }/product_detail?no=${ product.proNo }">${ product.proName }</a></strong>
 		                                        <div class="price">

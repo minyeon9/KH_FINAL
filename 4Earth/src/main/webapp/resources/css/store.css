@@ -57,10 +57,10 @@
     padding-right: 80px;
 }
 .accordian.inquiry ul li a p {
-    width: 90px;
+    width: 115px;
 }
 .accordian.inquiry ul li a p:nth-of-type(2) {
-    width: 500px;
+    width: 370px;
 }
 
 .accordian .icon-question {
@@ -117,6 +117,7 @@
     padding: 20px 0;
     border-top: 2px solid #67b16b;
     border-bottom: 1px solid #ccc;
+    overflow: hidden;
 }
 .board-head.prd {
 	height:35px;
@@ -825,7 +826,7 @@ input[type=number]
 	margin-bottom: 15px;
 }
 .bid-board td:first-child{
-    width: 75%;
+    width: 65%;
     text-align: left;
 }
 .wish-added:disabled {

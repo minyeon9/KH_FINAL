@@ -256,6 +256,47 @@
 			   PRO_MFG, 
 			   PRO_RATING
 	</sql>
+	
+	<select id="getMemberCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM MEMBER
+	    <where>
+			<if test="name != null">
+		   		NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="id != null">
+		   		ID LIKE '%' || #{id} || '%'
+			</if>
+			<if test="no != null">
+		   		NO LIKE '%' || #{no} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getMemberList" parameterType="map" resultMap="memberResultMap">
+		<include refid="selectMemberSql" />
+		FROM MEMBER
+		<where>
+			<if test="name != null">
+		   		NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="id != null">
+		   		ID LIKE '%' || #{id} || '%'
+			</if>
+			<if test="no != null">
+		   		NO LIKE '%' || #{no} || '%'
+			</if>
+		</where>
+		ORDER BY DECODE(STATUS, 'Y', 1), NO DESC
+	</select>
+	
+	<delete id="deleteMember" parameterType="_int">
+  		UPDATE MEMBER
+  		SET
+  			STATUS = 'N'
+  		WHERE 
+  			NO = #{no}
+  	</delete>
 
 	<select id="getReportCount" resultType="_int" parameterType="map" >
 	SELECT COUNT(*)
@@ -303,6 +344,19 @@
 		</choose>
 		ORDER BY REPORT_NO DESC
 	</select>
+	
+	<select id="getReportDetail" parameterType="_int" resultMap="ReportListResultMap">
+		SELECT REPORT_NO, 
+			    REPORT_M_NO, 
+			    REPORTED_M_NO, 
+			    REPORT_DATE,
+			    REPORT_TITLE, 
+			    REPORT_CONTENT, 
+			    REPORT_STATUS, 
+			    REPORT_CATEGORY
+			FROM REPORT
+			WHERE REPORT_NO = #{ no }
+	</select>
 
 	<delete id="deleteReport" parameterType="_int">
   		UPDATE REPORT
@@ -311,79 +365,35 @@
   		WHERE 
   			REPORT_NO = #{no}
   	</delete>
-  	
-	<delete id="deleteToday" parameterType="_int">
-  		UPDATE CHAL_TODAY
-  		SET
-  			CHAL_STATUS = 'N'
-  		WHERE 
-  			CHAL_NO = #{no}
-  	</delete>
-  	
-	<delete id="deleteMonth" parameterType="_int">
-  		UPDATE CHAL_MONTH
-  		SET
-  			CHAL_STATUS = 'N'
-  		WHERE 
-  			CHAL_NO = #{no}
-  	</delete>
-  	
-	<delete id="deleteMonthMem" parameterType="_int">
-  		DELETE CHAL_MONTH_MEM
-  		WHERE NO = #{no}
-  	</delete>
-  	
-	<delete id="deleteTodayMem" parameterType="_int">
-  		DELETE CHAL_TODAY_MEM
-  		WHERE NO = #{no}
-  	</delete>
-  	
-	<delete id="banMember" parameterType="_int">
-  		UPDATE MEMBER
-  		SET
-  			STATUS = 'N'
-  		WHERE 
-  			NO = (SELECT REPORTED_M_NO
-                FROM REPORT
-                WHERE REPORT_NO = #{ no })
-  	</delete>
-  	
-  	<delete id="deleteMember" parameterType="_int">
-  		UPDATE MEMBER
-  		SET
-  			STATUS = 'N'
-  		WHERE 
-  			NO = #{no}
-  	</delete>
-  	
-  	<delete id="deleteBidding" parameterType="_int">
-  		DELETE APPLICATION
-  		WHERE 
-  			APP_NO = #{no}
-  	</delete>
-  	
-  	<update id="unbanMember" parameterType="_int">
-	UPDATE MEMBER
-	 	SET 
-	 		STATUS = 'Y'
-	 	WHERE 
-	 		NO = #{no}
-	 </update>
-
-	<select id="getMemberCount" parameterType="map" resultType="_int">
-		SELECT COUNT(*)
-	    FROM MEMBER
-	    <where>
-			<if test="name != null">
-		   		NAME LIKE '%' || #{name} || '%'
-			</if>
-			<if test="id != null">
-		   		ID LIKE '%' || #{id} || '%'
-			</if>
-			<if test="no != null">
-		   		NO LIKE '%' || #{no} || '%'
-			</if>
-		</where>
+	
+	<select id="getReportedCount" resultType="_int">
+		SELECT COUNT(*) FROM(
+				SELECT NO, 
+		       MEMBER_TYPE, 
+		       NAME,
+		       (SELECT COUNT(NO) FROM REPORT WHERE (REPORTED_M_NO)=NO) AS REPORTED
+			FROM MEMBER
+			WHERE NO IN(SELECT REPORTED_M_NO
+				        FROM REPORT)
+			AND STATUS = 'Y')
+	</select>
+	
+	<select id="getReportedList" parameterType="map" resultMap="ReportedListResultMap">
+		SELECT NO, 
+		       MEMBER_TYPE, 
+		       NAME, 
+		       STATUS,
+		       ENROLL_DATE,
+		       (SELECT COUNT(NO) FROM REPORT WHERE (REPORTED_M_NO)=NO) AS REPORTED
+			FROM MEMBER
+			WHERE NO IN(SELECT REPORTED_M_NO
+				        FROM REPORT)
+		<choose>
+		   	<when test="name != null">
+		   		AND NAME LIKE '%' || #{name} || '%'
+		   	</when>
+		</choose>
+			ORDER BY REPORTED DESC
 	</select>
 	
 	<select id="getNoticeCount" parameterType="map" resultType="_int">
@@ -400,42 +410,6 @@
 		   		WRITER_NO LIKE '%' || #{writerNo} || '%'
 			</if>
 		</where>
-	</select>
-	
-	<select id="getQnaCount" parameterType="map" resultType="_int">
-		SELECT COUNT(*)
-	    FROM QNA
-	    <where>
-	    	QNA_STATUS = 'Y'
-			<if test="no != null">
-		   		AND Q.QNA_NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="name != null">
-		   		AND Q.QNA_TIT LIKE '%' || #{name} || '%'
-			</if>
-			<if test="category != null">
-		   		AND QC.C_NAME LIKE '%' || #{category} || '%'
-			</if>
-		</where>
-		ORDER BY DATE_WRITEN DESC
-	</select>
-	
-	<select id="getQnaDoneCount" parameterType="map" resultType="_int">
-		SELECT COUNT(*)
-	    FROM QNA
-	    <where>
-	    	QNA_STATUS = 'N'
-			<if test="no != null">
-		   		AND Q.QNA_NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="name != null">
-		   		AND Q.QNA_TIT LIKE '%' || #{name} || '%'
-			</if>
-			<if test="category != null">
-		   		AND QC.C_NAME LIKE '%' || #{category} || '%'
-			</if>
-		</where>
-		ORDER BY DATE_WRITEN DESC
 	</select>
 	
 	<select id="getNoticeList" parameterType="map" resultMap="noticeListResultMap">
@@ -483,6 +457,49 @@
 	 	WHERE
 	 		NOTICE_NO = #{no}
 	 </update>
+	 
+	 <insert id="writeNotice" parameterType="Notice"
+	 	useGeneratedKeys="true" keyProperty="no" keyColumn="NOTICE_NO">
+	 	INSERT INTO NOTICE(
+	 		NOTICE_NO,
+	 		WRITER_NO,
+	 		NOTICE_TIT,
+	 		NOTICE_CONTENT,
+	 		ORIGINAL_FILENAME,
+	 		RENAMED_FILENAME,
+	 		DATE_WRITEN,
+	 		DATE_WRITEN_MODIFY,
+	 		NOTICE_STATUS
+	 	) VALUES(
+	 		SEQ_NOTICE_NO.NEXTVAL,
+	 		#{writerNo},
+	 		#{title},
+	 		#{content},
+	 		#{originalFileName},
+	 		#{renamedFileName},
+	 		DEFAULT,
+	 		DEFAULT,
+	 		DEFAULT
+	 	)
+	 </insert>
+	 
+	 <select id="getQnaCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM QNA
+	    <where>
+	    	QNA_STATUS = 'Y'
+			<if test="no != null">
+		   		AND Q.QNA_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND Q.QNA_TIT LIKE '%' || #{name} || '%'
+			</if>
+			<if test="category != null">
+		   		AND QC.C_NAME LIKE '%' || #{category} || '%'
+			</if>
+		</where>
+		ORDER BY DATE_WRITEN DESC
+	</select>
 	
 	<select id="getQnaList" parameterType="map" resultMap="qnaListResultMap">
 		SELECT      Q.QNA_NO, 
@@ -501,39 +518,6 @@
         JOIN QNA_CATEGORY QC ON(QNA_CAT = QC.C_NO)
         <where>
 		Q.QNA_STATUS = 'Y'
-			<if test="no != null">
-		   		AND Q.QNA_NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="name != null">
-		   		AND Q.QNA_TIT LIKE '%' || #{name} || '%'
-			</if>
-			<if test="category != null">
-		   		AND QC.C_NAME LIKE '%' || #{category} || '%'
-			</if>
-		</where>
-		ORDER BY Q.QNA_NO DESC
-	</select>
-	
-	<select id="getQnaDoneList" parameterType="map" resultMap="qnaAnswerListResultMap">
-		SELECT      Q.QNA_NO, 
-		            Q.WRITER_NO, 
-		            Q.QNA_TIT, 
-		            Q.QNA_CAT, 
-		            Q.QNA_CONTENT, 
-		            Q.QNA_COUNT, 
-		            Q.ORIGINAL_FILENAME, 
-		            Q.RENAMED_FILENAME, 
-		            Q.DATE_WRITEN, 
-		            Q.DATE_WRITEN_MODIFY, 
-		            Q.QNA_STATUS,
-		            QC.C_NAME,
-                    QA.ANSWER_CONTENT,
-                    QA.ANSWER_DATE
-		FROM QNA Q
-        JOIN QNA_CATEGORY QC ON(Q.QNA_CAT = QC.C_NO)
-        JOIN QNA_ANSWER QA ON(QA.QNA_NO = Q.QNA_NO)
-		<where>
-		Q.QNA_STATUS = 'N'
 			<if test="no != null">
 		   		AND Q.QNA_NO LIKE '%' || #{no} || '%'
 			</if>
@@ -581,22 +565,95 @@
 	 	WHERE 
 	 		ANSWER_NO = #{answerNo}
 	 </update>
-     
-	<select id="findMember" parameterType="map" resultMap="memberResultMap">
-		<include refid="selectMemberSql" />
-		FROM MEMBER
-		<where>
-			<if test="name != null">
-		   		NAME LIKE '%' || #{name} || '%'
-			</if>
-			<if test="id != null">
-		   		ID LIKE '%' || #{id} || '%'
-			</if>
+	
+	<select id="findQnaByNo" parameterType="Qna" resultMap="qnaListResultMap">
+		SELECT 	QNA_NO,
+				WRITER_NO,
+				QNA_TIT,
+				QNA_CAT,
+				QNA_CONTENT,
+				QNA_COUNT,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				DATE_WRITEN,
+				DATE_WRITEN_MODIFY,
+				QNA_STATUS
+		FROM QNA
+		WHERE QNA_NO = #{ no }
+	</select>
+	
+	<select id="getQnaDoneCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+	    FROM QNA
+	    <where>
+	    	QNA_STATUS = 'N'
 			<if test="no != null">
-		   		NO LIKE '%' || #{no} || '%'
+		   		AND Q.QNA_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND Q.QNA_TIT LIKE '%' || #{name} || '%'
+			</if>
+			<if test="category != null">
+		   		AND QC.C_NAME LIKE '%' || #{category} || '%'
 			</if>
 		</where>
-		ORDER BY DECODE(STATUS, 'Y', 1), NO DESC
+		ORDER BY DATE_WRITEN DESC
+	</select>
+	
+	<select id="getQnaDoneList" parameterType="map" resultMap="qnaAnswerListResultMap">
+		SELECT      Q.QNA_NO, 
+		            Q.WRITER_NO, 
+		            Q.QNA_TIT, 
+		            Q.QNA_CAT, 
+		            Q.QNA_CONTENT, 
+		            Q.QNA_COUNT, 
+		            Q.ORIGINAL_FILENAME, 
+		            Q.RENAMED_FILENAME, 
+		            Q.DATE_WRITEN, 
+		            Q.DATE_WRITEN_MODIFY, 
+		            Q.QNA_STATUS,
+		            QC.C_NAME,
+                    QA.ANSWER_CONTENT,
+                    QA.ANSWER_DATE
+		FROM QNA Q
+        JOIN QNA_CATEGORY QC ON(Q.QNA_CAT = QC.C_NO)
+        JOIN QNA_ANSWER QA ON(QA.QNA_NO = Q.QNA_NO)
+		<where>
+		Q.QNA_STATUS = 'N'
+			<if test="no != null">
+		   		AND Q.QNA_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND Q.QNA_TIT LIKE '%' || #{name} || '%'
+			</if>
+			<if test="category != null">
+		   		AND QC.C_NAME LIKE '%' || #{category} || '%'
+			</if>
+		</where>
+		ORDER BY Q.QNA_NO DESC
+	</select>
+	
+	<update id="qnaDone" parameterType="_int">
+	UPDATE QNA
+	 	SET 
+	 		QNA_STATUS = 'N'
+	 	WHERE 
+	 		QNA_NO = #{no}
+	 </update>
+	
+	<select id="getTodayCount" resultType="_int" parameterType="map">
+		SELECT COUNT(*) FROM CHAL_TODAY
+		<where>
+			<if test="no != null">
+		   		CHAL_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		CHAL_TITLE LIKE '%' || #{name} || '%'
+			</if>
+			<if test="point != null">
+		   		CHAL_POINT LIKE '%' || #{point} || '%'
+			</if>
+		</where>
 	</select>
 	
 	<select id="getTodayList" parameterType="map" resultMap="TodayListResultMap">
@@ -624,269 +681,47 @@
 		</where>
 		ORDER BY CHAL_NO DESC
 	</select>
+
+	<insert id="insertToday" parameterType="Today"
+	 	useGeneratedKeys="true" keyProperty="chalNo" keyColumn="CHAL_NO">
+	 	INSERT INTO CHAL_TODAY(
+	 		CHAL_NO,
+	 		CATEGORY,
+	 		CHAL_TITLE,
+	 		CHAL_CONTENT,
+	 		ORIGINAL_FILENAME,
+	 		RENAMED_FILENAME,
+	 		CHAL_POINT,
+	 		START_DATE,
+	 		END_DATE,
+	 		CHAL_STATUS
+	 	) VALUES(
+	 		SEQ_CHAL_TODAY.NEXTVAL,
+	 		1,
+	 		#{chalTitle},
+	 		#{chalContent},
+	 		#{originalFilename},
+	 		#{renamedFilename},
+	 		#{chalPoint},
+	 		#{startDate},
+	 		#{endDate},
+	 		DEFAULT
+	 	)
+	 </insert>
 	
-	<select id="getMonthList" parameterType="map" resultMap="MonthListResultMap">
-		SELECT  CHAL_NO,
+	<select id="findTodayByNo" parameterType="Today" resultMap="TodayListResultMap">
+		SELECT 	CHAL_NO,
 				CATEGORY,
 				CHAL_TITLE,
 				CHAL_CONTENT,
 				ORIGINAL_FILENAME,
 				RENAMED_FILENAME,
 				CHAL_POINT,
-				CHAL_COUNT,
 				START_DATE,
-				END_DATE,
-				CHAL_STATUS
-		FROM CHAL_MONTH
-		<where>
-			<if test="no != null">
-		   		CHAL_NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="name != null">
-		   		CHAL_TITLE LIKE '%' || #{name} || '%'
-			</if>
-			<if test="point != null">
-		   		CHAL_POINT LIKE '%' || #{point} || '%'
-			</if>
-		</where>
-		ORDER BY CHAL_NO DESC
+				END_DATE
+		FROM CHAL_TODAY
+		WHERE CHAL_NO = #{ chalNo }
 	</select>
-	
-	<select id="getMonthMemList" parameterType="map" resultMap="MonthMemListResultMap">
-		SELECT  NO,
-				MEM_NO,
-				CHAL_NO,
-				CHAL_STATUS,
-				ORIGINAL_FILENAME,
-				RENAMED_FILENAME,
-				CHAL_POINT,
-				CHAL_POINT_STATUS,
-				CHAL_DATE
-		FROM CHAL_MONTH_MEM
-		<where>
-			CHAL_POINT_STATUS = 'N'
-			<if test="no != null">
-		   		AND NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="memberNo != null">
-		   		AND MEM_NO LIKE '%' || #{memberNo} || '%'
-			</if>
-			<if test="chalNo != null">
-		   		AND CHAL_NO LIKE '%' || #{chalNo} || '%'
-			</if>
-		</where>
-		ORDER BY NO DESC
-	</select>
-	
-	<select id="getTodayMemList" parameterType="map" resultMap="TodayMemListResultMap">
-		SELECT  NO,
-				MEM_NO,
-				CHAL_NO,
-				CHAL_STATUS,
-				ORIGINAL_FILENAME,
-				RENAMED_FILENAME,
-				CHAL_POINT,
-				CHAL_POINT_STATUS,
-				CHAL_DATE
-		FROM CHAL_TODAY_MEM
-		<where>
-			CHAL_POINT_STATUS = 'N'
-			<if test="no != null">
-		   		AND NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="memberNo != null">
-		   		AND MEM_NO LIKE '%' || #{memberNo} || '%'
-			</if>
-			<if test="chalNo != null">
-		   		AND CHAL_NO LIKE '%' || #{chalNo} || '%'
-			</if>
-		</where>
-		ORDER BY NO DESC
-	</select>
-	
-	<select id="getProductCount" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT
-		<where>
-			<if test="proNo != null">
-		   		PRO_NO LIKE '%' || #{proNo} || '%'
-			</if>
-			<if test="proName != null">
-		   		PRO_NAME LIKE '%' || #{proName} || '%'
-			</if>
-			<if test="proStock != null">
-		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
-			</if>
-		</where>
-	</select>
-	
-	<select id="getProInqCount" resultType="_int">
-		SELECT COUNT(*) FROM PRODUCT_INQUIRY
-		<where>
-			<if test="no != null">
-		   		INQ_NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="proNo != null">
-		   		PRO_NO LIKE '%' || #{proNo} || '%'
-			</if>
-		</where>
-	</select>
-	
-	<select id="getTodayCount" resultType="_int" parameterType="map">
-		SELECT COUNT(*) FROM CHAL_TODAY
-		<where>
-			<if test="no != null">
-		   		CHAL_NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="name != null">
-		   		CHAL_TITLE LIKE '%' || #{name} || '%'
-			</if>
-			<if test="point != null">
-		   		CHAL_POINT LIKE '%' || #{point} || '%'
-			</if>
-		</where>
-	</select>
-	
-	<select id="getMonthCount" resultType="_int">
-		SELECT COUNT(*) FROM CHAL_MONTH
-		<where>
-			<if test="no != null">
-		   		CHAL_NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="name != null">
-		   		CHAL_TITLE LIKE '%' || #{name} || '%'
-			</if>
-			<if test="point != null">
-		   		CHAL_POINT LIKE '%' || #{point} || '%'
-			</if>
-		</where>
-	</select>
-	
-	<select id="getMonthMemCount" resultType="_int">
-		SELECT COUNT(*) FROM CHAL_MONTH_MEM
-		<where>
-			CHAL_POINT_STATUS = 'N'
-			<if test="no != null">
-		   		AND NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="memberNo != null">
-		   		AND MEM_NO LIKE '%' || #{memberNo} || '%'
-			</if>
-			<if test="chalNo != null">
-		   		AND CHAL_NO LIKE '%' || #{chalNo} || '%'
-			</if>
-		</where>
-	</select>
-	
-	<select id="getTodayMemCount" resultType="_int">
-		SELECT COUNT(*) FROM CHAL_MONTH_MEM
-		<where>
-			CHAL_POINT_STATUS = 'N'
-			<if test="no != null">
-		   		AND NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="memberNo != null">
-		   		AND MEM_NO LIKE '%' || #{memberNo} || '%'
-			</if>
-			<if test="chalNo != null">
-		   		AND CHAL_NO LIKE '%' || #{chalNo} || '%'
-			</if>
-		</where>
-	</select>
-	
-	<select id="getReportedCount" resultType="_int">
-		SELECT COUNT(*) FROM(
-				SELECT NO, 
-		       MEMBER_TYPE, 
-		       NAME,
-		       (SELECT COUNT(NO) FROM REPORT WHERE (REPORTED_M_NO)=NO) AS REPORTED
-			FROM MEMBER
-			WHERE NO IN(SELECT REPORTED_M_NO
-				        FROM REPORT)
-			AND STATUS = 'Y')
-	</select>
-	
-	<select id="getProductList" resultMap="ProductListResultMap">
-		<include refid="selectProductSql"/>
-		FROM PRODUCT
-		<where>
-			<if test="proNo != null">
-		   		PRO_NO LIKE '%' || #{proNo} || '%'
-			</if>
-			<if test="proName != null">
-		   		PRO_NAME LIKE '%' || #{proName} || '%'
-			</if>
-			<if test="proStock != null">
-		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
-			</if>
-		</where>
-		<if test="proStock == null">
-			ORDER BY PRO_NO DESC
-		</if>
-		<if test="proStock != null">
-			ORDER BY PRO_STOCK
-		</if>
-	</select>
-	
-	<select id="getProInqList" resultMap="ProductInqListResultMap">
-		SELECT PRO_NO,
-				MEMBER_NO,
-				INQ_NO,
-				INQ_DATE,
-				INQ_MOD_DATE,
-				INQ_TITLE,
-				INQ_CONTENT,
-				INQ_STAT,
-				INQ_SECRET
-		FROM PRODUCT_INQUIRY
-		<where>
-			<if test="no != null">
-		   		INQ_NO LIKE '%' || #{no} || '%'
-			</if>
-			<if test="proNo != null">
-		   		PRO_NO LIKE '%' || #{proNo} || '%'
-			</if>
-		</where>
-		ORDER BY DECODE(INQ_STAT, 'N', 1), INQ_NO DESC
-	</select>
-	
-	<update id="updateProduct" parameterType="Product">
-	UPDATE PRODUCT
-	<trim prefix="SET" suffixOverrides=",">
-	 	<if test="proName != null">
-	 		PRO_NAME = #{proName},
-	 	</if>
-	 	<if test="proPrice != null">
-	 		PRO_PRICE = #{proPrice},
-		</if>
-		<if test="proVol != null">
-	 		PRO_VOL = #{proVol},
-		</if>
-	 	<if test="proModifyImg != null">
-	 		PRO_MODIFY_IMG = #{proModifyImg},
-		</if>
-		<if test="proInfo != null">
-	 		PRO_INFO = #{proInfo},
-		</if>
-	 	<if test="proStat != null">
-	 		PRO_STAT = #{proStat},
-	 	</if>
-	 	<if test="proCat != null">
-	 		PRO_CAT = #{proCat},
-		</if>
-		<if test="proStock != null">
-	 		PRO_STOCK = #{proStock},
-		</if>
-	 	<if test="proSold != null">
-	 		PRO_SOLD = #{proSold},
-	 	</if>
-	 	<if test="proMfg != null">
-	 		PRO_MFG = #{proMfg},
-		</if>
-	 		PRO_MODIFY_DATE=SYSDATE
-	</trim>
-	 	WHERE
-	 		PRO_NO = #{proNo}
-	 </update>
 	
 	<update id="updateToday" parameterType="Today">
 	UPDATE CHAL_TODAY
@@ -921,6 +756,93 @@
 	</trim>
 	 	WHERE CHAL_NO = #{chalNo}
 	 </update>
+  	
+	<delete id="deleteToday" parameterType="_int">
+  		UPDATE CHAL_TODAY
+  		SET
+  			CHAL_STATUS = 'N'
+  		WHERE 
+  			CHAL_NO = #{no}
+  	</delete>
+
+	<delete id="deleteProduct" parameterType="_int">
+  		UPDATE PRODUCT
+  		SET
+  			PRO_STAT = 1
+  		WHERE 
+  			PRO_NO = #{no}
+  	</delete>
+	
+	<select id="getMonthCount" resultType="_int">
+		SELECT COUNT(*) FROM CHAL_MONTH
+		<where>
+			<if test="no != null">
+		   		CHAL_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		CHAL_TITLE LIKE '%' || #{name} || '%'
+			</if>
+			<if test="point != null">
+		   		CHAL_POINT LIKE '%' || #{point} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getMonthList" parameterType="map" resultMap="MonthListResultMap">
+		SELECT  CHAL_NO,
+				CATEGORY,
+				CHAL_TITLE,
+				CHAL_CONTENT,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				CHAL_POINT,
+				CHAL_COUNT,
+				START_DATE,
+				END_DATE,
+				CHAL_STATUS
+		FROM CHAL_MONTH
+		<where>
+			<if test="no != null">
+		   		CHAL_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		CHAL_TITLE LIKE '%' || #{name} || '%'
+			</if>
+			<if test="point != null">
+		   		CHAL_POINT LIKE '%' || #{point} || '%'
+			</if>
+		</where>
+		ORDER BY CHAL_NO DESC
+	</select>
+	 
+	<insert id="insertMonth" parameterType="Month"
+	 	useGeneratedKeys="true" keyProperty="chalNo" keyColumn="CHAL_NO">
+	 	INSERT INTO CHAL_MONTH(
+	 		CHAL_NO,
+	 		CATEGORY,
+	 		CHAL_TITLE,
+	 		CHAL_CONTENT,
+	 		ORIGINAL_FILENAME,
+	 		RENAMED_FILENAME,
+	 		CHAL_POINT,
+	 		CHAL_COUNT,
+	 		START_DATE,
+	 		END_DATE,
+	 		CHAL_STATUS
+	 	) VALUES(
+	 		SEQ_CHAL_MONTH.NEXTVAL,
+	 		#{category},
+	 		#{chalTitle},
+	 		#{chalContent},
+	 		#{originalFilename},
+	 		#{renamedFilename},
+	 		#{chalPoint},
+	 		#{chalCount},
+	 		#{startDate},
+	 		#{endDate},
+	 		DEFAULT
+	 	)
+	 </insert>
 	
 	<update id="updateMonth" parameterType="Month">
 	UPDATE CHAL_MONTH
@@ -959,6 +881,7 @@
 	 	WHERE CHAL_NO = #{chalNo}
 	</update>
 	
+<<<<<<< HEAD
 	<update id="monthMemPoint" parameterType="_int">
 	UPDATE CHAL_MONTH_MEM
 	 	SET 
@@ -1176,6 +1099,8 @@
 		WHERE CHAL_NO = #{ chalNo }
 	</select>
 	
+=======
+>>>>>>> 55942bd64bf01dbf60f9dfa0d267fe734ba077cd
 	<select id="findMonthByNo" parameterType="Month" resultMap="MonthListResultMap">
 		SELECT 	CHAL_NO,
 				CATEGORY,
@@ -1190,30 +1115,191 @@
 		FROM CHAL_MONTH
 		WHERE CHAL_NO = #{ chalNo }
 	</select>
+  	
+	<delete id="deleteMonth" parameterType="_int">
+  		UPDATE CHAL_MONTH
+  		SET
+  			CHAL_STATUS = 'N'
+  		WHERE 
+  			CHAL_NO = #{no}
+  	</delete>
 	
-	<select id="findQnaByNo" parameterType="Qna" resultMap="qnaListResultMap">
-		SELECT 	QNA_NO,
-				WRITER_NO,
-				QNA_TIT,
-				QNA_CAT,
-				QNA_CONTENT,
-				QNA_COUNT,
-				ORIGINAL_FILENAME,
-				RENAMED_FILENAME,
-				DATE_WRITEN,
-				DATE_WRITEN_MODIFY,
-				QNA_STATUS
-		FROM QNA
-		WHERE QNA_NO = #{ no }
+	<select id="getTodayMemCount" resultType="_int">
+		SELECT COUNT(*) FROM CHAL_MONTH_MEM
+		<where>
+			CHAL_POINT_STATUS = 'N'
+			<if test="no != null">
+		   		AND NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="memberNo != null">
+		   		AND MEM_NO LIKE '%' || #{memberNo} || '%'
+			</if>
+			<if test="chalNo != null">
+		   		AND CHAL_NO LIKE '%' || #{chalNo} || '%'
+			</if>
+		</where>
 	</select>
 	
-	<update id="qnaDone" parameterType="_int">
-	UPDATE QNA
+	<select id="getTodayMemList" parameterType="map" resultMap="TodayMemListResultMap">
+		SELECT  NO,
+				MEM_NO,
+				CHAL_NO,
+				CHAL_STATUS,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				CHAL_POINT,
+				CHAL_POINT_STATUS,
+				CHAL_DATE
+		FROM CHAL_TODAY_MEM
+		<where>
+			CHAL_POINT_STATUS = 'N'
+			<if test="no != null">
+		   		AND NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="memberNo != null">
+		   		AND MEM_NO LIKE '%' || #{memberNo} || '%'
+			</if>
+			<if test="chalNo != null">
+		   		AND CHAL_NO LIKE '%' || #{chalNo} || '%'
+			</if>
+		</where>
+		ORDER BY NO DESC
+	</select>
+  	
+	<delete id="deleteTodayMem" parameterType="_int">
+  		DELETE CHAL_TODAY_MEM
+  		WHERE NO = #{no}
+  	</delete>
+	 
+	<update id="todayMemPoint" parameterType="_int">
+	UPDATE CHAL_TODAY_MEM
 	 	SET 
-	 		QNA_STATUS = 'N'
+	 		CHAL_POINT_STATUS = 'Y'
 	 	WHERE 
-	 		QNA_NO = #{no}
+	 		NO = #{no}
 	 </update>
+  	
+	<delete id="banMember" parameterType="_int">
+  		UPDATE MEMBER
+  		SET
+  			STATUS = 'N'
+  		WHERE 
+  			NO = (SELECT REPORTED_M_NO
+                FROM REPORT
+                WHERE REPORT_NO = #{ no })
+  	</delete>
+  	
+  	<delete id="deleteBidding" parameterType="_int">
+  		DELETE APPLICATION
+  		WHERE 
+  			APP_NO = #{no}
+  	</delete>
+  	
+  	<update id="unbanMember" parameterType="_int">
+	UPDATE MEMBER
+	 	SET 
+	 		STATUS = 'Y'
+	 	WHERE 
+	 		NO = #{no}
+	 </update>
+	
+	<select id="getMonthMemCount" resultType="_int">
+		SELECT COUNT(*) FROM CHAL_MONTH_MEM
+		<where>
+			CHAL_POINT_STATUS = 'N'
+			<if test="no != null">
+		   		AND NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="memberNo != null">
+		   		AND MEM_NO LIKE '%' || #{memberNo} || '%'
+			</if>
+			<if test="chalNo != null">
+		   		AND CHAL_NO LIKE '%' || #{chalNo} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getMonthMemList" parameterType="map" resultMap="MonthMemListResultMap">
+		SELECT  NO,
+				MEM_NO,
+				CHAL_NO,
+				CHAL_STATUS,
+				ORIGINAL_FILENAME,
+				RENAMED_FILENAME,
+				CHAL_POINT,
+				CHAL_POINT_STATUS,
+				CHAL_DATE
+		FROM CHAL_MONTH_MEM
+		<where>
+			CHAL_POINT_STATUS = 'N'
+			<if test="no != null">
+		   		AND NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="memberNo != null">
+		   		AND MEM_NO LIKE '%' || #{memberNo} || '%'
+			</if>
+			<if test="chalNo != null">
+		   		AND CHAL_NO LIKE '%' || #{chalNo} || '%'
+			</if>
+		</where>
+		ORDER BY NO DESC
+	</select>
+	
+	<delete id="deleteMonthMem" parameterType="_int">
+  		DELETE CHAL_MONTH_MEM
+  		WHERE NO = #{no}
+  	</delete>
+  	
+	<update id="monthMemPoint" parameterType="_int">
+	UPDATE CHAL_MONTH_MEM
+	 	SET 
+	 		CHAL_POINT_STATUS = 'Y'
+	 	WHERE 
+	 		NO = #{no}
+	 </update>
+	
+	<select id="getProductCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+			<if test="proName != null">
+		   		PRO_NAME LIKE '%' || #{proName} || '%'
+			</if>
+			<if test="proStock != null">
+		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getProductList" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+		FROM PRODUCT
+		<where>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+			<if test="proName != null">
+		   		PRO_NAME LIKE '%' || #{proName} || '%'
+			</if>
+			<if test="proStock != null">
+		   		PRO_STOCK LIKE '%' || #{proStock} || '%'
+			</if>
+		</where>
+		<if test="proStock == null">
+			ORDER BY PRO_NO DESC
+		</if>
+		<if test="proStock != null">
+			ORDER BY PRO_STOCK
+		</if>
+	</select>
+	
+	<select id="findProductByNo" parameterType="Product" resultMap="ProductListResultMap">
+		<include refid="selectProductSql"/>
+			FROM PRODUCT
+			WHERE PRO_NO = #{ proNo }
+	</select>
 	
 	<insert id="insertProduct" parameterType="Product"
          useGeneratedKeys="true" keyProperty="proNo" keyColumn="PRO_NO">
@@ -1261,87 +1347,202 @@
             #{renamedFileName}
         )
      </insert>
-
-	<insert id="insertToday" parameterType="Today"
-	 	useGeneratedKeys="true" keyProperty="chalNo" keyColumn="CHAL_NO">
-	 	INSERT INTO CHAL_TODAY(
-	 		CHAL_NO,
-	 		CATEGORY,
-	 		CHAL_TITLE,
-	 		CHAL_CONTENT,
-	 		ORIGINAL_FILENAME,
-	 		RENAMED_FILENAME,
-	 		CHAL_POINT,
-	 		START_DATE,
-	 		END_DATE,
-	 		CHAL_STATUS
-	 	) VALUES(
-	 		SEQ_CHAL_TODAY.NEXTVAL,
-	 		1,
-	 		#{chalTitle},
-	 		#{chalContent},
-	 		#{originalFilename},
-	 		#{renamedFilename},
-	 		#{chalPoint},
-	 		#{startDate},
-	 		#{endDate},
-	 		DEFAULT
-	 	)
-	 </insert>
+	
+	<update id="updateProduct" parameterType="Product">
+	UPDATE PRODUCT
+	<trim prefix="SET" suffixOverrides=",">
+	 	<if test="proName != null">
+	 		PRO_NAME = #{proName},
+	 	</if>
+	 	<if test="proPrice != null">
+	 		PRO_PRICE = #{proPrice},
+		</if>
+		<if test="proVol != null">
+	 		PRO_VOL = #{proVol},
+		</if>
+	 	<if test="proModifyImg != null">
+	 		PRO_MODIFY_IMG = #{proModifyImg},
+		</if>
+		<if test="proInfo != null">
+	 		PRO_INFO = #{proInfo},
+		</if>
+	 	<if test="proStat != null">
+	 		PRO_STAT = #{proStat},
+	 	</if>
+	 	<if test="proCat != null">
+	 		PRO_CAT = #{proCat},
+		</if>
+		<if test="proStock != null">
+	 		PRO_STOCK = #{proStock},
+		</if>
+	 	<if test="proSold != null">
+	 		PRO_SOLD = #{proSold},
+	 	</if>
+	 	<if test="proMfg != null">
+	 		PRO_MFG = #{proMfg},
+		</if>
+	 		PRO_MODIFY_DATE=SYSDATE
+	</trim>
+	 	WHERE
+	 		PRO_NO = #{proNo}
+	 </update>
+	
+	<select id="getOrderCountAll" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		<where>
+			ORDER_STAT = '결제완료'
+			<if test="no != null">
+		   		AND ORDER_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND MEMBER_NO LIKE '%' || #{name} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getOrderListAll" parameterType="_int" resultMap="OrderSumResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			ORDER_PRICE, 
+			ORDER_STAT, 
+			ORDER_DATE, 
+			ORDER_METHOD, 
+			ORDER_POINT
+		FROM ORDER_SUM
+		<where>
+			ORDER_STAT = '결제완료'
+			<if test="no != null">
+		   		AND ORDER_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND MEMBER_NO LIKE '%' || #{name} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getOrderCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		<where>
+			ORDER_STAT = '결제완료'
+			<if test="no != null">
+		   		AND ORDER_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND MEMBER_NO LIKE '%' || #{name} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getOrderDeliveryCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		<where>
+			ORDER_STAT = '배송완료'
+			<if test="no != null">
+		   		AND ORDER_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND MEMBER_NO LIKE '%' || #{name} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getOrderDeliveryList" parameterType="_int" resultMap="OrderSumResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			ORDER_PRICE, 
+			ORDER_STAT, 
+			ORDER_DATE, 
+			ORDER_METHOD, 
+			ORDER_POINT
+		FROM ORDER_SUM
+		<where>
+			ORDER_STAT = '배송완료'
+			<if test="no != null">
+		   		AND ORDER_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND MEMBER_NO LIKE '%' || #{name} || '%'
+			</if>
+		</where>
+	</select>
 	 
-	<insert id="writeNotice" parameterType="Notice"
-	 	useGeneratedKeys="true" keyProperty="no" keyColumn="NOTICE_NO">
-	 	INSERT INTO NOTICE(
-	 		NOTICE_NO,
-	 		WRITER_NO,
-	 		NOTICE_TIT,
-	 		NOTICE_CONTENT,
-	 		ORIGINAL_FILENAME,
-	 		RENAMED_FILENAME,
-	 		DATE_WRITEN,
-	 		DATE_WRITEN_MODIFY,
-	 		NOTICE_STATUS
-	 	) VALUES(
-	 		SEQ_NOTICE_NO.NEXTVAL,
-	 		#{writerNo},
-	 		#{title},
-	 		#{content},
-	 		#{originalFileName},
-	 		#{renamedFileName},
-	 		DEFAULT,
-	 		DEFAULT,
-	 		DEFAULT
-	 	)
-	 </insert>
+	<update id="orderDelivery" parameterType="_int">
+	UPDATE ORDER_SUM
+	 	SET 
+	 		ORDER_STAT = '배송완료'
+	 	WHERE 
+	 		ORDER_NO = #{orderNo}
+	 </update>
+	
+	<select id="getOrderCancelCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM ORDER_SUM
+		<where>
+			ORDER_STAT = '주문취소'
+			<if test="no != null">
+		   		AND ORDER_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND MEMBER_NO LIKE '%' || #{name} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getOrderCancelList" parameterType="map" resultMap="OrderSumResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			ORDER_PRICE, 
+			ORDER_STAT, 
+			ORDER_DATE, 
+			ORDER_METHOD, 
+			ORDER_POINT
+		FROM ORDER_SUM
+		<where>
+			ORDER_STAT = '주문취소'
+			<if test="no != null">
+		   		AND ORDER_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="name != null">
+		   		AND MEMBER_NO LIKE '%' || #{name} || '%'
+			</if>
+		</where>
+	</select>
 	 
-	<insert id="insertMonth" parameterType="Month"
-	 	useGeneratedKeys="true" keyProperty="chalNo" keyColumn="CHAL_NO">
-	 	INSERT INTO CHAL_MONTH(
-	 		CHAL_NO,
-	 		CATEGORY,
-	 		CHAL_TITLE,
-	 		CHAL_CONTENT,
-	 		ORIGINAL_FILENAME,
-	 		RENAMED_FILENAME,
-	 		CHAL_POINT,
-	 		CHAL_COUNT,
-	 		START_DATE,
-	 		END_DATE,
-	 		CHAL_STATUS
-	 	) VALUES(
-	 		SEQ_CHAL_MONTH.NEXTVAL,
-	 		#{category},
-	 		#{chalTitle},
-	 		#{chalContent},
-	 		#{originalFilename},
-	 		#{renamedFilename},
-	 		#{chalPoint},
-	 		#{chalCount},
-	 		#{startDate},
-	 		#{endDate},
-	 		DEFAULT
-	 	)
-	 </insert>
+	<update id="cancelOrder" parameterType="_int">
+	UPDATE ORDER_SUM
+	 	SET 
+	 		ORDER_STAT = '주문취소'
+	 	WHERE 
+	 		ORDER_NO = #{orderNo}
+	 </update>
+	 
+	<update id="reDelivery" parameterType="_int">
+	UPDATE ORDER_SUM
+	 	SET 
+	 		ORDER_STAT = '결제완료'
+	 	WHERE 
+	 		ORDER_NO = #{orderNo}
+	 </update>
+	
+	<select id="findDetailByNo" parameterType="_int" resultMap="OrderDetailResultMap">
+		SELECT 
+			ORDER_NO,
+			MEMBER_NO, 
+			DETAIL_PRO_NO, 
+			DETAIL_PRO_NAME, 
+			DETAIL_OPT, 
+			DETAIL_OPT_NAME, 
+			DETAIL_QTY,
+			DETAIL_PRICE
+		FROM ORDER_DETAIL
+		WHERE ORDER_NO = #{ no }
+	</select>
 	 
 	 <select id="getApplicationCount" resultType="_int">
          SELECT COUNT(*)
@@ -1399,6 +1600,40 @@
         SET APP_S_NO = 1
         WHERE APP_NO = #{appNo}
      </update>
+	
+	<select id="getProInqCount" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_INQUIRY
+		<where>
+			<if test="no != null">
+		   		INQ_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+		</where>
+	</select>
+	
+	<select id="getProInqList" resultMap="ProductInqListResultMap">
+		SELECT PRO_NO,
+				MEMBER_NO,
+				INQ_NO,
+				INQ_DATE,
+				INQ_MOD_DATE,
+				INQ_TITLE,
+				INQ_CONTENT,
+				INQ_STAT,
+				INQ_SECRET
+		FROM PRODUCT_INQUIRY
+		<where>
+			<if test="no != null">
+		   		INQ_NO LIKE '%' || #{no} || '%'
+			</if>
+			<if test="proNo != null">
+		   		PRO_NO LIKE '%' || #{proNo} || '%'
+			</if>
+		</where>
+		ORDER BY DECODE(INQ_STAT, 'N', 1), INQ_NO DESC
+	</select>
      
      <select id="findProInqByNo" parameterType="_int" resultMap="ProductInqListResultMap">
          SELECT PRO_NO, 
